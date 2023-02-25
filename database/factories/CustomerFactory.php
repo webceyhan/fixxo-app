@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,12 @@ class CustomerFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name,
+            'address' => fake()->address,
+            'phone' => fake()->e164PhoneNumber,
+            'email' => fake()->optional()->safeEmail,
+            'notes' => fake()->optional(.2)->text,
+            'status' => $this->faker->randomElement(UserStatus::values()),
         ];
     }
 }
