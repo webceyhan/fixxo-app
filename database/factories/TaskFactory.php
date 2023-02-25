@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\TaskStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,10 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'description' => fake()->text(100),
+            'price' => fake()->randomFloat(2, 0, 100),
+            'status' => fake()->randomElement(TaskStatus::values()),
+            'created_at' => fake()->dateTimeThisMonth(),
         ];
     }
 }
