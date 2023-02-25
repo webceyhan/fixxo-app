@@ -1,6 +1,8 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
 import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
+import StackedList from "@/Components/StackedList.vue";
+import StackedListItem from "@/Components/StackedListItem.vue";
 
 defineProps({
     tasks: Object,
@@ -9,15 +11,14 @@ defineProps({
 
 <template>
     <AuthenticatedCrudLayout title="Tasks">
-        <ul class="divide-y divide-slate-200">
-            <li v-for="task in tasks" :key="task.id">
-                <Link
-                    :href="route('tasks.show', task.id)"
-                    class="flex p-4 hover:bg-gray-200 dark:hover:bg-gray-700"
-                >
-                    {{ task.description }}
-                </Link>
-            </li>
-        </ul>
+        <StackedList>
+            <StackedListItem
+                v-for="task in tasks"
+                :key="task.id"
+                :href="route('tasks.show', task.id)"
+            >
+                {{ task.description }}
+            </StackedListItem>
+        </StackedList>
     </AuthenticatedCrudLayout>
 </template>
