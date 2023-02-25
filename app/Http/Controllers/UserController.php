@@ -13,7 +13,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+
+        return inertia('Users/Index', [
+            'users' => $users,
+        ]);
     }
 
     /**
@@ -37,7 +41,9 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return inertia('Users/Show', [
+            'user' => $user,
+        ]);
     }
 
     /**
