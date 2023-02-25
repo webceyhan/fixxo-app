@@ -10,12 +10,12 @@ defineProps({
 <template>
     <AuthenticatedCrudLayout title="Customers">
         <ul class="divide-y divide-slate-200">
-            <li v-for="user in customers" :key="user.id">
+            <li v-for="customer in customers" :key="customer.id">
                 <Link
-                    :href="route('customers.show', user.id)"
+                    :href="route('customers.show', customer.id)"
                     class="flex p-4 hover:bg-gray-200 dark:hover:bg-gray-700"
                 >
-                    {{ user.name }}
+                    {{ customer.name }}
                 </Link>
             </li>
         </ul>
