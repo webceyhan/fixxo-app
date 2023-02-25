@@ -5,7 +5,7 @@ import { Link } from "@inertiajs/vue3";
 <template>
     <Link
         v-if="$attrs.href"
-        class="flex justify-between items-center p-4 hover:bg-gray-200- dark:hover:bg-gray-700 hover:border-transparent"
+        class="flex justify-between items-center p-4 hover:bg-gray-200 dark:hover:bg-gray-700"
     >
         <slot />
 
@@ -32,6 +32,6 @@ import { Link } from "@inertiajs/vue3";
 
 <style scoped>
     a:hover {
-        border-color: transparent !important;
+        /* border-color: transparent !important; */
     }
 </style>
