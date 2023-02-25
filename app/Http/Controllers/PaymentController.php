@@ -13,7 +13,11 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        $payments = Payment::all();
+
+        return inertia('Payments/Index', [
+            'payments' => $payments,
+        ]);
     }
 
     /**
@@ -37,7 +41,9 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
-        //
+        return inertia('Payments/Show', [
+            'payment' => $payment,
+        ]);
     }
 
     /**
