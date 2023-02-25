@@ -13,7 +13,11 @@ class AssetController extends Controller
      */
     public function index()
     {
-        //
+        $assets = Asset::all();
+
+        return inertia('Assets/Index', [
+            'assets' => $assets,
+        ]);
     }
 
     /**
@@ -37,7 +41,9 @@ class AssetController extends Controller
      */
     public function show(Asset $asset)
     {
-        //
+        return inertia('Assets/Show', [
+            'asset' => $asset,
+        ]);
     }
 
     /**
