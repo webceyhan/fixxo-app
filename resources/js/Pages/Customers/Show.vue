@@ -1,6 +1,8 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
 import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
+import DescriptionList from "@/Components/DescriptionList.vue";
+import DescriptionListItem from "@/Components/DescriptionListItem.vue";
 
 defineProps({
     customer: Object,
@@ -9,13 +11,12 @@ defineProps({
 
 <template>
     <AuthenticatedCrudLayout :title="customer.name">
-        <div class="divide-y divide-slate-200">
-            <div v-for="(value, key) in customer" :key="key" class="flex p-4">
-                <div class="w-full overflow-hidden sm:flex gap-x-4">
-                    <p class="w-1/5 text-slate-900">{{ key }}</p>
-                    <p class="text-slate-500 truncate">{{ value }}</p>
-                </div>
-            </div>
-        </div>
+        <DescriptionList>
+            <DescriptionListItem
+                v-for="(value, label) in customer"
+                :key="label"
+                v-bind="{ label, value }"
+            />
+        </DescriptionList>
     </AuthenticatedCrudLayout>
 </template>
