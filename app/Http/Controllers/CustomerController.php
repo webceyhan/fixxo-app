@@ -13,7 +13,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::query()->paginate();
 
         return inertia('Customers/Index', [
             'customers' => $customers,

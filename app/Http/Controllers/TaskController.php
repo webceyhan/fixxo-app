@@ -13,7 +13,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::query()->paginate();
 
         return inertia('Tasks/Index', [
             'tasks' => $tasks,

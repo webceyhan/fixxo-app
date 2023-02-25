@@ -13,7 +13,7 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        $payments = Payment::all();
+        $payments = Payment::query()->paginate();
 
         return inertia('Payments/Index', [
             'payments' => $payments,
