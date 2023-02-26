@@ -14,9 +14,10 @@ class CustomerController extends Controller
      */
     public function index()
     {
+        $allowedParams = request()->only('search', 'status');
+
         $customers = Customer::query()
-            ->when(request('status'), fn ($query, $status) => $query->where('status', $status))
-            ->when(request('search'), fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
+            ->filterByParams($allowedParams)
             ->latest('id')
             ->paginate()
             ->withQueryString();

@@ -15,10 +15,10 @@ class UserController extends Controller
      */
     public function index()
     {
+        $allowedParams = request()->only('search', 'role', 'status');
+
         $users = User::query()
-            ->when(request('role'), fn ($query, $role) => $query->where('role', $role))
-            ->when(request('status'), fn ($query, $status) => $query->where('status', $status))
-            ->when(request('search'), fn ($query, $search) => $query->where('name', 'like', "%$search%"))
+            ->filterByParams($allowedParams)
             ->latest('id')
             ->paginate()
             ->withQueryString();

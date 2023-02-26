@@ -15,10 +15,10 @@ class AssetController extends Controller
      */
     public function index()
     {
+        $allowedParams = request()->only('search', 'type', 'status');
+
         $assets = Asset::query()
-            ->when(request('type'), fn ($query, $type) => $query->where('type', $type))
-            ->when(request('status'), fn ($query, $status) => $query->where('status', $status))
-            ->when(request('search'),  fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
+            ->filterByParams($allowedParams)
             ->latest('id')
             ->paginate()
             ->withQueryString();

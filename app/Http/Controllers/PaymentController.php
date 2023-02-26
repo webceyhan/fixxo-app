@@ -15,10 +15,10 @@ class PaymentController extends Controller
      */
     public function index()
     {
+        $allowedParams = request()->only('search', 'type', 'method');
+
         $payments = Payment::query()
-            ->when(request('type'), fn ($query, $type) => $query->where('type', $type))
-            ->when(request('method'), fn ($query, $method) => $query->where('method', $method))
-            ->when(request('search'),  fn ($query, $search) => $query->where('notes', 'like', "%{$search}%"))
+            ->filterByParams($allowedParams)
             ->latest('id')
             ->paginate()
             ->withQueryString();

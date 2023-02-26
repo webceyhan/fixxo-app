@@ -14,9 +14,10 @@ class TaskController extends Controller
      */
     public function index()
     {
+        $allowedParams = request()->only('search', 'status');
+
         $tasks = Task::query()
-            ->when(request('status'), fn ($query, $status) => $query->where('status', $status))
-            ->when(request('search'),  fn ($query, $search) => $query->where('description', 'like', "%{$search}%"))
+            ->filterByParams($allowedParams)
             ->latest('id')
             ->paginate()
             ->withQueryString();
