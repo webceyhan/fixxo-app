@@ -26,7 +26,15 @@ defineProps({
                 :key="user.id"
                 :href="route('users.show', user.id)"
             >
-                {{ user.name }}
+                <span class="w-2/5">
+                    {{ user.name }}
+                </span>
+                <span class="w-1/5 text-gray-400">
+                    assets {{ user.assets_count }}
+                </span>
+                <span class="w-1/5 text-gray-400">
+                    tasks {{ user.tasks_count }}
+                </span>
             </StackedListItem>
         </StackedList>
     </AuthenticatedCrudLayout>

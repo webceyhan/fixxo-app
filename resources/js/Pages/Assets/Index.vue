@@ -24,7 +24,9 @@ const { brand, type, ...restFilters } = props.filters;
         </template>
 
         <template #sidenav>
-            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
+            <h3
+                class="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2"
+            >
                 Filter by type
             </h3>
             <div class="flex flex-wrap gap-x-4 gap-y-2">
@@ -40,8 +42,9 @@ const { brand, type, ...restFilters } = props.filters;
                 </Link>
             </div>
 
-
-            <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100 mt-10 mb-2">
+            <h3
+                class="text-lg font-medium text-gray-900 dark:text-gray-100 mt-10 mb-2"
+            >
                 Filter by brand
             </h3>
             <div class="flex flex-wrap gap-x-4 gap-y-2">
@@ -56,8 +59,6 @@ const { brand, type, ...restFilters } = props.filters;
                     #{{ value }}
                 </Link>
             </div>
-
-
         </template>
 
         <StackedList>
@@ -66,8 +67,16 @@ const { brand, type, ...restFilters } = props.filters;
                 :key="asset.id"
                 :href="route('assets.show', asset.id)"
             >
-                {{ asset.brand }}
-                {{ asset.name }}
+                <span class="w-2/5">
+                    {{ asset.brand }}
+                    {{ asset.name }}
+                </span>
+                <span class="w-2/5 text-gray-400">
+                    {{ asset.customer.name }}
+                </span>
+                <span class="w-fit text-gray-400">
+                    tasks {{ asset.tasks_count }}
+                </span>
             </StackedListItem>
         </StackedList>
     </AuthenticatedCrudLayout>

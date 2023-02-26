@@ -26,7 +26,15 @@ defineProps({
                 :key="task.id"
                 :href="route('tasks.show', task.id)"
             >
-                {{ task.description }}
+                <span class="w-2/5">
+                    {{ task.description }}
+                </span>
+                <span class="w-1/5 text-gray-400">
+                    {{ task.asset.name }}
+                    <br />
+                    {{ task.user.name }}
+                </span>
+                <span class="w-fit text-gray-400"> {{ task.price }}€ </span>
             </StackedListItem>
         </StackedList>
     </AuthenticatedCrudLayout>

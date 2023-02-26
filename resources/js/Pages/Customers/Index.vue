@@ -26,7 +26,10 @@ defineProps({
                 :key="customer.id"
                 :href="route('customers.show', customer.id)"
             >
-                {{ customer.name }}
+                <span class="w-1/5">{{ customer.name }}</span>
+                <span class="w-2/5 text-gray-400">
+                    assets {{ customer.assets_count }}
+                </span>
             </StackedListItem>
         </StackedList>
     </AuthenticatedCrudLayout>

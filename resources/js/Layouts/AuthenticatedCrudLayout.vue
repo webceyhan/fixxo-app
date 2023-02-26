@@ -24,7 +24,7 @@ defineProps(["title"]);
                 </div>
 
                 <div class="flex gap-6">
-                    <div v-if="$slots.sidenav" class="w-1/4 flex-shrink-0">
+                    <div v-if="$slots.sidenav" class="w-1/5 flex-shrink-0">
                         <slot name="sidenav" />
                     </div>
 
