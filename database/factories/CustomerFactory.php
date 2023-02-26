@@ -23,7 +23,7 @@ class CustomerFactory extends Factory
             'phone' => fake()->e164PhoneNumber,
             'email' => fake()->optional()->safeEmail,
             'notes' => fake()->optional(.2)->text,
-            'status' => $this->faker->randomElement(UserStatus::values()),
+            'status' => fake()->randomElement(UserStatus::values()),
         ];
     }
 }
