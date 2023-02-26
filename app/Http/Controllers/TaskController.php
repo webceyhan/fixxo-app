@@ -18,6 +18,7 @@ class TaskController extends Controller
 
         $tasks = Task::query()
             ->filterByParams($allowedParams)
+            ->with(['asset:id,name', 'user:id,name'])
             ->latest('id')
             ->paginate()
             ->withQueryString();

@@ -19,6 +19,7 @@ class UserController extends Controller
 
         $users = User::query()
             ->filterByParams($allowedParams)
+            ->withCount(['assets', 'tasks'])
             ->latest('id')
             ->paginate()
             ->withQueryString();

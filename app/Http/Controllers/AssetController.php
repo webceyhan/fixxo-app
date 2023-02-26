@@ -19,6 +19,8 @@ class AssetController extends Controller
 
         $assets = Asset::query()
             ->filterByParams($allowedParams)
+            ->withCount(['tasks'])
+            ->with('customer:id,name')
             ->latest('id')
             ->paginate()
             ->withQueryString();

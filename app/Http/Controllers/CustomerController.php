@@ -18,6 +18,7 @@ class CustomerController extends Controller
 
         $customers = Customer::query()
             ->filterByParams($allowedParams)
+            ->withCount(['assets'])
             ->latest('id')
             ->paginate()
             ->withQueryString();

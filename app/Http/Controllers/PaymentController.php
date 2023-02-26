@@ -19,6 +19,7 @@ class PaymentController extends Controller
 
         $payments = Payment::query()
             ->filterByParams($allowedParams)
+            ->with(['asset:id,name,customer_id', 'asset.customer:id,name', 'user:id,name'])
             ->latest('id')
             ->paginate()
             ->withQueryString();
