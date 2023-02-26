@@ -54,19 +54,6 @@ const isDirty = computed(() => {
 
 <template>
     <div class="flex flex-col sm:flex-row items-center">
-        <select
-            v-for="(options, key) in filters"
-            :key="key"
-            :name="key"
-            :value="searchParams[key]"
-            @change="onFilter"
-            class="appearance-none h-full first:rounded-l border-t sm:rounded-r-none sm:border-r-0 border-r border-b block bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
-        >
-            <option value="">{{ key }}</option>
-            <option v-for="option in options" :key="option" :value="option">
-                {{ option }}
-            </option>
-        </select>
 
         <div class="block relative">
             <span class="absolute inset-y-0 left-0 flex items-center pl-2"
@@ -83,10 +70,26 @@ const isDirty = computed(() => {
                 placeholder="Search"
                 type="search"
                 :value="searchParams.search"
-                class="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
+                class="appearance-none rounded-l border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
                 @input="onSearch"
             />
         </div>
+
+        <select
+            v-for="(options, key) in filters"
+            :key="key"
+            :name="key"
+            :value="searchParams[key]"
+            @change="onFilter"
+            class="appearance-none h-full block border-x-0 border-r last:rounded-r  bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+        >
+            <option value="">{{ key }}</option>
+            <option v-for="option in options" :key="option" :value="option">
+                {{ option }}
+            </option>
+        </select>
+
+
 
         <button
             v-if="isDirty"
