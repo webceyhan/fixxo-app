@@ -23,11 +23,17 @@ defineProps(["title"]);
                     <slot name="actions" />
                 </div>
 
-                <div
-                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg"
-                >
-                    <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <slot />
+                <div class="flex gap-6">
+                    <div v-if="$slots.sidenav" class="w-1/4 flex-shrink-0">
+                        <slot name="sidenav" />
+                    </div>
+
+                    <div
+                        class="flex-1 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg"
+                    >
+                        <div class="p-6 text-gray-900 dark:text-gray-100">
+                            <slot />
+                        </div>
                     </div>
                 </div>
             </div>
