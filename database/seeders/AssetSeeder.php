@@ -22,14 +22,9 @@ class AssetSeeder extends Seeder
             $amount = rand(1, 2);
 
             Asset::factory($amount)->create([
-                'customer_id' => fn() => $customer->id,
-                'user_id' => fn() => $users->random(1)->first(),
+                'customer_id' => fn () => $customer->id,
+                'user_id' => fn () => $users->random(1)->first(),
             ]);
-
         });
-
-
-
-
     }
 }
