@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
@@ -13,10 +15,20 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::query()->paginate();
+        $users = User::query()
+            ->when(request('role'), fn ($query, $role) => $query->where('role', $role))
+            ->when(request('status'), fn ($query, $status) => $query->where('status', $status))
+            ->when(request('search'), fn ($query, $search) => $query->where('name', 'like', "%$search%"))
+            ->latest('id')
+            ->paginate()
+            ->withQueryString();
 
         return inertia('Users/Index', [
             'users' => $users,
+            'filters' => [
+                'role' => UserRole::values(),
+                'status' => UserStatus::values(),
+            ]
         ]);
     }
 

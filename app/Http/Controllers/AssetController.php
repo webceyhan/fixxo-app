@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\AssetStatus;
+use App\Enums\AssetType;
 use App\Http\Requests\StoreAssetRequest;
 use App\Http\Requests\UpdateAssetRequest;
 use App\Models\Asset;
@@ -13,10 +15,20 @@ class AssetController extends Controller
      */
     public function index()
     {
-        $assets = Asset::query()->paginate();
+        $assets = Asset::query()
+            ->when(request('type'), fn ($query, $type) => $query->where('type', $type))
+            ->when(request('status'), fn ($query, $status) => $query->where('status', $status))
+            ->when(request('search'),  fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
+            ->latest('id')
+            ->paginate()
+            ->withQueryString();
 
         return inertia('Assets/Index', [
             'assets' => $assets,
+            'filters' => [
+                'type' => AssetType::values(),
+                'status' => AssetStatus::values(),
+            ]
         ]);
     }
 

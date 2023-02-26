@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TaskStatus;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
@@ -13,10 +14,18 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::query()->paginate();
+        $tasks = Task::query()
+            ->when(request('status'), fn ($query, $status) => $query->where('status', $status))
+            ->when(request('search'),  fn ($query, $search) => $query->where('description', 'like', "%{$search}%"))
+            ->latest('id')
+            ->paginate()
+            ->withQueryString();
 
         return inertia('Tasks/Index', [
             'tasks' => $tasks,
+            'filters' => [
+                'status' => TaskStatus::values(),
+            ],
         ]);
     }
 

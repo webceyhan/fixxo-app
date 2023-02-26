@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\UserStatus;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
@@ -13,10 +14,18 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = Customer::query()->paginate();
+        $customers = Customer::query()
+            ->when(request('status'), fn ($query, $status) => $query->where('status', $status))
+            ->when(request('search'), fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
+            ->latest('id')
+            ->paginate()
+            ->withQueryString();
 
         return inertia('Customers/Index', [
             'customers' => $customers,
+            'filters' => [
+                'status' => UserStatus::values()
+            ]
         ]);
     }
 
