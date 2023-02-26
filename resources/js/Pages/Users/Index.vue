@@ -13,12 +13,12 @@ defineProps({
 
 <template>
     <AuthenticatedCrudLayout title="Users">
-        <div class="flex justify-between items-center">
-            <Searchbar :filters="filters" />
-            <Pagination v-bind="users" />
-        </div>
-
-        <br />
+        <template #actions>
+            <div class="flex justify-between items-center">
+                <Searchbar :filters="filters" />
+                <Pagination v-bind="users" />
+            </div>
+        </template>
 
         <StackedList>
             <StackedListItem
