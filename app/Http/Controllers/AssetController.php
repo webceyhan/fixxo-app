@@ -20,6 +20,7 @@ class AssetController extends Controller
         $assets = Asset::query()
             ->filterByParams($allowedParams)
             ->withCount(['tasks'])
+            ->withSum('tasks as total_cost', 'price')
             ->with('customer:id,name')
             ->latest('id')
             ->paginate()
