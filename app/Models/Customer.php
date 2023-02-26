@@ -11,7 +11,7 @@ class Customer extends Model
     use HasFactory, Searchable;
 
     /**
-     * Index to use for full text search.
+     * Index to use for full-text search.
      *
      * @var string
      */

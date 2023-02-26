@@ -45,7 +45,7 @@ class User extends Authenticatable
     ];
 
     /**
-     * Index to use for full text search.
+     * Index to use for full-text search.
      *
      * @var string
      */
