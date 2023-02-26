@@ -1,20 +1,20 @@
 <script setup>
-import { router, usePage } from "@inertiajs/vue3";
 import { computed } from "vue";
-// import { debounce } from "lodash";
+import { router, usePage } from "@inertiajs/vue3";
+import { debounce } from "@/Shared/utils";
 
 defineProps({
     filters: Object,
 });
 
 const onSearch = ({ target }) => {
-    // debounce(() => {
-    router.get(
-        usePage().url,
-        { search: target.value },
-        { preserveState: true }
-    );
-    // }, 500)();
+    debounce(() => {
+        router.get(
+            usePage().url,
+            { search: target.value },
+            { preserveState: true }
+        );
+    }, 500)();
 };
 
 const onFilter = ({ target }) => {
@@ -54,7 +54,6 @@ const isDirty = computed(() => {
 
 <template>
     <div class="flex flex-col sm:flex-row items-center">
-
         <div class="block relative">
             <span class="absolute inset-y-0 left-0 flex items-center pl-2"
                 ><svg
@@ -81,15 +80,13 @@ const isDirty = computed(() => {
             :name="key"
             :value="searchParams[key]"
             @change="onFilter"
-            class="appearance-none h-full block border-x-0 border-r last:rounded-r  bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
+            class="appearance-none h-full block border-x-0 border-r last:rounded-r bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
         >
             <option value="">{{ key }}</option>
             <option v-for="option in options" :key="option" :value="option">
                 {{ option }}
             </option>
         </select>
-
-
 
         <button
             v-if="isDirty"
