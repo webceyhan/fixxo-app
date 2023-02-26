@@ -15,7 +15,7 @@ class AssetController extends Controller
      */
     public function index()
     {
-        $allowedParams = request()->only('search', 'type', 'status');
+        $allowedParams = request()->only('search', 'type', 'status', 'brand');
 
         $assets = Asset::query()
             ->filterByParams($allowedParams)
@@ -23,11 +23,20 @@ class AssetController extends Controller
             ->paginate()
             ->withQueryString();
 
+        // Get all distinct brands to use as filter options
+        $brands = Asset::query()
+            ->select('brand')
+            ->distinct()
+            ->whereNotNull('brand')
+            ->get();
+
+
         return inertia('Assets/Index', [
             'assets' => $assets,
             'filters' => [
                 'type' => AssetType::values(),
                 'status' => AssetStatus::values(),
+                'brand' => $brands->pluck('brand'),
             ]
         ]);
     }
