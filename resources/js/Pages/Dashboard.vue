@@ -15,7 +15,6 @@ const props = defineProps({
     assetsInProgress: Array,
 });
 
-
 const onIntervalChange = (interval) => {
     router.reload({ data: { interval } });
 };
@@ -35,13 +34,13 @@ const onIntervalChange = (interval) => {
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-5">
-                <div class="flex items-center justify-end gap-5">
+                <div class="flex items-center justify-end gap-5 px-5 sm:p-0">
                     <div
                         class="flex flex-col"
                         v-for="opt in intervals"
                         :key="opt"
                     >
-                        <label class="inline-flex items-center mt-3">
+                        <label class="inline-flex items-center mt-3 sm:m-0">
                             <input
                                 type="radio"
                                 name="interval"
