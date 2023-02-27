@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Interval;
 use App\Models\Asset;
 use App\Models\Payment;
 use App\Models\Task;
@@ -14,28 +15,24 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        // avaialable intervals
-        $intervalDays = [
-            'day' => 1, // default
-            'week' => 7,
-            'month' => 30
+        $intervalOptions = [
+            Interval::DAY => 'Today',
+            Interval::WEEK => 'This Week',
+            Interval::MONTH => 'This Month',
         ];
 
-        $interval = $request->input('interval', 'day');
-
-        $intervalCondition = fn ($query) =>  $query
-            ->where('created_at', '>=', now()->subDays($intervalDays[$interval] ?? 1));
+        $interval = $request->input('interval', Interval::DAY);
 
         $assetsReady = Asset::ready()
             ->with('customer:id,name')
-            ->where($intervalCondition)
+            ->since($interval)
             ->latest('id')
             ->limit(5)
             ->get();
 
         $assetsInProgress = Asset::inProgress()
             ->with('customer:id,name')
-            ->where($intervalCondition)
+            ->since($interval)
             ->latest('id')
             ->limit(5)
             ->get();
@@ -44,7 +41,7 @@ class DashboardController extends Controller
         // TODO: provide defaults for each status when there is no record
         $assetStats = Asset::query()
             ->selectRaw('COUNT(id) as value, status as label')
-            ->where($intervalCondition)
+            ->since($interval)
             ->whereNot('status', 'returned') // exclude returned
             ->groupBy('status')
             ->get();
@@ -53,7 +50,7 @@ class DashboardController extends Controller
         // TODO: provide defaults for each status when there is no record
         $taskStats = Task::query()
             ->selectRaw('COUNT(id) as value, status as label')
-            ->where($intervalCondition)
+            ->since($interval)
             ->groupBy('status')
             ->get();
 
@@ -64,18 +61,17 @@ class DashboardController extends Controller
         $earningStats = [
             [
                 'label' => 'Total Cost',
-                'value' => Task::where($intervalCondition)->sum('price')
+                'value' => Task::since($interval)->sum('price')
             ],
             [
                 'label' => 'Total Payment',
-                'value' => Payment::where($intervalCondition)->sum('amount')
+                'value' => Payment::since($interval)->sum('amount')
             ]
         ];
 
         return inertia('Dashboard', [
             'interval' => $interval,
-            // TODO: intervals should contain label with actual value
-            'intervals' => array_keys($intervalDays),
+            'intervalOptions' => $intervalOptions,
             'assetStats' => $assetStats,
             'taskStats' => $taskStats,
             'earningStats' => $earningStats,

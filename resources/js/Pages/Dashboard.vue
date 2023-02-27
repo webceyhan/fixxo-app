@@ -8,7 +8,7 @@ import StackedListItem from "@/Components/StackedListItem.vue";
 
 const props = defineProps({
     interval: String,
-    intervals: Array,
+    intervalOptions: Object,
     earningStats: Array,
     taskStats: Array,
     assetStats: Array,
@@ -38,7 +38,7 @@ const onIntervalChange = (interval) => {
                 <div class="flex items-center justify-end gap-5 px-5 sm:p-0">
                     <div
                         class="flex flex-col"
-                        v-for="opt in intervals"
+                        v-for="(label, opt) in intervalOptions"
                         :key="opt"
                     >
                         <label class="inline-flex items-center mt-3 sm:m-0">
@@ -49,7 +49,7 @@ const onIntervalChange = (interval) => {
                                 :checked="opt === interval"
                                 @change="onIntervalChange(opt)"
                             />
-                            <span class="ml-2 text-gray-500">{{ opt }}</span>
+                            <span class="ml-2 text-gray-500">{{ label }}</span>
                         </label>
                     </div>
                 </div>
