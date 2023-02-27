@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Extend Eloquent models with scopes to get records created since given interval.
  *
- * @method \Illuminate\Database\Eloquent\Builder since(string $unit = Interval::DAY)
- * @method \Illuminate\Database\Eloquent\Builder sinceToday()
- * @method \Illuminate\Database\Eloquent\Builder sinceThisWeek()
- * @method \Illuminate\Database\Eloquent\Builder sinceThisMonth()
+ * @static \Illuminate\Database\Eloquent\Builder since(string $unit = Interval::DAY)
+ * @static \Illuminate\Database\Eloquent\Builder sinceToday()
+ * @static \Illuminate\Database\Eloquent\Builder sinceThisWeek()
+ * @static \Illuminate\Database\Eloquent\Builder sinceThisMonth()
  */
 trait HasSince
 {
