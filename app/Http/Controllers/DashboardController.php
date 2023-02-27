@@ -41,6 +41,7 @@ class DashboardController extends Controller
             ->get();
 
         // asset count per status, from last (inertval) days
+        // TODO: provide defaults for each status when there is no record
         $assetStats = Asset::query()
             ->selectRaw('COUNT(id) as value, status as label')
             ->where($intervalCondition)
@@ -49,6 +50,7 @@ class DashboardController extends Controller
             ->get();
 
         // task count per status, from last (inertval) days
+        // TODO: provide defaults for each status when there is no record
         $taskStats = Task::query()
             ->selectRaw('COUNT(id) as value, status as label')
             ->where($intervalCondition)
@@ -58,6 +60,7 @@ class DashboardController extends Controller
         // get earning stats from last (interval) days
         // with sum of tasks's price as total cost
         // and sum of payments's amount as total payment
+        // TODO: find a better way to do this using eloquent
         $earningStats = [
             [
                 'label' => 'Total Cost',
@@ -70,6 +73,7 @@ class DashboardController extends Controller
         ];
 
         return inertia('Dashboard', [
+            // TODO: intervals should contain label with actual value
             'intervals' => array_keys($intervalDays),
             'assetStats' => $assetStats,
             'taskStats' => $taskStats,
