@@ -31,7 +31,7 @@ import { Link } from "@inertiajs/vue3";
 </template>
 
 <style scoped>
-    a:hover {
-        /* border-color: transparent !important; */
-    }
+    /* a:hover {
+        border-color: transparent !important;
+    } */
 </style>
