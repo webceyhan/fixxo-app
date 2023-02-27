@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payment extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory, Searchable, HasSince;
 
     /**
      * Index to use for full-text search.

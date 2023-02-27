@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AssetStatus;
+use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Asset extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory, Searchable, HasSince;
 
     /**
      * Index to use for full-text search.
