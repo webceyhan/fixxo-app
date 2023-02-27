@@ -1,15 +1,24 @@
 <script setup>
-import { Head, Link } from "@inertiajs/vue3";
-import StatCard from "@/Components/StatCard.vue";
+import { Head, Link, router } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Card from "@/Components/Card.vue";
+import StatCard from "@/Components/StatCard.vue";
 import StackedList from "@/Components/StackedList.vue";
 import StackedListItem from "@/Components/StackedListItem.vue";
 
 const props = defineProps({
+    intervals: Array,
+    earningStats: Array,
+    taskStats: Array,
+    assetStats: Array,
     assetsReady: Array,
     assetsInProgress: Array,
 });
+
+
+const onIntervalChange = (interval) => {
+    router.reload({ data: { interval } });
+};
 </script>
 
 <template>
@@ -26,30 +35,29 @@ const props = defineProps({
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-5">
+                <div class="flex items-center justify-end gap-5">
+                    <div
+                        class="flex flex-col"
+                        v-for="opt in intervals"
+                        :key="opt"
+                    >
+                        <label class="inline-flex items-center mt-3">
+                            <input
+                                type="radio"
+                                name="interval"
+                                class="form-radio h-5 w-5 text-gray-600"
+                                @change="onIntervalChange(opt)"
+                            /><span class="ml-2 text-gray-500">{{ opt }}</span>
+                        </label>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-8">
-                    <StatCard
-                        label="Assets"
-                        :items="[
-                            { label: 'In Progress', value: 8 },
-                            { label: 'Ready', value: 2 },
-                        ]"
-                    />
+                    <StatCard label="Assets" :items="assetStats" />
 
-                    <StatCard
-                        label="Tasks"
-                        :items="[
-                            { label: 'Pending', value: 10 },
-                            { label: 'Completed', value: 23 },
-                        ]"
-                    />
+                    <StatCard label="Tasks" :items="taskStats" />
 
-                    <StatCard
-                        label="Earnings"
-                        :items="[
-                            { label: 'Labor Cost', value: '120€' },
-                            { label: 'Due Pay', value: '300€' },
-                        ]"
-                    />
+                    <StatCard label="Earnings" :items="earningStats" />
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-5">
