@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
-use App\Models\Asset;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -31,14 +31,16 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard', [
-        'assetsReady' => Asset::ready()->with('customer:id,name')->latest()->limit(5)->get(),
-        'assetsInProgress' => Asset::inProgress()->with('customer:id,name')->latest()->limit(5)->get(),
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
+
+    /**
+     * Dashboard
+     */
+    Route::get('/dashboard', DashboardController::class)->middleware('verified')->name('dashboard');
+
+    /**
+     * Profile
+     */
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
