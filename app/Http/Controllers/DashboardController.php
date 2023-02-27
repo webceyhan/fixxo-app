@@ -16,12 +16,12 @@ class DashboardController extends Controller
     {
         // avaialable intervals
         $intervalDays = [
-            'day' => 1,
+            'day' => 1, // default
             'week' => 7,
             'month' => 30
         ];
 
-        $interval = $request->input('interval', 'week');
+        $interval = $request->input('interval', 'day');
 
         $intervalCondition = fn ($query) =>  $query
             ->where('created_at', '>=', now()->subDays($intervalDays[$interval] ?? 1));
@@ -73,6 +73,7 @@ class DashboardController extends Controller
         ];
 
         return inertia('Dashboard', [
+            'interval' => $interval,
             // TODO: intervals should contain label with actual value
             'intervals' => array_keys($intervalDays),
             'assetStats' => $assetStats,

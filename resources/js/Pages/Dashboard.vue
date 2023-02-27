@@ -7,6 +7,7 @@ import StackedList from "@/Components/StackedList.vue";
 import StackedListItem from "@/Components/StackedListItem.vue";
 
 const props = defineProps({
+    interval: String,
     intervals: Array,
     earningStats: Array,
     taskStats: Array,
@@ -45,8 +46,10 @@ const onIntervalChange = (interval) => {
                                 type="radio"
                                 name="interval"
                                 class="form-radio h-5 w-5 text-gray-600"
+                                :checked="opt === interval"
                                 @change="onIntervalChange(opt)"
-                            /><span class="ml-2 text-gray-500">{{ opt }}</span>
+                            />
+                            <span class="ml-2 text-gray-500">{{ opt }}</span>
                         </label>
                     </div>
                 </div>
