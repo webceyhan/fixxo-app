@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\AssetStatus;
 use App\Traits\Model\Searchable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -39,5 +41,25 @@ class Asset extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class)->latest();
+    }
+
+    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeInProgress(Builder $query): void
+    {
+        $query->where('status', AssetStatus::IN_PROGRESS);
+    }
+
+    /**
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeReady(Builder $query): void
+    {
+        $query->where('status', AssetStatus::READY);
     }
 }
