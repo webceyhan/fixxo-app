@@ -94,6 +94,10 @@ class PaymentController extends Controller
      */
     public function destroy(Payment $payment)
     {
-        //
+        $payment->delete();
+
+        return redirect()
+            ->route('assets.show', $payment->asset_id)
+            ->with('status', __('record deleted'));
     }
 }

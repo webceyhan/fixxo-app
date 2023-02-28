@@ -105,6 +105,10 @@ class AssetController extends Controller
      */
     public function destroy(Asset $asset)
     {
-        //
+        $asset->delete();
+
+        return redirect()
+            ->route('assets.index')
+            ->with('status', __('record deleted'));
     }
 }

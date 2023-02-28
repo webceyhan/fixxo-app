@@ -91,6 +91,10 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $task->delete();
+
+        return redirect()
+            ->route('assets.show', $task->asset_id)
+            ->with('status', __('record deleted'));
     }
 }
