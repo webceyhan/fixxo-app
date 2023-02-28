@@ -16,6 +16,13 @@ class Asset extends Model
     use HasFactory, Searchable, HasSince;
 
     /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
      * Index to use for full-text search.
      *
      * @var string
