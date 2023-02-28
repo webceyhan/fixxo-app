@@ -14,7 +14,8 @@ class UpdateUserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        // TODO: check if the user is admin
+        return true;
     }
 
     /**
