@@ -48,7 +48,9 @@ class AssetController extends Controller
      */
     public function create()
     {
-        return $this->edit(new Asset());
+        return $this->edit(new Asset(
+            request()->only('customer_id')
+        ));
     }
 
     /**
@@ -56,7 +58,7 @@ class AssetController extends Controller
      */
     public function store(SaveAssetRequest $request)
     {
-        //
+        return $this->update($request, new Asset());
     }
 
     /**
