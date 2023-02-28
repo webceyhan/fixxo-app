@@ -64,7 +64,11 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        return inertia('Users/Edit', [
+            'user' => $user,
+            'roleOptions' => UserRole::values(),
+            'statusOptions' => UserStatus::values(),
+        ]);
     }
 
     /**
@@ -72,7 +76,13 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $params = $request->validated();
+
+        $user->fill($params)->save();
+
+        return redirect()
+            ->route('users.show', $user->id)
+            ->with('status', __('record saved'));
     }
 
     /**

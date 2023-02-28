@@ -64,7 +64,11 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
-        //
+        return inertia('Payments/Edit', [
+            'payment' => $payment,
+            'typeOptions' => PaymentType::values(),
+            'methodOptions' => PaymentMethod::values(),
+        ]);
     }
 
     /**
@@ -72,7 +76,16 @@ class PaymentController extends Controller
      */
     public function update(UpdatePaymentRequest $request, Payment $payment)
     {
-        //
+        $params = $request->validated();
+
+        // TODO: improve this by using a custom request
+        $params['user_id'] = auth()->id();
+
+        $payment->fill($params)->save();
+
+        return redirect()
+            ->route('payments.show', $payment->id)
+            ->with('status', __('record saved'));
     }
 
     /**

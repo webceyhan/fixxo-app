@@ -62,7 +62,10 @@ class CustomerController extends Controller
      */
     public function edit(Customer $customer)
     {
-        //
+        return inertia('Customers/Edit', [
+            'customer' => $customer,
+            'statusOptions' => UserStatus::values(),
+        ]);
     }
 
     /**
@@ -70,7 +73,13 @@ class CustomerController extends Controller
      */
     public function update(UpdateCustomerRequest $request, Customer $customer)
     {
-        //
+        $params = $request->validated();
+
+        $customer->fill($params)->save();
+
+        return redirect()
+            ->route('customers.show', $customer->id)
+            ->with('status', __('record saved'));
     }
 
     /**

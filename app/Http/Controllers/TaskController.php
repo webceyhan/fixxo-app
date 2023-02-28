@@ -62,7 +62,10 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        return inertia('Tasks/Edit', [
+            'task' => $task,
+            'statusOptions' => TaskStatus::values(),
+        ]);
     }
 
     /**
@@ -70,7 +73,16 @@ class TaskController extends Controller
      */
     public function update(UpdateTaskRequest $request, Task $task)
     {
-        //
+        $params = $request->validated();
+
+        // TODO: improve this by using a custom request
+        $params['user_id'] = auth()->id();
+
+        $task->fill($params)->save();
+
+        return redirect()
+            ->route('tasks.show', $task->id)
+            ->with('status', __('record saved'));
     }
 
     /**

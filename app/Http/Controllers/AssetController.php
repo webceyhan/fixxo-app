@@ -75,7 +75,11 @@ class AssetController extends Controller
      */
     public function edit(Asset $asset)
     {
-        //
+        return inertia('Assets/Edit', [
+            'asset' => $asset,
+            'typeOptions' => AssetType::values(),
+            'statusOptions' => AssetStatus::values(),
+        ]);
     }
 
     /**
@@ -83,7 +87,16 @@ class AssetController extends Controller
      */
     public function update(UpdateAssetRequest $request, Asset $asset)
     {
-        //
+        $params = $request->validated();
+
+        // TODO: improve this by using a custom request
+        $params['user_id'] = auth()->id();
+
+        $asset->fill($params)->save();
+
+        return redirect()
+            ->route('assets.show', $asset->id)
+            ->with('status', __('record saved'));
     }
 
     /**
