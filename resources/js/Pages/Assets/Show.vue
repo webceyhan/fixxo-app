@@ -23,6 +23,11 @@ defineProps({
                     :href="route('tasks.create')"
                     :data="{ asset_id: asset.id }"
                 />
+                <PrimaryButton
+                    label="New Payment"
+                    :href="route('payments.create')"
+                    :data="{ asset_id: asset.id }"
+                />
             </div>
         </template>
 

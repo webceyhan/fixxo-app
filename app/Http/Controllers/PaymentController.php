@@ -37,7 +37,9 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        return $this->edit(new Payment());
+        return $this->edit(new Payment(
+            request()->only('asset_id')
+        ));
     }
 
     /**
@@ -45,7 +47,7 @@ class PaymentController extends Controller
      */
     public function store(SavePaymentRequest $request)
     {
-        //
+        return $this->update($request, new Payment());
     }
 
     /**
