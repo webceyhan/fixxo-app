@@ -11,6 +11,7 @@ const props = defineProps({
 });
 
 const form = useForm({
+    ...props.data, // add hidden fields too..
     ...Object.keys(props.config).reduce(
         (acc, key) => ({ ...acc, [key]: props.data[key] }),
         {}
