@@ -1,3 +1,7 @@
+export function delay(ms, fn = () => {}) {
+    return new Promise(() => setTimeout(fn, ms));
+}
+
 export function debounce(fn, wait) {
     let timer;
 
@@ -18,7 +22,6 @@ export function throttle(fn, wait) {
 
     return function (...args) {
         if (!throttled) {
-
             fn.apply(this, args);
 
             throttled = true;

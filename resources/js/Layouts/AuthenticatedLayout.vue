@@ -1,13 +1,42 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
+import { delay } from '@/Shared/utils';
+import Alert from '@/Components/Alert.vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+
+const showingFlashMessage = ref(false);
+
+const flashMessage = (message) => {
+    // check if flash message is present
+    if (!!message) {
+        // show alert first
+        showingFlashMessage.value = true;
+        // then set the timeout to auto-dismiss alert
+        delay(1000, () => (showingFlashMessage.value = false));
+    }
+    else {
+        // reset visibility
+        showingFlashMessage.value = false;
+    }
+}
+
+
+// TODO: improve this change detection logic:
+// usePage props watch not always picking up the changes ?
+watch(() => usePage().props, (p) => {
+    flashMessage(p.flash.status);
+});
+
+// do initial flash message check
+flashMessage(usePage().props.flash.status);
+
 </script>
 
 <template>
@@ -163,6 +192,18 @@ const showingNavigationDropdown = ref(false);
             <main>
                 <slot />
             </main>
+
+            <!-- status message -->
+            <Transition
+                enter-from-class="opacity-0"
+                leave-to-class="opacity-0"
+                class="transition ease-in-out"
+            >
+                <div v-if="showingFlashMessage" class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <Alert>{{ $page.props.flash.status }}</Alert>
+                </div>
+            </Transition>
+
         </div>
     </div>
 </template>
