@@ -6,6 +6,9 @@ use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class SaveUserRequest extends FormRequest
 {
@@ -16,6 +19,20 @@ class SaveUserRequest extends FormRequest
     {
         // TODO: check if the user is admin
         return true;
+    }
+
+    /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation(): void
+    {
+        // skip this for update
+        if ($this->isMethod('put')) return;
+
+        // add auto-generated password when creating a new user
+        $this->merge([
+            'password' => Hash::make(Str::password())
+        ]);
     }
 
     /**
@@ -42,7 +59,7 @@ class SaveUserRequest extends FormRequest
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
             // TODO: auto-generate password and sent to the user
-            // 'password' => ['nullable', Rules\Password::defaults()],
+            'password' => ['required', Password::defaults()],
             'role' => ['nullable', Rule::in(UserRole::values())],
             'status' => ['nullable', Rule::in(UserStatus::values())],
         ];

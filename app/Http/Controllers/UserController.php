@@ -7,6 +7,7 @@ use App\Enums\UserStatus;
 use App\Http\Requests\SaveUserRequest;
 use App\Models\User;
 
+
 class UserController extends Controller
 {
     /**
@@ -45,7 +46,9 @@ class UserController extends Controller
      */
     public function store(SaveUserRequest $request)
     {
-        //
+        // TODO: after creating a new user, send an email with the dummy password
+        // he must change it on first login and verify his email address
+        return $this->update($request, new User());
     }
 
     /**
