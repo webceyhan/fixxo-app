@@ -1,10 +1,11 @@
 <script setup>
+import { Link } from "@inertiajs/vue3";
 import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
 import StackedList from "@/Components/StackedList.vue";
 import StackedListItem from "@/Components/StackedListItem.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
-import { Link } from "@inertiajs/vue3";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 const props = defineProps({
     assets: Object,
@@ -19,6 +20,11 @@ const { brand, type, ...restFilters } = props.filters;
         <template #actions>
             <div class="flex justify-between items-center">
                 <Searchbar :filters="restFilters" />
+                <PrimaryButton
+                    label="New"
+                    :href="route('assets.create')"
+                    class="ml-5 mr-auto"
+                />
                 <Pagination v-bind="assets" />
             </div>
         </template>

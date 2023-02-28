@@ -4,6 +4,7 @@ import StackedList from "@/Components/StackedList.vue";
 import StackedListItem from "@/Components/StackedListItem.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
 
 defineProps({
     tasks: Object,
@@ -16,6 +17,11 @@ defineProps({
         <template #actions>
             <div class="flex justify-between items-center">
                 <Searchbar :filters="filters" />
+                <PrimaryButton
+                    label="New"
+                    :href="route('tasks.create')"
+                    class="ml-5 mr-auto"
+                />
                 <Pagination v-bind="tasks" />
             </div>
         </template>
