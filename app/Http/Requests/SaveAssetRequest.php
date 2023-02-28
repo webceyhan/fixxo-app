@@ -6,7 +6,7 @@ use App\Enums\AssetStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateAssetRequest extends FormRequest
+class SaveAssetRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,25 @@ class UpdateAssetRequest extends FormRequest
      */
     public function rules(): array
     {
+        // update
+        if ($this->isMethod('put')) {
+            return [
+                'name' => 'nullable|string',
+                'brand' => 'nullable|string',
+                'type' => 'nullable|string',
+                'serial' => 'nullable|string',
+                'purchase_date' => 'nullable|date',
+                'warranty' => 'nullable|numeric',
+                'problem' => 'nullable|string',
+                'notes' => 'nullable|string',
+                'status' => ['nullable', Rule::in(AssetStatus::values())],
+            ];
+        }
+
+        // store
         return [
-            'name' => 'nullable|string',
+            'customer_id' => 'required_without:id',
+            'name' => 'required|string',
             'brand' => 'nullable|string',
             'type' => 'nullable|string',
             'serial' => 'nullable|string',

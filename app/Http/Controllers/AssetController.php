@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\AssetStatus;
 use App\Enums\AssetType;
-use App\Http\Requests\StoreAssetRequest;
-use App\Http\Requests\UpdateAssetRequest;
+use App\Http\Requests\SaveAssetRequest;
 use App\Models\Asset;
 
 class AssetController extends Controller
@@ -55,7 +54,7 @@ class AssetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreAssetRequest $request)
+    public function store(SaveAssetRequest $request)
     {
         //
     }
@@ -85,7 +84,7 @@ class AssetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAssetRequest $request, Asset $asset)
+    public function update(SaveAssetRequest $request, Asset $asset)
     {
         $params = $request->validated();
 

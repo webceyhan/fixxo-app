@@ -7,7 +7,7 @@ use App\Enums\PaymentType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StorePaymentRequest extends FormRequest
+class SavePaymentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,17 @@ class StorePaymentRequest extends FormRequest
      */
     public function rules(): array
     {
+        // update
+        if ($this->isMethod('put')) {
+            return [
+                'amount' => 'nullable|numeric',
+                'notes' => 'nullable|string',
+                'type' => ['nullable', Rule::in(PaymentType::values())],
+                'method' => ['nullable', Rule::in(PaymentMethod::values())],
+            ];
+        }
+
+        // store
         return [
             'asset_id' => 'required_without:id',
             'amount' => 'nullable|numeric',

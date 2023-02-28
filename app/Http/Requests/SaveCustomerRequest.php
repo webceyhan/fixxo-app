@@ -6,7 +6,7 @@ use App\Enums\UserStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UpdateCustomerRequest extends FormRequest
+class SaveCustomerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,23 @@ class UpdateCustomerRequest extends FormRequest
      */
     public function rules(): array
     {
+        // update
+        if ($this->isMethod('put')) {
+            return [
+                'name' => 'nullable|string',
+                'company' => 'nullable|string',
+                'vat' => 'nullable|string',
+                'address' => 'nullable|string',
+                'phone' => 'nullable|string',
+                'email' => 'nullable|email',
+                'notes' => 'nullable|string',
+                'status' => ['nullable', Rule::in(UserStatus::values())],
+            ];
+        }
+
+        // store
         return [
-            'name' => 'nullable|string',
+            'name' => 'required|string',
             'company' => 'nullable|string',
             'vat' => 'nullable|string',
             'address' => 'nullable|string',

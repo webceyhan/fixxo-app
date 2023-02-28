@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\UserStatus;
-use App\Http\Requests\StoreCustomerRequest;
-use App\Http\Requests\UpdateCustomerRequest;
+use App\Http\Requests\SaveCustomerRequest;
 use App\Models\Customer;
 
 class CustomerController extends Controller
@@ -42,7 +41,7 @@ class CustomerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCustomerRequest $request)
+    public function store(SaveCustomerRequest $request)
     {
         //
     }
@@ -71,7 +70,7 @@ class CustomerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer)
+    public function update(SaveCustomerRequest $request, Customer $customer)
     {
         $params = $request->validated();
 

@@ -7,7 +7,7 @@ use App\Enums\UserStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreUserRequest extends FormRequest
+class SaveUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,6 +25,19 @@ class StoreUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        // update
+        if ($this->isMethod('put')) {
+            return [
+                'name' => ['nullable', 'string'],
+                'email' => ['nullable', 'email'],
+                // TODO: omit this, as it's only known by the user
+                // 'password' => ['nullable', Rules\Password::defaults()],
+                'role' => ['nullable', Rule::in(UserRole::values())],
+                'status' => ['nullable', Rule::in(UserStatus::values())],
+            ];
+        }
+
+        // store
         return [
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],

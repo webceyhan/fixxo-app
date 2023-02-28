@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentType;
-use App\Http\Requests\StorePaymentRequest;
-use App\Http\Requests\UpdatePaymentRequest;
+use App\Http\Requests\SavePaymentRequest;
 use App\Models\Payment;
 
 class PaymentController extends Controller
@@ -44,7 +43,7 @@ class PaymentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePaymentRequest $request)
+    public function store(SavePaymentRequest $request)
     {
         //
     }
@@ -74,7 +73,7 @@ class PaymentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePaymentRequest $request, Payment $payment)
+    public function update(SavePaymentRequest $request, Payment $payment)
     {
         $params = $request->validated();
 

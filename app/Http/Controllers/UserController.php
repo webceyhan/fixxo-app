@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\SaveUserRequest;
 use App\Models\User;
 
 class UserController extends Controller
@@ -44,7 +43,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request)
+    public function store(SaveUserRequest $request)
     {
         //
     }
@@ -74,7 +73,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(SaveUserRequest $request, User $user)
     {
         $params = $request->validated();
 
