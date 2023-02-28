@@ -3,6 +3,7 @@ import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
 import DescriptionList from "@/Components/DescriptionList.vue";
 import DescriptionListItem from "@/Components/DescriptionListItem.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import DangerButton from "@/Components/DangerButton.vue";
 
 defineProps({
     payment: Object,
@@ -16,6 +17,11 @@ defineProps({
                 <SecondaryButton
                     label="Edit"
                     :href="route('payments.edit', payment.id)"
+                />
+                <DangerButton
+                    label="Delete"
+                    method="delete"
+                    :href="route('payments.destroy', payment.id)"
                 />
             </div>
         </template>

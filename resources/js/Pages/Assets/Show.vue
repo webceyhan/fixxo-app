@@ -4,6 +4,7 @@ import DescriptionList from "@/Components/DescriptionList.vue";
 import DescriptionListItem from "@/Components/DescriptionListItem.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import DangerButton from "@/Components/DangerButton.vue";
 
 defineProps({
     asset: Object,
@@ -17,6 +18,12 @@ defineProps({
                 <SecondaryButton
                     label="Edit"
                     :href="route('assets.edit', asset.id)"
+                />
+                <DangerButton
+                    label="Delete"
+                    method="delete"
+                    :href="route('assets.destroy', asset.id)"
+                    class="mr-5"
                 />
                 <PrimaryButton
                     label="New Task"

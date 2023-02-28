@@ -3,6 +3,7 @@ import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
 import DescriptionList from "@/Components/DescriptionList.vue";
 import DescriptionListItem from "@/Components/DescriptionListItem.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
+import DangerButton from "@/Components/DangerButton.vue";
 
 defineProps({
     user: Object,
@@ -16,6 +17,11 @@ defineProps({
                 <SecondaryButton
                     label="Edit"
                     :href="route('users.edit', user.id)"
+                />
+                <DangerButton
+                    label="Delete"
+                    method="delete"
+                    :href="route('users.destroy', user.id)"
                 />
             </div>
         </template>
