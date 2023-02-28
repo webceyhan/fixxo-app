@@ -35,7 +35,9 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return $this->edit(new Task());
+        return $this->edit(new Task(
+            request()->only('asset_id')
+        ));
     }
 
     /**
@@ -43,7 +45,7 @@ class TaskController extends Controller
      */
     public function store(SaveTaskRequest $request)
     {
-        //
+        return $this->update($request, new Task());
     }
 
     /**
