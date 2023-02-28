@@ -43,7 +43,7 @@ class CustomerController extends Controller
      */
     public function store(SaveCustomerRequest $request)
     {
-        //
+        return $this->update($request, new Customer());
     }
 
     /**
