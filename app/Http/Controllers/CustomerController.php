@@ -36,7 +36,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return $this->edit(new Customer());
     }
 
     /**

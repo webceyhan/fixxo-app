@@ -38,7 +38,7 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        //
+        return $this->edit(new Payment());
     }
 
     /**
