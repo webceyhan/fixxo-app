@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\UserStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateCustomerRequest extends FormRequest
 {
@@ -22,7 +24,14 @@ class UpdateCustomerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'nullable|string',
+            'company' => 'nullable|string',
+            'vat' => 'nullable|string',
+            'address' => 'nullable|string',
+            'phone' => 'nullable|string',
+            'email' => 'nullable|email',
+            'notes' => 'nullable|string',
+            'status' => ['nullable', Rule::in(UserStatus::values())],
         ];
     }
 }

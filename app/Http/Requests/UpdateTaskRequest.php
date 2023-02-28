@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TaskStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateTaskRequest extends FormRequest
 {
@@ -22,7 +24,9 @@ class UpdateTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'description' => 'nullable|string',
+            'price' => 'nullable|numeric',
+            'status' => ['nullable', Rule::in(TaskStatus::values())],
         ];
     }
 }

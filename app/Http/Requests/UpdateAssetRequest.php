@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\AssetStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateAssetRequest extends FormRequest
 {
@@ -22,7 +24,15 @@ class UpdateAssetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'nullable|string',
+            'brand' => 'nullable|string',
+            'type' => 'nullable|string',
+            'serial' => 'nullable|string',
+            'purchase_date' => 'nullable|date',
+            'warranty' => 'nullable|numeric',
+            'problem' => 'nullable|string',
+            'notes' => 'nullable|string',
+            'status' => ['nullable', Rule::in(AssetStatus::values())],
         ];
     }
 }

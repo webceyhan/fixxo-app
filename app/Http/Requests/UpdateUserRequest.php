@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -22,7 +25,12 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['nullable', 'string'],
+            'email' => ['nullable', 'email'],
+            // TODO: omit this, as it's only known by the user
+            // 'password' => ['nullable', Rules\Password::defaults()],
+            'role' => ['nullable', Rule::in(UserRole::values())],
+            'status' => ['nullable', Rule::in(UserStatus::values())],
         ];
     }
 }
