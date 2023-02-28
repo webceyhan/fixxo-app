@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StorePaymentRequest extends FormRequest
 {
@@ -22,7 +25,11 @@ class StorePaymentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'asset_id' => 'required_without:id',
+            'amount' => 'nullable|numeric',
+            'notes' => 'nullable|string',
+            'type' => ['nullable', Rule::in(PaymentType::values())],
+            'method' => ['nullable', Rule::in(PaymentMethod::values())],
         ];
     }
 }

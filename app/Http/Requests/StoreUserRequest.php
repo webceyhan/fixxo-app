@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUserRequest extends FormRequest
 {
@@ -22,7 +25,12 @@ class StoreUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string'],
+            'email' => ['required', 'email'],
+            // TODO: auto-generate password and sent to the user
+            // 'password' => ['nullable', Rules\Password::defaults()],
+            'role' => ['nullable', Rule::in(UserRole::values())],
+            'status' => ['nullable', Rule::in(UserStatus::values())],
         ];
     }
 }

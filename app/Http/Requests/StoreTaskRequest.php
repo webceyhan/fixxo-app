@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TaskStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTaskRequest extends FormRequest
 {
@@ -22,7 +24,10 @@ class StoreTaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'asset_id' => 'required_without:id',
+            'description' => 'nullable|string',
+            'price' => 'nullable|numeric',
+            'status' => ['nullable', Rule::in(TaskStatus::values())],
         ];
     }
 }
