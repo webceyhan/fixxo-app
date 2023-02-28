@@ -6,7 +6,7 @@ defineProps({
 
 <template>
     <div
-        class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6"
+        class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg sm:p-6"
     >
         <slot name="header">
             <h2
