@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TaskStatus;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +19,16 @@ class Task extends Model
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'price' => 0,
+        'status' => TaskStatus::PENDING,
+    ];
 
     /**
      * Index to use for full-text search.

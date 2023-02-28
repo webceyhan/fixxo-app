@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\AssetStatus;
+use App\Enums\AssetType;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,6 +22,22 @@ class Asset extends Model
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'brand' => null,
+        'type' => null,
+        'serial' => null,
+        'purchase_date' => null,
+        'warranty' => 0,
+        'problem' => null,
+        'notes' => null,
+        'status' => AssetStatus::IN_PROGRESS,
+    ];
 
     /**
      * Index to use for full-text search.

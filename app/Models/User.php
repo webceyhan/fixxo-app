@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Enums\UserRole;
+use App\Enums\UserStatus;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,6 +29,18 @@ class User extends Authenticatable
         'password',
         'role',
         'status',
+    ];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'remember_token' => null,
+        'role' => UserRole::EXPERT,
+        'status' => UserStatus::ACTIVE,
+        'email_verified_at' => null,
     ];
 
     /**

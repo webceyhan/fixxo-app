@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\UserStatus;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +19,21 @@ class Customer extends Model
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'company' => null,
+        'vat' => null,
+        'address' => null,
+        'phone' => null,
+        'email' => null,
+        'notes' => null,
+        'status' => UserStatus::ACTIVE,
+    ];
 
     /**
      * Index to use for full-text search.

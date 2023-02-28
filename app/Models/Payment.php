@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\PaymentMethod;
+use App\Enums\PaymentType;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -18,6 +20,18 @@ class Payment extends Model
      * @var array
      */
     protected $guarded = [];
+
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'amount' => 0,
+        'type' => PaymentType::CHARGE,
+        'method' => PaymentMethod::CASH,
+        'notes' => null,
+    ];
 
     /**
      * Index to use for full-text search.
