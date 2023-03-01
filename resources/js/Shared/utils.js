@@ -30,3 +30,29 @@ export function throttle(fn, wait) {
         }
     };
 }
+
+// FORMATTERS //////////////////////////////////////////////////////////////////////////////////////
+
+export function formatNumber(value) {
+    return new Intl.NumberFormat("en-BE", {
+        style: "decimal",
+    }).format(value);
+}
+
+export function formatMoney(value) {
+    return new Intl.NumberFormat("en-BE", {
+        style: "currency",
+        currency: "EUR",
+    }).format(value);
+}
+
+export function formatDate(date, short = true) {
+    // skip if empty or null
+    if (!date || date == "") return "";
+
+    return Intl.DateTimeFormat("en-BE", {
+        year: short ? "2-digit" : "numeric",
+        month: short ? "2-digit" : "long",
+        day: "2-digit",
+    }).format(new Date(date));
+}

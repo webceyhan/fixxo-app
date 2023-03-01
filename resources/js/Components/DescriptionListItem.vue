@@ -1,6 +1,9 @@
 <script setup>
+import { formatDate, formatMoney, formatNumber } from "@/Shared/utils";
+
 defineProps({
     label: String,
+    type: String,
     value: [String, Number],
 });
 </script>
@@ -13,7 +16,25 @@ defineProps({
                     <slot name="label">{{ label }}</slot>
                 </p>
                 <p class="text-slate-500 dark:text-slate-400 truncate">
-                    <slot name="value">{{ value }}</slot>
+                    <slot name="value">
+                        <!-- format as date / datetime -->
+                        <span v-if="type === 'date'">
+                            {{ formatDate(value) }}
+                        </span>
+
+                        <!-- format as money -->
+                        <span v-else-if="type === 'money'">
+                            {{ formatMoney(value) }}
+                        </span>
+
+                        <!-- format as number -->
+                        <span v-else-if="type === 'number'">
+                            {{ formatNumber(value) }}
+                        </span>
+
+                        <!-- format as string -->
+                        <span v-else> {{ value }} </span>
+                    </slot>
                 </p>
             </div>
         </slot>
