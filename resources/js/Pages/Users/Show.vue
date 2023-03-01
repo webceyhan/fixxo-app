@@ -29,10 +29,31 @@ defineProps({
 
         <Card>
             <DescriptionList>
+                <DescriptionListItem label="Name" :value="user.name" />
+
+                <DescriptionListItem label="Email" :value="user.email" />
+
+                <DescriptionListItem label="Role" :value="user.role" />
+
+                <DescriptionListItem label="Status" :value="user.status" />
+
                 <DescriptionListItem
-                    v-for="(value, label) in user"
-                    :key="label"
-                    v-bind="{ label, value }"
+                    v-if="user.email_verified_at"
+                    label="Email Verified At"
+                    type="date"
+                    :value="user.email_verified_at"
+                />
+
+                <DescriptionListItem
+                    label="Created At"
+                    type="date"
+                    :value="user.created_at"
+                />
+
+                <DescriptionListItem
+                    label="Last Update"
+                    type="date"
+                    :value="user.updated_at"
                 />
             </DescriptionList>
         </Card>

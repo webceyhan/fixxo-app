@@ -37,15 +37,62 @@ defineProps({
         </template>
 
         <div class="flex flex-col lg:flex-row items-start gap-4">
-            <div class="w-full lg:w-1/3">
+            <div class="flex flex-col w-full lg:w-1/3 gap-4">
                 <Card>
                     <DescriptionList>
                         <DescriptionListItem
-                            v-for="(value, label) in customer"
-                            :key="label"
-                            v-bind="{ label, value }"
+                            label="Name"
+                            :value="customer.name"
+                        />
+
+                        <DescriptionListItem
+                            v-if="customer.company"
+                            label="Company"
+                            :value="customer.company"
+                        />
+
+                        <DescriptionListItem
+                            v-if="customer.vat"
+                            label="VAT"
+                            :value="customer.vat"
+                        />
+
+                        <DescriptionListItem
+                            label="Phone"
+                            :value="customer.phone"
+                        />
+
+                        <DescriptionListItem
+                            label="Email"
+                            :value="customer.email"
+                        />
+
+                        <DescriptionListItem
+                            label="Address"
+                            :value="customer.address"
+                        />
+
+                        <DescriptionListItem
+                            label="Status"
+                            :value="customer.status"
+                        />
+
+                        <DescriptionListItem
+                            label="Created At"
+                            type="date"
+                            :value="customer.created_at"
+                        />
+
+                        <DescriptionListItem
+                            label="Last Update"
+                            type="date"
+                            :value="customer.updated_at"
                         />
                     </DescriptionList>
+                </Card>
+
+                <Card label="Notes">
+                    {{ customer.notes }}
                 </Card>
             </div>
 

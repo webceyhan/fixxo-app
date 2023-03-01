@@ -29,10 +29,27 @@ defineProps({
 
         <Card>
             <DescriptionList>
+                <!-- TODO: Add the following fields as link -->
+                <!-- asset_id: Asset -->
+                <!-- user_id: Assignee -->
+
                 <DescriptionListItem
-                    v-for="(value, label) in task"
-                    :key="label"
-                    v-bind="{ label, value }"
+                    label="Description"
+                    :value="task.description"
+                />
+
+                <DescriptionListItem
+                    label="Price"
+                    type="money"
+                    :value="task.price"
+                />
+
+                <DescriptionListItem label="Status" :value="task.status" />
+
+                <DescriptionListItem
+                    label="Created At"
+                    type="date"
+                    :value="task.created_at"
                 />
             </DescriptionList>
         </Card>

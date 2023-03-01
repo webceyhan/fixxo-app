@@ -29,10 +29,30 @@ defineProps({
 
         <Card>
             <DescriptionList>
+                <!-- TODO: Add the following fields as link -->
+                <!-- asset_id: Asset -->
+                <!-- user_id: Taker -->
+
                 <DescriptionListItem
-                    v-for="(value, label) in payment"
-                    :key="label"
-                    v-bind="{ label, value }"
+                    label="Amount"
+                    type="money"
+                    :value="payment.amount"
+                />
+
+                <DescriptionListItem label="Type" :value="payment.type" />
+
+                <DescriptionListItem label="Method" :value="payment.method" />
+
+                <DescriptionListItem
+                    v-if="payment.notes"
+                    label="Notes"
+                    :value="payment.notes"
+                />
+
+                <DescriptionListItem
+                    label="Created At"
+                    type="date"
+                    :value="payment.created_at"
                 />
             </DescriptionList>
         </Card>
