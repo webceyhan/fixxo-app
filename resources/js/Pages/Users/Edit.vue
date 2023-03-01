@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from "vue";
+import { useForm } from "@inertiajs/vue3";
 import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
 import Form from "@/Components/Form.vue";
+import FormControl from "@/Components/FormControl.vue";
 
 const props = defineProps({
     user: Object,
@@ -9,31 +10,44 @@ const props = defineProps({
     statusOptions: Array,
 });
 
-const form = ref(null);
-
-const config = {
-    name: {
-        label: "Name",
-    },
-    email: {
-        type: "email",
-        label: "Email",
-    },
-    role: {
-        label: "Role",
-        options: props.roleOptions,
-    },
-    status: {
-        label: "Status",
-        options: props.statusOptions,
-    },
-};
+const form = useForm({
+    ...props.user,
+    name: props.user.name,
+    email: props.user.email,
+    role: props.user.role,
+    status: props.user.status,
+});
 </script>
 
 <template>
     <AuthenticatedCrudLayout :title="user.name">
         <section class="max-w-xl">
-            <Form ref="form" :data="user" :config="config" resource="users" />
+            <Form resource="users" :form="form">
+                <FormControl
+                    label="Name"
+                    v-model="form.name"
+                    :error="form.errors.name"
+                    required
+                    autofocus
+                />
+                <FormControl
+                    label="Email"
+                    type="email"
+                    v-model="form.email"
+                    :error="form.errors.email"
+                    required
+                />
+                <FormControl
+                    label="Role"
+                    v-model="form.role"
+                    :options="roleOptions"
+                />
+                <FormControl
+                    label="Status"
+                    v-model="form.status"
+                    :options="statusOptions"
+                />
+            </Form>
         </section>
     </AuthenticatedCrudLayout>
 </template>

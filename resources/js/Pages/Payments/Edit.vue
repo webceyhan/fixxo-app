@@ -1,7 +1,8 @@
 <script setup>
-import { ref } from "vue";
+import { useForm } from "@inertiajs/vue3";
 import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
 import Form from "@/Components/Form.vue";
+import FormControl from "@/Components/FormControl.vue";
 
 const props = defineProps({
     payment: Object,
@@ -9,37 +10,44 @@ const props = defineProps({
     methodOptions: Array,
 });
 
-const form = ref(null);
-
-const config = {
-    amount: {
-        label: "Amount",
-        type: "number",
-    },
-    type: {
-        label: "Type",
-        options: props.typeOptions,
-    },
-    method: {
-        label: "Method",
-        options: props.methodOptions,
-    },
-    notes: {
-        label: "Notes",
-        rows: 3,
-    },
-};
+const form = useForm({
+    ...props.payment,
+    amount: props.payment.amount,
+    type: props.payment.type,
+    method: props.payment.method,
+    notes: props.payment.notes,
+});
 </script>
 
 <template>
     <AuthenticatedCrudLayout :title="payment.name">
         <section class="max-w-xl">
-            <Form
-                ref="form"
-                :data="payment"
-                :config="config"
-                resource="payments"
-            />
+            <Form :form="form" resource="payments">
+                <FormControl
+                    label="Amount"
+                    type="number"
+                    v-model="form.amount"
+                    :error="form.errors.amount"
+                    required
+                    autofocus
+                />
+                <FormControl
+                    label="Type"
+                    v-model="form.type"
+                    :options="typeOptions"
+                />
+                <FormControl
+                    label="Method"
+                    v-model="form.method"
+                    :options="methodOptions"
+                />
+                <FormControl
+                    label="Notes"
+                    rows="3"
+                    v-model="form.notes"
+                    :error="form.errors.notes"
+                />
+            </Form>
         </section>
     </AuthenticatedCrudLayout>
 </template>
