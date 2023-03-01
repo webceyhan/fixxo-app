@@ -17,7 +17,7 @@ const classes = computed(() => ({
         <slot> {{ label }} </slot>
     </Link>
 
-    <button v-else :class="classes" type="submit">
+    <button v-else :class="classes" type="button">
         <slot> {{ label }} </slot>
     </button>
 </template>
