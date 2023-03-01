@@ -17,17 +17,19 @@ defineProps({
             <span class="w-1/5">
                 {{ payment.type }}
 
-                <br />
-
-                {{ payment.user.name }}
+                <span v-if="payment.user">
+                    <br />
+                    {{ payment.user.name }}
+                </span>
             </span>
 
-            <span class="w-2/5 text-gray-400">
+            <span v-if="payment.asset" class="w-2/5 text-gray-400">
                 {{ payment.asset.name }}
 
-                <br />
-
-                {{ payment.asset.customer?.name }}
+                <span v-if="payment.asset.customer">
+                    <br />
+                    {{ payment.asset.customer.name }}
+                </span>
             </span>
 
             <span class="w-fit text-gray-400"> {{ payment.amount }}€ </span>

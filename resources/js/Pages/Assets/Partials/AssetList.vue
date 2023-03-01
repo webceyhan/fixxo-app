@@ -20,16 +20,16 @@ const props = defineProps({
 
                 <br />
 
-                <span class="text-gray-400">
+                <span v-if="asset.customer" class="text-gray-400">
                     {{ asset.customer.name }}
                 </span>
             </span>
 
-            <span class="w-1/5 text-gray-400">
+            <span v-if="asset.tasks_count" class="w-1/5 text-gray-400">
                 tasks {{ asset.tasks_count }}
             </span>
 
-            <span class="w-fit text-gray-400">
+            <span v-if="asset.total_cost" class="w-fit text-gray-400">
                 cost {{ asset.total_cost }}€
             </span>
         </StackedListItem>

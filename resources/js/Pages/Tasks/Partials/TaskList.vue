@@ -18,12 +18,13 @@ defineProps({
                 {{ task.description }}
             </span>
 
-            <span class="w-1/5 text-gray-400">
+            <span v-if="task.asset" class="w-1/5 text-gray-400">
                 {{ task.asset.name }}
 
-                <br />
-
-                {{ task.user.name }}
+                <span v-if="task.user">
+                    <br />
+                    {{ task.user.name }}
+                </span>
             </span>
 
             <span class="w-fit text-gray-400"> {{ task.price }}€ </span>
