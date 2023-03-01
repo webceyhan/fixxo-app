@@ -1,10 +1,9 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
 import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
-import StackedList from "@/Components/StackedList.vue";
-import StackedListItem from "@/Components/StackedListItem.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
+import AssetList from "./Partials/AssetList.vue";
 
 const props = defineProps({
     assets: Object,
@@ -61,29 +60,6 @@ const { brand, type, ...restFilters } = props.filters;
             </div>
         </template>
 
-        <StackedList>
-            <StackedListItem
-                v-for="asset in assets.data"
-                :key="asset.id"
-                :href="route('assets.show', asset.id)"
-            >
-                <span class="w-2/5">
-                    {{ asset.brand }}
-                    {{ asset.name }}
-                    <br />
-                    <span class="text-gray-400">
-                        {{ asset.customer.name }}
-                    </span>
-                </span>
-
-                <span class="w-1/5 text-gray-400">
-                    tasks {{ asset.tasks_count }}
-                </span>
-
-                <span class="w-fit text-gray-400">
-                    cost {{ asset.total_cost }}€
-                </span>
-            </StackedListItem>
-        </StackedList>
+        <AssetList :assets="assets.data" />
     </AuthenticatedCrudLayout>
 </template>

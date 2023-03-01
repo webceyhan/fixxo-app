@@ -1,10 +1,9 @@
 <script setup>
 import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
-import StackedList from "@/Components/StackedList.vue";
-import StackedListItem from "@/Components/StackedListItem.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import CustomerList from "./Partials/CustomerList.vue";
 
 defineProps({
     customers: Object,
@@ -26,17 +25,6 @@ defineProps({
             </div>
         </template>
 
-        <StackedList>
-            <StackedListItem
-                v-for="customer in customers.data"
-                :key="customer.id"
-                :href="route('customers.show', customer.id)"
-            >
-                <span class="w-1/5">{{ customer.name }}</span>
-                <span class="w-2/5 text-gray-400">
-                    assets {{ customer.assets_count }}
-                </span>
-            </StackedListItem>
-        </StackedList>
+        <CustomerList :customers="customers.data" />
     </AuthenticatedCrudLayout>
 </template>

@@ -1,9 +1,8 @@
 <script setup>
 import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
-import StackedList from "@/Components/StackedList.vue";
-import StackedListItem from "@/Components/StackedListItem.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
+import TaskList from "./Partials/TaskList.vue";
 
 defineProps({
     tasks: Object,
@@ -20,22 +19,6 @@ defineProps({
             </div>
         </template>
 
-        <StackedList>
-            <StackedListItem
-                v-for="task in tasks.data"
-                :key="task.id"
-                :href="route('tasks.show', task.id)"
-            >
-                <span class="w-2/5">
-                    {{ task.description }}
-                </span>
-                <span class="w-1/5 text-gray-400">
-                    {{ task.asset.name }}
-                    <br />
-                    {{ task.user.name }}
-                </span>
-                <span class="w-fit text-gray-400"> {{ task.price }}€ </span>
-            </StackedListItem>
-        </StackedList>
+        <TaskList :tasks="tasks.data" />
     </AuthenticatedCrudLayout>
 </template>
