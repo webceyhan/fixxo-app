@@ -68,6 +68,8 @@ class AssetController extends Controller
     {
         return inertia('Assets/Show', [
             'asset' => $asset,
+            'tasks' => $asset->tasks()->get(),
+            'payments' => $asset->payments()->get(),
         ]);
     }
 

@@ -6,9 +6,13 @@ import SecondaryButton from "@/Components/SecondaryButton.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import Card from "@/Components/Card.vue";
+import TaskList from "../Tasks/Partials/TaskList.vue";
+import PaymentList from "../Payments/Partials/PaymentList.vue";
 
 defineProps({
     asset: Object,
+    tasks: Array,
+    payments: Array,
 });
 </script>
 
@@ -39,14 +43,28 @@ defineProps({
             </div>
         </template>
 
-        <Card>
-            <DescriptionList>
-                <DescriptionListItem
-                    v-for="(value, label) in asset"
-                    :key="label"
-                    v-bind="{ label, value }"
-                />
-            </DescriptionList>
-        </Card>
+        <div class="flex flex-col lg:flex-row items-start gap-4">
+            <div class="w-full lg:w-1/3">
+                <Card>
+                    <DescriptionList>
+                        <DescriptionListItem
+                            v-for="(value, label) in asset"
+                            :key="label"
+                            v-bind="{ label, value }"
+                        />
+                    </DescriptionList>
+                </Card>
+            </div>
+
+            <div class="w-full lg:w-2/3 flex flex-col gap-4">
+                <Card label="Tasks">
+                    <TaskList :tasks="tasks" />
+                </Card>
+
+                <Card label="Payments">
+                    <PaymentList :payments="payments" />
+                </Card>
+            </div>
+        </div>
     </AuthenticatedCrudLayout>
 </template>
