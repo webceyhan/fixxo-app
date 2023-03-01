@@ -4,6 +4,7 @@ import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import UserList from "./Partials/UserList.vue";
+import Card from "@/Components/Card.vue";
 
 defineProps({
     users: Object,
@@ -25,6 +26,8 @@ defineProps({
             </div>
         </template>
 
-        <UserList :users="users.data" />
+        <Card>
+            <UserList :users="users.data" />
+        </Card>
     </AuthenticatedCrudLayout>
 </template>

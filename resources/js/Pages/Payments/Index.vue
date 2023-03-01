@@ -3,6 +3,7 @@ import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import PaymentList from "./Partials/PaymentList.vue";
+import Card from "@/Components/Card.vue";
 
 defineProps({
     payments: Object,
@@ -19,6 +20,8 @@ defineProps({
             </div>
         </template>
 
-        <PaymentList :payments="payments.data" />
+        <Card>
+            <PaymentList :payments="payments.data" />
+        </Card>
     </AuthenticatedCrudLayout>
 </template>

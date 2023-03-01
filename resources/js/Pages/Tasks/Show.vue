@@ -4,6 +4,7 @@ import DescriptionList from "@/Components/DescriptionList.vue";
 import DescriptionListItem from "@/Components/DescriptionListItem.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
+import Card from "@/Components/Card.vue";
 
 defineProps({
     task: Object,
@@ -26,12 +27,14 @@ defineProps({
             </div>
         </template>
 
-        <DescriptionList>
-            <DescriptionListItem
-                v-for="(value, label) in task"
-                :key="label"
-                v-bind="{ label, value }"
-            />
-        </DescriptionList>
+        <Card>
+            <DescriptionList>
+                <DescriptionListItem
+                    v-for="(value, label) in task"
+                    :key="label"
+                    v-bind="{ label, value }"
+                />
+            </DescriptionList>
+        </Card>
     </AuthenticatedCrudLayout>
 </template>

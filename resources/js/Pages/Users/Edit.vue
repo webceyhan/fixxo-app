@@ -3,6 +3,7 @@ import { useForm } from "@inertiajs/vue3";
 import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
 import Form from "@/Components/Form.vue";
 import FormControl from "@/Components/FormControl.vue";
+import Card from "@/Components/Card.vue";
 
 const props = defineProps({
     user: Object,
@@ -21,33 +22,35 @@ const form = useForm({
 
 <template>
     <AuthenticatedCrudLayout :title="user.name">
-        <section class="max-w-xl">
-            <Form resource="users" :form="form">
-                <FormControl
-                    label="Name"
-                    v-model="form.name"
-                    :error="form.errors.name"
-                    required
-                    autofocus
-                />
-                <FormControl
-                    label="Email"
-                    type="email"
-                    v-model="form.email"
-                    :error="form.errors.email"
-                    required
-                />
-                <FormControl
-                    label="Role"
-                    v-model="form.role"
-                    :options="roleOptions"
-                />
-                <FormControl
-                    label="Status"
-                    v-model="form.status"
-                    :options="statusOptions"
-                />
-            </Form>
-        </section>
+        <Card>
+            <section class="max-w-xl">
+                <Form resource="users" :form="form">
+                    <FormControl
+                        label="Name"
+                        v-model="form.name"
+                        :error="form.errors.name"
+                        required
+                        autofocus
+                    />
+                    <FormControl
+                        label="Email"
+                        type="email"
+                        v-model="form.email"
+                        :error="form.errors.email"
+                        required
+                    />
+                    <FormControl
+                        label="Role"
+                        v-model="form.role"
+                        :options="roleOptions"
+                    />
+                    <FormControl
+                        label="Status"
+                        v-model="form.status"
+                        :options="statusOptions"
+                    />
+                </Form>
+            </section>
+        </Card>
     </AuthenticatedCrudLayout>
 </template>

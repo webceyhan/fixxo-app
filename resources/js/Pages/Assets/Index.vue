@@ -4,6 +4,7 @@ import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import AssetList from "./Partials/AssetList.vue";
+import Card from "@/Components/Card.vue";
 
 const props = defineProps({
     assets: Object,
@@ -60,6 +61,8 @@ const { brand, type, ...restFilters } = props.filters;
             </div>
         </template>
 
-        <AssetList :assets="assets.data" />
+        <Card>
+            <AssetList :assets="assets.data" />
+        </Card>
     </AuthenticatedCrudLayout>
 </template>

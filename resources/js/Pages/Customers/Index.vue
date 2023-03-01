@@ -4,6 +4,7 @@ import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import CustomerList from "./Partials/CustomerList.vue";
+import Card from "@/Components/Card.vue";
 
 defineProps({
     customers: Object,
@@ -25,6 +26,8 @@ defineProps({
             </div>
         </template>
 
-        <CustomerList :customers="customers.data" />
+        <Card>
+            <CustomerList :customers="customers.data" />
+        </Card>
     </AuthenticatedCrudLayout>
 </template>
