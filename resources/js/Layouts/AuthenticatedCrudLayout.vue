@@ -17,22 +17,12 @@ defineProps(["title"]);
             </h2>
         </template>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="px-1 pb-6">
-                    <slot name="actions" />
-                </div>
-
-                <div class="flex gap-6">
-                    <div v-if="$slots.sidenav" class="w-1/5 flex-shrink-0">
-                        <slot name="sidenav" />
-                    </div>
-
-                    <div class="flex-1">
-                        <slot />
-                    </div>
-                </div>
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-12">
+            <div class="px-1 pb-6">
+                <slot name="actions" />
             </div>
+
+            <slot />
         </div>
     </AuthenticatedLayout>
 </template>
