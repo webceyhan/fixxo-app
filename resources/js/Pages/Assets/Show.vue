@@ -1,4 +1,5 @@
 <script setup>
+import { useForm } from "@inertiajs/vue3";
 import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
 import DescriptionList from "@/Components/DescriptionList.vue";
 import DescriptionListItem from "@/Components/DescriptionListItem.vue";
@@ -8,12 +9,23 @@ import DangerButton from "@/Components/DangerButton.vue";
 import Card from "@/Components/Card.vue";
 import TaskList from "../Tasks/Partials/TaskList.vue";
 import PaymentList from "../Payments/Partials/PaymentList.vue";
+import Textarea from "@/Components/Textarea.vue";
 
-defineProps({
+const props = defineProps({
     asset: Object,
     tasks: Array,
     payments: Array,
 });
+
+const form = useForm({
+    notes: props.asset.notes,
+});
+
+const save = () => {
+    form.put(route("assets.update", props.asset.id), {
+        preserveScroll: true,
+    });
+};
 </script>
 
 <template>
@@ -108,7 +120,13 @@ defineProps({
                 </Card>
 
                 <Card label="Notes">
-                    {{ asset.notes }}
+                    <Textarea
+                        rows="5"
+                        class="w-full"
+                        placeholder="Add notes..."
+                        v-model="form.notes"
+                    />
+                    <SecondaryButton label="Save" @click="save" />
                 </Card>
             </div>
 
