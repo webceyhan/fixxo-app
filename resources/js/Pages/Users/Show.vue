@@ -27,7 +27,7 @@ defineProps({
             </div>
         </template>
 
-        <Card>
+        <Card label="Overview">
             <DescriptionList>
                 <DescriptionListItem label="Name" :value="user.name" />
 

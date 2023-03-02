@@ -38,7 +38,7 @@ defineProps({
 
         <div class="flex flex-col lg:flex-row items-start gap-4">
             <div class="flex flex-col w-full lg:w-1/3 gap-4">
-                <Card>
+                <Card label="Overview">
                     <DescriptionList>
                         <DescriptionListItem
                             label="Name"

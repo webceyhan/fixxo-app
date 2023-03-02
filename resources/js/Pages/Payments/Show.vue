@@ -27,7 +27,7 @@ defineProps({
             </div>
         </template>
 
-        <Card>
+        <Card label="Overview">
             <DescriptionList>
                 <!-- TODO: Add the following fields as link -->
                 <!-- asset_id: Asset -->

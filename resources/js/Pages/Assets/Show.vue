@@ -45,7 +45,7 @@ defineProps({
 
         <div class="flex flex-col lg:flex-row items-start gap-4">
             <div class="flex flex-col w-full lg:w-1/3 gap-4">
-                <Card>
+                <Card label="Overview">
                     <DescriptionList>
                         <!-- TODO: Add the following fields as link -->
                         <!-- customer_id: Owner -->
