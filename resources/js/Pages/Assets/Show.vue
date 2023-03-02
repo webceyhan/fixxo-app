@@ -117,11 +117,11 @@ defineProps({
                     {{ asset.problem }}
                 </Card>
 
-                <Card label="Tasks">
+                <Card label="Tasks" flush>
                     <TaskList :tasks="tasks" />
                 </Card>
 
-                <Card label="Payments">
+                <Card label="Payments" flush>
                     <PaymentList :payments="payments" />
                 </Card>
             </div>

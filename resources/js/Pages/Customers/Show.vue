@@ -97,7 +97,7 @@ defineProps({
             </div>
 
             <div class="w-full lg:w-2/3 flex flex-col gap-4">
-                <Card label="Assets">
+                <Card label="Assets" flush>
                     <AssetList :assets="assets" />
                 </Card>
             </div>

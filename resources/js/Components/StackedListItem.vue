@@ -3,19 +3,22 @@ import { Link } from "@inertiajs/vue3";
 </script>
 
 <template>
-    <Link
-        v-if="$attrs.href"
-        class="flex justify-between items-center p-4 hover:bg-gray-200 dark:hover:bg-gray-700"
+    <component
+        :is="$attrs.href ? Link : 'li'"
+        class="flex justify-between items-center px-4 py-6 sm:p-6"
+        :class="{ 'hover:bg-gray-200 dark:hover:bg-gray-700': $attrs.href }"
     >
         <slot />
 
+        <!-- chevron-right icon -->
         <svg
+            v-if="$attrs.href"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="w-4 h-4"
+            class="w-4 h-4 opacity-50"
         >
             <path
                 stroke-linecap="round"
@@ -23,15 +26,5 @@ import { Link } from "@inertiajs/vue3";
                 d="M8.25 4.5l7.5 7.5-7.5 7.5"
             />
         </svg>
-    </Link>
-
-    <li v-else class="flex p-4">
-        <slot />
-    </li>
+    </component>
 </template>
-
-<style scoped>
-    /* a:hover {
-        border-color: transparent !important;
-    } */
-</style>
