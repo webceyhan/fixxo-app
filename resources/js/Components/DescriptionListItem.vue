@@ -9,34 +9,33 @@ defineProps({
 </script>
 
 <template>
-    <li class="flex p-4">
+    <div class="flex flex-col lg:flex-row overflow-hidden gap-2 py-4">
         <slot>
-            <div class="w-full overflow-hidden sm:flex gap-x-4">
-                <p class="w-1/5 text-slate-900 dark:text-slate-100 capitalize">
-                    <slot name="label">{{ label }}</slot>
-                </p>
-                <p class="text-slate-500 dark:text-slate-400 truncate">
-                    <slot name="value">
-                        <!-- format as date / datetime -->
-                        <span v-if="type === 'date'">
-                            {{ formatDate(value) }}
-                        </span>
+            <dt class="sm:w-2/5 text-gray-500 dark:text-gray-400 capitalize">
+                <slot name="label">{{ label }}</slot>
+            </dt>
 
-                        <!-- format as money -->
-                        <span v-else-if="type === 'money'">
-                            {{ formatMoney(value) }}
-                        </span>
+            <dd class="sm:w-3/5 text-gray-900 dark:text-gray-100 truncate">
+                <slot name="value">
+                    <!-- format as date / datetime -->
+                    <span v-if="type === 'date'">
+                        {{ formatDate(value) }}
+                    </span>
 
-                        <!-- format as number -->
-                        <span v-else-if="type === 'number'">
-                            {{ formatNumber(value) }}
-                        </span>
+                    <!-- format as money -->
+                    <span v-else-if="type === 'money'">
+                        {{ formatMoney(value) }}
+                    </span>
 
-                        <!-- format as string -->
-                        <span v-else> {{ value }} </span>
-                    </slot>
-                </p>
-            </div>
+                    <!-- format as number -->
+                    <span v-else-if="type === 'number'">
+                        {{ formatNumber(value) }}
+                    </span>
+
+                    <!-- format as string -->
+                    <span v-else> {{ value }} </span>
+                </slot>
+            </dd>
         </slot>
-    </li>
+    </div>
 </template>
