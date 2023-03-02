@@ -63,7 +63,7 @@ const { brand, type, ...restFilters } = props.filters;
             </div>
 
             <div class="flex-1">
-                <Card>
+                <Card flush>
                     <AssetList :assets="assets.data" />
                 </Card>
             </div>

@@ -20,7 +20,7 @@ defineProps({
             </div>
         </template>
 
-        <Card>
+        <Card flush>
             <TaskList :tasks="tasks.data" />
         </Card>
     </AuthenticatedCrudLayout>

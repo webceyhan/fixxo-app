@@ -20,7 +20,7 @@ defineProps({
             </div>
         </template>
 
-        <Card>
+        <Card flush>
             <PaymentList :payments="payments.data" />
         </Card>
     </AuthenticatedCrudLayout>
