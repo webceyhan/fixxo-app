@@ -31,7 +31,13 @@ defineProps({
             <DescriptionList>
                 <DescriptionListItem label="Name" :value="user.name" />
 
-                <DescriptionListItem label="Email" :value="user.email" />
+                <!-- TODO: add phone number to db -->
+
+                <DescriptionListItem
+                    label="Email"
+                    type="email"
+                    :value="user.email"
+                />
 
                 <DescriptionListItem label="Role" :value="user.role" />
 

@@ -56,3 +56,19 @@ export function formatDate(date, short = true) {
         day: "2-digit",
     }).format(new Date(date));
 }
+
+export function formatPhone(value, defaultCountryCode = "32") {
+    // skip if empty or null
+    if (!value || value == "") return "";
+
+    // remove all non numeric characters
+    value = `${value}`.replace(/\D/g, "");
+
+    // remove leading 00
+    value = value.replace(/^00/, "");
+
+    // normalize leading 0
+    value = value.replace(/^0/, defaultCountryCode);
+
+    return `+${value}`;
+}

@@ -58,17 +58,23 @@ defineProps({
                         />
 
                         <DescriptionListItem
+                            v-if="customer.phone"
                             label="Phone"
+                            type="phone"
                             :value="customer.phone"
                         />
 
                         <DescriptionListItem
+                            v-if="customer.email"
                             label="Email"
+                            type="email"
                             :value="customer.email"
                         />
 
                         <DescriptionListItem
+                            v-if="customer.address"
                             label="Address"
+                            type="location"
                             :value="customer.address"
                         />
 
