@@ -1,48 +1,22 @@
 <script setup>
-import { ref, watch } from 'vue';
-import { Link, usePage } from '@inertiajs/vue3';
-import { delay } from '@/Shared/utils';
-import Alert from '@/Components/Alert.vue';
-import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import { ref } from "vue";
+import { Link } from "@inertiajs/vue3";
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
+import Dropdown from "@/Components/Dropdown.vue";
+import DropdownLink from "@/Components/DropdownLink.vue";
+import NavLink from "@/Components/NavLink.vue";
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
+import NotificationBar from "./Partials/NotificationBar.vue";
 
 const showingNavigationDropdown = ref(false);
-
-const showingFlashMessage = ref(false);
-
-const flashMessage = (message) => {
-    // check if flash message is present
-    if (!!message) {
-        // show alert first
-        showingFlashMessage.value = true;
-        // then set the timeout to auto-dismiss alert
-        delay(1000, () => (showingFlashMessage.value = false));
-    }
-    else {
-        // reset visibility
-        showingFlashMessage.value = false;
-    }
-}
-
-
-// TODO: improve this change detection logic:
-// usePage props watch not always picking up the changes ?
-watch(() => usePage().props, (p) => {
-    flashMessage(p.flash.status);
-});
-
-// do initial flash message check
-flashMessage(usePage().props.flash.status);
-
 </script>
 
 <template>
     <div>
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+            <nav
+                class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700"
+            >
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -57,26 +31,45 @@ flashMessage(usePage().props.flash.status);
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                            <div
+                                class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex"
+                            >
+                                <NavLink
+                                    :href="route('dashboard')"
+                                    :active="route().current('dashboard')"
+                                >
                                     Dashboard
                                 </NavLink>
-                                <NavLink :href="route('users.index')" :active="route().current('users.index')">
+                                <NavLink
+                                    :href="route('users.index')"
+                                    :active="route().current('users.index')"
+                                >
                                     Users
                                 </NavLink>
-                                <NavLink :href="route('customers.index')" :active="route().current('customers.index')">
+                                <NavLink
+                                    :href="route('customers.index')"
+                                    :active="route().current('customers.index')"
+                                >
                                     Customers
                                 </NavLink>
-                                <NavLink :href="route('assets.index')" :active="route().current('assets.index')">
+                                <NavLink
+                                    :href="route('assets.index')"
+                                    :active="route().current('assets.index')"
+                                >
                                     Assets
                                 </NavLink>
-                                <NavLink :href="route('tasks.index')" :active="route().current('tasks.index')">
+                                <NavLink
+                                    :href="route('tasks.index')"
+                                    :active="route().current('tasks.index')"
+                                >
                                     Tasks
                                 </NavLink>
-                                <NavLink :href="route('payments.index')" :active="route().current('payments.index')">
+                                <NavLink
+                                    :href="route('payments.index')"
+                                    :active="route().current('payments.index')"
+                                >
                                     Payments
                                 </NavLink>
-
                             </div>
                         </div>
 
@@ -109,8 +102,16 @@ flashMessage(usePage().props.flash.status);
                                     </template>
 
                                     <template #content>
-                                        <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
-                                        <DropdownLink :href="route('logout')" method="post" as="button">
+                                        <DropdownLink
+                                            :href="route('profile.edit')"
+                                        >
+                                            Profile
+                                        </DropdownLink>
+                                        <DropdownLink
+                                            :href="route('logout')"
+                                            method="post"
+                                            as="button"
+                                        >
                                             Log Out
                                         </DropdownLink>
                                     </template>
@@ -121,14 +122,23 @@ flashMessage(usePage().props.flash.status);
                         <!-- Hamburger -->
                         <div class="-mr-2 flex items-center sm:hidden">
                             <button
-                                @click="showingNavigationDropdown = !showingNavigationDropdown"
+                                @click="
+                                    showingNavigationDropdown =
+                                        !showingNavigationDropdown
+                                "
                                 class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out"
                             >
-                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                <svg
+                                    class="h-6 w-6"
+                                    stroke="currentColor"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
                                     <path
                                         :class="{
                                             hidden: showingNavigationDropdown,
-                                            'inline-flex': !showingNavigationDropdown,
+                                            'inline-flex':
+                                                !showingNavigationDropdown,
                                         }"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
@@ -138,7 +148,8 @@ flashMessage(usePage().props.flash.status);
                                     <path
                                         :class="{
                                             hidden: !showingNavigationDropdown,
-                                            'inline-flex': showingNavigationDropdown,
+                                            'inline-flex':
+                                                showingNavigationDropdown,
                                         }"
                                         stroke-linecap="round"
                                         stroke-linejoin="round"
@@ -153,27 +164,45 @@ flashMessage(usePage().props.flash.status);
 
                 <!-- Responsive Navigation Menu -->
                 <div
-                    :class="{ block: showingNavigationDropdown, hidden: !showingNavigationDropdown }"
+                    :class="{
+                        block: showingNavigationDropdown,
+                        hidden: !showingNavigationDropdown,
+                    }"
                     class="sm:hidden"
                 >
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                        <ResponsiveNavLink
+                            :href="route('dashboard')"
+                            :active="route().current('dashboard')"
+                        >
                             Dashboard
                         </ResponsiveNavLink>
                     </div>
 
                     <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
+                    <div
+                        class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600"
+                    >
                         <div class="px-4">
-                            <div class="font-medium text-base text-gray-800 dark:text-gray-200">
+                            <div
+                                class="font-medium text-base text-gray-800 dark:text-gray-200"
+                            >
                                 {{ $page.props.auth.user.name }}
                             </div>
-                            <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
+                            <div class="font-medium text-sm text-gray-500">
+                                {{ $page.props.auth.user.email }}
+                            </div>
                         </div>
 
                         <div class="mt-3 space-y-1">
-                            <ResponsiveNavLink :href="route('profile.edit')"> Profile </ResponsiveNavLink>
-                            <ResponsiveNavLink :href="route('logout')" method="post" as="button">
+                            <ResponsiveNavLink :href="route('profile.edit')">
+                                Profile
+                            </ResponsiveNavLink>
+                            <ResponsiveNavLink
+                                :href="route('logout')"
+                                method="post"
+                                as="button"
+                            >
                                 Log Out
                             </ResponsiveNavLink>
                         </div>
@@ -182,7 +211,10 @@ flashMessage(usePage().props.flash.status);
             </nav>
 
             <!-- Page Heading -->
-            <header class="bg-white dark:bg-gray-800 shadow" v-if="$slots.header">
+            <header
+                class="bg-white dark:bg-gray-800 shadow"
+                v-if="$slots.header"
+            >
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     <slot name="header" />
                 </div>
@@ -193,17 +225,8 @@ flashMessage(usePage().props.flash.status);
                 <slot />
             </main>
 
-            <!-- status message -->
-            <Transition
-                enter-from-class="opacity-0"
-                leave-to-class="opacity-0"
-                class="transition ease-in-out"
-            >
-                <div v-if="showingFlashMessage" class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <Alert>{{ $page.props.flash.status }}</Alert>
-                </div>
-            </Transition>
-
+            <!-- notifications -->
+            <NotificationBar :message="$page.props.flash.status" />
         </div>
     </div>
 </template>
