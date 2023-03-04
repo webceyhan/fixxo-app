@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
-import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import DescriptionList from "@/Components/DescriptionList.vue";
 import DescriptionListItem from "@/Components/DescriptionListItem.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
@@ -29,7 +29,7 @@ const save = () => {
 </script>
 
 <template>
-    <AuthenticatedCrudLayout :title="asset.name">
+    <AuthenticatedLayout :title="asset.name">
         <template #actions>
             <div class="flex justify-end items-center gap-4">
                 <SecondaryButton
@@ -144,5 +144,5 @@ const save = () => {
                 </Card>
             </div>
         </div>
-    </AuthenticatedCrudLayout>
+    </AuthenticatedLayout>
 </template>

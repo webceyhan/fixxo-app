@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
@@ -13,7 +13,7 @@ defineProps({
 </script>
 
 <template>
-    <AuthenticatedCrudLayout title="Users">
+    <AuthenticatedLayout title="Users">
         <template #actions>
             <div class="flex justify-between items-center">
                 <Searchbar :filters="filters" />
@@ -29,5 +29,5 @@ defineProps({
         <Card flush>
             <UserList :users="users.data" />
         </Card>
-    </AuthenticatedCrudLayout>
+    </AuthenticatedLayout>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import DescriptionList from "@/Components/DescriptionList.vue";
 import DescriptionListItem from "@/Components/DescriptionListItem.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
@@ -12,7 +12,7 @@ defineProps({
 </script>
 
 <template>
-    <AuthenticatedCrudLayout :title="task.description">
+    <AuthenticatedLayout :title="task.description">
         <template #actions>
             <div class="flex justify-end items-center gap-4">
                 <SecondaryButton
@@ -53,5 +53,5 @@ defineProps({
                 />
             </DescriptionList>
         </Card>
-    </AuthenticatedCrudLayout>
+    </AuthenticatedLayout>
 </template>

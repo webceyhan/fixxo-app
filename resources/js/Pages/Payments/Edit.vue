@@ -1,6 +1,6 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
-import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Form from "@/Components/Form.vue";
 import FormControl from "@/Components/FormControl.vue";
 import Card from "@/Components/Card.vue";
@@ -21,7 +21,7 @@ const form = useForm({
 </script>
 
 <template>
-    <AuthenticatedCrudLayout :title="payment.name">
+    <AuthenticatedLayout :title="payment.name">
         <Card>
             <section class="max-w-xl">
                 <Form :form="form" resource="payments">
@@ -52,5 +52,5 @@ const form = useForm({
                 </Form>
             </section>
         </Card>
-    </AuthenticatedCrudLayout>
+    </AuthenticatedLayout>
 </template>

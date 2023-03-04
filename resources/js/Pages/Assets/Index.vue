@@ -1,6 +1,6 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
-import AuthenticatedCrudLayout from "@/Layouts/AuthenticatedCrudLayout.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import AssetList from "./Partials/AssetList.vue";
@@ -15,7 +15,7 @@ const { brand, type, ...restFilters } = props.filters;
 </script>
 
 <template>
-    <AuthenticatedCrudLayout title="Assets">
+    <AuthenticatedLayout title="Assets">
         <template #actions>
             <div class="flex justify-between items-center">
                 <Searchbar :filters="restFilters" />
@@ -68,5 +68,5 @@ const { brand, type, ...restFilters } = props.filters;
                 </Card>
             </div>
         </div>
-    </AuthenticatedCrudLayout>
+    </AuthenticatedLayout>
 </template>
