@@ -1,6 +1,6 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
-import Logo from "./Logo.vue";
+import Logo from "./Partials/Logo.vue";
 </script>
 
 <template>
