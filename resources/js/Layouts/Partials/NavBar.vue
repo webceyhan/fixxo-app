@@ -2,8 +2,8 @@
 import { ref, computed } from "vue";
 import { Link } from "@inertiajs/vue3";
 import { isAdmin } from "@/Shared/auth";
-import Dropdown from "@/Components/Dropdown.vue";
-import DropdownLink from "@/Components/DropdownLink.vue";
+import Dropdown from "@/Components/Menu/Dropdown.vue";
+import DropdownLink from "@/Components/Menu/DropdownLink.vue";
 import Logo from "./Logo.vue";
 import NavLink from "./NavLink.vue";
 import ResponsiveNavLink from "./ResponsiveNavLink.vue";
