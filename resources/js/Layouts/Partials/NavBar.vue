@@ -2,9 +2,9 @@
 import { ref, computed } from "vue";
 import { Link } from "@inertiajs/vue3";
 import { isAdmin } from "@/Shared/auth";
-import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropdownLink from "@/Components/DropdownLink.vue";
+import Logo from "./Logo.vue";
 import NavLink from "./NavLink.vue";
 import ResponsiveNavLink from "./ResponsiveNavLink.vue";
 
@@ -73,7 +73,7 @@ const allowedLinks = computed(() =>
                     <!-- Logo -->
                     <div class="shrink-0 flex items-center">
                         <Link :href="route('dashboard')">
-                            <ApplicationLogo
+                            <Logo
                                 class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"
                             />
                         </Link>
