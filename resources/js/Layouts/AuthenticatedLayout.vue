@@ -1,10 +1,15 @@
 <script setup>
+import { Head } from "@inertiajs/vue3";
 import NavBar from "./Partials/NavBar.vue";
 import NotificationBar from "./Partials/NotificationBar.vue";
+
+defineProps(["title"]);
 </script>
 
 <template>
     <div>
+        <Head :title="title" />
+
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             <!-- navbar -->
             <NavBar :user="$page.props.auth.user" />
@@ -12,10 +17,16 @@ import NotificationBar from "./Partials/NotificationBar.vue";
             <!-- Page Heading -->
             <header
                 class="bg-white dark:bg-gray-800 shadow"
-                v-if="$slots.header"
+                v-if="$slots.header || title"
             >
                 <div class="container mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <slot name="header" />
+                    <slot name="header">
+                        <h2
+                            class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight"
+                        >
+                            {{ title }}
+                        </h2>
+                    </slot>
                 </div>
             </header>
 
