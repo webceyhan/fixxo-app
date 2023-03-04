@@ -87,9 +87,10 @@ const allowedLinks = computed(() =>
                             :href="route(link.to)"
                             :active="route().current(link.to)"
                             :class="link.class"
-                        >
-                            {{ link.label }}
-                        </NavLink>
+                            :label="link.label"
+                        />
+                            
+                        
                     </div>
                 </div>
 
@@ -105,6 +106,7 @@ const allowedLinks = computed(() =>
                             <DropdownLink
                                 label="Log Out"
                                 method="post"
+                                as="button"
                                 :href="route('logout')"
                             />
                         </Dropdown>
@@ -164,9 +166,8 @@ const allowedLinks = computed(() =>
                     :href="route(link.to)"
                     :active="route().current(link.to)"
                     :class="link.class"
-                >
-                    {{ link.label }}
-                </ResponsiveNavLink>
+                    :label="link.label"
+                />
             </div>
 
             <!-- Responsive Settings Options -->
@@ -193,6 +194,7 @@ const allowedLinks = computed(() =>
                     <ResponsiveNavLink
                         label="Log Out"
                         method="post"
+                        as="button"
                         :href="route('logout')"
                     />
                 </div>
