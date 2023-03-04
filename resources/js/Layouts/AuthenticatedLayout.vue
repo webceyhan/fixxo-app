@@ -31,7 +31,7 @@ defineProps(["title"]);
             </header>
 
             <!-- Page Content -->
-            <main>
+            <main class="container mx-auto sm:px-6 lg:px-8 py-12 space-y-6">
                 <slot />
             </main>
 

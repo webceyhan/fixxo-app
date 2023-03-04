@@ -6,7 +6,7 @@ defineProps(["title"]);
 
 <template>
     <AuthenticatedLayout :title="title">
-        <div class="container mx-auto sm:px-6 lg:px-8 py-12">
+        <div>
             <div class="px-1 pb-6">
                 <slot name="actions" />
             </div>
