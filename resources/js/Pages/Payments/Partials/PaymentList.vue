@@ -1,6 +1,6 @@
 <script setup>
-import StackedList from "@/Components/StackedList.vue";
-import StackedListItem from "@/Components/StackedListItem.vue";
+import StackedList from "@/Components/List/StackedList.vue";
+import StackedListItem from "@/Components/List/StackedListItem.vue";
 
 defineProps({
     payments: Array,

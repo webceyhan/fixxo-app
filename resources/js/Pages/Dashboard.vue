@@ -3,8 +3,8 @@ import { Link, router } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Card from "@/Components/Card.vue";
 import StatCard from "@/Components/StatCard.vue";
-import StackedList from "@/Components/StackedList.vue";
-import StackedListItem from "@/Components/StackedListItem.vue";
+import StackedList from "@/Components/List/StackedList.vue";
+import StackedListItem from "@/Components/List/StackedListItem.vue";
 
 const props = defineProps({
     interval: String,

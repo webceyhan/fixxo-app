@@ -1,7 +1,7 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import DescriptionList from "@/Components/DescriptionList.vue";
-import DescriptionListItem from "@/Components/DescriptionListItem.vue";
+import DescriptionList from "@/Components/List/DescriptionList.vue";
+import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import Card from "@/Components/Card.vue";
