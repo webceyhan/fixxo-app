@@ -34,7 +34,7 @@ const onIntervalChange = (interval) => {
         </template>
 
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-5">
+            <div class="container mx-auto sm:px-6 lg:px-8 space-y-5">
                 <div class="flex items-center justify-end gap-5 px-5 sm:p-0">
                     <div
                         class="flex flex-col"
