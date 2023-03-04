@@ -1,6 +1,6 @@
 <script setup>
-import PrimaryButton from "./PrimaryButton.vue";
-import SecondaryButton from "./SecondaryButton.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 
 const props = defineProps({
     form: Object,

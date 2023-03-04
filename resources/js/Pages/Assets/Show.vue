@@ -9,7 +9,7 @@ import DangerButton from "@/Components/DangerButton.vue";
 import Card from "@/Components/Card.vue";
 import TaskList from "../Tasks/Partials/TaskList.vue";
 import PaymentList from "../Payments/Partials/PaymentList.vue";
-import Textarea from "@/Components/Textarea.vue";
+import Textarea from "@/Components/Form/Textarea.vue";
 
 const props = defineProps({
     asset: Object,

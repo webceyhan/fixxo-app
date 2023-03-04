@@ -1,8 +1,8 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Form from "@/Components/Form.vue";
-import FormControl from "@/Components/FormControl.vue";
+import Form from "@/Components/Form/Form.vue";
+import FormControl from "@/Components/Form/FormControl.vue";
 import Card from "@/Components/Card.vue";
 
 const props = defineProps({

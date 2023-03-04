@@ -1,9 +1,9 @@
 <script setup>
+import { Link, useForm, usePage } from '@inertiajs/vue3';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
-import { Link, useForm, usePage } from '@inertiajs/vue3';
+import TextInput from '@/Components/Form/TextInput.vue';
 
 const props = defineProps({
     mustVerifyEmail: Boolean,

@@ -8,7 +8,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import DangerButton from "@/Components/DangerButton.vue";
 import Card from "@/Components/Card.vue";
 import AssetList from "../Assets/Partials/AssetList.vue";
-import Textarea from "@/Components/Textarea.vue";
+import Textarea from "@/Components/Form/Textarea.vue";
 
 const props = defineProps({
     customer: Object,
