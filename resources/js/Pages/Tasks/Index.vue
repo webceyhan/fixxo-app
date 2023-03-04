@@ -13,12 +13,10 @@ defineProps({
 
 <template>
     <AuthenticatedLayout title="Tasks">
-        <template #actions>
-            <div class="flex justify-between items-center">
-                <Searchbar :filters="filters" />
-                <Pagination v-bind="tasks" />
-            </div>
-        </template>
+        <div class="flex justify-between items-center">
+            <Searchbar :filters="filters" />
+            <Pagination v-bind="tasks" />
+        </div>
 
         <Card flush>
             <TaskList :tasks="tasks.data" />

@@ -14,17 +14,15 @@ defineProps({
 
 <template>
     <AuthenticatedLayout title="Users">
-        <template #actions>
-            <div class="flex justify-between items-center">
-                <Searchbar :filters="filters" />
-                <PrimaryButton
-                    label="New"
-                    :href="route('users.create')"
-                    class="ml-5 mr-auto"
-                />
-                <Pagination v-bind="users" />
-            </div>
-        </template>
+        <div class="flex justify-between items-center">
+            <Searchbar :filters="filters" />
+            <PrimaryButton
+                label="New"
+                :href="route('users.create')"
+                class="ml-5 mr-auto"
+            />
+            <Pagination v-bind="users" />
+        </div>
 
         <Card flush>
             <UserList :users="users.data" />

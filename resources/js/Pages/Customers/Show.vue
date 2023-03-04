@@ -28,25 +28,23 @@ const save = () => {
 
 <template>
     <AuthenticatedLayout :title="customer.name">
-        <template #actions>
-            <div class="flex justify-end items-center gap-4">
-                <SecondaryButton
-                    label="Edit"
-                    :href="route('customers.edit', customer.id)"
-                />
-                <DangerButton
-                    label="Delete"
-                    method="delete"
-                    :href="route('customers.destroy', customer.id)"
-                    class="mr-5"
-                />
-                <PrimaryButton
-                    label="New Asset"
-                    :href="route('assets.create')"
-                    :data="{ customer_id: customer.id }"
-                />
-            </div>
-        </template>
+        <div class="flex justify-end items-center gap-4">
+            <SecondaryButton
+                label="Edit"
+                :href="route('customers.edit', customer.id)"
+            />
+            <DangerButton
+                label="Delete"
+                method="delete"
+                :href="route('customers.destroy', customer.id)"
+                class="mr-5"
+            />
+            <PrimaryButton
+                label="New Asset"
+                :href="route('assets.create')"
+                :data="{ customer_id: customer.id }"
+            />
+        </div>
 
         <div class="flex flex-col lg:flex-row items-start gap-4">
             <div class="flex flex-col w-full lg:w-1/3 gap-4">

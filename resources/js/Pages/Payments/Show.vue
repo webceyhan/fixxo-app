@@ -13,19 +13,17 @@ defineProps({
 
 <template>
     <AuthenticatedLayout :title="payment.type">
-        <template #actions>
-            <div class="flex justify-end items-center gap-2">
-                <SecondaryButton
-                    label="Edit"
-                    :href="route('payments.edit', payment.id)"
-                />
-                <DangerButton
-                    label="Delete"
-                    method="delete"
-                    :href="route('payments.destroy', payment.id)"
-                />
-            </div>
-        </template>
+        <div class="flex justify-end items-center gap-2">
+            <SecondaryButton
+                label="Edit"
+                :href="route('payments.edit', payment.id)"
+            />
+            <DangerButton
+                label="Delete"
+                method="delete"
+                :href="route('payments.destroy', payment.id)"
+            />
+        </div>
 
         <Card label="Overview">
             <DescriptionList>
