@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
 import { debounce } from "@/Shared/utils";
+import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 
 defineProps({
     filters: Object,
@@ -53,7 +54,7 @@ const isDirty = computed(() => {
 </script>
 
 <template>
-    <div class="flex flex-col sm:flex-row items-center">
+    <div class="flex flex-col sm:flex-row items-center-">
         <div class="block relative">
             <span class="absolute inset-y-0 left-0 flex items-center pl-2"
                 ><svg
@@ -88,12 +89,12 @@ const isDirty = computed(() => {
             </option>
         </select>
 
-        <button
+        <SecondaryButton
             v-if="isDirty"
             @click="onReset"
-            class="ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-            Reset
-        </button>
+            class="border-l-0 rounded-l-none"
+            label="x"
+        />
+           
     </div>
 </template>
