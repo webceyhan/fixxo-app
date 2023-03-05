@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <Card label="Overview">
+    <Card label="Customer">
         <DescriptionList>
             <DescriptionListItem label="Name" :value="customer.name" />
 

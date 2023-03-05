@@ -10,7 +10,7 @@ defineProps({
 </script>
 
 <template>
-    <Card label="Overview">
+    <Card label="Task">
         <DescriptionList>
             <!-- TODO: Add the following fields as link -->
             <!-- asset_id: Asset -->

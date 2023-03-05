@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-    <Card label="Overview">
+    <Card label="Asset">
         <DescriptionList>
             <!-- TODO: Add the following fields as link -->
             <!-- customer_id: Owner -->

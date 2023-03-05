@@ -10,7 +10,7 @@ defineProps({
 </script>
 
 <template>
-    <Card label="Overview">
+    <Card label="User">
         <DescriptionList>
             <DescriptionListItem label="Name" :value="user.name" />
 
