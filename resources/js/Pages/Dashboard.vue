@@ -52,8 +52,8 @@ const onIntervalChange = (interval) => {
         </div>
 
         <div class="flex flex-col sm:flex-row gap-5">
-            <Card class="flex-1" label="Latest assets in progress">
-                <StackedList class="-mx-4">
+            <Card class="flex-1" label="Latest assets in progress" flush>
+                <StackedList>
                     <StackedListItem
                         v-for="asset in assetsInProgress"
                         :key="asset.id"
@@ -75,16 +75,16 @@ const onIntervalChange = (interval) => {
                     </StackedListItem>
                 </StackedList>
 
-                <div class="flex justify-end mt-4 px-1">
+                <template #footer >
                     <Link
                         label="View all"
                         :href="route('assets.index', { status: 'in_progress' })"
                     />
-                </div>
+                </template>
             </Card>
 
-            <Card class="flex-1" label="Latest assets ready to pick up">
-                <StackedList class="-mx-4">
+            <Card class="flex-1" label="Latest assets ready to pick up" flush>
+                <StackedList >
                     <StackedListItem
                         v-for="asset in assetsReady"
                         :key="asset.id"
@@ -106,12 +106,12 @@ const onIntervalChange = (interval) => {
                     </StackedListItem>
                 </StackedList>
 
-                <div class="flex justify-end mt-4 px-1">
+                <template #footer >
                     <Link
                         label="View all"
                         :href="route('assets.index', { status: 'ready' })"
                     />
-                </div>
+                </template>
             </Card>
         </div>
     </AuthenticatedLayout>
