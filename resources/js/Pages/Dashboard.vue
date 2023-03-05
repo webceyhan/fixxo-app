@@ -5,6 +5,7 @@ import Card from "@/Components/Card.vue";
 import StatCard from "@/Components/StatCard.vue";
 import AssetList from "@/Pages/Assets/Partials/AssetList.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import RadioGroup from "@/Components/Form/RadioGroup.vue";
 
 const props = defineProps({
     interval: String,
@@ -23,23 +24,12 @@ const onIntervalChange = (interval) => {
 
 <template>
     <AuthenticatedLayout title="Dashboard">
-        <div class="flex items-center justify-end gap-5 px-5 sm:p-0">
-            <div
-                class="flex flex-col"
-                v-for="(label, opt) in intervalOptions"
-                :key="opt"
-            >
-                <label class="inline-flex items-center mt-3 sm:m-0">
-                    <input
-                        type="radio"
-                        name="interval"
-                        class="form-radio h-5 w-5 text-gray-600"
-                        :checked="opt === interval"
-                        @change="onIntervalChange(opt)"
-                    />
-                    <span class="ml-2 text-gray-500">{{ label }}</span>
-                </label>
-            </div>
+        <div class="flex items-center md:justify-end px-5 sm:p-0">
+            <RadioGroup
+                :options="intervalOptions"
+                :modelValue="interval"
+                @update:modelValue="onIntervalChange"
+            />
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
