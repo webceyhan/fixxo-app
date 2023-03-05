@@ -2,6 +2,7 @@
 import Card from "@/Components/Card.vue";
 import DescriptionList from "@/Components/List/DescriptionList.vue";
 import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
+import AssetBadge from "./AssetBadge.vue";
 
 const props = defineProps({
     asset: Object,
@@ -15,11 +16,26 @@ const props = defineProps({
             <!-- customer_id: Owner -->
             <!-- user_id: Receiver -->
 
+            <DescriptionListItem
+                label="Customer"
+                v-if="asset.customer"
+                :value="asset.customer.name"
+                :href="route('customers.show', asset.customer.id)"
+            />
+
             <DescriptionListItem label="Name" :value="asset.name" />
 
-            <DescriptionListItem label="Brand" :value="asset.brand" />
+            <DescriptionListItem
+                label="Brand"
+                :value="asset.brand"
+                :href="route('assets.index', { brand: asset.brand })"
+            />
 
-            <DescriptionListItem label="Type" :value="asset.type" />
+            <DescriptionListItem
+                label="Type"
+                :value="asset.type"
+                :href="route('assets.index', { type: asset.type })"
+            />
 
             <DescriptionListItem
                 v-if="asset.serial_number"
@@ -42,7 +58,9 @@ const props = defineProps({
                 :value="asset.warranty"
             />
 
-            <DescriptionListItem label="Status" :value="asset.status" />
+            <DescriptionListItem label="Status">
+                <AssetBadge :status="asset.status" />
+            </DescriptionListItem>
 
             <DescriptionListItem
                 label="Created At"

@@ -2,6 +2,7 @@
 import Card from "@/Components/Card.vue";
 import DescriptionList from "@/Components/List/DescriptionList.vue";
 import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
+import CustomerBadge from "./CustomerBadge.vue";
 
 const props = defineProps({
     customer: Object,
@@ -46,7 +47,9 @@ const props = defineProps({
                 :value="customer.address"
             />
 
-            <DescriptionListItem label="Status" :value="customer.status" />
+            <DescriptionListItem label="Status">
+                <CustomerBadge :status="customer.status" />
+            </DescriptionListItem>
 
             <DescriptionListItem
                 label="Created At"

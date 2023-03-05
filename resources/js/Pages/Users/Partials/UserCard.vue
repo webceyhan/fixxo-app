@@ -2,6 +2,7 @@
 import Card from "@/Components/Card.vue";
 import DescriptionList from "@/Components/List/DescriptionList.vue";
 import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
+import UserBadge from "./UserBadge.vue";
 
 defineProps({
     user: Object,
@@ -23,7 +24,9 @@ defineProps({
 
             <DescriptionListItem label="Role" :value="user.role" />
 
-            <DescriptionListItem label="Status" :value="user.status" />
+            <DescriptionListItem label="Status">
+                <UserBadge :status="user.status" />
+            </DescriptionListItem>
 
             <DescriptionListItem
                 v-if="user.email_verified_at"

@@ -2,6 +2,7 @@
 import Card from "@/Components/Card.vue";
 import DescriptionList from "@/Components/List/DescriptionList.vue";
 import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
+import TaskBadge from "./TaskBadge.vue";
 
 defineProps({
     task: Object,
@@ -26,7 +27,9 @@ defineProps({
                 :value="task.price"
             />
 
-            <DescriptionListItem label="Status" :value="task.status" />
+            <DescriptionListItem label="Status">
+                <TaskBadge :status="task.status" />
+            </DescriptionListItem>
 
             <DescriptionListItem
                 label="Created At"
