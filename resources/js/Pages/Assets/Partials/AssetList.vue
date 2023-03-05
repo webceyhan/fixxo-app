@@ -1,5 +1,5 @@
 <script setup>
-import Badge from "@/Components/Badge.vue";
+import AssetBadge from "./AssetBadge.vue";
 import StackedList from "@/Components/List/StackedList.vue";
 import StackedListItem from "@/Components/List/StackedListItem.vue";
 
@@ -7,12 +7,6 @@ const props = defineProps({
     assets: Array,
     compact: Boolean,
 });
-
-const statusColorMap = {
-    in_progress: "primary",
-    ready: "success",
-    returned: "secondary",
-};
 </script>
 
 <template>
@@ -22,7 +16,7 @@ const statusColorMap = {
             :key="asset.id"
             :href="route('assets.show', asset.id)"
         >
-            <div class="w-full" :class="{ 'md:w-3/6': !compact }">
+            <div class="w-full" :class="{ 'md:w-6/12': !compact }">
                 {{ asset.brand }}
                 {{ asset.name }}
 
@@ -33,22 +27,20 @@ const statusColorMap = {
 
             <div
                 v-if="!compact && asset.tasks_count"
-                class="hidden md:block w-1/6 text-gray-400"
+                class="hidden md:block w-2/12 text-gray-400"
             >
                 tasks {{ asset.tasks_count }}
             </div>
 
             <div
                 v-if="!compact && asset.total_cost"
-                class="hidden md:block w-1/6 text-gray-400"
+                class="hidden md:block w-2/12 text-gray-400"
             >
                 cost {{ asset.total_cost }}€
             </div>
 
-            <div v-if="!compact" class="w-fit md:w-1/6">
-                <Badge :theme="statusColorMap[asset.status]">
-                    {{ asset.status }}
-                </Badge>
+            <div v-if="!compact" class="w-fit md:w-2/12">
+                <AssetBadge :status="asset.status" />
             </div>
         </StackedListItem>
     </StackedList>

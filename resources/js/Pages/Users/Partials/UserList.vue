@@ -1,4 +1,5 @@
 <script setup>
+import UserBadge from "./UserBadge.vue";
 import StackedList from "@/Components/List/StackedList.vue";
 import StackedListItem from "@/Components/List/StackedListItem.vue";
 
@@ -14,17 +15,28 @@ defineProps({
             :key="user.id"
             :href="route('users.show', user.id)"
         >
-            <span class="w-2/5">
+            <div class="w-full md:w-6/12">
                 {{ user.name }}
-            </span>
 
-            <span class="w-1/5 text-gray-400">
+                <div class="hidden md:block text-sm text-gray-400 mt-1">
+                    {{ user.email }}
+                </div>
+            </div>
+
+            <div class="hidden md:block w-2/12 text-gray-400">
+                {{ user.role }}
+            </div>
+
+            <div
+                v-if="user.assets_count"
+                class="hidden md:block w-2/12 text-gray-400"
+            >
                 assets {{ user.assets_count }}
-            </span>
+            </div>
 
-            <span class="w-1/5 text-gray-400">
-                tasks {{ user.tasks_count }}
-            </span>
+            <div class="w-fit md:w-2/12">
+                <UserBadge :status="user.status" />
+            </div>
         </StackedListItem>
     </StackedList>
 </template>

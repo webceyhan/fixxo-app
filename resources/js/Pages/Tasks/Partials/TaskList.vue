@@ -1,4 +1,6 @@
 <script setup>
+import { formatDate, formatMoney } from "@/Shared/utils";
+import TaskBadge from "./TaskBadge.vue";
 import StackedList from "@/Components/List/StackedList.vue";
 import StackedListItem from "@/Components/List/StackedListItem.vue";
 
@@ -14,20 +16,22 @@ defineProps({
             :key="task.id"
             :href="route('tasks.show', task.id)"
         >
-            <span class="w-2/5">
+            <div class="w-full md:w-8/12">
                 {{ task.description }}
-            </span>
 
-            <span v-if="task.asset" class="w-1/5 text-gray-400">
-                {{ task.asset.name }}
-
-                <span v-if="task.user">
-                    <br />
+                <div class="hidden md:block text-gray-400 text-sm mt-1">
+                    created on {{ formatDate(task.created_at, false) }} by
                     {{ task.user.name }}
-                </span>
-            </span>
+                </div>
+            </div>
 
-            <span class="w-fit text-gray-400"> {{ task.price }}€ </span>
+            <div class="hidden md:block w-2/12 text-gray-400">
+                {{ formatMoney(task.price) }}
+            </div>
+
+            <div class="w-fit md:w-2/12">
+                <TaskBadge :status="task.status" />
+            </div>
         </StackedListItem>
     </StackedList>
 </template>
