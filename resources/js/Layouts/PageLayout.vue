@@ -1,0 +1,34 @@
+<script setup>
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import Toolbar from "@/Components/Toolbar.vue";
+import BackButton from "@/Components/Button/BackButton.vue";
+
+defineProps({
+    title: String,
+    noBack: Boolean,
+});
+</script>
+
+<template>
+    <AuthenticatedLayout :title="title">
+        <Toolbar>
+            <BackButton v-if="!noBack" class="mr-auto" />
+
+            <slot name="toolbar" />
+        </Toolbar>
+
+        <slot>
+            <div class="flex flex-col lg:flex-row items-start gap-4">
+                <!-- // aside -->
+                <aside class="flex flex-col w-full lg:w-2/5 xl:w-1/3 gap-4">
+                    <slot name="aside" />
+                </aside>
+
+                <!-- // details section -->
+                <section class="w-full lg:w-3/5 xl:w-2/3 flex flex-col gap-4">
+                    <slot name="content" />
+                </section>
+            </div>
+        </slot>
+    </AuthenticatedLayout>
+</template>
