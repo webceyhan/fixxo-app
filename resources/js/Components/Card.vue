@@ -10,7 +10,7 @@ defineProps({
         <!-- header -->
         <header
             v-if="$slots.header || label"
-            class="border-b-2 border-gray-200 dark:border-gray-700 p-4 sm:p-6"
+            class="bg-white dark:bg-gray-700 dark:bg-opacity-50 p-4 sm:p-6"
         >
             <slot name="header">
                 <div
@@ -28,5 +28,9 @@ defineProps({
         >
             <slot />
         </div>
+
+        <footer v-if="$slots.footer" class="flex justify-end p-4 sm:p-6">
+            <slot name="footer" />
+        </footer>
     </div>
 </template>
