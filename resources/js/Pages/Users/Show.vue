@@ -5,6 +5,8 @@ import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import Card from "@/Components/Card.vue";
+import Toolbar from "@/Components/Toolbar.vue";
+import BackButton from "@/Components/Button/BackButton.vue";
 
 defineProps({
     user: Object,
@@ -13,7 +15,9 @@ defineProps({
 
 <template>
     <AuthenticatedLayout :title="user.name">
-        <div class="flex justify-end items-center gap-2">
+        <Toolbar>
+            <BackButton class="mr-auto" />
+
             <SecondaryButton
                 label="Edit"
                 :href="route('users.edit', user.id)"
@@ -23,7 +27,7 @@ defineProps({
                 method="delete"
                 :href="route('users.destroy', user.id)"
             />
-        </div>
+        </Toolbar>
 
         <Card label="Overview">
             <DescriptionList>

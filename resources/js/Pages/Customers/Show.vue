@@ -3,12 +3,14 @@ import { useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import DescriptionList from "@/Components/List/DescriptionList.vue";
 import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
-import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
-import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
-import DangerButton from "@/Components/Button/DangerButton.vue";
 import Card from "@/Components/Card.vue";
 import AssetList from "../Assets/Partials/AssetList.vue";
 import Textarea from "@/Components/Form/Textarea.vue";
+import Toolbar from "@/Components/Toolbar.vue";
+import BackButton from "@/Components/Button/BackButton.vue";
+import DangerButton from "@/Components/Button/DangerButton.vue";
+import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
+import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 
 const props = defineProps({
     customer: Object,
@@ -28,7 +30,9 @@ const save = () => {
 
 <template>
     <AuthenticatedLayout :title="customer.name">
-        <div class="flex justify-end items-center gap-4">
+        <Toolbar>
+            <BackButton class="mr-auto" />
+
             <SecondaryButton
                 label="Edit"
                 :href="route('customers.edit', customer.id)"
@@ -37,14 +41,14 @@ const save = () => {
                 label="Delete"
                 method="delete"
                 :href="route('customers.destroy', customer.id)"
-                class="mr-5"
+                class="mr-4"
             />
             <PrimaryButton
                 label="New Asset"
                 :href="route('assets.create')"
                 :data="{ customer_id: customer.id }"
             />
-        </div>
+        </Toolbar>
 
         <div class="flex flex-col lg:flex-row items-start gap-4">
             <div class="flex flex-col w-full lg:w-1/3 gap-4">

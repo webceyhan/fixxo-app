@@ -2,9 +2,11 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import DescriptionList from "@/Components/List/DescriptionList.vue";
 import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
-import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
-import DangerButton from "@/Components/Button/DangerButton.vue";
 import Card from "@/Components/Card.vue";
+import Toolbar from "@/Components/Toolbar.vue";
+import BackButton from "@/Components/Button/BackButton.vue";
+import DangerButton from "@/Components/Button/DangerButton.vue";
+import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 
 defineProps({
     payment: Object,
@@ -13,7 +15,9 @@ defineProps({
 
 <template>
     <AuthenticatedLayout :title="payment.type">
-        <div class="flex justify-end items-center gap-2">
+        <Toolbar>
+            <BackButton class="mr-auto" />
+
             <SecondaryButton
                 label="Edit"
                 :href="route('payments.edit', payment.id)"
@@ -23,7 +27,7 @@ defineProps({
                 method="delete"
                 :href="route('payments.destroy', payment.id)"
             />
-        </div>
+        </Toolbar>
 
         <Card label="Overview">
             <DescriptionList>

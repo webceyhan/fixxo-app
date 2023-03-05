@@ -2,8 +2,10 @@
 import { useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Form from "@/Components/Form/Form.vue";
-import FormControl from "@/Components/Form/FormControl.vue";
 import Card from "@/Components/Card.vue";
+import Toolbar from "@/Components/Toolbar.vue";
+import BackButton from "@/Components/Button/BackButton.vue";
+import FormControl from "@/Components/Form/FormControl.vue";
 
 const props = defineProps({
     customer: Object,
@@ -25,6 +27,10 @@ const form = useForm({
 
 <template>
     <AuthenticatedLayout :title="customer.name">
+        <Toolbar>
+            <BackButton class="mr-auto" />
+        </Toolbar>
+
         <Card>
             <section class="max-w-xl">
                 <Form :form="form" resource="customers">
