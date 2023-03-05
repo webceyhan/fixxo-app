@@ -1,4 +1,5 @@
 <script setup>
+import Badge from "@/Components/Badge.vue";
 import StackedList from "@/Components/List/StackedList.vue";
 import StackedListItem from "@/Components/List/StackedListItem.vue";
 
@@ -39,11 +40,9 @@ const props = defineProps({
             </div>
 
             <div v-if="!compact" class="w-fit md:w-1/6">
-                <span
-                    class="px-2.5 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-sm"
-                >
+                <Badge>
                     {{ asset.status }}
-                </span>
+                </Badge>
             </div>
         </StackedListItem>
     </StackedList>
