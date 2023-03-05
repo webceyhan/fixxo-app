@@ -18,12 +18,12 @@ defineProps({
 
         <slot>
             <dl
-                class="grid grid-cols-1 sm:grid-cols-2 gap-y-2 sm:divide-x divide-slate-500"
+                class="grid grid-cols-1 xl:grid-cols-2 gap-y-2 xl:divide-x divide-slate-500"
             >
                 <div
                     v-for="(item, i) in items"
                     :key="i"
-                    class="flex justify-between items-center sm:items-start sm:flex-col-reverse first:p-0 sm:pl-8"
+                    class="flex justify-between items-center xl:items-start xl:flex-col-reverse first:p-0 xl:pl-8"
                 >
                     <dt class="text-base leading-7 dark:text-gray-400">
                         {{ item.label }}
