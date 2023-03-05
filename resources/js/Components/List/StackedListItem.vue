@@ -6,7 +6,7 @@ import { Link } from "@inertiajs/vue3";
     <component
         :is="$attrs.href ? Link : 'li'"
         class="flex justify-between items-center p-4 sm:px-6"
-        :class="{ 'hover:bg-gray-200 dark:hover:bg-gray-700': $attrs.href }"
+        :class="{ 'hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:bg-opacity-30': $attrs.href }"
     >
         <slot />
 
