@@ -5,6 +5,7 @@ import {
     formatNumber,
     formatPhone,
 } from "@/Shared/utils";
+import Link from "@/Components/Link.vue";
 
 defineProps({
     label: String,
@@ -38,32 +39,29 @@ defineProps({
                     </span>
 
                     <!-- format as phone number -->
-                    <a
+                    <Link
                         v-else-if="type === 'phone'"
+                        :label="formatPhone(value)"
                         :href="`tel:${value}`"
-                        class="text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-200 hover:text-indigo-800"
-                    >
-                        {{ formatPhone(value) }}
-                    </a>
+                        outline
+                    />
 
                     <!-- render as email -->
-                    <a
+                    <Link
                         v-else-if="type === 'email'"
+                        :label="value"
                         :href="`mailto:${value}`"
-                        class="text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-200 hover:text-indigo-800"
-                    >
-                        {{ value }}
-                    </a>
+                        outline
+                    />
 
                     <!-- render as location -->
-                    <a
+                    <Link
                         v-else-if="type === 'location'"
+                        :label="value"
                         :href="`https://www.google.com/maps/place/${value}`"
                         target="_blank"
-                        class="text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-200 hover:text-indigo-800"
-                    >
-                        {{ value }}
-                    </a>
+                        outline
+                    />
 
                     <!-- render as-is -->
                     <span v-else> {{ value }} </span>

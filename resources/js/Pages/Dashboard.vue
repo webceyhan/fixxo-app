@@ -1,10 +1,11 @@
 <script setup>
-import { Link, router } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Card from "@/Components/Card.vue";
 import StatCard from "@/Components/StatCard.vue";
 import StackedList from "@/Components/List/StackedList.vue";
 import StackedListItem from "@/Components/List/StackedListItem.vue";
+import Link from "@/Components/Link.vue";
 
 const props = defineProps({
     interval: String,
@@ -76,15 +77,9 @@ const onIntervalChange = (interval) => {
 
                 <div class="flex justify-end mt-4 px-1">
                     <Link
-                        class="text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-200 hover:text-indigo-800"
-                        :href="
-                            route('assets.index', {
-                                status: 'in_progress',
-                            })
-                        "
-                    >
-                        View all
-                    </Link>
+                        label="View all"
+                        :href="route('assets.index', { status: 'in_progress' })"
+                    />
                 </div>
             </Card>
 
@@ -113,11 +108,9 @@ const onIntervalChange = (interval) => {
 
                 <div class="flex justify-end mt-4 px-1">
                     <Link
-                        class="text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-200 hover:text-indigo-800"
+                        label="View all"
                         :href="route('assets.index', { status: 'ready' })"
-                    >
-                        View all
-                    </Link>
+                    />
                 </div>
             </Card>
         </div>

@@ -1,10 +1,10 @@
 <script setup>
-import { Link } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import AssetList from "./Partials/AssetList.vue";
 import Card from "@/Components/Card.vue";
+import Link from "@/Components/Link.vue";
 
 const props = defineProps({
     assets: Object,
@@ -34,7 +34,6 @@ const { brand, type, ...restFilters } = props.filters;
                         :key="i"
                         :href="$page.url"
                         :data="{ type: value }"
-                        class="text-indigo-500 hover:text-indigo-900 dark:hover:text-white"
                         preserve-state
                     >
                         #{{ value }}
@@ -52,7 +51,6 @@ const { brand, type, ...restFilters } = props.filters;
                         :key="i"
                         :href="$page.url"
                         :data="{ brand: value }"
-                        class="text-indigo-500 hover:text-indigo-900 dark:hover:text-white"
                         preserve-state
                     >
                         #{{ value }}
