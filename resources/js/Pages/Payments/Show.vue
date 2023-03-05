@@ -1,10 +1,9 @@
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Toolbar from "@/Components/Toolbar.vue";
-import BackButton from "@/Components/Button/BackButton.vue";
+import PageLayout from "@/Layouts/PageLayout.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import PaymentCard from "./Partials/PaymentCard.vue";
+import AssetCard from "../Assets/Partials/AssetCard.vue";
 
 defineProps({
     payment: Object,
@@ -12,10 +11,8 @@ defineProps({
 </script>
 
 <template>
-    <AuthenticatedLayout :title="payment.type">
-        <Toolbar>
-            <BackButton class="mr-auto" />
-
+    <PageLayout :title="payment.type">
+        <template #toolbar>
             <SecondaryButton
                 label="Edit"
                 :href="route('payments.edit', payment.id)"
@@ -25,8 +22,14 @@ defineProps({
                 method="delete"
                 :href="route('payments.destroy', payment.id)"
             />
-        </Toolbar>
+        </template>
 
-        <PaymentCard :payment="payment" />
-    </AuthenticatedLayout>
+        <template #aside>
+            <AssetCard :asset="payment.asset" />
+        </template>
+
+        <template #content>
+            <PaymentCard :payment="payment" />
+        </template>
+    </PageLayout>
 </template>

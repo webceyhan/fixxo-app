@@ -6,6 +6,7 @@ import BackButton from "@/Components/Button/BackButton.vue";
 defineProps({
     title: String,
     noBack: Boolean,
+    forEditing: Boolean,
 });
 </script>
 
@@ -20,7 +21,13 @@ defineProps({
         <slot>
             <div class="flex flex-col lg:flex-row items-start gap-4">
                 <!-- // aside -->
-                <aside class="flex flex-col w-full lg:w-2/5 xl:w-1/3 gap-4">
+                <aside
+                    :class="{
+                        flex: !forEditing,
+                        'hidden sm:flex': forEditing,
+                    }"
+                    class="flex-col w-full lg:w-2/5 xl:w-1/3 gap-4"
+                >
                     <slot name="aside" />
                 </aside>
 

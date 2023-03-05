@@ -1,10 +1,9 @@
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Toolbar from "@/Components/Toolbar.vue";
-import BackButton from "@/Components/Button/BackButton.vue";
+import PageLayout from "@/Layouts/PageLayout.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import TaskCard from "./Partials/TaskCard.vue";
+import AssetCard from "../Assets/Partials/AssetCard.vue";
 
 defineProps({
     task: Object,
@@ -12,10 +11,8 @@ defineProps({
 </script>
 
 <template>
-    <AuthenticatedLayout :title="task.description">
-        <Toolbar>
-            <BackButton class="mr-auto" />
-
+    <PageLayout :title="task.description">
+        <template #toolbar>
             <SecondaryButton
                 label="Edit"
                 :href="route('tasks.edit', task.id)"
@@ -25,8 +22,14 @@ defineProps({
                 method="delete"
                 :href="route('tasks.destroy', task.id)"
             />
-        </Toolbar>
+        </template>
 
-        <TaskCard :task="task" />
-    </AuthenticatedLayout>
+        <template #aside>
+            <AssetCard :asset="task.asset" />
+        </template>
+
+        <template #content>
+            <TaskCard :task="task" />
+        </template>
+    </PageLayout>
 </template>

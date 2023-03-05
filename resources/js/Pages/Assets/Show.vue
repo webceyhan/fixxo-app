@@ -1,12 +1,10 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import PageLayout from "@/Layouts/PageLayout.vue";
 import Card from "@/Components/Card.vue";
 import TaskList from "../Tasks/Partials/TaskList.vue";
 import PaymentList from "../Payments/Partials/PaymentList.vue";
 import Textarea from "@/Components/Form/Textarea.vue";
-import Toolbar from "@/Components/Toolbar.vue";
-import BackButton from "@/Components/Button/BackButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
@@ -30,10 +28,8 @@ const save = () => {
 </script>
 
 <template>
-    <AuthenticatedLayout :title="asset.name">
-        <Toolbar>
-            <BackButton class="mr-auto" />
-
+    <PageLayout :title="asset.name">
+        <template #toolbar>
             <SecondaryButton
                 label="Edit"
                 :href="route('assets.edit', asset.id)"
@@ -54,36 +50,34 @@ const save = () => {
                 :href="route('payments.create')"
                 :data="{ asset_id: asset.id }"
             />
-        </Toolbar>
+        </template>
 
-        <div class="flex flex-col lg:flex-row items-start gap-4">
-            <div class="flex flex-col w-full lg:w-1/3 gap-4">
-                <AssetCard :asset="asset" />
+        <template #aside>
+            <AssetCard :asset="asset" />
 
-                <Card label="Notes">
-                    <Textarea
-                        rows="5"
-                        class="w-full"
-                        placeholder="Add notes..."
-                        v-model="form.notes"
-                    />
-                    <SecondaryButton label="Save" @click="save" />
-                </Card>
-            </div>
+            <Card label="Notes">
+                <Textarea
+                    rows="5"
+                    class="w-full"
+                    placeholder="Add notes..."
+                    v-model="form.notes"
+                />
+                <SecondaryButton label="Save" @click="save" />
+            </Card>
+        </template>
 
-            <div class="w-full lg:w-2/3 flex flex-col gap-4">
-                <Card label="Problem">
-                    {{ asset.problem }}
-                </Card>
+        <template #content>
+            <Card label="Problem">
+                {{ asset.problem }}
+            </Card>
 
-                <Card label="Tasks" flush>
-                    <TaskList :tasks="tasks" />
-                </Card>
+            <Card label="Tasks" flush>
+                <TaskList :tasks="tasks" />
+            </Card>
 
-                <Card label="Payments" flush>
-                    <PaymentList :payments="payments" />
-                </Card>
-            </div>
-        </div>
-    </AuthenticatedLayout>
+            <Card label="Payments" flush>
+                <PaymentList :payments="payments" />
+            </Card>
+        </template>
+    </PageLayout>
 </template>
