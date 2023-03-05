@@ -1,11 +1,10 @@
 <script setup>
 import { router } from "@inertiajs/vue3";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import Link from "@/Components/Link.vue";
 import Card from "@/Components/Card.vue";
 import StatCard from "@/Components/StatCard.vue";
-import StackedList from "@/Components/List/StackedList.vue";
-import StackedListItem from "@/Components/List/StackedListItem.vue";
-import Link from "@/Components/Link.vue";
+import AssetList from "@/Pages/Assets/Partials/AssetList.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 const props = defineProps({
     interval: String,
@@ -51,31 +50,11 @@ const onIntervalChange = (interval) => {
             <StatCard label="Earnings" :items="earningStats" />
         </div>
 
-        <div class="flex flex-col sm:flex-row gap-5">
+        <div class="flex flex-col md:flex-row gap-5">
             <Card class="flex-1" label="Latest assets in progress" flush>
-                <StackedList>
-                    <StackedListItem
-                        v-for="asset in assetsInProgress"
-                        :key="asset.id"
-                        :href="route('assets.show', asset.id)"
-                    >
-                        <span class="w-2/3">
-                            {{ asset.brand }} {{ asset.name }}
-                            <br />
-                            <span class="text-sm text-gray-400">
-                                {{ asset.customer.name }}
-                            </span>
-                        </span>
+                <AssetList :assets="assetsInProgress" compact />
 
-                        <span
-                            class="px-2.5 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-sm"
-                        >
-                            {{ asset.status }}
-                        </span>
-                    </StackedListItem>
-                </StackedList>
-
-                <template #footer >
+                <template #footer>
                     <Link
                         label="View all"
                         :href="route('assets.index', { status: 'in_progress' })"
@@ -84,29 +63,9 @@ const onIntervalChange = (interval) => {
             </Card>
 
             <Card class="flex-1" label="Latest assets ready to pick up" flush>
-                <StackedList >
-                    <StackedListItem
-                        v-for="asset in assetsReady"
-                        :key="asset.id"
-                        :href="route('assets.show', asset.id)"
-                    >
-                        <span class="w-2/3">
-                            {{ asset.brand }} {{ asset.name }}
-                            <br />
-                            <span class="text-sm text-gray-400">
-                                {{ asset.customer.name }}
-                            </span>
-                        </span>
+                <AssetList :assets="assetsReady" compact />
 
-                        <span
-                            class="px-2.5 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-sm"
-                        >
-                            {{ asset.status }}
-                        </span>
-                    </StackedListItem>
-                </StackedList>
-
-                <template #footer >
+                <template #footer>
                     <Link
                         label="View all"
                         :href="route('assets.index', { status: 'ready' })"

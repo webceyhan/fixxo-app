@@ -4,6 +4,7 @@ import StackedListItem from "@/Components/List/StackedListItem.vue";
 
 const props = defineProps({
     assets: Array,
+    compact: Boolean,
 });
 </script>
 
@@ -14,24 +15,36 @@ const props = defineProps({
             :key="asset.id"
             :href="route('assets.show', asset.id)"
         >
-            <span class="w-2/5">
+            <div class="w-full" :class="{ 'md:w-2/5': !compact }">
                 {{ asset.brand }}
                 {{ asset.name }}
 
-                <br />
-
-                <span v-if="asset.customer" class="text-gray-400">
+                <div v-if="asset.customer" class="text-sm text-gray-400 mt-1">
                     {{ asset.customer.name }}
-                </span>
-            </span>
+                </div>
+            </div>
 
-            <span v-if="asset.tasks_count" class="w-1/5 text-gray-400">
+            <div
+                v-if="!compact && asset.tasks_count"
+                class="hidden md:block w-1/5 text-gray-400"
+            >
                 tasks {{ asset.tasks_count }}
-            </span>
+            </div>
 
-            <span v-if="asset.total_cost" class="w-fit text-gray-400">
+            <div
+                v-if="!compact && asset.total_cost"
+                class="hidden md:block w-1/5 text-gray-400"
+            >
                 cost {{ asset.total_cost }}€
-            </span>
+            </div>
+
+            <div v-if="!compact" class="w-fit">
+                <span
+                    class="px-2.5 py-0.5 rounded-full bg-gray-200 dark:bg-gray-700 text-sm"
+                >
+                    {{ asset.status }}
+                </span>
+            </div>
         </StackedListItem>
     </StackedList>
 </template>
