@@ -7,6 +7,12 @@ const props = defineProps({
     assets: Array,
     compact: Boolean,
 });
+
+const statusColorMap = {
+    in_progress: "primary",
+    ready: "success",
+    returned: "secondary",
+};
 </script>
 
 <template>
@@ -40,7 +46,7 @@ const props = defineProps({
             </div>
 
             <div v-if="!compact" class="w-fit md:w-1/6">
-                <Badge>
+                <Badge :theme="statusColorMap[asset.status]">
                     {{ asset.status }}
                 </Badge>
             </div>
