@@ -58,6 +58,7 @@ class UserController extends Controller
     {
         return inertia('Users/Show', [
             'user' => $user,
+            'recentAssets' => $user->assets()->latest('id')->take(5)->get(),
         ]);
     }
 

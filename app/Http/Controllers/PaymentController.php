@@ -55,6 +55,10 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
+        // TODO: improve this! 
+        // only for aside card representation
+        $payment->load('asset.customer:id,name');
+
         return inertia('Payments/Show', [
             'payment' => $payment,
         ]);
@@ -65,6 +69,10 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
+        // TODO: improve this! 
+        // only for aside card representation
+        $payment->load('asset.customer:id,name');
+
         return inertia('Payments/Edit', [
             'payment' => $payment,
             'typeOptions' => PaymentType::values(),

@@ -6,7 +6,7 @@ import BackButton from "@/Components/Button/BackButton.vue";
 defineProps({
     title: String,
     noBack: Boolean,
-    forEditing: Boolean,
+    contentOnlyMobile: Boolean,
 });
 </script>
 
@@ -23,8 +23,8 @@ defineProps({
                 <!-- // aside -->
                 <aside
                     :class="{
-                        flex: !forEditing,
-                        'hidden sm:flex': forEditing,
+                        flex: !contentOnlyMobile,
+                        'hidden sm:flex': contentOnlyMobile,
                     }"
                     class="flex-col w-full lg:w-2/5 xl:w-1/3 gap-4"
                 >

@@ -66,9 +66,12 @@ class AssetController extends Controller
      */
     public function show(Asset $asset)
     {
+        // TODO: improve this! only needed for aside card representation
+        $asset->load('customer:id,name');
+
         return inertia('Assets/Show', [
             'asset' => $asset,
-            'tasks' => $asset->tasks()->get(),
+            'tasks' => $asset->tasks()->with('user:id,name')->get(),
             'payments' => $asset->payments()->get(),
         ]);
     }
@@ -78,8 +81,12 @@ class AssetController extends Controller
      */
     public function edit(Asset $asset)
     {
+        // TODO: improve this! only needed for aside card representation
+        $asset->load('customer');
+
         return inertia('Assets/Edit', [
             'asset' => $asset,
+
             'typeOptions' => AssetType::values(),
             'statusOptions' => AssetStatus::values(),
         ]);

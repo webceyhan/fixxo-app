@@ -1,32 +1,36 @@
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import PageLayout from "@/Layouts/PageLayout.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
-import Toolbar from "@/Components/Toolbar.vue";
-import BackButton from "@/Components/Button/BackButton.vue";
 import UserCard from "./Partials/UserCard.vue";
+import AssetList from "../Assets/Partials/AssetList.vue";
+import Card from "@/Components/Card.vue";
 
 defineProps({
-    user: Object,
+  user: Object,
+  recentAssets: Array,
 });
 </script>
 
 <template>
-    <AuthenticatedLayout :title="user.name">
-        <Toolbar>
-            <BackButton class="mr-auto" />
+  <PageLayout :title="user.name">
+    <template #toolbar>
+      <SecondaryButton label="Edit" :href="route('users.edit', user.id)" />
+      <DangerButton
+        label="Delete"
+        method="delete"
+        :href="route('users.destroy', user.id)"
+      />
+    </template>
 
-            <SecondaryButton
-                label="Edit"
-                :href="route('users.edit', user.id)"
-            />
-            <DangerButton
-                label="Delete"
-                method="delete"
-                :href="route('users.destroy', user.id)"
-            />
-        </Toolbar>
+    <template #aside>
+      <UserCard :user="user" />
+    </template>
 
-        <UserCard :user="user" />
-    </AuthenticatedLayout>
+    <template #content>
+      <Card label="Recent assets.." flush>
+        <AssetList :assets="recentAssets" />
+      </Card>
+    </template>
+  </PageLayout>
 </template>

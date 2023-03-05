@@ -53,6 +53,9 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
+        // TODO: improve this! only for aside card representation
+        $task->load('asset.customer:id,name');
+
         return inertia('Tasks/Show', [
             'task' => $task,
         ]);
@@ -63,6 +66,9 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
+        // TODO: improve this! only for aside card representation
+        $task->load('asset.customer:id,name');
+        
         return inertia('Tasks/Edit', [
             'task' => $task,
             'statusOptions' => TaskStatus::values(),
