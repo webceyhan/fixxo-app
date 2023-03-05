@@ -1,12 +1,10 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import DescriptionList from "@/Components/List/DescriptionList.vue";
-import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
-import Card from "@/Components/Card.vue";
 import Toolbar from "@/Components/Toolbar.vue";
 import BackButton from "@/Components/Button/BackButton.vue";
+import UserCard from "./Partials/UserCard.vue";
 
 defineProps({
     user: Object,
@@ -29,41 +27,6 @@ defineProps({
             />
         </Toolbar>
 
-        <Card label="Overview">
-            <DescriptionList>
-                <DescriptionListItem label="Name" :value="user.name" />
-
-                <!-- TODO: add phone number to db -->
-
-                <DescriptionListItem
-                    label="Email"
-                    type="email"
-                    :value="user.email"
-                />
-
-                <DescriptionListItem label="Role" :value="user.role" />
-
-                <DescriptionListItem label="Status" :value="user.status" />
-
-                <DescriptionListItem
-                    v-if="user.email_verified_at"
-                    label="Email Verified At"
-                    type="date"
-                    :value="user.email_verified_at"
-                />
-
-                <DescriptionListItem
-                    label="Created At"
-                    type="date"
-                    :value="user.created_at"
-                />
-
-                <DescriptionListItem
-                    label="Last Update"
-                    type="date"
-                    :value="user.updated_at"
-                />
-            </DescriptionList>
-        </Card>
+        <UserCard :user="user" />
     </AuthenticatedLayout>
 </template>

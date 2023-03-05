@@ -1,8 +1,6 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import DescriptionList from "@/Components/List/DescriptionList.vue";
-import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
 import Card from "@/Components/Card.vue";
 import AssetList from "../Assets/Partials/AssetList.vue";
 import Textarea from "@/Components/Form/Textarea.vue";
@@ -11,6 +9,7 @@ import BackButton from "@/Components/Button/BackButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
+import CustomerCard from "./Partials/CustomerCard.vue";
 
 const props = defineProps({
     customer: Object,
@@ -52,64 +51,7 @@ const save = () => {
 
         <div class="flex flex-col lg:flex-row items-start gap-4">
             <div class="flex flex-col w-full lg:w-1/3 gap-4">
-                <Card label="Overview">
-                    <DescriptionList>
-                        <DescriptionListItem
-                            label="Name"
-                            :value="customer.name"
-                        />
-
-                        <DescriptionListItem
-                            v-if="customer.company"
-                            label="Company"
-                            :value="customer.company"
-                        />
-
-                        <DescriptionListItem
-                            v-if="customer.vat"
-                            label="VAT"
-                            :value="customer.vat"
-                        />
-
-                        <DescriptionListItem
-                            v-if="customer.phone"
-                            label="Phone"
-                            type="phone"
-                            :value="customer.phone"
-                        />
-
-                        <DescriptionListItem
-                            v-if="customer.email"
-                            label="Email"
-                            type="email"
-                            :value="customer.email"
-                        />
-
-                        <DescriptionListItem
-                            v-if="customer.address"
-                            label="Address"
-                            type="location"
-                            :value="customer.address"
-                        />
-
-                        <DescriptionListItem
-                            label="Status"
-                            :value="customer.status"
-                        />
-
-                        <DescriptionListItem
-                            label="Created At"
-                            type="date"
-                            :value="customer.created_at"
-                        />
-
-                        <DescriptionListItem
-                            label="Last Update"
-                            type="date"
-                            :value="customer.updated_at"
-                        />
-                    </DescriptionList>
-                </Card>
+                <CustomerCard :customer="customer" />
 
                 <Card label="Notes">
                     <Textarea
