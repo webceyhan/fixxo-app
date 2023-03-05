@@ -18,7 +18,7 @@ import { Link } from "@inertiajs/vue3";
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="w-4 h-4 opacity-50"
+            class="w-4 h-4 opacity-50 -mr-1"
         >
             <path
                 stroke-linecap="round"
