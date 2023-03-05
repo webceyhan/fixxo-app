@@ -5,7 +5,7 @@ import { Link } from "@inertiajs/vue3";
 <template>
     <component
         :is="$attrs.href ? Link : 'li'"
-        class="flex justify-between items-center px-4 py-6 sm:p-6"
+        class="flex justify-between items-center p-4 sm:px-6"
         :class="{ 'hover:bg-gray-200 dark:hover:bg-gray-700': $attrs.href }"
     >
         <slot />
@@ -18,7 +18,7 @@ import { Link } from "@inertiajs/vue3";
             viewBox="0 0 24 24"
             stroke-width="1.5"
             stroke="currentColor"
-            class="w-4 h-4 opacity-50 -mr-1"
+            class="w-4 h-4 opacity-50 ml-2 -mr-1"
         >
             <path
                 stroke-linecap="round"
