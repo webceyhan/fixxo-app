@@ -12,10 +12,13 @@ const props = defineProps({
   statusOptions: Array,
 });
 
+const { id, name } = props.user;
+
 const breadcrumbs = [
   { label: "Users", href: route("users.index") },
-  { label: props.user.name, href: route("users.show", props.user.id) },
-  { label: "Edit" },
+  ...(id
+    ? [{ label: name, href: route("users.show", id) }, { label: "Edit" }]
+    : [{ label: "New" }]),
 ];
 
 const form = useForm({

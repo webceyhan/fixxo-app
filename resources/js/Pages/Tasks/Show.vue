@@ -9,13 +9,14 @@ const props = defineProps({
   task: Object,
 });
 
+const {
+  asset: { customer, ...asset },
+} = props.task;
+
 const breadcrumbs = [
-  {
-    label: props.task.asset.customer.name,
-    href: route("customers.show", props.task.asset.customer.id),
-  },
-  { label: props.task.asset.name, href: route("assets.show", props.task.asset.id) },
-  { label: 'Task' },
+  { label: customer.name, href: route("customers.show", customer.id) },
+  { label: asset.name, href: route("assets.show", asset.id) },
+  { label: "Task" },
 ];
 </script>
 

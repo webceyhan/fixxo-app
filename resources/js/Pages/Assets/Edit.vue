@@ -12,6 +12,15 @@ const props = defineProps({
   statusOptions: Array,
 });
 
+const { id, name, customer } = props.asset;
+
+const breadcrumbs = [
+  { label: customer.name, href: route("customers.show", customer.id) },
+  ...(id
+    ? [{ label: name, href: route("assets.show", id) }, { label: "Edit Asset" }]
+    : [{ label: "New Asset" }]),
+];
+
 const form = useForm({
   ...props.asset,
   name: props.asset.name,
@@ -27,7 +36,7 @@ const form = useForm({
 </script>
 
 <template>
-  <PageLayout :title="asset.name" content-only-mobile>
+  <PageLayout :title="asset.name" :breadcrumbs="breadcrumbs" content-only-mobile>
     <template #aside>
       <CustomerCard :customer="asset.customer" />
     </template>

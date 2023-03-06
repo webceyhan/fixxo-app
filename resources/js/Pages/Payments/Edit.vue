@@ -6,22 +6,21 @@ import Card from "@/Components/Card.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import AssetCard from "../Assets/Partials/AssetCard.vue";
 
-
 const props = defineProps({
   payment: Object,
   typeOptions: Array,
   methodOptions: Array,
 });
 
+const {
+  id,
+  asset: { customer, ...asset },
+} = props.payment;
+
 const breadcrumbs = [
-  
-{
-    label: props.payment.asset.customer.name,
-    href: route("customers.show", props.payment.asset.customer.id),
-  },
-  { label: props.payment.asset.name, href: route("assets.show", props.payment.asset.id) },
-  { label: 'Payment', href: route("payments.show", props.payment.id) },
-  { label: "Edit" },
+  { label: customer.name, href: route("customers.show", customer.id) },
+  { label: asset.name, href: route("assets.show", asset.id) },
+  { label: id ? "Edit Payment" : "New Payment" },
 ];
 
 const form = useForm({
@@ -34,10 +33,7 @@ const form = useForm({
 </script>
 
 <template>
-  <PageLayout :title="payment.type" 
-      :breadcrumbs="breadcrumbs"
-  
-  content-only-mobile>
+  <PageLayout :title="payment.type" :breadcrumbs="breadcrumbs" content-only-mobile>
     <template #aside>
       <AssetCard :asset="payment.asset" />
     </template>

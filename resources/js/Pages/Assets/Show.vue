@@ -16,9 +16,11 @@ const props = defineProps({
   payments: Array,
 });
 
+const { name, customer } = props.asset;
+
 const breadcrumbs = [
-  { label: props.asset.customer.name, href: route("customers.show", props.asset.customer.id) },
-  { label: props.asset.name },
+  { label: customer.name, href: route("customers.show", customer.id) },
+  { label: name },
 ];
 
 const form = useForm({

@@ -9,15 +9,14 @@ const props = defineProps({
   payment: Object,
 });
 
+const {
+  asset: { customer, ...asset },
+} = props.payment;
+
 const breadcrumbs = [
-  {
-    label: props.payment.asset.customer.name,
-    href: route("customers.show", props.payment.asset.customer.id),
-  },
-  { label: props.payment.asset.name, href: route("assets.show", props.payment.asset.id) },
-  {
-    label: "Payment",
-  },
+  { label: customer.name, href: route("customers.show", customer.id) },
+  { label: asset.name, href: route("assets.show", asset.id) },
+  { label: "Payment" },
 ];
 </script>
 
