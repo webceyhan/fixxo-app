@@ -5,13 +5,22 @@ import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import TaskCard from "./Partials/TaskCard.vue";
 import AssetCard from "../Assets/Partials/AssetCard.vue";
 
-defineProps({
+const props = defineProps({
   task: Object,
 });
+
+const breadcrumbs = [
+  {
+    label: props.task.asset.customer.name,
+    href: route("customers.show", props.task.asset.customer.id),
+  },
+  { label: props.task.asset.name, href: route("assets.show", props.task.asset.id) },
+  { label: 'Task' },
+];
 </script>
 
 <template>
-  <PageLayout :title="task.description" content-only-mobile>
+  <PageLayout :title="task.description" :breadcrumbs="breadcrumbs" content-only-mobile>
     <template #toolbar>
       <SecondaryButton label="Edit" :href="route('tasks.edit', task.id)" />
       <DangerButton

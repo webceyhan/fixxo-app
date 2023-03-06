@@ -10,59 +10,61 @@ import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import CustomerCard from "./Partials/CustomerCard.vue";
 
 const props = defineProps({
-    customer: Object,
-    assets: Array,
+  customer: Object,
+  assets: Array,
 });
 
+const breadcrumbs = [
+  { label: "Customers", href: route("customers.index") },
+  { label: props.customer.name },
+];
+
 const form = useForm({
-    notes: props.customer.notes,
+  notes: props.customer.notes,
 });
 
 const save = () => {
-    form.put(route("customers.update", props.customer.id), {
-        preserveScroll: true,
-    });
+  form.put(route("customers.update", props.customer.id), {
+    preserveScroll: true,
+  });
 };
 </script>
 
 <template>
-    <PageLayout :title="customer.name">
-        <template #toolbar>
-            <SecondaryButton
-                label="Edit"
-                :href="route('customers.edit', customer.id)"
-            />
-            <DangerButton
-                label="Delete"
-                method="delete"
-                :href="route('customers.destroy', customer.id)"
-                class="mr-4"
-            />
-            <PrimaryButton
-                label="New Asset"
-                :href="route('assets.create')"
-                :data="{ customer_id: customer.id }"
-            />
-        </template>
+  <PageLayout :title="customer.name" :breadcrumbs="breadcrumbs">
+    <template #toolbar>
+      <SecondaryButton label="Edit" :href="route('customers.edit', customer.id)" />
+      <DangerButton
+        label="Delete"
+        method="delete"
+        :href="route('customers.destroy', customer.id)"
+        class="mr-4"
+      />
+      <PrimaryButton
+        label="New Asset"
+        :href="route('assets.create')"
+        :data="{ customer_id: customer.id }"
+      />
+    </template>
 
-        <template #aside>
-            <CustomerCard :customer="customer" />
+    <template #aside>
+      <CustomerCard :customer="customer" />
 
-            <Card label="Notes">
-                <Textarea
-                    rows="5"
-                    class="w-full"
-                    placeholder="Add notes..."
-                    v-model="form.notes"
-                />
-                <SecondaryButton label="Save" @click="save" />
-            </Card>
-        </template>
+      <Card label="Notes">
+        <Textarea
+          rows="5"
+          class="w-full"
+          placeholder="Add notes..."
+          v-model="form.notes"
+        />
+        <SecondaryButton label="Save" @click="save" />
+      </Card>
+    </template>
 
-        <template #content>
-            <Card label="Assets" flush>
-                <AssetList :assets="assets" />
-            </Card>
-        </template>
-    </PageLayout>
+    <template #content>
+      <Card label="Assets" flush>
+        <AssetList :assets="assets" />
+      </Card>
+    </template>
+  </PageLayout>
 </template>

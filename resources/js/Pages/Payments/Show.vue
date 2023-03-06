@@ -5,13 +5,24 @@ import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import PaymentCard from "./Partials/PaymentCard.vue";
 import AssetCard from "../Assets/Partials/AssetCard.vue";
 
-defineProps({
+const props = defineProps({
   payment: Object,
 });
+
+const breadcrumbs = [
+  {
+    label: props.payment.asset.customer.name,
+    href: route("customers.show", props.payment.asset.customer.id),
+  },
+  { label: props.payment.asset.name, href: route("assets.show", props.payment.asset.id) },
+  {
+    label: "Payment",
+  },
+];
 </script>
 
 <template>
-  <PageLayout :title="payment.type" content-only-mobile>
+  <PageLayout :title="payment.type" :breadcrumbs="breadcrumbs" content-only-mobile>
     <template #toolbar>
       <SecondaryButton label="Edit" :href="route('payments.edit', payment.id)" />
       <DangerButton

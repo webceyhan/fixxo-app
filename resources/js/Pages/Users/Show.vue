@@ -6,14 +6,19 @@ import UserCard from "./Partials/UserCard.vue";
 import AssetList from "../Assets/Partials/AssetList.vue";
 import Card from "@/Components/Card.vue";
 
-defineProps({
+const props = defineProps({
   user: Object,
   recentAssets: Array,
 });
+
+const breadcrumbs = [
+  { label: "Users", href: route("users.index") },
+  { label: props.user.name },
+];
 </script>
 
 <template>
-  <PageLayout :title="user.name">
+  <PageLayout :title="user.name" :breadcrumbs="breadcrumbs">
     <template #toolbar>
       <SecondaryButton label="Edit" :href="route('users.edit', user.id)" />
       <DangerButton

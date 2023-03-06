@@ -11,73 +11,75 @@ import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import AssetCard from "./Partials/AssetCard.vue";
 
 const props = defineProps({
-    asset: Object,
-    tasks: Array,
-    payments: Array,
+  asset: Object,
+  tasks: Array,
+  payments: Array,
 });
 
+const breadcrumbs = [
+  { label: props.asset.customer.name, href: route("customers.show", props.asset.customer.id) },
+  { label: props.asset.name },
+];
+
 const form = useForm({
-    notes: props.asset.notes,
+  notes: props.asset.notes,
 });
 
 const save = () => {
-    form.put(route("assets.update", props.asset.id), {
-        preserveScroll: true,
-    });
+  form.put(route("assets.update", props.asset.id), {
+    preserveScroll: true,
+  });
 };
 </script>
 
 <template>
-    <PageLayout :title="asset.name">
-        <template #toolbar>
-            <SecondaryButton
-                label="Edit"
-                :href="route('assets.edit', asset.id)"
-            />
-            <DangerButton
-                label="Delete"
-                method="delete"
-                :href="route('assets.destroy', asset.id)"
-                class="mr-4"
-            />
-            <PrimaryButton
-                label="New Task"
-                :href="route('tasks.create')"
-                :data="{ asset_id: asset.id }"
-            />
-            <PrimaryButton
-                label="New Payment"
-                :href="route('payments.create')"
-                :data="{ asset_id: asset.id }"
-            />
-        </template>
+  <PageLayout :title="asset.name" :breadcrumbs="breadcrumbs">
+    <template #toolbar>
+      <SecondaryButton label="Edit" :href="route('assets.edit', asset.id)" />
+      <DangerButton
+        label="Delete"
+        method="delete"
+        :href="route('assets.destroy', asset.id)"
+        class="mr-4"
+      />
+      <PrimaryButton
+        label="New Task"
+        :href="route('tasks.create')"
+        :data="{ asset_id: asset.id }"
+      />
+      <PrimaryButton
+        label="New Payment"
+        :href="route('payments.create')"
+        :data="{ asset_id: asset.id }"
+      />
+    </template>
 
-        <template #aside>
-            <AssetCard :asset="asset" />
+    <template #aside>
+      <AssetCard :asset="asset" />
 
-            <Card label="Notes">
-                <Textarea
-                    rows="5"
-                    class="w-full"
-                    placeholder="Add notes..."
-                    v-model="form.notes"
-                />
-                <SecondaryButton label="Save" @click="save" />
-            </Card>
-        </template>
+      <Card label="Notes">
+        <Textarea
+          rows="5"
+          class="w-full"
+          placeholder="Add notes..."
+          v-model="form.notes"
+        />
+        <SecondaryButton label="Save" @click="save" />
+      </Card>
+    </template>
 
-        <template #content>
-            <Card label="Problem">
-                {{ asset.problem }}
-            </Card>
+    <template #content>
+      <Card label="Problem">
+        {{ asset.problem }}
+      </Card>
 
-            <Card label="Tasks" flush>
-                <TaskList :tasks="tasks" />
-            </Card>
+      <Card label="Tasks" flush>
+        <TaskList :tasks="tasks" />
+      </Card>
 
-            <Card label="Payments" flush>
-                <PaymentList :payments="payments" />
-            </Card>
-        </template>
-    </PageLayout>
+      <Card label="Payments" flush>
+        <PaymentList :payments="payments" />
+      </Card>
+    </template>
+  </PageLayout>
 </template>
