@@ -6,20 +6,22 @@ import PaymentList from "./Partials/PaymentList.vue";
 import Card from "@/Components/Card.vue";
 
 defineProps({
-    payments: Object,
-    filters: Object,
+  payments: Object,
+  filters: Object,
 });
+
+const breadcrumbs = [{ label: "Payments" }];
 </script>
 
 <template>
-    <AuthenticatedLayout title="Payments">
-        <div class="flex justify-between items-center">
-            <Searchbar :filters="filters" />
-            <Pagination v-bind="payments" />
-        </div>
+  <AuthenticatedLayout title="Payments" :breadcrumbs="breadcrumbs">
+    <div class="flex justify-between items-center">
+      <Searchbar :filters="filters" />
+      <Pagination v-bind="payments" />
+    </div>
 
-        <Card flush>
-            <PaymentList :payments="payments.data" />
-        </Card>
-    </AuthenticatedLayout>
+    <Card flush>
+      <PaymentList :payments="payments.data" />
+    </Card>
+  </AuthenticatedLayout>
 </template>

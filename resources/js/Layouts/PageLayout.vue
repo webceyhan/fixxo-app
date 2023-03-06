@@ -1,8 +1,8 @@
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Toolbar from "@/Components/Toolbar.vue";
 import BackButton from "@/Components/Button/BackButton.vue";
-import Breadcrumbs from "@/Components/Breadcrumbs.vue";
+import Breadcrumbs from "@/Layouts/Partials/Breadcrumbs.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 defineProps({
   title: String,

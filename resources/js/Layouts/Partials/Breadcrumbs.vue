@@ -1,5 +1,5 @@
 <script setup>
-import Link from "./Link.vue";
+import Link from "@/Components/Link.vue";
 
 defineProps({
   links: Array,
@@ -8,7 +8,7 @@ defineProps({
 
 <template>
   <nav
-    class="flex items-center text-lg font-semibold text-gray-400 dark:text-white gap-2"
+    class="flex items-center text-md font-semibold text-gray-400 dark:text-white gap-2"
   >
     <Link href="/">
       <svg
@@ -17,7 +17,7 @@ defineProps({
         viewBox="0 0 24 24"
         stroke-width="1.5"
         stroke="currentColor"
-        class="w-6 h-6"
+        class="w-6 h-6 -mt-1"
       >
         <path
           stroke-linecap="round"
@@ -27,7 +27,7 @@ defineProps({
       </svg>
     </Link>
 
-    <div v-for="(link, index) in links" :key="index" class="flex items-center gap-1">
+    <div v-for="(link, index) in links" :key="index" class="flex items-center gap-2">
       <!-- divider -->
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +50,7 @@ defineProps({
       <!-- label -->
       <div v-else class="overflow-hidden overflow-ellipsis max-w-sm">
         <span class="truncate">
-        {{ link.label }}
+          {{ link.label }}
         </span>
       </div>
     </div>

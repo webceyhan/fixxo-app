@@ -6,20 +6,22 @@ import TaskList from "./Partials/TaskList.vue";
 import Card from "@/Components/Card.vue";
 
 defineProps({
-    tasks: Object,
-    filters: Object,
+  tasks: Object,
+  filters: Object,
 });
+
+const breadcrumbs = [{ label: "Tasks" }];
 </script>
 
 <template>
-    <AuthenticatedLayout title="Tasks">
-        <div class="flex justify-between items-center">
-            <Searchbar :filters="filters" />
-            <Pagination v-bind="tasks" />
-        </div>
+  <AuthenticatedLayout title="Tasks" :breadcrumbs="breadcrumbs">
+    <div class="flex justify-between items-center">
+      <Searchbar :filters="filters" />
+      <Pagination v-bind="tasks" />
+    </div>
 
-        <Card flush>
-            <TaskList :tasks="tasks.data" />
-        </Card>
-    </AuthenticatedLayout>
+    <Card flush>
+      <TaskList :tasks="tasks.data" />
+    </Card>
+  </AuthenticatedLayout>
 </template>
