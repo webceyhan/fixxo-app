@@ -12,14 +12,9 @@ defineProps({
 </script>
 
 <template>
-  <AuthenticatedLayout :title="title">
-    
+  <AuthenticatedLayout :title="title" :breadcrumbs="breadcrumbs">
     <Toolbar>
-      <div class="mr-auto">
-        <BackButton class="lg:hidden" />
-        <Breadcrumbs :links="breadcrumbs" class="hidden lg:flex" />
-      </div>
-
+      <BackButton class="mr-auto" />
       <slot name="toolbar" />
     </Toolbar>
 
