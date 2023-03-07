@@ -1,18 +1,16 @@
 <script setup>
 import Toolbar from "@/Components/Toolbar.vue";
 import BackButton from "@/Components/Button/BackButton.vue";
-import Breadcrumbs from "@/Layouts/Partials/Breadcrumbs.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
 defineProps({
   title: String,
-  breadcrumbs: Array,
   contentOnlyMobile: Boolean,
 });
 </script>
 
 <template>
-  <AuthenticatedLayout :title="title" :breadcrumbs="breadcrumbs">
+  <AuthenticatedLayout :title="title">
     <Toolbar>
       <BackButton class="mr-auto" />
       <slot name="toolbar" />

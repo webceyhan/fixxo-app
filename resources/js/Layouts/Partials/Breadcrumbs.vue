@@ -1,9 +1,22 @@
 <script setup>
+import { computed } from "vue";
 import Link from "@/Components/Link.vue";
 
-defineProps({
+const props = defineProps({
   links: Array,
 });
+
+const transform = (link) => ({
+  href: link.url,
+  label: link.title,
+});
+
+const transformedLinks = computed(() => [
+  // skip first link (home) and last
+  ...props.links.slice(1, -1).map(transform),
+  // add last link as label (current page)
+  { label: props.links[props.links.length - 1]?.title },
+]);
 </script>
 
 <template>
@@ -27,7 +40,11 @@ defineProps({
       </svg>
     </Link>
 
-    <div v-for="(link, index) in links" :key="index" class="flex items-center gap-2">
+    <div
+      v-for="(link, index) in transformedLinks"
+      :key="index"
+      class="flex items-center gap-2"
+    >
       <!-- divider -->
       <svg
         xmlns="http://www.w3.org/2000/svg"

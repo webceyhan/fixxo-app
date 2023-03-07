@@ -1,25 +1,30 @@
 <script setup>
-import { Head } from "@inertiajs/vue3";
+import { computed } from "vue";
+import { Head, usePage } from "@inertiajs/vue3";
 import NavBar from "@/Layouts/Partials/NavBar.vue";
 import Breadcrumbs from "@/Layouts/Partials/Breadcrumbs.vue";
 import NotificationBar from "@/Layouts/Partials/NotificationBar.vue";
 
-defineProps({
+const props = defineProps({
   title: String,
-  breadcrumbs: Array,
 });
+
+const currentTitle = computed(
+  () => props.title ?? usePage().props.breadcrumbs.at(-1)?.title
+);
 </script>
 
 <template>
   <div>
-    <Head :title="title" />
+    <Head :title="currentTitle" />
 
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
       <!-- navbar -->
       <NavBar :user="$page.props.auth.user" />
 
-      <header v-if="breadcrumbs" class="container mx-auto pt-6 px-4 sm:px-6 lg:px-8">
-        <Breadcrumbs :links="breadcrumbs" />
+      <header class="container mx-auto pt-6 px-4 sm:px-6 lg:px-8">
+        <Breadcrumbs :links="$page.props.breadcrumbs" class="hidden md:flex" />
+        <h2 class="text-2xl text-white md:hidden">{{ currentTitle }}</h2>
       </header>
 
       <!-- Page Heading -->
