@@ -25,8 +25,8 @@ const actions = {
     // CRUD
     view: "eye",
     edit: "pencil",
-    remove: "trash",
-    create: "plus-circle",
+    create: "plus-lg",
+    delete: "trash",
 
     // QUERY
     search: "search",

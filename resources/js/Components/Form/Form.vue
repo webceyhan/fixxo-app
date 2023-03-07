@@ -26,9 +26,9 @@ const cancel = () => window.history.back();
         <slot />
 
         <slot name="actions">
-            <div class="flex gap-6">
-                <PrimaryButton label="Save" type="submit" />
-                <SecondaryButton label="Cancel" @click="cancel" />
+            <div class="flex gap-4">
+                <PrimaryButton label="Save" icon="save" type="submit" />
+                <SecondaryButton label="Cancel" icon="dismiss" @click="cancel" />
             </div>
         </slot>
     </form>

@@ -28,6 +28,7 @@ const form = useForm({
       <DangerButton
         v-if="payment.id"
         label ="Delete"
+        icon="delete"
         method="delete"
         :href="route('payments.destroy', payment.id)"
       />

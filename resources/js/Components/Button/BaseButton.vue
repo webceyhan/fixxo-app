@@ -1,14 +1,16 @@
 <script setup>
 import { computed } from "vue";
 import { Link } from "@inertiajs/vue3";
+import Icon from "../Icon.vue";
 
 const props = defineProps({
   label: String,
+  icon: String,
 });
 
 const classes = computed(() => ({
   // base styles
-  "inline-flex items-center shadow-sm disabled:opacity-50 px-4 py-2": true,
+  "inline-flex items-center shadow-sm disabled:opacity-50 px-4 py-2 gap-2": true,
 
   // text
   "text-xs font-semibold tracking-widest uppercase": true,
@@ -23,10 +25,16 @@ const classes = computed(() => ({
 
 <template>
   <Link v-if="$attrs.href" :class="classes" as="button">
-    <slot> {{ label }} </slot>
+    <slot>
+      <Icon v-if="icon" :name="icon" />
+      <span>{{ label }}</span>
+    </slot>
   </Link>
 
   <button v-else :class="classes" type="button">
-    <slot> {{ label }} </slot>
+    <slot>
+      <Icon v-if="icon" :name="icon" />
+      <span>{{ label }}</span>
+    </slot>
   </button>
 </template>

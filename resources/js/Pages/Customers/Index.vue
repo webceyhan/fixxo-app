@@ -16,7 +16,12 @@ defineProps({
   <AuthenticatedLayout title="Customers">
     <div class="flex justify-between items-center">
       <Searchbar :filters="filters" />
-      <PrimaryButton label="New" :href="route('customers.create')" class="ml-5 mr-auto" />
+      <PrimaryButton
+        label="New"
+        icon="create"
+        class="ml-5 mr-auto"
+        :href="route('customers.create')"
+      />
       <Pagination v-bind="customers" />
     </div>
 

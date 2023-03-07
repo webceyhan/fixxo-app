@@ -26,6 +26,7 @@ const form = useForm({
       <DangerButton
         v-if="task.id"
         label="Delete"
+        icon="delete"
         method="delete"
         :href="route('tasks.destroy', task.id)"
       />

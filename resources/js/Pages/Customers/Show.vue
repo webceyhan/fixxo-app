@@ -28,15 +28,21 @@ const save = () => {
 <template>
   <PageLayout :title="customer.name">
     <template #toolbar>
-      <SecondaryButton label="Edit" :href="route('customers.edit', customer.id)" />
+      <SecondaryButton
+        label="Edit"
+        icon="edit"
+        :href="route('customers.edit', customer.id)"
+      />
       <DangerButton
         label="Delete"
         method="delete"
+        icon="delete"
         :href="route('customers.destroy', customer.id)"
         class="mr-4"
       />
       <PrimaryButton
         label="New Asset"
+        icon="create"
         :href="route('assets.create')"
         :data="{ customer_id: customer.id }"
       />

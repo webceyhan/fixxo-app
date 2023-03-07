@@ -13,9 +13,14 @@ const props = defineProps({
 <template>
   <PageLayout :title="payment.type" content-only-mobile>
     <template #toolbar>
-      <SecondaryButton label="Edit" :href="route('payments.edit', payment.id)" />
+      <SecondaryButton
+        label="Edit"
+        icon="edit"
+        :href="route('payments.edit', payment.id)"
+      />
       <DangerButton
         label="Delete"
+        icon="delete"
         method="delete"
         :href="route('payments.destroy', payment.id)"
       />

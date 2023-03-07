@@ -30,20 +30,23 @@ const save = () => {
 <template>
   <PageLayout :title="asset.name">
     <template #toolbar>
-      <SecondaryButton label="Edit" :href="route('assets.edit', asset.id)" />
+      <SecondaryButton label="Edit" icon="edit" :href="route('assets.edit', asset.id)" />
       <DangerButton
         label="Delete"
         method="delete"
+        icon="delete"
         :href="route('assets.destroy', asset.id)"
         class="mr-4"
       />
       <PrimaryButton
         label="New Task"
+        icon="create"
         :href="route('tasks.create')"
         :data="{ asset_id: asset.id }"
       />
       <PrimaryButton
         label="New Payment"
+        icon="create"
         :href="route('payments.create')"
         :data="{ asset_id: asset.id }"
       />

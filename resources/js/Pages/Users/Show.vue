@@ -15,9 +15,10 @@ const props = defineProps({
 <template>
   <PageLayout :title="user.name">
     <template #toolbar>
-      <SecondaryButton label="Edit" :href="route('users.edit', user.id)" />
+      <SecondaryButton label="Edit" icon="edit" :href="route('users.edit', user.id)" />
       <DangerButton
         label="Delete"
+        icon="delete"
         method="delete"
         :href="route('users.destroy', user.id)"
       />
