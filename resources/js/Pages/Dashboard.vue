@@ -33,11 +33,11 @@ const onIntervalChange = (interval) => {
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
-      <StatCard label="Assets" :items="assetStats" />
+      <StatCard label="Assets" icon="asset" :items="assetStats" />
 
-      <StatCard label="Tasks" :items="taskStats" />
+      <StatCard label="Tasks" icon="task" :items="taskStats" />
 
-      <StatCard label="Earnings" :items="earningStats" />
+      <StatCard label="Earnings" icon="money" :items="earningStats" />
     </div>
 
     <div class="flex flex-col md:flex-row gap-5">
