@@ -9,12 +9,10 @@ defineProps({
   payments: Object,
   filters: Object,
 });
-
-const breadcrumbs = [{ label: "Payments" }];
 </script>
 
 <template>
-  <AuthenticatedLayout title="Payments" :breadcrumbs="breadcrumbs">
+  <AuthenticatedLayout title="Payments">
     <div class="flex justify-between items-center">
       <Searchbar :filters="filters" />
       <Pagination v-bind="payments" />

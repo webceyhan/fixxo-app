@@ -8,20 +8,10 @@ import AssetCard from "../Assets/Partials/AssetCard.vue";
 const props = defineProps({
   task: Object,
 });
-
-const {
-  asset: { customer, ...asset },
-} = props.task;
-
-const breadcrumbs = [
-  { label: customer.name, href: route("customers.show", customer.id) },
-  { label: asset.name, href: route("assets.show", asset.id) },
-  { label: "Task" },
-];
 </script>
 
 <template>
-  <PageLayout :title="task.description" :breadcrumbs="breadcrumbs" content-only-mobile>
+  <PageLayout :title="task.description" content-only-mobile>
     <template #toolbar>
       <SecondaryButton label="Edit" :href="route('tasks.edit', task.id)" />
       <DangerButton

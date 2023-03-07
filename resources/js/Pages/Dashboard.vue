@@ -17,15 +17,13 @@ const props = defineProps({
   assetsInProgress: Array,
 });
 
-const breadcrumbs = [{ label: "Dashboard" }];
-
 const onIntervalChange = (interval) => {
   router.reload({ data: { interval } });
 };
 </script>
 
 <template>
-  <AuthenticatedLayout title="Dashboard" :breadcrumbs="breadcrumbs">
+  <AuthenticatedLayout title="Dashboard">
     <div class="flex items-center md:justify-end px-5 sm:p-0">
       <RadioGroup
         :options="intervalOptions"

@@ -10,12 +10,10 @@ defineProps({
   users: Object,
   filters: Object,
 });
-
-const breadcrumbs = [{ label: "Users" }];
 </script>
 
 <template>
-  <AuthenticatedLayout title="Users" :breadcrumbs="breadcrumbs">
+  <AuthenticatedLayout title="Users">
     <div class="flex justify-between items-center">
       <Searchbar :filters="filters" />
       <PrimaryButton label="New" :href="route('users.create')" class="ml-5 mr-auto" />

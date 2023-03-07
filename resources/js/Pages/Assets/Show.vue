@@ -16,13 +16,6 @@ const props = defineProps({
   payments: Array,
 });
 
-const { name, customer } = props.asset;
-
-const breadcrumbs = [
-  { label: customer.name, href: route("customers.show", customer.id) },
-  { label: name },
-];
-
 const form = useForm({
   notes: props.asset.notes,
 });
@@ -35,7 +28,7 @@ const save = () => {
 </script>
 
 <template>
-  <PageLayout :title="asset.name" :breadcrumbs="breadcrumbs">
+  <PageLayout :title="asset.name">
     <template #toolbar>
       <SecondaryButton label="Edit" :href="route('assets.edit', asset.id)" />
       <DangerButton

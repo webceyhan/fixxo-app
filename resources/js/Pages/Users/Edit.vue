@@ -12,15 +12,6 @@ const props = defineProps({
   statusOptions: Array,
 });
 
-const { id, name } = props.user;
-
-const breadcrumbs = [
-  { label: "Users", href: route("users.index") },
-  ...(id
-    ? [{ label: name, href: route("users.show", id) }, { label: "Edit" }]
-    : [{ label: "New" }]),
-];
-
 const form = useForm({
   ...props.user,
   name: props.user.name,
@@ -31,7 +22,7 @@ const form = useForm({
 </script>
 
 <template>
-  <PageLayout :title="user.name" :breadcrumbs="breadcrumbs" content-only-mobile>
+  <PageLayout :title="user.name" content-only-mobile>
     <template #aside>
       <UserCard :user="user" />
     </template>

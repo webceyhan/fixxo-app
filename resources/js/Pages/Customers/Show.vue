@@ -14,11 +14,6 @@ const props = defineProps({
   assets: Array,
 });
 
-const breadcrumbs = [
-  { label: "Customers", href: route("customers.index") },
-  { label: props.customer.name },
-];
-
 const form = useForm({
   notes: props.customer.notes,
 });
@@ -31,7 +26,7 @@ const save = () => {
 </script>
 
 <template>
-  <PageLayout :title="customer.name" :breadcrumbs="breadcrumbs">
+  <PageLayout :title="customer.name">
     <template #toolbar>
       <SecondaryButton label="Edit" :href="route('customers.edit', customer.id)" />
       <DangerButton

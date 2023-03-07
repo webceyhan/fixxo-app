@@ -10,15 +10,10 @@ const props = defineProps({
   user: Object,
   recentAssets: Array,
 });
-
-const breadcrumbs = [
-  { label: "Users", href: route("users.index") },
-  { label: props.user.name },
-];
 </script>
 
 <template>
-  <PageLayout :title="user.name" :breadcrumbs="breadcrumbs">
+  <PageLayout :title="user.name">
     <template #toolbar>
       <SecondaryButton label="Edit" :href="route('users.edit', user.id)" />
       <DangerButton

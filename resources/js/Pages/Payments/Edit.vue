@@ -12,17 +12,6 @@ const props = defineProps({
   methodOptions: Array,
 });
 
-const {
-  id,
-  asset: { customer, ...asset },
-} = props.payment;
-
-const breadcrumbs = [
-  { label: customer.name, href: route("customers.show", customer.id) },
-  { label: asset.name, href: route("assets.show", asset.id) },
-  { label: id ? "Edit Payment" : "New Payment" },
-];
-
 const form = useForm({
   ...props.payment,
   amount: props.payment.amount,
@@ -33,7 +22,7 @@ const form = useForm({
 </script>
 
 <template>
-  <PageLayout :title="payment.type" :breadcrumbs="breadcrumbs" content-only-mobile>
+  <PageLayout :title="payment.type" content-only-mobile>
     <template #aside>
       <AssetCard :asset="payment.asset" />
     </template>

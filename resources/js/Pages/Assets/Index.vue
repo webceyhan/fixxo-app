@@ -11,13 +11,11 @@ const props = defineProps({
   filters: Object,
 });
 
-const breadcrumbs = [{ label: "Assets" }];
-
 const { brand, type, ...restFilters } = props.filters;
 </script>
 
 <template>
-  <AuthenticatedLayout title="Assets" :breadcrumbs="breadcrumbs">
+  <AuthenticatedLayout title="Assets">
     <div class="flex justify-between items-center">
       <Searchbar :filters="restFilters" />
       <Pagination v-bind="assets" />

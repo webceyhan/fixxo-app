@@ -11,15 +11,6 @@ const props = defineProps({
   statusOptions: Array,
 });
 
-const { id, name } = props.customer;
-
-const breadcrumbs = [
-  { label: "Customers", href: route("customers.index") },
-  ...(id
-    ? [{ label: name, href: route("customers.show", id) }, { label: "Edit" }]
-    : [{ label: "New" }]),
-];
-
 const form = useForm({
   ...props.customer,
   name: props.customer.name,
@@ -34,7 +25,7 @@ const form = useForm({
 </script>
 
 <template>
-  <PageLayout :title="customer.name" :breadcrumbs="breadcrumbs" content-only-mobile>
+  <PageLayout :title="customer.name" content-only-mobile>
     <template #aside>
       <CustomerCard :customer="customer" />
     </template>
