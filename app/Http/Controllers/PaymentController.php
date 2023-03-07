@@ -55,13 +55,8 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
-        // TODO: improve this! 
-        // only for aside card representation
-        $payment->load('asset.customer:id,name');
-
-        return inertia('Payments/Show', [
-            'payment' => $payment,
-        ]);
+        // forward to edit page
+        return $this->edit($payment);
     }
 
     /**

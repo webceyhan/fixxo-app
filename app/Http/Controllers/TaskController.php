@@ -53,12 +53,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        // TODO: improve this! only for aside card representation
-        $task->load('asset.customer:id,name');
-
-        return inertia('Tasks/Show', [
-            'task' => $task,
-        ]);
+        // forward to edit page
+        return $this->edit($task);
     }
 
     /**
