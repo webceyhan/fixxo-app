@@ -5,6 +5,7 @@ import Form from "@/Components/Form/Form.vue";
 import Card from "@/Components/Card.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import AssetCard from "../Assets/Partials/AssetCard.vue";
+import DangerButton from "@/Components/Button/DangerButton.vue";
 
 const props = defineProps({
   task: Object,
@@ -21,6 +22,15 @@ const form = useForm({
 
 <template>
   <PageLayout :title="task.description" content-only-mobile>
+    <template #toolbar>
+      <DangerButton
+        v-if="task.id"
+        label="Delete"
+        method="delete"
+        :href="route('tasks.destroy', task.id)"
+      />
+    </template>
+
     <template #aside>
       <AssetCard :asset="task.asset" />
     </template>

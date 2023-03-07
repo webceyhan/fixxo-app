@@ -5,6 +5,7 @@ import Form from "@/Components/Form/Form.vue";
 import Card from "@/Components/Card.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import AssetCard from "../Assets/Partials/AssetCard.vue";
+import DangerButton from "@/Components/Button/DangerButton.vue";
 
 const props = defineProps({
   payment: Object,
@@ -23,6 +24,15 @@ const form = useForm({
 
 <template>
   <PageLayout :title="payment.type" content-only-mobile>
+    <template #toolbar>
+      <DangerButton
+        v-if="payment.id"
+        label ="Delete"
+        method="delete"
+        :href="route('payments.destroy', payment.id)"
+      />
+    </template>
+
     <template #aside>
       <AssetCard :asset="payment.asset" />
     </template>
