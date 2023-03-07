@@ -88,7 +88,7 @@ class PaymentController extends Controller
         $payment->fill($params)->save();
 
         return redirect()
-            ->route('payments.show', $payment->id)
+            ->route('assets.show', $payment->asset_id)
             ->with('status', __('record saved'));
     }
 

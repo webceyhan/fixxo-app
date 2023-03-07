@@ -64,7 +64,7 @@ class TaskController extends Controller
     {
         // TODO: improve this! only for aside card representation
         $task->load('asset.customer:id,name');
-        
+
         return inertia('Tasks/Edit', [
             'task' => $task,
             'statusOptions' => TaskStatus::values(),
@@ -84,7 +84,7 @@ class TaskController extends Controller
         $task->fill($params)->save();
 
         return redirect()
-            ->route('tasks.show', $task->id)
+            ->route('assets.show', $task->asset_id)
             ->with('status', __('record saved'));
     }
 
