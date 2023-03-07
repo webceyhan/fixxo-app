@@ -10,21 +10,13 @@ defineProps({
 </script>
 
 <template>
-  <Card class="border-slate-500 border-l-4 relative">
-    <div class="absolute top-2 right-4">
-      <Icon
-        v-if="icon"
-        :name="icon"
-        class="text-4xl sm:text-6xl text-gray-500 opacity-25"
-      />
-    </div>
-
-    <h2
-      v-if="label"
-      class="font-semibold uppercase text-lg text-gray-400 leading-tight mb-6"
+  <Card class="border-slate-500 border-l-4">
+    <header
+      class="flex justify-between items-center font-semibold uppercase text-lg text-gray-400 leading-tight mb-4"
     >
-      {{ label }}
-    </h2>
+      <span>{{ label }}</span>
+      <Icon v-if="icon" :name="icon" class="text-4xl opacity-25" />
+    </header>
 
     <slot>
       <dl class="grid grid-cols-1 xl:grid-cols-2 gap-y-2 xl:divide-x divide-slate-500">
