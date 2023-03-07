@@ -17,28 +17,28 @@ const toggled = ref(false);
 const links = [
   {
     label: "New",
-    // icon: "create",
+    icon: "create",
     to: "customers.create",
   },
   {
     label: "Dashboard",
-    // icon: "dashboard",
+    icon: "dashboard",
     to: "dashboard",
     admin: true,
   },
   {
     label: "Customers",
-    // icon: "customer",
+    icon: "customer",
     to: "customers.index",
   },
   {
     label: "Assets",
-    // icon: "asset",
+    icon: "asset",
     to: "assets.index",
   },
   {
     label: "Users",
-    // icon: "user",
+    icon: "user",
     to: "users.index",
     // class: "hidden md:inline-flex",
     admin: true,
@@ -74,6 +74,7 @@ const allowedLinks = computed(() =>
               :active="route().current(link.to)"
               :class="link.class"
               :label="link.label"
+              :icon="link.icon"
             />
           </div>
         </div>
