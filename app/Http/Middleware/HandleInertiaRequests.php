@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Diglactic\Breadcrumbs\Breadcrumbs;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tightenco\Ziggy\Ziggy;
@@ -38,6 +39,13 @@ class HandleInertiaRequests extends Middleware
                 return array_merge((new Ziggy)->toArray(), [
                     'location' => $request->url(),
                 ]);
+            },
+            'breadcrumbs' => function () {
+                try { // TODO: fix this later!
+                    return Breadcrumbs::generate()->toArray();
+                } catch (\Throwable $th) {
+                    return [];
+                }
             },
             'flash' => [
                 'status' => fn () => $request->session()->get('status'),
