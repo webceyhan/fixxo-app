@@ -84,10 +84,15 @@ const allowedLinks = computed(() =>
           <!-- Settings Dropdown -->
           <div class="ml-3 relative">
             <Dropdown :label="$page.props.auth.user.name">
-              <DropdownLink label="Profile" :href="route('profile.edit')" />
+              <DropdownLink
+                label="Profile"
+                icon="profile"
+                :href="route('profile.edit')"
+              />
 
               <DropdownLink
                 label="Log Out"
+                icon="logout"
                 method="post"
                 as="button"
                 :href="route('logout')"
@@ -124,6 +129,7 @@ const allowedLinks = computed(() =>
           :active="route().current(link.to)"
           :class="link.class"
           :label="link.label"
+          :icon="link.icon"
         />
       </div>
 
@@ -139,10 +145,15 @@ const allowedLinks = computed(() =>
         </div>
 
         <div class="mt-3 space-y-1">
-          <ResponsiveNavLink label="Profile" :href="route('profile.edit')" />
+          <ResponsiveNavLink
+            label="Profile"
+            icon="profile"
+            :href="route('profile.edit')"
+          />
 
           <ResponsiveNavLink
             label="Log Out"
+            icon="logout"
             method="post"
             as="button"
             :href="route('logout')"
