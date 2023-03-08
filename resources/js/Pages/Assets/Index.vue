@@ -16,9 +16,12 @@ const { brand, type, ...restFilters } = props.filters;
 
 <template>
   <AuthenticatedLayout title="Assets">
-    <div class="flex justify-between items-center">
-      <Searchbar :filters="restFilters" />
-      <Pagination v-bind="assets" />
+    <div class="flex flex-col lg:flex-row lg:justify-between px-4 sm:p-0 gap-6">
+      <div class="flex justify-between items-center gap-4 basis-3/5">
+        <Searchbar :filters="restFilters" />
+      </div>
+
+      <Pagination v-bind="assets" class="flex-shrink-0" />
     </div>
 
     <div class="flex gap-6">

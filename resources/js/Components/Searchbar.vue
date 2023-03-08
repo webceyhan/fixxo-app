@@ -47,8 +47,8 @@ const isDirty = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col sm:flex-row items-center-">
-    <div class="block relative">
+  <div class="flex items-center w-full">
+    <div class="flex relative w-full">
       <span class="absolute inset-y-0 left-0 flex items-center pl-2">
         <Icon name="search" class="text-gray-500" />
       </span>
