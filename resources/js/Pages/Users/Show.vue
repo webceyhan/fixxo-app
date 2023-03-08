@@ -5,6 +5,8 @@ import DangerButton from "@/Components/Button/DangerButton.vue";
 import UserCard from "./Partials/UserCard.vue";
 import AssetList from "../Assets/Partials/AssetList.vue";
 import Card from "@/Components/Card.vue";
+import Dropdown from "@/Components/Menu/Dropdown.vue";
+import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 
 const props = defineProps({
   user: Object,
@@ -14,7 +16,8 @@ const props = defineProps({
 
 <template>
   <PageLayout :title="user.name">
-    <template #toolbar>
+    <!-- desktop menu -->
+    <template #desktop-menu>
       <SecondaryButton label="Edit" icon="edit" :href="route('users.edit', user.id)" />
       <DangerButton
         label="Delete"
@@ -22,6 +25,19 @@ const props = defineProps({
         method="delete"
         :href="route('users.destroy', user.id)"
       />
+    </template>
+
+    <!-- mobile menu -->
+    <template #mobile-menu>
+      <Dropdown>
+        <DropdownItem label="Edit" icon="edit" :href="route('users.edit', user.id)" />
+        <DropdownItem
+          label="Delete"
+          icon="delete"
+          method="delete"
+          :href="route('users.destroy', user.id)"
+        />
+      </Dropdown>
     </template>
 
     <template #aside>

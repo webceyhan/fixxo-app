@@ -1,5 +1,5 @@
 <script setup>
-import { Menu, MenuButton, MenuItems, MenuItem } from "@headlessui/vue";
+import { Menu, MenuButton, MenuItems } from "@headlessui/vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import Icon from "@/Components/Icon.vue";
 
@@ -14,10 +14,19 @@ defineProps({
   <Menu as="div" class="relative inline-block text-left">
     <div>
       <slot name="trigger">
-        <MenuButton :as="SecondaryButton">
+        <!-- normal button with label -->
+        <MenuButton v-if="label" :as="SecondaryButton">
           {{ label }}
 
           <Icon name="chevron-down" class="-mr-1 opacity-50" aria-hidden="true" />
+        </MenuButton>
+
+        <!-- menu icon button -->
+        <MenuButton v-else>
+          <Icon
+            name="three-dots-vertical"
+            class="text-white p-2 hover:bg-gray-800 rounded"
+          />
         </MenuButton>
       </slot>
     </div>

@@ -8,6 +8,8 @@ import DangerButton from "@/Components/Button/DangerButton.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import CustomerCard from "./Partials/CustomerCard.vue";
+import DropdownItem from "@/Components/Menu/DropdownItem.vue";
+import Dropdown from "@/Components/Menu/Dropdown.vue";
 
 const props = defineProps({
   customer: Object,
@@ -27,7 +29,8 @@ const save = () => {
 
 <template>
   <PageLayout :title="customer.name">
-    <template #toolbar>
+    <!-- desktop menu -->
+    <template #desktop-menu>
       <SecondaryButton
         label="Edit"
         icon="edit"
@@ -46,6 +49,29 @@ const save = () => {
         :href="route('assets.create')"
         :data="{ customer_id: customer.id }"
       />
+    </template>
+
+    <!-- mobile menu -->
+    <template #mobile-menu>
+      <Dropdown>
+        <DropdownItem
+          label="Edit"
+          icon="edit"
+          :href="route('customers.edit', customer.id)"
+        />
+        <DropdownItem
+          label="Delete"
+          method="delete"
+          icon="delete"
+          :href="route('customers.destroy', customer.id)"
+        />
+        <DropdownItem
+          label="New Asset"
+          icon="create"
+          :href="route('assets.create')"
+          :data="{ customer_id: customer.id }"
+        />
+      </Dropdown>
     </template>
 
     <template #aside>

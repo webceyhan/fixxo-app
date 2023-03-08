@@ -9,6 +9,10 @@ import DangerButton from "@/Components/Button/DangerButton.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import AssetCard from "./Partials/AssetCard.vue";
+import DropdownItem from "@/Components/Menu/DropdownItem.vue";
+
+import Dropdown from "@/Components/Menu/Dropdown.vue";
+import Toolbar from "@/Components/Toolbar.vue";
 
 const props = defineProps({
   asset: Object,
@@ -29,7 +33,8 @@ const save = () => {
 
 <template>
   <PageLayout :title="asset.name">
-    <template #toolbar>
+    <!-- desktop menu -->
+    <template #desktop-menu>
       <SecondaryButton label="Edit" icon="edit" :href="route('assets.edit', asset.id)" />
       <DangerButton
         label="Delete"
@@ -50,6 +55,31 @@ const save = () => {
         :href="route('payments.create')"
         :data="{ asset_id: asset.id }"
       />
+    </template>
+
+    <!-- mobile menu -->
+    <template #mobile-menu>
+      <Dropdown>
+        <DropdownItem label="Edit" icon="edit" :href="route('assets.edit', asset.id)" />
+        <DropdownItem
+          label="Delete"
+          method="delete"
+          icon="delete"
+          :href="route('assets.destroy', asset.id)"
+        />
+        <DropdownItem
+          label="New Task"
+          icon="create"
+          :href="route('tasks.create')"
+          :data="{ asset_id: asset.id }"
+        />
+        <DropdownItem
+          label="New Payment"
+          icon="create"
+          :href="route('payments.create')"
+          :data="{ asset_id: asset.id }"
+        />
+      </Dropdown>
     </template>
 
     <template #aside>
