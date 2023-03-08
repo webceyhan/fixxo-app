@@ -10,6 +10,7 @@ import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import CustomerCard from "./Partials/CustomerCard.vue";
 import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
+import ToggleButton from "@/Components/Button/ToggleButton.vue";
 
 const props = defineProps({
   customer: Object,
@@ -43,6 +44,22 @@ const save = () => {
         :href="route('customers.destroy', customer.id)"
         class="mr-4"
       />
+      <ToggleButton
+        name="status"
+        :value="customer.status"
+        :href="route('customers.update', customer.id)"
+        :options="{
+          active: 'Unlock',
+          inactive: 'Lock',
+        }"
+        :icons="{
+          active: 'unlock',
+          inactive: 'lock',
+        }"
+        method="put"
+        class="mr-4"
+      />
+
       <PrimaryButton
         label="New Asset"
         icon="create"
