@@ -11,6 +11,7 @@ import CustomerCard from "./Partials/CustomerCard.vue";
 import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import ToggleButton from "@/Components/Button/ToggleButton.vue";
+import DropdownToggleItem from "@/Components/Menu/DropdownToggleItem.vue";
 
 const props = defineProps({
   customer: Object,
@@ -81,6 +82,20 @@ const save = () => {
           method="delete"
           icon="delete"
           :href="route('customers.destroy', customer.id)"
+        />
+        <DropdownToggleItem
+          name="status"
+          :value="customer.status"
+          :href="route('customers.update', customer.id)"
+          :options="{
+            active: 'Unlock',
+            inactive: 'Lock',
+          }"
+          :icons="{
+            active: 'unlock',
+            inactive: 'lock',
+          }"
+          method="put"
         />
         <DropdownItem
           label="New Asset"

@@ -1,6 +1,6 @@
 <script setup>
-import { computed } from "vue";
-import SecondaryButton from "./SecondaryButton.vue";
+import { computed } from "@vue/reactivity";
+import DropdownItem from "./DropdownItem.vue";
 
 const props = defineProps({
   name: String,
@@ -19,5 +19,5 @@ const next = computed(() => {
 </script>
 
 <template>
-  <SecondaryButton :label="options[next]" :icon="icons[next]" :data="{ [name]: next }" />
+  <DropdownItem :label="options[next]" :icon="icons[next]" :data="{ [name]: next }" />
 </template>

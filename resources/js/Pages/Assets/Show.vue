@@ -12,6 +12,7 @@ import AssetCard from "./Partials/AssetCard.vue";
 import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import ToggleButton from "@/Components/Button/ToggleButton.vue";
+import DropdownToggleItem from "@/Components/Menu/DropdownToggleItem.vue";
 
 const props = defineProps({
   asset: Object,
@@ -83,6 +84,23 @@ const save = () => {
           method="delete"
           icon="delete"
           :href="route('assets.destroy', asset.id)"
+        />
+        <DropdownToggleItem
+          name="status"
+          :value="asset.status"
+          :href="route('assets.update', asset.id)"
+          :options="{
+            in_progress: 'Reopen',
+            ready: 'Resolve',
+            returned: 'Return',
+          }"
+          :icons="{
+            in_progress: 'arrow-repeat',
+            ready: 'resolve',
+            returned: 'return',
+          }"
+          method="put"
+          
         />
         <DropdownItem
           label="New Task"

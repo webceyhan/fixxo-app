@@ -8,6 +8,7 @@ import Card from "@/Components/Card.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 import ToggleButton from "@/Components/Button/ToggleButton.vue";
+import DropdownToggleItem from "@/Components/Menu/DropdownToggleItem.vue";
 
 const props = defineProps({
   user: Object,
@@ -53,6 +54,20 @@ const props = defineProps({
           icon="delete"
           method="delete"
           :href="route('users.destroy', user.id)"
+        />
+        <DropdownToggleItem
+          name="status"
+          :value="user.status"
+          :href="route('users.update', user.id)"
+          :options="{
+            active: 'Unlock',
+            inactive: 'Lock',
+          }"
+          :icons="{
+            active: 'unlock',
+            inactive: 'lock',
+          }"
+          method="put"
         />
       </Dropdown>
     </template>
