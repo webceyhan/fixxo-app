@@ -32,9 +32,9 @@ defineProps({
         assets {{ user.assets_count }}
       </div>
 
-      <div class="w-fit md:w-2/12">
+      <template #badge>
         <UserBadge :status="user.status" />
-      </div>
+      </template>
     </StackedListItem>
   </StackedList>
 </template>

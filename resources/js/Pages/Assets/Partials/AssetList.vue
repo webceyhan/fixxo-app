@@ -40,9 +40,9 @@ const props = defineProps({
         cost {{ asset.total_cost }}€
       </div>
 
-      <div v-if="!compact" class="w-fit md:w-2/12">
+      <template #badge>
         <AssetBadge :status="asset.status" />
-      </div>
+      </template>
     </StackedListItem>
   </StackedList>
 </template>

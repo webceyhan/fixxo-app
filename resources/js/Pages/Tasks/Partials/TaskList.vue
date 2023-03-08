@@ -30,9 +30,9 @@ defineProps({
         {{ formatMoney(task.price) }}
       </div>
 
-      <div class="w-fit md:w-2/12">
+      <template #badge>
         <TaskBadge :status="task.status" />
-      </div>
+      </template>
     </StackedListItem>
   </StackedList>
 </template>

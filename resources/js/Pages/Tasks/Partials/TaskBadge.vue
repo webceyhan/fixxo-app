@@ -1,18 +1,22 @@
 <script setup>
-import Badge from "@/Components/Badge.vue";
+import StatusBadge from "@/Components/StatusBadge.vue";
 
 defineProps({
-    status: String,
+  status: String,
 });
 
-const statusColorMap = {
-    pending: "warning",
-    done: "success",
+const states = {
+  pending: {
+    label: "Pending",
+    theme: "warning",
+  },
+  done: {
+    label: "Done",
+    theme: "success",
+  },
 };
 </script>
 
 <template>
-    <Badge :theme="statusColorMap[status]">
-        {{ status }}
-    </Badge>
+  <StatusBadge v-bind="states[status]" />
 </template>
