@@ -1,6 +1,7 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
-import Icon from "../Icon.vue";
+import Icon from "@/Components/Icon.vue";
+import Avatar from "@/Components/Avatar.vue";
 
 defineProps({
   label: String,
@@ -16,14 +17,8 @@ defineProps({
       'hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:bg-opacity-30': $attrs.href,
     }"
   >
-    <!-- icon -->
-    <div v-if="icon" class="flex items-center justify-center opacity-50">
-      <div
-        class="text-white bg-gray-900 rounded-full w-12 h-12 flex items-center justify-center"
-      >
-        <Icon :name="icon" class="text-2xl" />
-      </div>
-    </div>
+    <!-- avatar -->
+    <Avatar v-if="icon" :icon="icon" class="opacity-50" />
 
     <slot> {{ label }} </slot>
 
