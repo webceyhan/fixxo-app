@@ -15,7 +15,12 @@ defineProps({
 <template>
   <AuthenticatedLayout title="Users">
     <template #actions>
-      <PrimaryButton label="New" icon="create" :href="route('users.create')" />
+      <PrimaryButton
+        label="New"
+        icon="create"
+        class="!rounded-full"
+        :href="route('users.create')"
+      />
     </template>
 
     <div class="flex flex-col lg:flex-row lg:justify-between px-4 sm:p-0 gap-6">

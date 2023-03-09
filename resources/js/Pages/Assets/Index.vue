@@ -17,7 +17,7 @@ const { brand, type, ...restFilters } = props.filters;
 <template>
   <AuthenticatedLayout title="Assets">
     <!-- <template #actions>
-      <PrimaryButton label="New" icon="create" :href="route('assets.create')" />
+      <PrimaryButton label="New" icon="create" class="!rounded-full" :href="route('assets.create')" />
     </template> -->
 
     <div class="flex flex-col lg:flex-row lg:justify-between px-4 sm:p-0 gap-6">
