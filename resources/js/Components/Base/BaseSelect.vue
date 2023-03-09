@@ -4,7 +4,6 @@ import { ref, onMounted } from "vue";
 defineProps({
   modelValue: [String, Number, Boolean],
   options: [Array, Object],
-  noRounding: Boolean,
 });
 
 defineEmits(["update:modelValue"]);
@@ -25,10 +24,7 @@ onMounted(() => {
 <template>
   <select
     ref="input"
-    class="appearance-none border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm transition ease-in-out duration-300"
-    :class="{
-      'rounded-md': !noRounding,
-    }"
+    class="appearance-none rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 shadow-sm transition ease-in-out duration-300"
     @change="$emit('update:modelValue', $event.target.value)"
     :value="modelValue"
   >
