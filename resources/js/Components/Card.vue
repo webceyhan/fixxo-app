@@ -9,12 +9,11 @@ defineProps({
 </script>
 
 <template>
-  <div class="bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
+  <div
+    class="bg-white dark:bg-gray-800/75 overflow-hidden shadow-lg sm:rounded-lg divide-y divide-slate-200 dark:divide-slate-700/50"
+  >
     <!-- header -->
-    <header
-      v-if="$slots.header || label"
-      class="bg-white dark:bg-gray-700 dark:bg-opacity-50 p-4 sm:p-6"
-    >
+    <header v-if="$slots.header || label" class="p-4 sm:p-6">
       <slot name="header">
         <Icon v-if="icon" :name="icon" class="mr-2" />
         <div class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
