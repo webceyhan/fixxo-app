@@ -3,8 +3,8 @@ import { computed } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
 import { debounce } from "@/Shared/utils";
 import Icon from "@/Components/Icon.vue";
-import BaseInput from "@/Components/Base/BaseInput.vue";
-import BaseSelect from "@/Components/Base/BaseSelect.vue";
+import Select from "@/Components/Form/Select.vue";
+import TextInput from "@/Components/Form/TextInput.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import InputGroup from "@/Components/Form/InputGroup.vue";
 import BaseButton from "@/Components/Button/BaseButton.vue";
@@ -56,7 +56,7 @@ const isDirty = computed(() => {
     <!-- desktop -->
     <InputGroup class="hidden lg:flex relative">
       <!-- search input -->
-      <BaseInput
+      <TextInput
         type="search"
         placeholder="Search"
         class="pl-10 flex-1"
@@ -70,7 +70,7 @@ const isDirty = computed(() => {
       </span>
 
       <!-- filters -->
-      <BaseSelect
+      <Select
         v-for="(options, key) in filters"
         :key="key"
         :name="key"
@@ -81,7 +81,7 @@ const isDirty = computed(() => {
         <option v-for="option in options" :key="option" :value="option">
           {{ option }}
         </option>
-      </BaseSelect>
+      </Select>
 
       <!-- reset button -->
       <BaseButton
@@ -95,7 +95,7 @@ const isDirty = computed(() => {
     <!-- mobile -->
     <InputGroup class="flex lg:hidden relative items-center">
       <!-- search input -->
-      <BaseInput
+      <TextInput
         type="search"
         placeholder="Search"
         class="pl-10 flex-1"
@@ -118,7 +118,7 @@ const isDirty = computed(() => {
         </template>
 
         <div class="flex flex-col p-4 space-y-2">
-          <BaseSelect
+          <Select
             v-for="(options, key) in filters"
             :key="key"
             :name="key"
@@ -130,7 +130,7 @@ const isDirty = computed(() => {
             <option v-for="option in options" :key="option" :value="option">
               {{ option }}
             </option>
-          </BaseSelect>
+          </Select>
 
           <SecondaryButton v-if="isDirty" @click="onReset" label="Clear" />
         </div>

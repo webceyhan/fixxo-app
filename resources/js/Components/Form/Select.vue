@@ -50,8 +50,10 @@ const normalizeOptions = (options) => {
     :value="modelValue"
     @change="$emit('update:modelValue', $event.target.value)"
   >
-    <option v-for="(option, key) in normalizeOptions(options)" :key="key" :value="key">
-      {{ option ?? key }}
-    </option>
+    <slot>
+      <option v-for="(value, key) in normalizeOptions(options)" v-bind="{ key, value }">
+        {{ value ?? key }}
+      </option>
+    </slot>
   </select>
 </template>
