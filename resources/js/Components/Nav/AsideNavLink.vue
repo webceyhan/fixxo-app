@@ -1,8 +1,10 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
+import Icon from "@/Components/Icon.vue";
 
 defineProps({
   label: String,
+  icon: String,
   active: Boolean,
 });
 </script>
@@ -11,7 +13,7 @@ defineProps({
   <Link
     :class="{
       // base
-      'block border-l pl-4 -ml-px capitalize': true,
+      'flex items-center border-l pl-4 -ml-px capitalize space-x-2': true,
       // normal
       'border-transparent hover:border-slate-400 dark:hover:border-slate-500 text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300': !active,
       // active
@@ -20,6 +22,9 @@ defineProps({
     :href="$page.url"
     preserve-state
   >
-    <slot>{{ label }}</slot>
+    <slot>
+      <Icon v-if="icon" :name="icon" class="text-lg" />
+      <span>{{ label }}</span>
+    </slot>
   </Link>
 </template>

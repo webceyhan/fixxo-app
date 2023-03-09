@@ -18,7 +18,7 @@ export const useSearchParams = () => Object.fromEntries(useUrl().searchParams);
  * Generates links for given key and options
  * which can be used in dropdowns or navigation to filter data
  */
-export const createOptionLinks = (key, options) => {
+export const createOptionLinks = (key, options, withIcons = false) => {
     // from ['option1', 'option2']
     // to [
     //      { label: 'option1', data:{[key]: 'option1'}, active: true },
@@ -31,5 +31,6 @@ export const createOptionLinks = (key, options) => {
         label: option,
         data: { [key]: option },
         active: option === selectedOption,
+        icon: withIcons ? option : null,
     }));
 };

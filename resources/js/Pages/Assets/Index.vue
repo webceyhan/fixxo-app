@@ -16,7 +16,7 @@ const props = defineProps({
 
 const { brand, type, ...restFilters } = props.filters;
 
-const typeFilterLinks = computed(() => createOptionLinks("type", type));
+const typeFilterLinks = computed(() => createOptionLinks("type", type, true));
 
 const brandFilterLinks = computed(() => createOptionLinks("brand", brand));
 </script>
