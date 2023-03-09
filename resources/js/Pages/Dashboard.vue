@@ -6,6 +6,7 @@ import StatCard from "@/Components/StatCard.vue";
 import AssetList from "@/Pages/Assets/Partials/AssetList.vue";
 import RadioGroup from "@/Components/Form/RadioGroup.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import Select from "@/Components/Form/Select.vue";
 
 const props = defineProps({
   interval: String,
@@ -26,6 +27,14 @@ const onIntervalChange = (interval) => {
   <AuthenticatedLayout title="Dashboard">
     <div class="flex items-center md:justify-end px-5 sm:p-0">
       <RadioGroup
+        class="hidden lg:flex"
+        :options="intervalOptions"
+        :modelValue="interval"
+        @update:modelValue="onIntervalChange"
+      />
+
+      <Select
+        class="lg:hidden"
         :options="intervalOptions"
         :modelValue="interval"
         @update:modelValue="onIntervalChange"

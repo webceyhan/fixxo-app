@@ -2,8 +2,13 @@
 import { computed } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
 import { debounce } from "@/Shared/utils";
+import Icon from "@/Components/Icon.vue";
+import Select from "@/Components/Form/Select.vue";
+import TextInput from "@/Components/Form/TextInput.vue";
+import Dropdown from "@/Components/Menu/Dropdown.vue";
+import InputGroup from "@/Components/Form/InputGroup.vue";
+import BaseButton from "@/Components/Button/BaseButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
-import Icon from "./Icon.vue";
 
 defineProps({
   filters: Object,
@@ -47,40 +52,89 @@ const isDirty = computed(() => {
 </script>
 
 <template>
-  <div class="flex flex-col sm:flex-row items-center-">
-    <div class="block relative">
-      <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-        <Icon name="search" class="text-gray-500" />
-      </span>
-
-      <input
-        placeholder="Search"
+  <div class="flex items-center w-full">
+    <!-- desktop -->
+    <InputGroup class="hidden lg:flex relative">
+      <!-- search input -->
+      <TextInput
         type="search"
+        placeholder="Search"
+        class="pl-10 flex-1"
         :value="searchParams.search"
-        class="appearance-none rounded-l border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none"
         @input="onSearch"
       />
-    </div>
 
-    <select
-      v-for="(options, key) in filters"
-      :key="key"
-      :name="key"
-      :value="searchParams[key]"
-      @change="onFilter"
-      class="appearance-none h-full block border-x-0 border-r last:rounded-r bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500"
-    >
-      <option value="">{{ key }}</option>
-      <option v-for="option in options" :key="option" :value="option">
-        {{ option }}
-      </option>
-    </select>
+      <!-- search icon overlay -->
+      <span class="ignore absolute inset-y-0 left-0 flex items-center pl-3">
+        <Icon name="search" class="text-xl text-gray-500" />
+      </span>
 
-    <SecondaryButton
-      v-if="isDirty"
-      @click="onReset"
-      class="border-l-0 rounded-l-none"
-      label="x"
-    />
+      <!-- filters -->
+      <Select
+        v-for="(options, key) in filters"
+        :key="key"
+        :name="key"
+        :value="searchParams[key]"
+        @change="onFilter"
+      >
+        <option value="">{{ key }}</option>
+        <option v-for="option in options" :key="option" :value="option">
+          {{ option }}
+        </option>
+      </Select>
+
+      <!-- reset button -->
+      <BaseButton
+        v-if="isDirty"
+        @click="onReset"
+        class="w-12 h-auto dark:text-white border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
+        icon="dismiss"
+      />
+    </InputGroup>
+
+    <!-- mobile -->
+    <InputGroup class="flex lg:hidden relative items-center">
+      <!-- search input -->
+      <TextInput
+        type="search"
+        placeholder="Search"
+        class="pl-10 flex-1"
+        :value="searchParams.search"
+        @input="onSearch"
+      />
+
+      <!-- search icon overlay -->
+      <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+        <Icon name="search" class="text-xl text-gray-500" />
+      </span>
+
+      <!-- filters -->
+      <Dropdown>
+        <template #trigger>
+          <Icon
+            name="filter"
+            class="text-xl text-white hover:bg-gray-800 border border-gray-700 rounded-r-md p-2"
+          />
+        </template>
+
+        <div class="flex flex-col p-4 space-y-2">
+          <Select
+            v-for="(options, key) in filters"
+            :key="key"
+            :name="key"
+            :value="searchParams[key]"
+            @change="onFilter"
+            class="w-full"
+          >
+            <option value="">{{ key }}</option>
+            <option v-for="option in options" :key="option" :value="option">
+              {{ option }}
+            </option>
+          </Select>
+
+          <SecondaryButton v-if="isDirty" @click="onReset" label="Clear" />
+        </div>
+      </Dropdown>
+    </InputGroup>
   </div>
 </template>

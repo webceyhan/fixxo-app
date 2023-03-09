@@ -15,8 +15,8 @@ const classes = computed(() =>
 <template>
   <Link :href="href" :class="classes" class="space-x-2">
     <slot>
-      <Icon :name="icon" class="text-xl"/>
-      <span>{{ label }}</span>
+      <Icon :name="icon" class="text-3xl lg:text-xl" />
+      <span class="hidden lg:inline">{{ label }}</span>
     </slot>
   </Link>
 </template>

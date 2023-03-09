@@ -13,7 +13,18 @@ defineProps({
   <AuthenticatedLayout :title="title">
     <Toolbar>
       <BackButton class="mr-auto" />
-      <slot name="toolbar" />
+
+      <slot name="toolbar">
+        <!-- desktop -->
+        <div class="hidden lg:flex gap-2">
+          <slot name="desktop-menu" />
+        </div>
+
+        <!-- mobile -->
+        <div class="lg:hidden">
+          <slot name="mobile-menu" />
+        </div>
+      </slot>
     </Toolbar>
 
     <slot>

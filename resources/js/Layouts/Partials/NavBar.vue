@@ -1,11 +1,12 @@
 <script setup>
 import { ref, computed } from "vue";
 import { Link } from "@inertiajs/vue3";
+import { MenuButton } from "@headlessui/vue";
 import { isAdmin } from "@/Shared/auth";
 import Icon from "@/Components/Icon.vue";
 import Avatar from "@/Components/Avatar.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
-import DropdownLink from "@/Components/Menu/DropdownLink.vue";
+import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 import Logo from "./Logo.vue";
 import NavLink from "./NavLink.vue";
 import ResponsiveNavLink from "./ResponsiveNavLink.vue";
@@ -86,29 +87,27 @@ const allowedLinks = computed(() =>
           <div class="ml-3 relative">
             <Dropdown>
               <template #trigger>
-                <button
-                  type="button"
-                  class="inline-flex items-center px-3 py-2 space-x-2 border border-transparent rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
+                <MenuButton
+                  class="flex items-center space-x-2 border-0 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
                 >
                   <p class="text-sm leading-4 font-medium">
                     {{ $page.props.auth.user.name }}
                   </p>
 
                   <Avatar icon="profile" />
-                </button>
+                </MenuButton>
               </template>
 
-              <DropdownLink
+              <DropdownItem
                 label="Profile"
                 icon="profile"
                 :href="route('profile.edit')"
               />
 
-              <DropdownLink
+              <DropdownItem
                 label="Log Out"
                 icon="logout"
                 method="post"
-                as="button"
                 :href="route('logout')"
               />
             </Dropdown>
