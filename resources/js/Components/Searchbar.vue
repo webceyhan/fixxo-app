@@ -87,7 +87,7 @@ const isDirty = computed(() => {
       <BaseButton
         v-if="isDirty"
         @click="onReset"
-        class="w-12 h-auto text-white border-gray-700 hover:bg-gray-700"
+        class="w-12 h-auto dark:text-white border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
         icon="dismiss"
       />
     </InputGroup>
