@@ -23,8 +23,12 @@ const currentTitle = computed(
       <NavBar :user="$page.props.auth.user" />
 
       <header class="container mx-auto pt-6 px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items center">
         <Breadcrumbs :links="$page.props.breadcrumbs" class="hidden md:flex" />
         <h2 class="text-2xl text-white md:hidden">{{ currentTitle }}</h2>
+
+        <slot name="actions" />
+      </div>
       </header>
 
       <!-- Page Heading -->
