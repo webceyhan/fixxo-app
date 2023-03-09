@@ -85,7 +85,7 @@ const allowedLinks = computed(() =>
         <div class="hidden sm:flex sm:items-center sm:ml-6">
           <!-- Settings Dropdown -->
           <div class="ml-3 relative">
-            <Dropdown :label="$page.props.auth.user.name">
+            <Dropdown>
               <template #trigger>
                 <MenuButton
                   class="flex items-center space-x-2 border-0 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
