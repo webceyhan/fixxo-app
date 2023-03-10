@@ -2,12 +2,11 @@
 import { computed } from "vue";
 import { createOptionLinks } from "@/Shared/routing";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import AssetList from "./Partials/AssetList.vue";
-import Card from "@/Components/Card.vue";
 import AsideNav from "@/Components/Nav/AsideNav.vue";
 import HashTagNav from "@/Components/Nav/HashTagNav.vue";
+import PaginationWrapper from "@/Components/PaginationWrapper.vue";
 
 const props = defineProps({
   assets: Object,
@@ -29,7 +28,6 @@ const brandFilterLinks = computed(() => createOptionLinks("brand", brand));
 
     <div class="flex flex-col lg:flex-row lg:justify-between gap-6">
       <Searchbar :filters="restFilters" class="basis-1/2" />
-      <Pagination v-bind="assets" class="flex-shrink-0" />
     </div>
 
     <div class="flex gap-6">
@@ -39,11 +37,9 @@ const brandFilterLinks = computed(() => createOptionLinks("brand", brand));
         <HashTagNav label="Filter by brand" :links="brandFilterLinks" />
       </div>
 
-      <div class="flex-1">
-        <Card class="-mx-4 sm:m-0" flush>
-          <AssetList :assets="assets.data" />
-        </Card>
-      </div>
+      <PaginationWrapper :meta="assets" class="flex-1">
+        <AssetList :assets="assets.data" />
+      </PaginationWrapper>
     </div>
   </AuthenticatedLayout>
 </template>
