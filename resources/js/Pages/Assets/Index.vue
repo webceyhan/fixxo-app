@@ -27,7 +27,7 @@ const brandFilterLinks = computed(() => createOptionLinks("brand", brand));
       <PrimaryButton label="New" icon="create" class="!rounded-full" :href="route('assets.create')" />
     </template> -->
 
-    <div class="flex flex-col lg:flex-row lg:justify-between px-4 sm:p-0 gap-6">
+    <div class="flex flex-col lg:flex-row lg:justify-between gap-6">
       <Searchbar :filters="restFilters" class="basis-1/2" />
       <Pagination v-bind="assets" class="flex-shrink-0" />
     </div>
@@ -40,7 +40,7 @@ const brandFilterLinks = computed(() => createOptionLinks("brand", brand));
       </div>
 
       <div class="flex-1">
-        <Card flush>
+        <Card class="-mx-4 sm:m-0" flush>
           <AssetList :assets="assets.data" />
         </Card>
       </div>

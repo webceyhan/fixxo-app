@@ -23,12 +23,12 @@ defineProps({
       />
     </template>
 
-    <div class="flex flex-col lg:flex-row lg:justify-between px-4 sm:p-0 gap-6">
+    <div class="flex flex-col lg:flex-row lg:justify-between gap-6">
       <Searchbar :filters="filters" class="basis-1/2" />
       <Pagination v-bind="customers" class="flex-shrink-0" />
     </div>
 
-    <Card flush>
+    <Card class="-mx-4 sm:m-0" flush>
       <CustomerList :customers="customers.data" />
     </Card>
   </AuthenticatedLayout>
