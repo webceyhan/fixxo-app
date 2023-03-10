@@ -25,7 +25,7 @@ const onIntervalChange = (interval) => {
 
 <template>
   <AuthenticatedLayout title="Dashboard">
-    <div class="flex items-center md:justify-end px-5 sm:p-0">
+    <div class="flex items-center md:justify-end">
       <RadioGroup
         class="hidden lg:flex"
         :options="intervalOptions"
