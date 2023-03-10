@@ -53,6 +53,11 @@ const onIntervalChange = (interval) => {
       <Card class="flex-1" label="Latest assets in progress" flush>
         <AssetList :assets="assetsInProgress" compact />
 
+        <!-- placeholder -->
+        <div v-if="assetsInProgress.length === 0" class="text-center py-10">
+          No assets found.
+        </div>
+
         <template #footer>
           <Link
             label="View all"
@@ -63,6 +68,11 @@ const onIntervalChange = (interval) => {
 
       <Card class="flex-1" label="Latest assets ready to pick up" flush>
         <AssetList :assets="assetsReady" compact />
+
+        <!-- placeholder -->
+        <div v-if="assetsReady.length === 0" class="text-center py-10">
+          No assets found.
+        </div>
 
         <template #footer>
           <Link label="View all" :href="route('assets.index', { status: 'ready' })" />
