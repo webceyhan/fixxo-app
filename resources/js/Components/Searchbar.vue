@@ -1,7 +1,8 @@
 <script setup>
 import { computed } from "vue";
-import { router, usePage } from "@inertiajs/vue3";
+import { router } from "@inertiajs/vue3";
 import { debounce } from "@/Shared/utils";
+import { useSearchParams } from "@/Shared/routing";
 import Icon from "@/Components/Icon.vue";
 import Select from "@/Components/Form/Select.vue";
 import TextInput from "@/Components/Form/TextInput.vue";
@@ -10,45 +11,37 @@ import InputGroup from "@/Components/Form/InputGroup.vue";
 import BaseButton from "@/Components/Button/BaseButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 
-defineProps({
+const props = defineProps({
   filters: Object,
 });
 
 const onSearch = ({ target }) => {
   debounce(() => {
-    router.get(usePage().url, { search: target.value }, { preserveState: true });
+    router.reload({
+      data: { search: target.value },
+      preserveState: true,
+    });
   }, 500)();
 };
 
 const onFilter = ({ target }) => {
-  router.get(usePage().url, { [target.name]: target.value }, { preserveState: true });
+  router.reload({
+    data: { [target.name]: target.value },
+    preserveState: true,
+  });
 };
 
-// get search params from url
 const searchParams = computed(() => {
-  // todo: improve this code!
-  // usePage is reactive, so we can use it to get the current page params
-  // when combined with preserve-state link option
-  // location.origin : http://hascom-rma.test'
-  // usePage().url:   /customers?status=inactive&key=ca
-  const url = location.origin + usePage().url;
-  const { searchParams } = new URL(url);
-
-  return [...searchParams.keys()].reduce((acc, key) => {
-    acc[key] = searchParams.get(key);
-    return acc;
-  }, {});
+  return useSearchParams();
 });
 
-// reset search params
+const isDirty = computed(() => {
+  return Object.keys(useSearchParams()).length > 0;
+});
+
 const onReset = () => {
   router.get(location.pathname, {}, { preserveState: true });
 };
-
-// is dirty
-const isDirty = computed(() => {
-  return Object.keys(searchParams.value).length > 0;
-});
 </script>
 
 <template>
@@ -75,13 +68,15 @@ const isDirty = computed(() => {
         :key="key"
         :name="key"
         :value="searchParams[key]"
+        :options="options"
         @change="onFilter"
+        :reset-option="{ label: key, value: '' }"
       >
+      <template #header>
         <option value="">{{ key }}</option>
-        <option v-for="option in options" :key="option" :value="option">
-          {{ option }}
-        </option>
+      </template>
       </Select>
+      
 
       <!-- reset button -->
       <BaseButton
@@ -123,13 +118,12 @@ const isDirty = computed(() => {
             :key="key"
             :name="key"
             :value="searchParams[key]"
+            :options="options"
             @change="onFilter"
             class="w-full"
           >
-            <option value="">{{ key }}</option>
-            <option v-for="option in options" :key="option" :value="option">
-              {{ option }}
-            </option>
+            <!-- <option value="">{{ key }}</option> -->
+  
           </Select>
 
           <SecondaryButton v-if="isDirty" @click="onReset" label="Clear" />
