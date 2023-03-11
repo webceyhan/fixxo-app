@@ -19,5 +19,10 @@ const next = computed(() => {
 </script>
 
 <template>
-  <SecondaryButton :label="options[next]" :icon="icons[next]" :data="{ [name]: next }" />
+  <SecondaryButton
+    :label="options[next]"
+    :icon="icons[next]"
+    :data="{ [name]: next }"
+    preserve-scroll
+  />
 </template>
