@@ -12,7 +12,7 @@ defineProps({
 <template>
   <component
     :is="$attrs.href ? Link : 'li'"
-    class="relative flex justify-between items-center p-4 sm:px-6 space-x-4 sm:space-x-6"
+    class="group relative flex justify-between items-center p-4 sm:px-6 space-x-4 sm:space-x-6"
     :class="{
       'hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:bg-opacity-30': $attrs.href,
     }"
@@ -34,5 +34,13 @@ defineProps({
 
     <!-- browse icon -->
     <Icon v-if="$attrs.href" name="chevron-right" class="text-sm opacity-25" />
+
+    <!-- overlay menu -->
+    <div
+      v-if="$slots.menu"
+      class="absolute inset-y-0 right-0 backdrop-blur-sm flex items-center justify-end px-6 gap-4 opacity-0 group-hover:opacity-100 transition-opacity duration-100"
+    >
+      <slot name="menu" />
+    </div>
   </component>
 </template>
