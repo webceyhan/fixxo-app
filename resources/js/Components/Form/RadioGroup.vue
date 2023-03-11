@@ -21,7 +21,7 @@ defineEmits(["change", "update:modelValue"]);
     <RadioGroup
       :model-value="modelValue"
       @update:modelValue="$emit('update:modelValue', $event)"
-      class="flex text-sm font-semibold dark:text-gray-300 shadow-sm"
+      class="flex text-sm font-semibold text-gray-600 dark:text-gray-300 shadow-sm"
     >
       <RadioGroupOption
         v-for="(option, key) in options"
@@ -33,8 +33,8 @@ defineEmits(["change", "update:modelValue"]);
         <div
           :class="{
             'border first:rounded-l-md last:rounded-r-md cursor-pointer py-2 px-4': true,
-            'border-gray-300 dark:border-gray-700 dark:bg-gray-900 ': !checked,
-            'dark:text-white border-transparent bg-indigo-500 dark:bg-indigo-600': checked,
+            'hover:bg-gray-300 hover:dark:bg-gray-800/75 border-gray-300 dark:border-gray-700 dark:bg-gray-900 ': !checked,
+            'text-white border-transparent bg-indigo-500 dark:bg-indigo-600': checked,
           }"
         >
           {{ option ?? key }}
