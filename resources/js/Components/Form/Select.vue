@@ -1,28 +1,16 @@
 <script setup>
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref } from "vue";
+import { normalizeOptions } from "@/Shared/form";
 
 const input = ref(null);
 
 defineEmits(["update:modelValue"]);
 
-const props = defineProps(["modelValue", "options", "type"]);
+defineProps(["modelValue", "options", "type"]);
 
-// Object
-// {  key: "value",  key2: "value2" }
-
-// Array
-// [  "value1", "value2", ]
-
-// this will normalize the key:value pairs as (option, key)
-// no matter if the options are passed as an array or an object
-const normalizedOptions = computed(() => {
-  return Array.isArray(props.options)
-    ? // convert array to object literal as {key: value} pair
-      props.options.reduce((acc, opt) => ({ ...acc, [opt]: opt }), {})
-    : props.options;
+defineExpose({
+  focus: () => input.value.focus(),
 });
-
-defineExpose({ focus: () => input.value.focus() });
 
 onMounted(() => {
   if (input.value.hasAttribute("autofocus")) {
@@ -39,8 +27,14 @@ onMounted(() => {
     @change="$emit('update:modelValue', $event.target.value)"
   >
     <slot>
-      <option v-for="(value, key) in normalizedOptions" :key="key" :value="key">
-        {{ value ?? key }}
+      <slot name="header" />
+
+      <option
+        v-for="(option, i) in normalizeOptions(options)"
+        :key="i"
+        :value="option.value"
+      >
+        {{ option.label }}
       </option>
     </slot>
   </select>
