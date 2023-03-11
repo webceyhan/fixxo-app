@@ -18,7 +18,7 @@ const currentTitle = computed(
   <div>
     <Head :title="currentTitle" />
 
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+    <div class="min-h-screen bg-gray-200 dark:bg-gray-900">
       <!-- navbar -->
       <NavBar :user="$page.props.auth.user" />
 

@@ -88,7 +88,7 @@ const allowedLinks = computed(() =>
             <Dropdown>
               <template #trigger>
                 <MenuButton
-                  class="flex items-center space-x-2 border-0 text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
+                  class="flex items-center space-x-2 border-0 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
                 >
                   <p class="text-sm leading-4 font-medium">
                     {{ $page.props.auth.user.name }}
