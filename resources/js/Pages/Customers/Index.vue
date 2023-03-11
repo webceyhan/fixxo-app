@@ -13,17 +13,14 @@ defineProps({
 
 <template>
   <AuthenticatedLayout title="Customers">
-    <template #actions>
+    <div class="flex flex-col lg:flex-row lg:justify-between gap-6">
+      <Searchbar :filters="filters" class="basis-1/2" />
       <PrimaryButton
         label="New"
         icon="create"
         class="!rounded-full"
         :href="route('customers.create')"
       />
-    </template>
-
-    <div class="flex flex-col lg:flex-row lg:justify-between gap-6">
-      <Searchbar :filters="filters" class="basis-1/2" />
     </div>
 
     <PaginationWrapper :meta="customers">
