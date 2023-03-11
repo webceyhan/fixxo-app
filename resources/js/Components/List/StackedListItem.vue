@@ -18,7 +18,9 @@ defineProps({
     }"
   >
     <!-- avatar -->
-    <Avatar v-if="icon" :icon="icon" class="opacity-50" />
+    <slot name="avatar">
+      <Avatar v-if="icon" :icon="icon" class="opacity-50" />
+    </slot>
 
     <slot> {{ label }} </slot>
 
