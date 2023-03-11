@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from "vue";
 import { router } from "@inertiajs/vue3";
 import Link from "@/Components/Link.vue";
 import Card from "@/Components/Card.vue";
@@ -7,6 +8,7 @@ import AssetList from "@/Pages/Assets/Partials/AssetList.vue";
 import RadioGroup from "@/Components/Form/RadioGroup.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Select from "@/Components/Form/Select.vue";
+import TabNav from "@/Components/Nav/TabNav.vue";
 
 const props = defineProps({
   interval: String,
@@ -28,9 +30,10 @@ const onIntervalChange = (interval) => {
     <div class="flex items-center md:justify-end">
       <RadioGroup
         class="hidden lg:flex"
-        :options="intervalOptions"
         :modelValue="interval"
+        :options="intervalOptions"
         @update:modelValue="onIntervalChange"
+        fancy
       />
 
       <Select
