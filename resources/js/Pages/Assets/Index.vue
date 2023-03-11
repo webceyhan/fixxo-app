@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import { createOptionLinks } from "@/Shared/utils";
+import { createOptionLinks } from "@/Shared/form";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import AssetList from "./Partials/AssetList.vue";
