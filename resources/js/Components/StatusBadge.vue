@@ -22,8 +22,8 @@ const iconMap = {
 <template>
   <Badge :theme="theme" class="whitespace-nowrap" :class="{ '!p-0.5': compact }">
     <!-- icon only visible as badge on mobile -->
-    <Icon :name="icon ?? iconMap[theme]" :class="{ 'lg:hidden': !compact }" />
+    <Icon :name="icon ?? iconMap[theme]" :class="{ 'xl:hidden': !compact }" />
     <!-- label only visible on larger screens -->
-    <span v-if="!compact" class="hidden lg:inline">{{ label }}</span>
+    <span v-if="!compact" class="hidden xl:inline">{{ label }}</span>
   </Badge>
 </template>

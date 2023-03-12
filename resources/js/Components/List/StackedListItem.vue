@@ -30,7 +30,7 @@ defineProps({
     and moved to the right end of the list item on larger screens -->
     <div
       v-if="$slots.badge"
-      class="absolute left-0 bottom-3 lg:relative lg:bottom-0 lg:w-2/12 text-center"
+      class="absolute left-0 bottom-3 xl:relative xl:bottom-0 xl:w-2/12 text-center"
     >
       <slot name="badge" />
     </div>
@@ -39,7 +39,7 @@ defineProps({
     <Icon
       v-if="clickable || $attrs.href"
       name="chevron-right"
-      class="text-sm opacity-25"
+      class="text-sm opacity-25 order-last"
     />
 
     <!-- overlay menu -->
