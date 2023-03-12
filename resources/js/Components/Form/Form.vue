@@ -8,7 +8,7 @@ const emit = defineEmits(["dismiss"]);
 const props = defineProps({
   form: Object,
   resource: String,
-  deleteable: Boolean,
+  deletable: Boolean,
   dismissable: Boolean,
 });
 
@@ -46,7 +46,7 @@ const cancel = () => {
         <SecondaryButton label="Cancel" icon="dismiss" @click="cancel" class="mr-auto" />
 
         <DangerButton
-          v-if="deleteable && form?.id"
+          v-if="deletable && form?.id"
           label="Delete"
           icon="delete"
           method="delete"
