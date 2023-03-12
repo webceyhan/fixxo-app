@@ -1,11 +1,12 @@
 <script setup>
+import { Link } from "@inertiajs/vue3";
 import { formatDate, formatMoney } from "@/Shared/utils";
-import TaskBadge from "./TaskBadge.vue";
 import StackedList from "@/Components/List/StackedList.vue";
 import StackedListItem from "@/Components/List/StackedListItem.vue";
-import DangerButton from "@/Components/Button/DangerButton.vue";
 import Avatar from "@/Components/Avatar.vue";
-import { Link } from "@inertiajs/vue3";
+import TaskBadge from "./TaskBadge.vue";
+
+defineEmits(["select"]);
 
 defineProps({
   tasks: Array,
@@ -27,7 +28,8 @@ const stateIcons = {
     <StackedListItem
       v-for="task in tasks"
       :key="task.id"
-      :href="route('tasks.show', task.id)"
+      @click="$emit('select', task)"
+      clickable
     >
       <template #avatar>
         <div class="relative">
@@ -37,6 +39,7 @@ const stateIcons = {
             :href="route('tasks.update', task.id)"
             :data="{ status: nextState[task.status] }"
             preserve-scroll
+            @click.stop
           >
             <Avatar
               :icon="stateIcons[task.status]"
@@ -48,17 +51,10 @@ const stateIcons = {
         </div>
       </template>
 
-      <template #menu>
-        <DangerButton
-          label="Delete"
-          icon="delete"
-          method="delete"
-          :href="route('tasks.destroy', task.id)"
-        />
-      </template>
-
       <div class="w-full truncate">
-        <span :class="{ 'line-through group-hover:no-underline': task.status === 'done' }">
+        <span
+          :class="{ 'line-through group-hover:no-underline': task.status === 'done' }"
+        >
           {{ task.description }}
         </span>
 

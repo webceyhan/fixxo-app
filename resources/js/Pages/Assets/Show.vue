@@ -1,18 +1,20 @@
 <script setup>
+import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Card from "@/Components/Card.vue";
-import TaskList from "../Tasks/Partials/TaskList.vue";
-import PaymentList from "../Payments/Partials/PaymentList.vue";
 import Textarea from "@/Components/Form/Textarea.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
-import AssetCard from "./Partials/AssetCard.vue";
 import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import ToggleButton from "@/Components/Button/ToggleButton.vue";
 import DropdownToggleItem from "@/Components/Menu/DropdownToggleItem.vue";
+import AssetCard from "@/Pages/Assets/Partials/AssetCard.vue";
+import TaskList from "@/Pages/Tasks/Partials/TaskList.vue";
+import TaskModal from "@/Pages/Tasks/Partials/TaskModal.vue";
+import PaymentList from "@/Pages/Payments/Partials/PaymentList.vue";
 
 const props = defineProps({
   asset: Object,
@@ -28,6 +30,19 @@ const save = () => {
   form.put(route("assets.update", props.asset.id), {
     preserveScroll: true,
   });
+};
+
+// Task Modal
+const taskModal = ref(null);
+const editedTask = ref(null);
+
+const createTask = () => {
+  editTask({ asset_id: props.asset.id });
+};
+
+const editTask = (task) => {
+  editedTask.value = task;
+  taskModal.value.open();
 };
 </script>
 
@@ -60,13 +75,7 @@ const save = () => {
         method="put"
         class="mr-4"
       />
-
-      <PrimaryButton
-        label="New Task"
-        icon="create"
-        :href="route('tasks.create')"
-        :data="{ asset_id: asset.id }"
-      />
+      <PrimaryButton label="New Task" icon="create" @click="createTask" />
       <PrimaryButton
         label="New Payment"
         icon="create"
@@ -100,14 +109,8 @@ const save = () => {
             returned: 'return',
           }"
           method="put"
-          
         />
-        <DropdownItem
-          label="New Task"
-          icon="create"
-          :href="route('tasks.create')"
-          :data="{ asset_id: asset.id }"
-        />
+        <DropdownItem label="New Task" icon="create" @click="createTask" />
         <DropdownItem
           label="New Payment"
           icon="create"
@@ -137,7 +140,8 @@ const save = () => {
       </Card>
 
       <Card label="Tasks" flush>
-        <TaskList :tasks="tasks" />
+        <TaskList :tasks="tasks" @select="editTask" />
+        <TaskModal :task="editedTask" ref="taskModal" />
       </Card>
 
       <Card label="Payments" flush>
