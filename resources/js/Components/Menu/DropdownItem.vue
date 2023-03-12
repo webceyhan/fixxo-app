@@ -12,7 +12,8 @@ defineProps({
 <template>
   <MenuItem v-slot="{ active }">
     <slot>
-      <Link
+      <component
+        :is="$attrs.href ? Link : 'button'"
         as="button"
         :class="{
           'group flex w-full items-center px-4 py-2 space-x-4': true,
@@ -30,7 +31,7 @@ defineProps({
           aria-hidden="true"
         />
         <span>{{ label }}</span>
-      </Link>
+      </component>
     </slot>
   </MenuItem>
 </template>
