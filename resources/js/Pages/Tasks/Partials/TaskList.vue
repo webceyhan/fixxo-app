@@ -47,7 +47,7 @@ const stateIcons = {
             />
           </Link>
 
-          <TaskBadge :status="task.status" compact class="absolute -left-1 -bottom-1" />
+          <!-- <TaskBadge :status="task.status" compact class="absolute -left-1 -bottom-1" /> -->
         </div>
       </template>
 
@@ -64,9 +64,13 @@ const stateIcons = {
         </div>
       </div>
 
-      <div class="hidden md:block w-fit text-gray-400">
+      <div class="w-36 order-1 text-gray-400 text-right">
         {{ formatMoney(task.price) }}
       </div>
+
+      <template #badge>
+        <TaskBadge :status="task.status" />
+      </template>
     </StackedListItem>
   </StackedList>
 </template>
