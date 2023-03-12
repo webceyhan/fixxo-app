@@ -78,7 +78,7 @@ defineExpose({
               </DialogTitle>
 
               <!-- content -->
-              <slot />
+              <slot :close="close" />
 
               <!-- modal actions -->
               <div v-if="$slots.actions" class="flex justify-start items-center gap-4">
