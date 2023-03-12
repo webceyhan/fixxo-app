@@ -52,6 +52,7 @@ const cancel = () => {
           method="delete"
           @click="$emit('dismiss')"
           :href="route(`${resource}.destroy`, form.id)"
+          preserve-scroll
         />
       </div>
     </slot>
