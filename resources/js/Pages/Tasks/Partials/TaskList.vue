@@ -57,7 +57,7 @@ const stateIcons = {
         />
       </template>
 
-      <div class="w-full">
+      <div class="w-full truncate">
         <span :class="{ 'line-through group-hover:no-underline': task.status === 'done' }">
           {{ task.description }}
         </span>
