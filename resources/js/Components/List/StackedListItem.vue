@@ -6,6 +6,7 @@ import Avatar from "@/Components/Avatar.vue";
 defineProps({
   label: String,
   icon: String,
+  clickable: Boolean,
 });
 </script>
 
@@ -14,7 +15,7 @@ defineProps({
     :is="$attrs.href ? Link : 'li'"
     class="group relative flex justify-between items-center p-4 sm:px-6 space-x-4 sm:space-x-6"
     :class="{
-      'hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:bg-opacity-30': $attrs.href,
+      'hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:bg-opacity-30 cursor-pointer': clickable || $attrs.href,
     }"
   >
     <!-- avatar -->
@@ -35,7 +36,11 @@ defineProps({
     </div>
 
     <!-- browse icon -->
-    <Icon v-if="$attrs.href" name="chevron-right" class="text-sm opacity-25" />
+    <Icon
+      v-if="clickable || $attrs.href"
+      name="chevron-right"
+      class="text-sm opacity-25"
+    />
 
     <!-- overlay menu -->
     <div
