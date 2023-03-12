@@ -26,9 +26,9 @@ class SaveTaskRequest extends FormRequest
         // update
         if ($this->isMethod('put')) {
             return [
-                'description' => 'nullable|string',
-                'price' => 'nullable|numeric',
-                'status' => ['nullable', Rule::in(TaskStatus::values())],
+                'description' => 'sometimes|required|string',
+                'price' => 'sometimes|required|numeric',
+                'status' => ['sometimes', 'required', Rule::in(TaskStatus::values())],
             ];
         }
 
