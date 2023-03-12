@@ -15,7 +15,7 @@ defineProps({
     :is="$attrs.href ? Link : 'li'"
     class="group relative flex justify-between items-center p-4 sm:px-6 space-x-4 sm:space-x-6"
     :class="{
-      'hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:bg-opacity-30 cursor-pointer': clickable || $attrs.href,
+      'hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:bg-opacity-30 sm:cursor-pointer': clickable || $attrs.href,
     }"
   >
     <!-- avatar -->
