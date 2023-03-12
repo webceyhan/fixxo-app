@@ -27,7 +27,7 @@ const classes = computed(() => ({
   <Link v-if="$attrs.href" :class="classes" as="button">
     <slot>
       <Icon v-if="icon" :name="icon" />
-      <span>{{ label }}</span>
+      <span v-if="label">{{ label }}</span>
     </slot>
   </Link>
 
