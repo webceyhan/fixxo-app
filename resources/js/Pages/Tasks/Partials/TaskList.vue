@@ -57,12 +57,8 @@ const stateIcons = {
         />
       </template>
 
-      <div class="w-full md:w-8/12">
-        <span
-          :class="{
-            'opacity-75 line-through hover:no-underline': task.status === 'done',
-          }"
-        >
+      <div class="w-full">
+        <span :class="{ 'line-through group-hover:no-underline': task.status === 'done' }">
           {{ task.description }}
         </span>
 
@@ -72,7 +68,7 @@ const stateIcons = {
         </div>
       </div>
 
-      <div class="hidden md:block w-2/12 text-gray-400">
+      <div class="hidden md:block w-fit text-gray-400">
         {{ formatMoney(task.price) }}
       </div>
     </StackedListItem>
