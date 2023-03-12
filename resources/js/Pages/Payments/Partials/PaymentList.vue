@@ -22,7 +22,7 @@ defineProps({
     >
       <div class="w-full truncate">
         <span>
-          {{ payment.notes }}
+          {{ payment.notes ?? payment.type }}
         </span>
 
         <div class="hidden md:block text-gray-400 text-sm mt-1">
