@@ -2,6 +2,8 @@
 import StackedList from "@/Components/List/StackedList.vue";
 import StackedListItem from "@/Components/List/StackedListItem.vue";
 
+defineEmits(["select"]);
+
 defineProps({
   payments: Array,
 });
@@ -13,7 +15,8 @@ defineProps({
       v-for="payment in payments"
       :key="payment.id"
       icon="payment"
-      :href="route('payments.show', payment.id)"
+      @click="$emit('select', payment)"
+      clickable
     >
       <span class="w-8/12">
         {{ payment.type }}

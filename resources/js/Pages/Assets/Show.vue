@@ -15,6 +15,7 @@ import AssetCard from "@/Pages/Assets/Partials/AssetCard.vue";
 import TaskList from "@/Pages/Tasks/Partials/TaskList.vue";
 import TaskModal from "@/Pages/Tasks/Partials/TaskModal.vue";
 import PaymentList from "@/Pages/Payments/Partials/PaymentList.vue";
+import PaymentModal from "@/Pages/Payments/Partials/PaymentModal.vue";
 
 const props = defineProps({
   asset: Object,
@@ -43,6 +44,19 @@ const createTask = () => {
 const editTask = (task) => {
   editedTask.value = task;
   taskModal.value.open();
+};
+
+// Payment Modal
+const paymentModal = ref(null);
+const editedPayment = ref(null);
+
+const createPayment = () => {
+  editPayment({ asset_id: props.asset.id });
+};
+
+const editPayment = (payment) => {
+  editedPayment.value = payment;
+  paymentModal.value.open();
 };
 </script>
 
@@ -76,12 +90,7 @@ const editTask = (task) => {
         class="mr-4"
       />
       <PrimaryButton label="New Task" icon="create" @click="createTask" />
-      <PrimaryButton
-        label="New Payment"
-        icon="create"
-        :href="route('payments.create')"
-        :data="{ asset_id: asset.id }"
-      />
+      <PrimaryButton label="New Payment" icon="create" @click="createPayment" />
     </template>
 
     <!-- mobile menu -->
@@ -111,12 +120,7 @@ const editTask = (task) => {
           method="put"
         />
         <DropdownItem label="New Task" icon="create" @click="createTask" />
-        <DropdownItem
-          label="New Payment"
-          icon="create"
-          :href="route('payments.create')"
-          :data="{ asset_id: asset.id }"
-        />
+        <DropdownItem label="New Payment" icon="create" @click="createPayment" />
       </Dropdown>
     </template>
 
@@ -145,7 +149,8 @@ const editTask = (task) => {
       </Card>
 
       <Card label="Payments" flush>
-        <PaymentList :payments="payments" />
+        <PaymentList :payments="payments" @select="editPayment" />
+        <PaymentModal :payment="editedPayment" ref="paymentModal" />
       </Card>
     </template>
   </PageLayout>
