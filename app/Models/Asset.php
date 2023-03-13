@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Asset extends Model
 {
@@ -95,6 +97,26 @@ class Asset extends Model
 
         return Attribute::make(
             get: fn () => $charge - $cost + (abs($discount) + abs($warranty))
+        );
+    }
+
+    /**
+     * Get url to qr code.
+     *
+     * @return bool
+     */
+    protected function qrUrl(): Attribute
+    {
+        // define svg filename
+        $filename =  "public/qr/" . $this->id . ".svg";
+
+        // generate qr code if missing
+        if (Storage::missing($filename)) {
+            Storage::put($filename, QrCode::generate(route('assets.show', $this)));
+        }
+
+        return Attribute::make(
+            get: fn () => Storage::url($filename),
         );
     }
 

@@ -74,6 +74,7 @@ class AssetController extends Controller
             'cost',
             'balance',
             'balanceMap',
+            'qr_url'
         ]);
 
         return inertia('Assets/Show', [
