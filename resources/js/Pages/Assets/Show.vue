@@ -169,6 +169,10 @@ const balance = computed(() => {
       </Card>
 
       <Card label="Tasks" flush>
+        <template #header-action>
+          <SecondaryButton label="New Task" icon="create" @click="createTask" small />
+        </template>
+
         <TaskList :tasks="tasks" @select="editTask" />
         <TaskModal :task="editedTask" ref="taskModal" />
 
@@ -181,6 +185,15 @@ const balance = computed(() => {
       </Card>
 
       <Card label="Balance" flush>
+        <template #header-action>
+          <SecondaryButton
+            label="New Payment"
+            icon="create"
+            @click="createPayment"
+            small
+          />
+        </template>
+
         <PaymentList :payments="payments" @select="editPayment" />
         <PaymentModal :payment="editedPayment" ref="paymentModal" />
 
