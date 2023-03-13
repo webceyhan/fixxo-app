@@ -42,7 +42,7 @@ defineProps({
       <slot />
     </div>
 
-    <footer v-if="$slots.footer" class="flex justify-end p-4 sm:p-6">
+    <footer v-if="$slots.footer" class="flex justify-end p-4 sm:p-6 text-gray-400">
       <slot name="footer" />
     </footer>
   </div>
