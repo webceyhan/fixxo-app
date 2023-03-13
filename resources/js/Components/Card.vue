@@ -24,7 +24,7 @@ defineProps({
     <!-- header -->
     <header
       v-if="$slots.header || label"
-      class="p-4 sm:p-6"
+      class="flex justify-between gap-2 p-4 sm:p-6"
       :class="{
         'max-sm:bg-white max-sm:dark:bg-gray-900': flush,
       }"
@@ -35,6 +35,8 @@ defineProps({
           {{ label }}
         </div>
       </slot>
+
+      <slot name="header-action" />
     </header>
 
     <!-- body -->
