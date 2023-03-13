@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
@@ -8,13 +8,36 @@ import PaymentModal from "@/Pages/Payments/Partials/PaymentModal.vue";
 
 const props = defineProps({
   asset: Object,
-  balance: Object,
   payments: Array,
 });
 
 // Payment Modal
 const modal = ref(null);
 const editing = ref(null);
+
+// Calculate balance
+const balance = computed(() => {
+  const cost = props.asset.cost;
+
+  const sumByType = props.payments.reduce((acc, { type, amount }) => {
+    acc[type] = (acc[type] || 0) + +amount;
+    return acc;
+  }, {});
+
+  const { charge, refund, discount, warranty } = sumByType;
+
+  const total =
+    (charge ?? 0) - cost + (Math.abs(discount ?? 0) + Math.abs(warranty ?? 0));
+
+  return {
+    cost,
+    charge,
+    discount,
+    warranty,
+    refund,
+    total,
+  };
+});
 
 const create = () => {
   edit({ asset_id: props.asset.id });

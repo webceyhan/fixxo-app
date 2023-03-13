@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Card from "@/Components/Card.vue";
@@ -34,30 +34,6 @@ const save = () => {
 // Partial refs
 const assetTasks = ref(null);
 const assetPayments = ref(null);
-
-// Calculate balance
-const balance = computed(() => {
-  const cost = props.tasks.reduce((sum, { price }) => sum + +price, 0);
-
-  const sumByType = props.payments.reduce((acc, { type, amount }) => {
-    acc[type] = (acc[type] || 0) + +amount;
-    return acc;
-  }, {});
-
-  const { charge, refund, discount, warranty } = sumByType;
-
-  const total =
-    (charge ?? 0) - cost + (Math.abs(discount ?? 0) + Math.abs(warranty ?? 0));
-
-  return {
-    cost,
-    charge,
-    discount,
-    warranty,
-    refund,
-    total,
-  };
-});
 </script>
 
 <template>
@@ -145,7 +121,7 @@ const balance = computed(() => {
 
       <AssetTasks v-bind="{ asset, tasks }" ref="assetTasks" />
 
-      <AssetPayments v-bind="{ asset, payments, balance }" ref="assetPayments" />
+      <AssetPayments v-bind="{ asset, payments }" ref="assetPayments" />
     </template>
   </PageLayout>
 </template>

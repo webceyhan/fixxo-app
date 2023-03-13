@@ -70,7 +70,7 @@ class AssetController extends Controller
         $asset->load('customer:id,name');
 
         return inertia('Assets/Show', [
-            'asset' => $asset,
+            'asset' => $asset->append('cost'),
             'tasks' => $asset->tasks()->with('user:id,name')->get(),
             'payments' => $asset->payments()->with('user:id,name')->get(),
         ]);

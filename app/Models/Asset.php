@@ -7,6 +7,7 @@ use App\Enums\AssetType;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,6 +46,18 @@ class Asset extends Model
      * @var string
      */
     protected $searchIndex = 'name,serial,problem';
+
+    // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get sum of all tasks prices.
+     */
+    protected function cost(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->tasks->pluck('price')->sum(),
+        )->shouldCache();
+    }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 

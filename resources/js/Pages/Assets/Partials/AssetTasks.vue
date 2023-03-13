@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
@@ -14,10 +14,6 @@ const props = defineProps({
 // Task Modal
 const modal = ref(null);
 const editing = ref(null);
-
-const cost = computed(() => {
-  return props.tasks.reduce((sum, { price }) => sum + +price, 0);
-});
 
 const create = () => {
   edit({ asset_id: props.asset.id });
@@ -46,7 +42,7 @@ defineExpose({
     <template #footer>
       <span class="w-full text-right">Total Cost</span>
       <span class="w-2/3 mr-7 sm:mr-9 text-right">
-        {{ formatMoney(cost) }}
+        {{ formatMoney(asset.cost) }}
       </span>
     </template>
   </Card>
