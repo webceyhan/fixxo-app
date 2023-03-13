@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from "vue";
+import { ref } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
@@ -14,30 +14,6 @@ const props = defineProps({
 // Payment Modal
 const modal = ref(null);
 const editing = ref(null);
-
-// Calculate balance
-const balance = computed(() => {
-  const cost = props.asset.cost;
-
-  const sumByType = props.payments.reduce((acc, { type, amount }) => {
-    acc[type] = (acc[type] || 0) + +amount;
-    return acc;
-  }, {});
-
-  const { charge, refund, discount, warranty } = sumByType;
-
-  const total =
-    (charge ?? 0) - cost + (Math.abs(discount ?? 0) + Math.abs(warranty ?? 0));
-
-  return {
-    cost,
-    charge,
-    discount,
-    warranty,
-    refund,
-    total,
-  };
-});
 
 const create = () => {
   edit({ asset_id: props.asset.id });
@@ -66,9 +42,9 @@ defineExpose({
     <template #footer>
       <div class="w-full text-right">
         <div class="flex">
-          <span class="w-full">cost</span>
+          <span class="w-full capitalize">cost</span>
           <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
-            {{ formatMoney(balance.cost) }}
+            {{ formatMoney(asset.cost) }}
           </span>
         </div>
 
@@ -76,10 +52,10 @@ defineExpose({
           v-for="type in ['discount', 'warranty', 'charge', 'refund']"
           :key="type"
         >
-          <div v-if="balance[type]" class="flex">
-            <span class="w-full">{{ type }}</span>
+          <div v-if="asset.balanceMap[type]" class="flex">
+            <span class="w-full capitalize">{{ type }}</span>
             <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
-              {{ formatMoney(balance[type]) }}
+              {{ formatMoney(asset.balanceMap[type]) }}
             </span>
           </div>
         </template>
@@ -87,9 +63,9 @@ defineExpose({
         <div class="flex">
           <span
             class="w-full mr-7 sm:mr-9 text-xl mt-1 text-white/50"
-            :class="{ '!text-red-500': balance.total < 0 }"
+            :class="{ '!text-red-500': asset.balance < 0 }"
           >
-            {{ formatMoney(balance.total) }}
+            {{ formatMoney(asset.balance) }}
           </span>
         </div>
       </div>

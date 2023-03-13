@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\AssetStatus;
 use App\Enums\AssetType;
+use App\Enums\PaymentType;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -57,6 +58,44 @@ class Asset extends Model
         return Attribute::make(
             get: fn () => $this->tasks->pluck('price')->sum(),
         )->shouldCache();
+    }
+
+    /**
+     * Get a map of payment sums by their type.
+     */
+    protected function balanceMap(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                // initialize map in a specific order
+                $map = array_fill_keys(PaymentType::values(), 0);
+
+                // populate map with sums
+                $this->payments->each(function ($payment) use (&$map) {
+                    $map[$payment->type] += $payment->amount;
+                });
+
+                return $map;
+            },
+        )->shouldCache();
+    }
+
+    /**
+     * Get balance calculated from total cost & payments.
+     */
+    protected function balance(): Attribute
+    {
+        $cost = $this->cost;
+
+        [ // extract vars
+            'charge' => $charge,
+            'discount' => $discount,
+            'warranty' => $warranty,
+        ] = $this->balanceMap;
+
+        return Attribute::make(
+            get: fn () => $charge - $cost + (abs($discount) + abs($warranty))
+        );
     }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////

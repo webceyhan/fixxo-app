@@ -69,6 +69,13 @@ class AssetController extends Controller
         // TODO: improve this! only needed for aside card representation
         $asset->load('customer:id,name');
 
+        // append custom attributes
+        $asset->append([
+            'cost',
+            'balance',
+            'balanceMap',
+        ]);
+
         return inertia('Assets/Show', [
             'asset' => $asset->append('cost'),
             'tasks' => $asset->tasks()->with('user:id,name')->get(),
