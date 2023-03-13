@@ -72,7 +72,7 @@ class AssetController extends Controller
         return inertia('Assets/Show', [
             'asset' => $asset,
             'tasks' => $asset->tasks()->with('user:id,name')->get(),
-            'payments' => $asset->payments()->get(),
+            'payments' => $asset->payments()->with('user:id,name')->get(),
         ]);
     }
 

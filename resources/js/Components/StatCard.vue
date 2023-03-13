@@ -1,11 +1,19 @@
 <script setup>
+import { computed } from "vue";
 import Card from "./Card.vue";
 import Icon from "./Icon.vue";
 
-defineProps({
+const props = defineProps({
   label: String,
   icon: String,
-  items: { type: Array, default: () => [] },
+  items: Array,
+});
+
+const normalizedItems = computed(() => {
+  return Array.from({ length: 2 }, (_, i) => ({
+    label: props.items[i]?.label ?? "N/A",
+    value: props.items[i]?.value ?? 0,
+  }));
 });
 </script>
 
@@ -21,7 +29,7 @@ defineProps({
     <slot>
       <dl class="grid grid-cols-1 xl:grid-cols-2 gap-y-2 xl:divide-x divide-slate-500">
         <div
-          v-for="(item, i) in items"
+          v-for="(item, i) in normalizedItems"
           :key="i"
           class="flex justify-between items-center xl:items-start xl:flex-col-reverse first:p-0 xl:pl-8"
         >

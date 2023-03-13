@@ -25,12 +25,13 @@ const onIntervalChange = (interval) => {
 
 <template>
   <AuthenticatedLayout title="Dashboard">
-    <div class="flex items-center md:justify-end px-5 sm:p-0">
+    <div class="flex items-center md:justify-end">
       <RadioGroup
         class="hidden lg:flex"
-        :options="intervalOptions"
         :modelValue="interval"
+        :options="intervalOptions"
         @update:modelValue="onIntervalChange"
+        fancy
       />
 
       <Select
@@ -42,16 +43,36 @@ const onIntervalChange = (interval) => {
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
-      <StatCard label="Assets" icon="asset" :items="assetStats" />
+      <StatCard
+        label="Assets"
+        icon="asset"
+        :items="assetStats"
+        class="!border-blue-500/25"
+      />
 
-      <StatCard label="Tasks" icon="task" :items="taskStats" />
+      <StatCard
+        label="Tasks"
+        icon="task"
+        :items="taskStats"
+        class="!border-green-500/25"
+      />
 
-      <StatCard label="Earnings" icon="money" :items="earningStats" />
+      <StatCard
+        label="Earnings"
+        icon="money"
+        :items="earningStats"
+        class="!border-yellow-500/25"
+      />
     </div>
 
     <div class="flex flex-col md:flex-row gap-5">
       <Card class="flex-1" label="Latest assets in progress" flush>
         <AssetList :assets="assetsInProgress" compact />
+
+        <!-- placeholder -->
+        <div v-if="assetsInProgress.length === 0" class="text-center py-10">
+          No assets found.
+        </div>
 
         <template #footer>
           <Link
@@ -63,6 +84,11 @@ const onIntervalChange = (interval) => {
 
       <Card class="flex-1" label="Latest assets ready to pick up" flush>
         <AssetList :assets="assetsReady" compact />
+
+        <!-- placeholder -->
+        <div v-if="assetsReady.length === 0" class="text-center py-10">
+          No assets found.
+        </div>
 
         <template #footer>
           <Link label="View all" :href="route('assets.index', { status: 'ready' })" />

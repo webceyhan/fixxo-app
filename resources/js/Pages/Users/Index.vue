@@ -1,10 +1,9 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import UserList from "./Partials/UserList.vue";
-import Card from "@/Components/Card.vue";
+import PaginationWrapper from "@/Components/PaginationWrapper.vue";
 
 defineProps({
   users: Object,
@@ -14,22 +13,18 @@ defineProps({
 
 <template>
   <AuthenticatedLayout title="Users">
-    <template #actions>
+    <div class="flex flex-col lg:flex-row lg:justify-between gap-6">
+      <Searchbar :filters="filters" class="basis-1/2" />
       <PrimaryButton
         label="New"
         icon="create"
         class="!rounded-full"
         :href="route('users.create')"
       />
-    </template>
-
-    <div class="flex flex-col lg:flex-row lg:justify-between px-4 sm:p-0 gap-6">
-      <Searchbar :filters="filters" class="basis-1/2" />
-      <Pagination v-bind="users" class="flex-shrink-0" />
     </div>
 
-    <Card flush>
+    <PaginationWrapper :meta="users">
       <UserList :users="users.data" />
-    </Card>
+    </PaginationWrapper>
   </AuthenticatedLayout>
 </template>

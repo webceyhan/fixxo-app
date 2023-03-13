@@ -28,8 +28,8 @@ defineProps({
         {{ user.role }}
       </div>
 
-      <div v-if="user.assets_count" class="hidden md:block w-2/12 text-gray-400">
-        assets {{ user.assets_count }}
+      <div class="hidden md:block w-2/12 text-gray-400">
+        assets {{ user?.assets_count ?? 0 }}
       </div>
 
       <template #badge>

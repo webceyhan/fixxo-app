@@ -12,6 +12,7 @@ import SecondaryButton from "./Button/SecondaryButton.vue";
 const emit = defineEmits(["open", "close"]);
 
 const props = defineProps({
+  size: String,
   show: Boolean,
   cancellable: Boolean,
 });
@@ -61,7 +62,12 @@ defineExpose({
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel
-              class="w-full max-w-md transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 text-left align-middle shadow-xl transition-all p-6 space-y-6"
+              class="w-full transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 text-left align-middle shadow-xl dark:shadow-gray-700 transition-all p-6 space-y-6"
+              :class="{
+                'max-w-xl': size === 'xl',
+                'max-w-lg': size === 'lg',
+                'max-w-md': !size,
+              }"
             >
               <!-- title -->
               <DialogTitle
@@ -72,10 +78,10 @@ defineExpose({
               </DialogTitle>
 
               <!-- content -->
-              <slot />
+              <slot :close="close" />
 
               <!-- modal actions -->
-              <div class="flex justify-start items-center gap-4">
+              <div v-if="$slots.actions" class="flex justify-start items-center gap-4">
                 <SecondaryButton
                   v-if="cancellable"
                   label="Cancel"

@@ -1,10 +1,9 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Pagination from "@/Components/Pagination.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import CustomerList from "./Partials/CustomerList.vue";
-import Card from "@/Components/Card.vue";
+import PaginationWrapper from "@/Components/PaginationWrapper.vue";
 
 defineProps({
   customers: Object,
@@ -14,22 +13,18 @@ defineProps({
 
 <template>
   <AuthenticatedLayout title="Customers">
-    <template #actions>
+    <div class="flex flex-col lg:flex-row lg:justify-between gap-6">
+      <Searchbar :filters="filters" class="basis-1/2" />
       <PrimaryButton
         label="New"
         icon="create"
         class="!rounded-full"
         :href="route('customers.create')"
       />
-    </template>
-
-    <div class="flex flex-col lg:flex-row lg:justify-between px-4 sm:p-0 gap-6">
-      <Searchbar :filters="filters" class="basis-1/2" />
-      <Pagination v-bind="customers" class="flex-shrink-0" />
     </div>
 
-    <Card flush>
+    <PaginationWrapper :meta="customers">
       <CustomerList :customers="customers.data" />
-    </Card>
+    </PaginationWrapper>
   </AuthenticatedLayout>
 </template>
