@@ -87,16 +87,17 @@ class Asset extends Model
      */
     protected function balance(): Attribute
     {
-        $cost = $this->cost;
-
-        [ // extract vars
-            'charge' => $charge,
-            'discount' => $discount,
-            'warranty' => $warranty,
-        ] = $this->balanceMap;
-
         return Attribute::make(
-            get: fn () => $charge - $cost + (abs($discount) + abs($warranty))
+            get: function () {
+                // extract vars
+                [
+                    'charge' => $charge,
+                    'discount' => $discount,
+                    'warranty' => $warranty,
+                ] = $this->balanceMap;
+
+                return $charge - $this->cost + (abs($discount) + abs($warranty));
+            }
         );
     }
 
@@ -107,16 +108,18 @@ class Asset extends Model
      */
     protected function qrUrl(): Attribute
     {
-        // define svg filename
-        $filename =  "public/qr/" . $this->id . ".svg";
-
-        // generate qr code if missing
-        if (Storage::missing($filename)) {
-            Storage::put($filename, QrCode::generate(route('assets.show', $this)));
-        }
-
         return Attribute::make(
-            get: fn () => Storage::url($filename),
+            get: function () {
+                // define svg filename
+                $filename =  "public/qr/" . $this->id . ".svg";
+
+                // generate qr code if missing
+                if (Storage::missing($filename)) {
+                    Storage::put($filename, QrCode::generate(route('assets.show', $this)));
+                }
+
+                return Storage::url($filename);
+            }
         );
     }
 
