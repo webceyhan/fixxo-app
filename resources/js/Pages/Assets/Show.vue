@@ -1,6 +1,7 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useForm } from "@inertiajs/vue3";
+import { formatMoney } from "@/Shared/utils";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Card from "@/Components/Card.vue";
 import Textarea from "@/Components/Form/Textarea.vue";
@@ -58,6 +59,30 @@ const editPayment = (payment) => {
   editedPayment.value = payment;
   paymentModal.value.open();
 };
+
+// Calculate balance
+const balance = computed(() => {
+  const cost = props.tasks.reduce((sum, { price }) => sum + +price, 0);
+
+  const sumByType = props.payments.reduce((acc, { type, amount }) => {
+    acc[type] = (acc[type] || 0) + +amount;
+    return acc;
+  }, {});
+
+  const { charge, refund, discount, warranty } = sumByType;
+
+  const total =
+    (charge ?? 0) - cost + (Math.abs(discount ?? 0) + Math.abs(warranty ?? 0));
+
+  return {
+    cost,
+    charge,
+    discount,
+    warranty,
+    refund,
+    total,
+  };
+});
 </script>
 
 <template>
@@ -146,11 +171,50 @@ const editPayment = (payment) => {
       <Card label="Tasks" flush>
         <TaskList :tasks="tasks" @select="editTask" />
         <TaskModal :task="editedTask" ref="taskModal" />
+
+        <template #footer>
+          <span class="w-full text-right">Total Cost</span>
+          <span class="w-2/3 mr-7 sm:mr-9 text-right">
+            {{ formatMoney(balance.cost) }}
+          </span>
+        </template>
       </Card>
 
-      <Card label="Payments" flush>
+      <Card label="Balance" flush>
         <PaymentList :payments="payments" @select="editPayment" />
         <PaymentModal :payment="editedPayment" ref="paymentModal" />
+
+        <template #footer>
+          <div class="w-full text-right">
+            <div class="flex">
+              <span class="w-full">cost</span>
+              <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
+                {{ formatMoney(balance.cost) }}
+              </span>
+            </div>
+
+            <template
+              v-for="type in ['discount', 'warranty', 'charge', 'refund']"
+              :key="type"
+            >
+              <div v-if="balance[type]" class="flex">
+                <span class="w-full">{{ type }}</span>
+                <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
+                  {{ formatMoney(balance[type]) }}
+                </span>
+              </div>
+            </template>
+
+            <div class="flex">
+              <span
+                class="w-full mr-7 sm:mr-9 text-xl mt-1 text-white/50"
+                :class="{ '!text-red-500': balance.total < 0 }"
+              >
+                {{ formatMoney(balance.total) }}
+              </span>
+            </div>
+          </div>
+        </template>
       </Card>
     </template>
   </PageLayout>
