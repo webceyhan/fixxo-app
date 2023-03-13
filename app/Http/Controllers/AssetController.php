@@ -73,7 +73,7 @@ class AssetController extends Controller
         $asset->append([
             'cost',
             'balance',
-            'balanceMap',
+            'balance_map',
             'qr_url'
         ]);
 

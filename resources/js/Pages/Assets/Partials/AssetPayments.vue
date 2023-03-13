@@ -52,10 +52,10 @@ defineExpose({
           v-for="type in ['discount', 'warranty', 'charge', 'refund']"
           :key="type"
         >
-          <div v-if="asset.balanceMap[type]" class="flex">
+          <div v-if="asset.balance_map[type]" class="flex">
             <span class="w-full capitalize">{{ type }}</span>
             <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
-              {{ formatMoney(asset.balanceMap[type]) }}
+              {{ formatMoney(asset.balance_map[type]) }}
             </span>
           </div>
         </template>
