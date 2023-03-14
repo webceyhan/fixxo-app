@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\AssetStatus;
 use App\Enums\AssetType;
 use App\Enums\PaymentType;
+use App\Services\QRService;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -13,8 +14,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\Storage;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Asset extends Model
 {
@@ -110,15 +109,8 @@ class Asset extends Model
     {
         return Attribute::make(
             get: function () {
-                // define svg filename
-                $filename =  "public/qr/" . $this->id . ".svg";
-
-                // generate qr code if missing
-                if (Storage::missing($filename)) {
-                    Storage::put($filename, QrCode::generate(route('assets.show', $this)));
-                }
-
-                return Storage::url($filename);
+                $linkData = route('assets.show', $this);
+                return QRService::urlFor($this->id, $linkData);
             }
         );
     }
