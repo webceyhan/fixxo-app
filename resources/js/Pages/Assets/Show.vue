@@ -5,7 +5,6 @@ import PageLayout from "@/Layouts/PageLayout.vue";
 import Card from "@/Components/Card.vue";
 import Textarea from "@/Components/Form/Textarea.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
-import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
@@ -36,7 +35,6 @@ const save = () => {
 const assetTasks = ref(null);
 const assetPayments = ref(null);
 const signatureModal = ref(null);
-
 </script>
 
 <template>
@@ -66,11 +64,15 @@ const signatureModal = ref(null);
           returned: 'return',
         }"
         method="put"
-        class="mr-4"
       />
-      <PrimaryButton label="New Task" icon="create" @click="assetTasks.create()" />
-      <PrimaryButton label="New Payment" icon="create" @click="assetPayments.create()" />
-      <PrimaryButton label="Sign" icon="sign" @click="signatureModal.open()" />
+
+      <SecondaryButton label="Sign" icon="sign" @click="signatureModal.open()" />
+
+      <Dropdown icon="create" label="New" primary>
+        <DropdownItem label="New Task" icon="create" @click="assetTasks.create()" />
+        <DropdownItem label="New Payment" icon="create" @click="assetPayments.create()" />
+        <!-- <hr class="bg-gray-200 dark:bg-gray-600 border-0 h-px" /> -->
+      </Dropdown>
     </template>
 
     <!-- mobile menu -->
