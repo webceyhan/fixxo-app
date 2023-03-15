@@ -117,9 +117,9 @@ class Asset extends Model
     }
 
     /**
-     * Interact with asset's intake signature.
+     * Get url to the intake signature.
      */
-    protected function intakeSignature(): Attribute
+    protected function intakeSignatureUrl(): Attribute
     {
         return Attribute::make(
             get: fn () => SignatureService::url($this->id . '-intake'),
@@ -130,9 +130,9 @@ class Asset extends Model
     }
 
     /**
-     * Interact with asset's delivery signature.
+     * Get url to the delivery signature.
      */
-    protected function deliverySignature(): Attribute
+    protected function deliverySignatureUrl(): Attribute
     {
         return Attribute::make(
             get: fn () => SignatureService::url($this->id . '-delivery'),
