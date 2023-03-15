@@ -6,6 +6,7 @@ use App\Enums\AssetStatus;
 use App\Enums\AssetType;
 use App\Http\Requests\SaveAssetRequest;
 use App\Models\Asset;
+use App\Services\SignatureService;
 
 class AssetController extends Controller
 {
@@ -127,5 +128,19 @@ class AssetController extends Controller
         return redirect()
             ->route('assets.index')
             ->with('status', __('record deleted'));
+    }
+
+    /**
+     * Add signature to the specified asset.
+     */
+    public function sign(Asset $asset)
+    {
+        $type = request()->input('type');
+        $blob = request()->input('blob');
+
+        // TODO: see related Asset model attribute
+        SignatureService::put("{$asset->id}-{$type}", $blob);
+
+        return redirect()->back();
     }
 }

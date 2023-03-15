@@ -6,6 +6,7 @@ use App\Enums\AssetStatus;
 use App\Enums\AssetType;
 use App\Enums\PaymentType;
 use App\Services\QRService;
+use App\Services\SignatureService;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -112,6 +113,31 @@ class Asset extends Model
                 $linkData = route('assets.show', $this);
                 return QRService::urlFor($this->id, $linkData);
             }
+        );
+    }
+
+    /**
+     * Interact with asset's intake signature.
+     */
+    protected function intakeSignature(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => SignatureService::url($this->id . '-intake'),
+            // TODO: find a way to make this work!
+            // Attribute::make() doesn't support setting value that doesn't exist in the model
+            // set: fn ($value) => SignatureService::put($this->id . '-intake', $value),
+        );
+    }
+
+    /**
+     * Interact with asset's delivery signature.
+     */
+    protected function deliverySignature(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => SignatureService::url($this->id . '-delivery'),
+            // TODO: see above!
+            // set: fn ($value) => SignatureService::put($this->id . '-delivery', $value),
         );
     }
 
