@@ -128,7 +128,7 @@ const signatureModal = ref(null);
 
       <AssetPayments v-bind="{ asset, payments }" ref="assetPayments" />
 
-      <SignatureModal ref="signatureModal" />
+      <SignatureModal :asset="asset" ref="signatureModal" />
     </template>
   </PageLayout>
 </template>

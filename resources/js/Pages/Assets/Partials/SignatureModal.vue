@@ -1,35 +1,39 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/vue";
 import SignaturePad from "signature_pad";
+import { ref, onMounted, watch } from "vue";
+import { useForm } from "@inertiajs/vue3";
+import { Dialog, DialogPanel, DialogTitle } from "@headlessui/vue";
 import RadioGroup from "@/Components/Form/RadioGroup.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 
-defineProps({
-  //
+const props = defineProps({
+  asset: Object,
 });
-
-const typeOptions = ["intake", "delivery"];
-const type = ref(typeOptions[0]);
 
 const isOpen = ref(false);
 const canvas = ref(null);
 const pad = ref(null);
 
+const typeOptions = ["intake", "delivery"];
+
+const form = useForm({
+  type: typeOptions[0],
+  blob: null,
+});
+
 const setIsOpen = (value) => (isOpen.value = value);
 
-watch(
-  () => isOpen.value,
-  // bugfix: offset is 0 when modal is not visible
-  // we need to wait for the modal to be visible
-  (open) => open && setTimeout(resize, 10)
-);
+const save = () => {
+  // append signature blob to form
+  form.blob = pad.value.toDataURL("image/svg+xml");
 
-onMounted(() => {
-  // initialize the signature pad
-  pad.value = new SignaturePad(canvas.value);
-});
+  // submit form
+  form.post(route("assets.sign", props.asset.id), {
+    preserveScroll: true,
+    onSuccess: () => setIsOpen(false),
+  });
+};
 
 const clear = () => pad.value.clear();
 
@@ -61,6 +65,18 @@ const resize = () => {
   clear();
 };
 
+watch(
+  () => isOpen.value,
+  // bugfix: offset is 0 when modal is not visible
+  // we need to wait for the modal to be visible
+  (open) => open && setTimeout(resize, 10)
+);
+
+onMounted(() => {
+  // initialize the signature pad
+  pad.value = new SignaturePad(canvas.value);
+});
+
 defineExpose({
   open: () => setIsOpen(true),
   close: () => setIsOpen(false),
@@ -80,7 +96,7 @@ defineExpose({
         <DialogTitle
           class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100"
         >
-          Sign for {{ type }}
+          Sign for {{ form.type }}
         </DialogTitle>
 
         <canvas
@@ -91,10 +107,10 @@ defineExpose({
         />
 
         <div class="flex justify-between items-center gap-2">
-          <PrimaryButton label="Save" />
+          <PrimaryButton label="Save" @click="save()" />
           <DangerButton label="Clear" class="mr-auto" @click="clear()" />
           <!-- <SecondaryButton label="Cancel" class="mr-auto" @click="setIsOpen(false)" /> -->
-          <RadioGroup v-model="type" :options="typeOptions" />
+          <RadioGroup v-model="form.type" :options="typeOptions" />
         </div>
       </DialogPanel>
     </div>
