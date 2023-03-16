@@ -80,7 +80,8 @@ const print = (type) => {
       <SecondaryButton label="Sign" icon="sign" @click="signatureModal.open()" />
 
       <Dropdown label="Print" icon="print">
-        <DropdownItem label="Print Intake Receipt" icon="pdf" @click="print('intake')" />
+        <DropdownItem label="Intake Receipt" icon="file-pdf" @click="print('intake')" />
+        <DropdownItem label="Delivery Receipt" icon="file-pdf" @click="print('delivery')" />
       </Dropdown>
 
       <Dropdown icon="create" label="New" primary>
@@ -152,5 +153,6 @@ const print = (type) => {
   <!-- print only content here -->
   <section class="hidden print:block">
     <Receipt v-if="printing === 'intake'" :asset="asset" />
+    <Receipt v-else-if="printing === 'delivery'" v-bind="{ asset, tasks, payments }" delivery />
   </section>
 </template>

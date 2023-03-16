@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { formatDate, formatMoney } from "@/Shared/utils";
 import Logo from "@/Layouts/Partials/Logo.vue";
+import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
   asset: Object,
@@ -79,6 +80,48 @@ const signatureUrl = computed(() => {
       <div>
         <h1 class="text-lg font-semibold">Problem</h1>
         <p>{{ asset.problem }}</p>
+      </div>
+
+      <!-- tasks -->
+      <div v-if="delivery" class="space-y-1">
+        <h2 class="text-lg font-semibold">Tasks</h2>
+
+        <ul class="space-y-1">
+          <li
+            v-for="(task, i) in tasks"
+            :key="i"
+            class="flex justify-between border-b border-dashed"
+          >
+            <span class="truncate w-4/5"> {{ task.description }} </span>
+            <span>{{ formatMoney(task.price) }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- balance -->
+      <div v-if="delivery" class="space-y-1">
+        <h2 class="text-lg font-semibold">Balance</h2>
+
+        <ul class="space-y-1">
+          <li class="flex justify-between border-b border-dashed">
+            <span class="truncate w-4/5"> Cost </span>
+            <span>{{ formatMoney(asset.cost) }}</span>
+          </li>
+
+          <template v-for="(amount, type) in asset.balance_map" :key="type">
+            <li
+              v-if="amount > 0"
+              class="flex justify-between border-b border-dashed capitalize"
+            >
+              <span class="truncate w-4/5"> {{ type }} </span>
+              <span>{{ formatMoney(amount) }}</span>
+            </li>
+          </template>
+
+          <li class="flex justify-end text-xl">
+            {{ formatMoney(asset.balance) }}
+          </li>
+        </ul>
       </div>
     </section>
 
