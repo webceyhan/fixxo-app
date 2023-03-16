@@ -166,8 +166,7 @@ class Asset extends Model
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param Builder $query
-     * @return Builder
+     * Scope a query to only include in_progress assets.
      */
     public function scopeInProgress(Builder $query): void
     {
@@ -175,11 +174,18 @@ class Asset extends Model
     }
 
     /**
-     * @param Builder $query
-     * @return Builder
+     * Scope a query to only include ready assets.
      */
     public function scopeReady(Builder $query): void
     {
         $query->where('status', AssetStatus::READY);
+    }
+
+    /**
+     * Scope a query to only include returned assets.
+     */
+    public function scopeReturned(Builder $query): void
+    {
+        $query->where('status', AssetStatus::RETURNED);
     }
 }
