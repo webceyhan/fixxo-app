@@ -128,9 +128,7 @@ class AssetController extends Controller
                 try { // try to send SMS or skip
                     NotificationService::sendSMS($phone, $message);
                 } catch (\Throwable $e) {
-                    // return redirect()
-                    //     ->route('assets.show', $asset->id)
-                    //     ->with('error', 'SMS failed to send! Check the customer phone number');
+                    // TODO: log error
                 }
             }
         }
