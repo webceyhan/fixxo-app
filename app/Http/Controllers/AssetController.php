@@ -6,6 +6,7 @@ use App\Enums\AssetStatus;
 use App\Enums\AssetType;
 use App\Http\Requests\SaveAssetRequest;
 use App\Models\Asset;
+use App\Services\NotificationService;
 use App\Services\SignatureService;
 
 class AssetController extends Controller
@@ -114,6 +115,25 @@ class AssetController extends Controller
         $params['user_id'] = auth()->id();
 
         $asset->fill($params)->save();
+
+
+        // check if status is ready for pickup
+        if ($asset->status == 'ready') {
+
+            // send SMS to customer if phone number is provided
+            if ($asset->customer->phone !== null) {
+                $phone = $asset->customer->phone;
+                $message = __('Your asset is ready for pickup.');
+
+                try { // try to send SMS or skip
+                    NotificationService::sendSMS($phone, $message);
+                } catch (\Throwable $e) {
+                    // return redirect()
+                    //     ->route('assets.show', $asset->id)
+                    //     ->with('error', 'SMS failed to send! Check the customer phone number');
+                }
+            }
+        }
 
         return redirect()
             ->route('assets.show', $asset->id)
