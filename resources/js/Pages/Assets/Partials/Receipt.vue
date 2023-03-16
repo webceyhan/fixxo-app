@@ -1,7 +1,7 @@
 <script setup>
+import { computed } from "vue";
 import { formatDate, formatMoney } from "@/Shared/utils";
 import Logo from "@/Layouts/Partials/Logo.vue";
-import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
   asset: Object,
@@ -9,15 +9,31 @@ const props = defineProps({
   payments: Array,
   delivery: Boolean,
 });
+
+const signatureUrl = computed(() => {
+  return props.delivery
+    ? props.asset.delivery_signature_url
+    : props.asset.intake_signature_url;
+});
 </script>
 
 <template>
-  <div class="p-6 space-y-2">
-    <header class="flex justify-between items-center">
-      <!-- left / title -->
-      <h1 class="text-5xl capitalize">
-        {{ delivery ? "delivery receipt" : "intake receipt" }}
-      </h1>
+  <div class="space-y-6 p-10">
+    <header class="flex justify-between items-end">
+      <!-- left -->
+
+      <div class="space-y-4">
+        <!-- title -->
+        <h1 class="text-5xl font-light capitalize">
+          {{ delivery ? "delivery receipt" : "intake receipt" }}
+        </h1>
+
+        <!-- timestamp -->
+        <p class="text-sm">
+          Created on <strong>{{ formatDate(asset.created_at) }}</strong> by
+          <strong>{{ asset.user.name }}</strong>
+        </p>
+      </div>
 
       <!-- right / company info -->
       <div class="text-xs text-right space-y-1">
@@ -59,14 +75,6 @@ const props = defineProps({
         <p class="capitalize">{{ asset.customer.name }}</p>
       </div>
 
-      <!-- staff info -->
-      <div class="space-y-1">
-        <h2 class="text-lg font-semibold">Staff</h2>
-        <p class="capitalize">
-          Taken in by {{ asset.user.name }} on {{ formatDate(asset.created_at, false) }}
-        </p>
-      </div>
-
       <!-- problem -->
       <div>
         <h1 class="text-lg font-semibold">Problem</h1>
@@ -78,7 +86,7 @@ const props = defineProps({
     <br />
   </div>
 
-  <footer class="fixed bottom-0 inset-x-0 p-10 space-y-6">
+  <footer class="fixed bottom-0 inset-x-0 space-y-6 p-10">
     <hr />
 
     <!-- terms and conditions -->
@@ -95,11 +103,7 @@ const props = defineProps({
     <section class="flex">
       Signature of agreement on the terms of Acme Inc. guarantees by the customer :
 
-      <img
-        v-if="delivery ? asset.delivery_signature_url : asset.intake_signature_url"
-        :src="delivery ? asset.delivery_signature_url : asset.intake_signature_url"
-        width="200"
-      />
+      <img v-if="signatureUrl" :src="signatureUrl" class="w-40 h-auto" />
     </section>
   </footer>
 </template>

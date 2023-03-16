@@ -14,6 +14,7 @@ import AssetCard from "@/Pages/Assets/Partials/AssetCard.vue";
 import AssetTasks from "./Partials/AssetTasks.vue";
 import AssetPayments from "./Partials/AssetPayments.vue";
 import SignatureModal from "./Partials/SignatureModal.vue";
+import Receipt from "./Partials/Receipt.vue";
 
 const props = defineProps({
   asset: Object,
@@ -35,10 +36,20 @@ const save = () => {
 const assetTasks = ref(null);
 const assetPayments = ref(null);
 const signatureModal = ref(null);
+
+const printing = ref();
+
+const print = (type) => {
+  printing.value = type;
+  setTimeout(() => {
+    window.print();
+    printing.value = null;
+  }, 100);
+};
 </script>
 
 <template>
-  <PageLayout :title="asset.name">
+  <PageLayout :title="asset.name" class="print:hidden">
     <!-- desktop menu -->
     <template #desktop-menu>
       <SecondaryButton label="Edit" icon="edit" :href="route('assets.edit', asset.id)" />
@@ -67,6 +78,10 @@ const signatureModal = ref(null);
       />
 
       <SecondaryButton label="Sign" icon="sign" @click="signatureModal.open()" />
+
+      <Dropdown label="Print" icon="print">
+        <DropdownItem label="Print Intake Receipt" icon="pdf" @click="print('intake')" />
+      </Dropdown>
 
       <Dropdown icon="create" label="New" primary>
         <DropdownItem label="New Task" icon="create" @click="assetTasks.create()" />
@@ -133,4 +148,9 @@ const signatureModal = ref(null);
       <SignatureModal :asset="asset" ref="signatureModal" />
     </template>
   </PageLayout>
+
+  <!-- print only content here -->
+  <section class="hidden print:block">
+    <Receipt v-if="printing === 'intake'" :asset="asset" />
+  </section>
 </template>
