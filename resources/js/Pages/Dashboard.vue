@@ -16,6 +16,7 @@ const props = defineProps({
   assetStats: Array,
   assetsReady: Array,
   assetsInProgress: Array,
+  assetsUnpaid: Array,
 });
 
 const onIntervalChange = (interval) => {
@@ -65,7 +66,7 @@ const onIntervalChange = (interval) => {
       />
     </div>
 
-    <div class="flex flex-col md:flex-row gap-5">
+    <div class="flex flex-col md:flex-row md:flex-wrap gap-5">
       <Card class="flex-1" label="Latest assets in progress" flush>
         <AssetList :assets="assetsInProgress" compact />
 
@@ -92,6 +93,19 @@ const onIntervalChange = (interval) => {
 
         <template #footer>
           <Link label="View all" :href="route('assets.index', { status: 'ready' })" />
+        </template>
+      </Card>
+
+      <Card class="w-full" label="Unpaid returned assets" flush>
+        <AssetList :assets="assetsUnpaid" compact />
+
+        <!-- placeholder -->
+        <div v-if="assetsReady.length === 0" class="text-center py-10">
+          No assets found.
+        </div>
+
+        <template #footer>
+          <Link label="View all" :href="route('assets.index', { status: 'unpaid' })" />
         </template>
       </Card>
     </div>
