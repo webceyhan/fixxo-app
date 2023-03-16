@@ -46,6 +46,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     /**
+     * Asset extras
+     */
+    Route::post('/assets/{asset}/sign', [AssetController::class, 'sign'])->name('assets.sign');
+
+    /**
      * Resources
      */
     Route::resource('users', UserController::class);

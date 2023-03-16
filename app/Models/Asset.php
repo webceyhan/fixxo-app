@@ -4,9 +4,13 @@ namespace App\Models;
 
 use App\Enums\AssetStatus;
 use App\Enums\AssetType;
+use App\Enums\PaymentType;
+use App\Services\QRService;
+use App\Services\SignatureService;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -45,6 +49,97 @@ class Asset extends Model
      * @var string
      */
     protected $searchIndex = 'name,serial,problem';
+
+    // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get sum of all tasks prices.
+     */
+    protected function cost(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->tasks->pluck('price')->sum(),
+        )->shouldCache();
+    }
+
+    /**
+     * Get a map of payment sums by their type.
+     */
+    protected function balanceMap(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                // initialize map in a specific order
+                $map = array_fill_keys(PaymentType::values(), 0);
+
+                // populate map with sums
+                $this->payments->each(function ($payment) use (&$map) {
+                    $map[$payment->type] += $payment->amount;
+                });
+
+                return $map;
+            },
+        )->shouldCache();
+    }
+
+    /**
+     * Get balance calculated from total cost & payments.
+     */
+    protected function balance(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                // extract vars
+                [
+                    'charge' => $charge,
+                    'discount' => $discount,
+                    'warranty' => $warranty,
+                ] = $this->balanceMap;
+
+                return $charge - $this->cost + (abs($discount) + abs($warranty));
+            }
+        );
+    }
+
+    /**
+     * Get url to qr code.
+     *
+     * @return bool
+     */
+    protected function qrUrl(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $linkData = route('assets.show', $this);
+                return QRService::urlFor($this->id, $linkData);
+            }
+        );
+    }
+
+    /**
+     * Get url to the intake signature.
+     */
+    protected function intakeSignatureUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => SignatureService::url($this->id . '-intake'),
+            // TODO: find a way to make this work!
+            // Attribute::make() doesn't support setting value that doesn't exist in the model
+            // set: fn ($value) => SignatureService::put($this->id . '-intake', $value),
+        );
+    }
+
+    /**
+     * Get url to the delivery signature.
+     */
+    protected function deliverySignatureUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => SignatureService::url($this->id . '-delivery'),
+            // TODO: see above!
+            // set: fn ($value) => SignatureService::put($this->id . '-delivery', $value),
+        );
+    }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 

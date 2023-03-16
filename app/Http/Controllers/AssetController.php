@@ -6,6 +6,7 @@ use App\Enums\AssetStatus;
 use App\Enums\AssetType;
 use App\Http\Requests\SaveAssetRequest;
 use App\Models\Asset;
+use App\Services\SignatureService;
 
 class AssetController extends Controller
 {
@@ -67,10 +68,20 @@ class AssetController extends Controller
     public function show(Asset $asset)
     {
         // TODO: improve this! only needed for aside card representation
-        $asset->load('customer:id,name');
+        $asset->load(['user:id,name', 'customer:id,name']);
+
+        // append custom attributes
+        $asset->append([
+            'cost',
+            'balance',
+            'balance_map',
+            'qr_url',
+            'intake_signature_url',
+            'delivery_signature_url',
+        ]);
 
         return inertia('Assets/Show', [
-            'asset' => $asset,
+            'asset' => $asset->append('cost'),
             'tasks' => $asset->tasks()->with('user:id,name')->get(),
             'payments' => $asset->payments()->with('user:id,name')->get(),
         ]);
@@ -119,5 +130,19 @@ class AssetController extends Controller
         return redirect()
             ->route('assets.index')
             ->with('status', __('record deleted'));
+    }
+
+    /**
+     * Add signature to the specified asset.
+     */
+    public function sign(Asset $asset)
+    {
+        $type = request()->input('type');
+        $blob = request()->input('blob');
+
+        // TODO: see related Asset model attribute
+        SignatureService::put("{$asset->id}-{$type}", $blob);
+
+        return redirect()->back();
     }
 }

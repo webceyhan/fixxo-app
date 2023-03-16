@@ -54,7 +54,7 @@ defineEmits(["update:modelValue"]);
         type="radio"
         :name="id"
         :value="option.value"
-        :checked="option.active"
+        :checked="option.active || option.value === modelValue"
         @change="$emit('update:modelValue', option.value)"
         class="form-radio h-5 w-5 text-gray-600"
       />

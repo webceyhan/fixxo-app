@@ -24,17 +24,18 @@ defineProps({
     <!-- header -->
     <header
       v-if="$slots.header || label"
-      class="p-4 sm:p-6"
       :class="{
+        'flex justify-between gap-2 p-4 sm:p-6': true,
+        'font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight': true,
         'max-sm:bg-white max-sm:dark:bg-gray-900': flush,
       }"
     >
       <slot name="header">
         <Icon v-if="icon" :name="icon" class="mr-2" />
-        <div class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-          {{ label }}
-        </div>
+        <h5>{{ label }}</h5>
       </slot>
+
+      <slot name="header-action" />
     </header>
 
     <!-- body -->

@@ -41,6 +41,7 @@ defineProps({
           :label="formatPhone(value)"
           :href="`tel:${value}`"
           outline
+          native
         />
 
         <!-- render as email -->
@@ -49,6 +50,7 @@ defineProps({
           :label="value"
           :href="`mailto:${value}`"
           outline
+          native
         />
 
         <!-- render as location -->
@@ -58,6 +60,7 @@ defineProps({
           :href="`https://www.google.com/maps/place/${value}`"
           target="_blank"
           outline
+          native
         />
 
         <!-- render as link -->

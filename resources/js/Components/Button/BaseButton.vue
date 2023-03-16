@@ -1,16 +1,21 @@
 <script setup>
 import { computed } from "vue";
 import { Link } from "@inertiajs/vue3";
-import Icon from "../Icon.vue";
+import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
   label: String,
   icon: String,
+  small: Boolean,
 });
 
 const classes = computed(() => ({
   // base styles
-  "inline-flex items-center shadow-sm disabled:opacity-50 px-4 py-2 gap-2": true,
+  "inline-flex items-center shadow-sm disabled:opacity-50": true,
+
+  // size
+  "px-4 py-2 gap-2": !props.small, // normal
+  "px-2 py-1 gap-1": props.small, // small
 
   // text
   "text-xs font-semibold tracking-widest uppercase": true,
