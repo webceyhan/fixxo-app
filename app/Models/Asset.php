@@ -214,4 +214,15 @@ class Asset extends Model
             })
             ->having('balanced', '<', 0);
     }
+
+    /**
+     * Scope a query to retrieve all brands sorted by their frequency.
+     */
+    public function scopeBrands(Builder $query): void
+    {
+        $query->select('brand')
+            ->whereNotNull('brand')
+            ->groupBy('brand')
+            ->orderByRaw('COUNT(brand) DESC');
+    }
 }

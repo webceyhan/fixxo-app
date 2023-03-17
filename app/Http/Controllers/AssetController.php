@@ -20,7 +20,7 @@ class AssetController extends Controller
 
         $query = Asset::query();
 
-        if(isset($allowedParams['status']) && $allowedParams['status'] === AssetStatus::UNPAID) {
+        if (isset($allowedParams['status']) && $allowedParams['status'] === AssetStatus::UNPAID) {
             unset($allowedParams['status']);
             $query->unpaid();
         }
@@ -35,12 +35,7 @@ class AssetController extends Controller
             ->withQueryString();
 
         // Get all distinct brands to use as filter options
-        $brands = Asset::query()
-            ->select('brand')
-            ->distinct()
-            ->whereNotNull('brand')
-            ->get();
-
+        $brands = Asset::brands()->get();
 
         return inertia('Assets/Index', [
             'assets' => $assets,
