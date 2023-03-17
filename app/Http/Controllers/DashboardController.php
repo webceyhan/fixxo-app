@@ -7,6 +7,7 @@ use App\Models\Asset;
 use App\Models\Payment;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -36,6 +37,14 @@ class DashboardController extends Controller
             ->latest('id')
             ->limit(5)
             ->get();
+
+        $assetsUnpaid = Asset::unpaid()
+            ->with('customer:id,name')
+            ->since($interval)
+            ->latest('id')
+            ->limit(5)
+            ->get()
+            ->append('balance');
 
         // asset count per status, from last (inertval) days
         // TODO: provide defaults for each status when there is no record
@@ -77,6 +86,7 @@ class DashboardController extends Controller
             'earningStats' => $earningStats,
             'assetsReady' => $assetsReady,
             'assetsInProgress' => $assetsInProgress,
+            'assetsUnpaid' => $assetsUnpaid,
         ]);
     }
 }

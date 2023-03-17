@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class Asset extends Model
 {
@@ -166,8 +167,7 @@ class Asset extends Model
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * @param Builder $query
-     * @return Builder
+     * Scope a query to only include in_progress assets.
      */
     public function scopeInProgress(Builder $query): void
     {
@@ -175,11 +175,43 @@ class Asset extends Model
     }
 
     /**
-     * @param Builder $query
-     * @return Builder
+     * Scope a query to only include ready assets.
      */
     public function scopeReady(Builder $query): void
     {
         $query->where('status', AssetStatus::READY);
+    }
+
+    /**
+     * Scope a query to only include returned assets.
+     */
+    public function scopeReturned(Builder $query): void
+    {
+        $query->where('status', AssetStatus::RETURNED);
+    }
+
+    /**
+     * Get all assets with their cost (sum of its tasks) and paid amount (sum of its payments) 
+     * ordered by their balance which is the difference between cost and paid amount.
+     */
+    public function scopeUnpaid(Builder $query): void
+    {
+        // todo: make this calculations on the model level using precalculated attributes 
+        // and fetch using scope variables to build different queries
+        $query->returned()
+            ->select(
+                'assets.*',
+                DB::raw('COALESCE(t.cost, 0) AS cost'),
+                DB::raw('ABS(COALESCE(p.amount, 0)) AS paid'),
+                // bugfix: balance is defined attribute in modal so we should use different name: "balanceD"
+                DB::raw('ABS(COALESCE(p.amount, 0)) - COALESCE(t.cost, 0) AS balanced')
+            )
+            ->leftJoin(DB::raw('(SELECT asset_id, SUM(price) AS cost FROM tasks GROUP BY asset_id) t'), function ($join) {
+                $join->on('assets.id', '=', 't.asset_id');
+            })
+            ->leftJoin(DB::raw('(SELECT asset_id, SUM(IF(type="refund", -ABS(amount), ABS(amount))) AS amount FROM payments GROUP BY asset_id) p'), function ($join) {
+                $join->on('assets.id', '=', 'p.asset_id');
+            })
+            ->having('balanced', '<', 0);
     }
 }

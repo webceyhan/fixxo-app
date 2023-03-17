@@ -2,6 +2,7 @@
 import AssetBadge from "./AssetBadge.vue";
 import StackedList from "@/Components/List/StackedList.vue";
 import StackedListItem from "@/Components/List/StackedListItem.vue";
+import { formatMoney } from "@/Shared/utils";
 
 const props = defineProps({
   assets: Array,
@@ -27,17 +28,24 @@ const props = defineProps({
       </div>
 
       <div
-        v-if="!compact && asset.tasks_count"
+        v-if="!compact"
         class="hidden md:block w-2/12 text-gray-400"
       >
-        tasks {{ asset.tasks_count }}
+        tasks {{ asset?.tasks_count ?? 0 }}
       </div>
 
       <div
-        v-if="!compact && asset.total_cost"
+        v-if="!compact && total_cost !== undefined"
         class="hidden md:block w-2/12 text-gray-400"
       >
-        cost {{ asset.total_cost }}€
+        cost {{ formatMoney(asset?.total_cost ?? 0) }}
+      </div>
+
+      <div
+        v-if="!compact && asset.balance !== undefined"
+        class="hidden md:block w-2/12 text-gray-400 whitespace-nowrap text-end"
+      >
+        {{ formatMoney(asset.balance) }}
       </div>
 
       <template #badge>
