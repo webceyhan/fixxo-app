@@ -13,6 +13,13 @@ class CustomerController extends Controller
      */
     public function index()
     {
+        // redirect with the default status if no status is provided
+        if (request()->input('status') === null) {
+            return redirect()->route('customers.index', [
+                'status' => UserStatus::ACTIVE
+            ]);
+        }
+
         $allowedParams = request()->only('search', 'status');
 
         $customers = Customer::query()

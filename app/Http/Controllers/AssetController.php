@@ -16,6 +16,13 @@ class AssetController extends Controller
      */
     public function index()
     {
+        // redirect with the default status if no status is provided
+        if (request()->input('status') === null) {
+            return redirect()->route('assets.index', [
+                'status' => AssetStatus::IN_PROGRESS
+            ]);
+        }
+
         $allowedParams = request()->only('search', 'type', 'status', 'brand');
 
         $query = Asset::query();

@@ -15,6 +15,13 @@ class UserController extends Controller
      */
     public function index()
     {
+        // redirect with the default status if no status is provided
+        if (request()->input('status') === null) {
+            return redirect()->route('users.index', [
+                'status' => UserStatus::ACTIVE
+            ]);
+        }
+
         $allowedParams = request()->only('search', 'role', 'status');
 
         $users = User::query()
