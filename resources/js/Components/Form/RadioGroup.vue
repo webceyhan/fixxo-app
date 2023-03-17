@@ -34,7 +34,7 @@ defineEmits(["update:modelValue"]);
         <div
           :class="{
             'border first:rounded-l-md last:rounded-r-md cursor-pointer py-2 px-4': true,
-            'hover:bg-gray-300 hover:dark:bg-gray-800/75 border-gray-300 dark:border-gray-700 dark:bg-gray-900': !checked,
+            'bg-white/25 dark:bg-gray-900 hover:bg-gray-300 hover:dark:bg-gray-800/75 border-gray-300 dark:border-gray-700 ': !checked,
             'text-white border-transparent bg-indigo-500 dark:bg-indigo-600': checked,
           }"
         >
