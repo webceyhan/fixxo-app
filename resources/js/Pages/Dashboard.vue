@@ -63,6 +63,7 @@ const onIntervalChange = (interval) => {
         icon="money"
         :items="earningStats"
         class="!border-yellow-500/25"
+        format-as-money
       />
     </div>
 

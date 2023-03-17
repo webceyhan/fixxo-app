@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\TaskStatus;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -47,5 +48,16 @@ class Task extends Model
     public function asset(): BelongsTo
     {
         return $this->belongsTo(Asset::class);
+    }
+
+    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Scope a query to get statistics grouped by status.
+     */
+    public function scopeStats(Builder $query): void
+    {
+        $query->selectRaw('COUNT(id) as value, status as label')
+            ->groupBy('status');
     }
 }

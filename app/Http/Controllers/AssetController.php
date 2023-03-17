@@ -16,11 +16,18 @@ class AssetController extends Controller
      */
     public function index()
     {
+        // redirect with the default status if no status is provided
+        if (request()->input('status') === null) {
+            return redirect()->route('assets.index', [
+                'status' => AssetStatus::IN_PROGRESS
+            ]);
+        }
+
         $allowedParams = request()->only('search', 'type', 'status', 'brand');
 
         $query = Asset::query();
 
-        if(isset($allowedParams['status']) && $allowedParams['status'] === AssetStatus::UNPAID) {
+        if (isset($allowedParams['status']) && $allowedParams['status'] === AssetStatus::UNPAID) {
             unset($allowedParams['status']);
             $query->unpaid();
         }
@@ -35,12 +42,7 @@ class AssetController extends Controller
             ->withQueryString();
 
         // Get all distinct brands to use as filter options
-        $brands = Asset::query()
-            ->select('brand')
-            ->distinct()
-            ->whereNotNull('brand')
-            ->get();
-
+        $brands = Asset::brands()->get();
 
         return inertia('Assets/Index', [
             'assets' => $assets,
