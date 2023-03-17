@@ -225,4 +225,14 @@ class Asset extends Model
             ->groupBy('brand')
             ->orderByRaw('COUNT(brand) DESC');
     }
+
+    /**
+     * Scope a query to get statistics grouped by status.
+     */
+    public function scopeStats(Builder $query): void
+    {
+        $query->selectRaw('COUNT(id) as value, status as label')
+            ->whereNot('status', 'returned') // exclude returned
+            ->groupBy('status');
+    }
 }

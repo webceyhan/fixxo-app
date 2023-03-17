@@ -7,7 +7,6 @@ use App\Models\Asset;
 use App\Models\Payment;
 use App\Models\Task;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -48,20 +47,11 @@ class DashboardController extends Controller
 
         // asset count per status, from last (inertval) days
         // TODO: provide defaults for each status when there is no record
-        $assetStats = Asset::query()
-            ->selectRaw('COUNT(id) as value, status as label')
-            ->since($interval)
-            ->whereNot('status', 'returned') // exclude returned
-            ->groupBy('status')
-            ->get();
+        $assetStats = Asset::stats()->since($interval)->get();
 
         // task count per status, from last (inertval) days
         // TODO: provide defaults for each status when there is no record
-        $taskStats = Task::query()
-            ->selectRaw('COUNT(id) as value, status as label')
-            ->since($interval)
-            ->groupBy('status')
-            ->get();
+        $taskStats = Task::stats()->since($interval)->get();
 
         // get earning stats from last (interval) days
         // with sum of tasks's price as total cost
