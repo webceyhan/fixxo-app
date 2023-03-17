@@ -59,11 +59,11 @@ class DashboardController extends Controller
         // TODO: find a better way to do this using eloquent
         $earningStats = [
             [
-                'label' => 'Total Cost',
+                'label' => 'expected',
                 'value' => Task::since($interval)->sum('price')
             ],
             [
-                'label' => 'Total Payment',
+                'label' => 'received',
                 'value' => Payment::since($interval)->sum('amount')
             ]
         ];

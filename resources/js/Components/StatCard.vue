@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from "vue";
+import { formatMoney } from "@/Shared/utils";
 import Card from "./Card.vue";
 import Icon from "./Icon.vue";
 
@@ -7,6 +8,7 @@ const props = defineProps({
   label: String,
   icon: String,
   items: Array,
+  formatAsMoney: Boolean,
 });
 
 const normalizedItems = computed(() => {
@@ -37,7 +39,7 @@ const normalizedItems = computed(() => {
             {{ item.label }}
           </dt>
           <dd class="text-2xl font-bold leading-9 tracking-tight dark:text-white">
-            {{ item.value }}
+            {{ formatAsMoney ? formatMoney(item.value) : item.value }}
           </dd>
         </div>
       </dl>
