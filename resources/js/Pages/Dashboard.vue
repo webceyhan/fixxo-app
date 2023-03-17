@@ -96,11 +96,11 @@ const onIntervalChange = (interval) => {
         </template>
       </Card>
 
-      <Card class="w-full" label="Unpaid returned assets" flush>
-        <AssetList :assets="assetsUnpaid" compact />
+      <Card class="sm:w-full" label="Unpaid returned assets" flush>
+        <AssetList :assets="assetsUnpaid" />
 
         <!-- placeholder -->
-        <div v-if="assetsReady.length === 0" class="text-center py-10">
+        <div v-if="assetsUnpaid.length === 0" class="text-center py-10">
           No assets found.
         </div>
 

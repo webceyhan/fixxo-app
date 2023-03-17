@@ -43,7 +43,8 @@ class DashboardController extends Controller
             ->since($interval)
             ->latest('id')
             ->limit(5)
-            ->get();
+            ->get()
+            ->append('balance');
 
         // asset count per status, from last (inertval) days
         // TODO: provide defaults for each status when there is no record
