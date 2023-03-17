@@ -38,7 +38,7 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
-        $assetsUnpaid = $this->getUnpaidAssets()
+        $assetsUnpaid = Asset::unpaid()
             ->with('customer:id,name')
             ->since($interval)
             ->latest('id')
@@ -88,33 +88,5 @@ class DashboardController extends Controller
             'assetsInProgress' => $assetsInProgress,
             'assetsUnpaid' => $assetsUnpaid,
         ]);
-    }
-
-    /**
-     * Get all assets with their cost (sum of its tasks) and paid amount (sum of its payments) 
-     * ordered by their balance which is the difference between cost and paid amount.
-     *
-     * @return Illuminate\Database\Eloquent\Builder
-     */
-    private function getUnpaidAssets()
-    {
-        // todo: make this calculations on the model level using precalculated attributes 
-        // and fetch using scope variables to build different queries
-        return Asset::returned()
-            ->select(
-                'assets.*',
-                DB::raw('COALESCE(t.cost, 0) AS cost'),
-                DB::raw('ABS(COALESCE(p.amount, 0)) AS paid'),
-                // bugfix: balance is defined attribute in modal so we should use different name: "balanceD"
-                DB::raw('ABS(COALESCE(p.amount, 0)) - COALESCE(t.cost, 0) AS balanced')
-            )
-            ->leftJoin(DB::raw('(SELECT asset_id, SUM(price) AS cost FROM tasks GROUP BY asset_id) t'), function ($join) {
-                $join->on('assets.id', '=', 't.asset_id');
-            })
-            ->leftJoin(DB::raw('(SELECT asset_id, SUM(IF(type="refund", -ABS(amount), ABS(amount))) AS amount FROM payments GROUP BY asset_id) p'), function ($join) {
-                $join->on('assets.id', '=', 'p.asset_id');
-            })
-            ->having('balanced', '<', 0)
-            ->orderByDesc('id');
     }
 }

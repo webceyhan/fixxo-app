@@ -18,7 +18,14 @@ class AssetController extends Controller
     {
         $allowedParams = request()->only('search', 'type', 'status', 'brand');
 
-        $assets = Asset::query()
+        $query = Asset::query();
+
+        if(isset($allowedParams['status']) && $allowedParams['status'] === AssetStatus::UNPAID) {
+            unset($allowedParams['status']);
+            $query->unpaid();
+        }
+
+        $assets = $query
             ->filterByParams($allowedParams)
             ->withCount(['tasks'])
             ->withSum('tasks as total_cost', 'price')
