@@ -12,7 +12,7 @@ defineProps({
   <div
     :class="{
       // base
-      'bg-white dark:bg-gray-800/75 overflow-hidden shadow-lg rounded-lg': true,
+      'bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-lg': true,
 
       // divider
       'divide-y divide-slate-200 dark:divide-slate-700/50': true,
@@ -25,9 +25,9 @@ defineProps({
     <header
       v-if="$slots.header || label"
       :class="{
-        'flex justify-between gap-2 p-4 sm:p-6': true,
+        'flex justify-between bg-gray-100/50 dark:bg-gray-700/25 gap-2 p-4 sm:p-6': true,
         'font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight': true,
-        'max-sm:bg-white max-sm:dark:bg-gray-900': flush,
+        'max-sm:bg-gray-200 max-sm:dark:bg-gray-900': flush,
       }"
     >
       <slot name="header">
