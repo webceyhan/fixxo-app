@@ -88,6 +88,7 @@ class AssetController extends Controller
             'qr_url',
             'intake_signature_url',
             'delivery_signature_url',
+            'uploaded_urls'
         ]);
 
         return inertia('Assets/Show', [

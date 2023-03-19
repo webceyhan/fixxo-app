@@ -15,6 +15,7 @@ import AssetTasks from "./Partials/AssetTasks.vue";
 import AssetPayments from "./Partials/AssetPayments.vue";
 import SignatureModal from "./Partials/SignatureModal.vue";
 import Receipt from "./Partials/Receipt.vue";
+import AssetUploads from "./Partials/AssetUploads.vue";
 
 const props = defineProps({
   asset: Object,
@@ -135,6 +136,8 @@ const print = (type) => {
         />
         <SecondaryButton label="Save" @click="save" />
       </Card>
+
+      <AssetUploads :asset="asset" />
     </template>
 
     <template #content>

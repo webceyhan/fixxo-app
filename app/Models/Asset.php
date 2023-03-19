@@ -7,6 +7,7 @@ use App\Enums\AssetType;
 use App\Enums\PaymentType;
 use App\Services\QRService;
 use App\Services\SignatureService;
+use App\Services\UploadService;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -139,6 +140,16 @@ class Asset extends Model
             get: fn () => SignatureService::url($this->id . '-delivery'),
             // TODO: see above!
             // set: fn ($value) => SignatureService::put($this->id . '-delivery', $value),
+        );
+    }
+
+    /**
+     * Get an array of uploaded file urls.
+     */
+    protected function uploadedUrls(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => UploadService::urls($this->id)
         );
     }
 
