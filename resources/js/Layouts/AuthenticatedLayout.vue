@@ -1,6 +1,7 @@
 <script setup>
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { Head, usePage } from "@inertiajs/vue3";
+import Sidebar from "./Partials/Sidebar.vue";
 import NavBar from "@/Layouts/Partials/NavBar.vue";
 import Breadcrumbs from "@/Layouts/Partials/Breadcrumbs.vue";
 import NotificationBar from "@/Layouts/Partials/NotificationBar.vue";
@@ -9,17 +10,22 @@ const props = defineProps({
   title: String,
 });
 
+const sidebarOpen = ref(false);
+
 const currentTitle = computed(
   () => props.title ?? usePage().props.breadcrumbs.at(-1)?.title
 );
 </script>
 
 <template>
-  <div>
+  <div class="flex h-screen bg-gray-200 dark:bg-gray-900">
     <Head :title="currentTitle" />
 
-    <div class="min-h-screen bg-gray-200 dark:bg-gray-900">
-      <!-- navbar -->
+    <!-- Side Navigation Menu -->
+    <Sidebar v-model:toggled="sidebarOpen" />
+
+    <div class="flex-1 flex flex-col overflow-x-hidden overflow-y-auto">
+      <!-- Primary Navigation -->
       <NavBar :user="$page.props.auth.user" />
 
       <!-- Page Heading -->
