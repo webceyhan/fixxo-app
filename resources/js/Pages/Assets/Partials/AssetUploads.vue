@@ -30,6 +30,7 @@ function send(event) {
 const index = ref(0);
 const fullScreen = ref(false);
 const uploadedUrls = computed(() => props.asset.uploaded_urls);
+const isEmpty = computed(() => uploadedUrls.value.length === 0);
 
 function prev() {
   const length = uploadedUrls.value.length;
@@ -59,99 +60,115 @@ function updateIndex() {
 
 <template>
   <Card label="Uploads">
-    <div v-if="uploadedUrls.length > 0" class="mb-4">
-      <!-- carousel -->
+    <!-- carousel -->
+    <div class="relative backdrop-blur-md" :class="{ '!fixed inset-0 z-50': fullScreen }">
+      <!-- Carousel wrapper -->
       <div
-        class="relative backdrop-blur-md"
-        :class="{ '!fixed inset-0 z-50': fullScreen }"
+        class="overflow-hidden h-96 rounded-lg"
+        :class="{ '!h-screen p-6': fullScreen }"
       >
-        <!-- Carousel wrapper -->
-        <div
-          class="overflow-hidden h-48 rounded-lg-"
-          :class="{ '!h-screen p-6': fullScreen }"
-        >
-          <template v-for="(url, i) in uploadedUrls" :key="i">
-            <img
-              :src="url"
-              class="w-full h-full object-cover"
-              :class="{
-                hidden: index !== i,
-                '!object-contain': fullScreen,
-              }"
-            />
-          </template>
-        </div>
+        <template v-for="(url, i) in uploadedUrls" :key="i">
+          <img
+            :src="url"
+            class="w-full h-full object-cover"
+            :class="{
+              hidden: index !== i,
+              '!object-contain': fullScreen,
+            }"
+          />
+        </template>
 
-        <!-- Slider controls -->
-
-        <!-- previous -->
-        <button
-          type="button"
-          class="flex absolute top-0 left-0 z-30 justify-center items-center px-2 h-full cursor-pointer group focus:outline-none"
-          @click="prev()"
+        <!-- placeholder if empty -->
+        <figure
+          v-if="isEmpty"
+          class="flex justify-center items-center w-full h-full bg-gray-500/20"
         >
-          <span
-            class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 group-hover:bg-white/50 dark:group-hover:bg-gray-800/50"
-            :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
-          >
-            <Icon name="chevron-left" />
-          </span>
-        </button>
+          <Icon name="image" class="text-5xl text-gray-400/20" />
+        </figure>
+      </div>
 
-        <!-- next -->
-        <button
-          type="button"
-          class="flex absolute top-0 right-0 z-30 justify-center items-center px-2 h-full cursor-pointer group focus:outline-none"
-          @click="next()"
-        >
-          <span
-            class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 group-hover:bg-white/50 dark:group-hover:bg-gray-800/50"
-            :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
-          >
-            <Icon name="chevron-right" />
-          </span>
-        </button>
+      <!-- Slider controls -->
 
-        <!-- full screen toggle -->
-        <button
-          type="button"
-          class="absolute top-0 right-0 z-30 p-2"
-          @click="fullScreen = !fullScreen"
+      <!-- previous -->
+      <button
+        v-if="!isEmpty"
+        type="button"
+        class="flex absolute top-0 left-0 z-30 justify-center items-center px-2 h-full cursor-pointer group focus:outline-none"
+        @click="prev()"
+      >
+        <span
+          class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 group-hover:bg-white/50 dark:group-hover:bg-gray-800/50"
+          :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
         >
-          <span
-            class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 hover:bg-white/50 dark:hover:bg-gray-800/50"
-            :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
-          >
-            <Icon :name="fullScreen ? 'x-lg' : 'fullscreen'" />
-          </span>
-        </button>
+          <Icon name="chevron-left" />
+        </span>
+      </button>
 
-        <footer
-          class="flex justify-center items-center absolute left-0 right-0 bottom-1 z-30"
+      <!-- next -->
+      <button
+        v-if="!isEmpty"
+        type="button"
+        class="flex absolute top-0 right-0 z-30 justify-center items-center px-2 h-full cursor-pointer group focus:outline-none"
+        @click="next()"
+      >
+        <span
+          class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 group-hover:bg-white/50 dark:group-hover:bg-gray-800/50"
+          :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
         >
+          <Icon name="chevron-right" />
+        </span>
+      </button>
+
+      <!-- upload button -->
+      <div class="absolute top-0 left-0 z-30 p-2">
+        <div class="relative overflow-hidden group">
           <button
             type="button"
-            class="finline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 hover:bg-white/50 dark:hover:bg-gray-800/50 focus:outline-none"
+            class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 group-hover:bg-white/50 dark:group-hover:bg-gray-800/50 focus:outline-none"
             :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
             @click="remove()"
           >
-            <Icon name="delete" />
+            <Icon name="cloud-arrow-up-fill" />
           </button>
-        </footer>
-      </div>
-    </div>
 
-    <form class="flex justify-between">
-      <!-- upload button -->
-      <div class="relative overflow-hidden w-100">
-        <SecondaryButton label="Choose files" />
-        <input
-          type="file"
-          class="cursor-pointer absolute block opacity-0 inset-0"
-          @change="send($event)"
-          multiple
-        />
+          <input
+            type="file"
+            class="absolute block cursor-pointer opacity-0 inset-0"
+            @change="send($event)"
+            multiple
+          />
+        </div>
       </div>
-    </form>
+
+      <!-- full screen toggle -->
+      <button
+        v-if="!isEmpty"
+        type="button"
+        class="absolute top-0 right-0 z-30 p-2"
+        @click="fullScreen = !fullScreen"
+      >
+        <span
+          class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 hover:bg-white/50 dark:hover:bg-gray-800/50"
+          :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
+        >
+          <Icon :name="fullScreen ? 'x-lg' : 'fullscreen'" />
+        </span>
+      </button>
+
+      <footer
+        class="flex justify-center items-center absolute left-0 right-0 bottom-1 z-30"
+      >
+        <!-- remove button -->
+        <button
+          v-if="!isEmpty"
+          type="button"
+          class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 hover:bg-white/50 dark:hover:bg-gray-800/50 focus:outline-none"
+          :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
+          @click="remove()"
+        >
+          <Icon name="delete" />
+        </button>
+      </footer>
+    </div>
   </Card>
 </template>
