@@ -3,7 +3,6 @@ import { ref, computed } from "vue";
 import { useForm, router } from "@inertiajs/vue3";
 import Icon from "@/Components/Icon.vue";
 import Card from "@/Components/Card.vue";
-import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 
 const props = defineProps({
   asset: Object,
