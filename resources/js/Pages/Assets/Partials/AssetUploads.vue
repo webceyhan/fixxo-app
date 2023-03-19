@@ -1,6 +1,8 @@
 <script setup>
 import { ref, computed } from "vue";
 import { useForm, router } from "@inertiajs/vue3";
+import imageCompression from "browser-image-compression";
+import Spinner from "@/Components/Spinner.vue";
 import Icon from "@/Components/Icon.vue";
 import Card from "@/Components/Card.vue";
 
@@ -8,21 +10,44 @@ const props = defineProps({
   asset: Object,
 });
 
+const processing = ref(false);
+
 const form = useForm({
   asset_id: props.asset.id,
   images: [],
 });
 
-function send(event) {
-  form.images = event.target.files;
+async function upload(event) {
+  // show processing
+  processing.value = true;
+
+  // set form data to compress images
+  form.images = await Promise.all(
+    Array.from(event.target.files).map((imageFile) => compressImage(imageFile))
+  );
+
+  // send form
   form.post(route("uploads.store"), {
     onSuccess: () => updateIndex(),
+    onFinish: () => (processing.value = false),
     preserveScroll: true,
   });
 
   // bugfix: we must reset input
   // otherwise we can't choose the same file twice
   event.target.value = "";
+}
+
+async function compressImage(imageFile) {
+  try {
+    return await imageCompression(imageFile, {
+      maxSizeMB: 1,
+      useWebWorker: true,
+      maxWidthOrHeight: 1920,
+    });
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // Carousel /////////////////////////
@@ -62,10 +87,7 @@ function updateIndex() {
     <!-- carousel -->
     <div class="relative backdrop-blur-md" :class="{ '!fixed inset-0 z-50': fullScreen }">
       <!-- Carousel wrapper -->
-      <div
-        class="overflow-hidden h-64 rounded-lg"
-        :class="{ '!h-screen': fullScreen }"
-      >
+      <div class="overflow-hidden h-64 rounded-lg" :class="{ '!h-screen': fullScreen }">
         <template v-for="(url, i) in uploadedUrls" :key="i">
           <img
             :src="url"
@@ -133,7 +155,8 @@ function updateIndex() {
           <input
             type="file"
             class="absolute block cursor-pointer opacity-0 inset-0"
-            @change="send($event)"
+            @change="upload($event)"
+            accept="image/*"
             multiple
           />
         </div>
@@ -159,7 +182,7 @@ function updateIndex() {
       >
         <!-- remove button -->
         <button
-          v-if="!isEmpty"
+          v-if="!isEmpty && !processing"
           type="button"
           class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 hover:bg-white/50 dark:hover:bg-gray-800/50 focus:outline-none"
           :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
@@ -167,6 +190,8 @@ function updateIndex() {
         >
           <Icon name="delete" />
         </button>
+
+        <Spinner v-if="processing" />
       </footer>
     </div>
   </Card>
