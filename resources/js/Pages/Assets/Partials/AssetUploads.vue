@@ -17,8 +17,8 @@ const form = useForm({
 function send(event) {
   form.images = event.target.files;
   form.post(route("uploads.store"), {
-    preserveScroll: true,
     onSuccess: () => updateIndex(),
+    preserveScroll: true,
   });
 
   // bugfix: we must reset input
@@ -41,18 +41,17 @@ function next() {
   index.value = index.value < length - 1 ? index.value + 1 : 0;
 }
 
-function remove(i) {
-  // delete from database
+function remove() {
   router.delete(route("uploads.destroy"), {
-    data: { url: uploadedUrls.value[i] },
-    preserveScroll: true,
+    data: { url: uploadedUrls.value[index.value] },
     onSuccess: () => updateIndex(),
+    preserveScroll: true,
   });
 }
 
 // bugfix: we must update index to force ui pointing
 // to the right image after add / remove
-function updateIndex(i) {
+function updateIndex() {
   index.value--;
   index.value = index.value < 0 ? 0 : index.value;
 }
@@ -80,19 +79,6 @@ function updateIndex(i) {
                 '!object-contain': fullScreen,
               }"
             />
-
-            <footer
-              class="flex justify-center items-center absolute left-0 right-0 bottom-1 z-30"
-            >
-              <button
-                type="button"
-                class="finline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 hover:bg-white/50 dark:hover:bg-gray-800/50 focus:outline-none"
-                :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
-                @click="remove(i)"
-              >
-                <Icon name="delete" />
-              </button>
-            </footer>
           </template>
         </div>
 
@@ -139,6 +125,19 @@ function updateIndex(i) {
             <Icon :name="fullScreen ? 'x-lg' : 'fullscreen'" />
           </span>
         </button>
+
+        <footer
+          class="flex justify-center items-center absolute left-0 right-0 bottom-1 z-30"
+        >
+          <button
+            type="button"
+            class="finline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 hover:bg-white/50 dark:hover:bg-gray-800/50 focus:outline-none"
+            :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
+            @click="remove()"
+          >
+            <Icon name="delete" />
+          </button>
+        </footer>
       </div>
     </div>
 
