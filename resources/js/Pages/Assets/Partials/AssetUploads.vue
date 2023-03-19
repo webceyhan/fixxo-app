@@ -83,11 +83,11 @@ function updateIndex() {
 </script>
 
 <template>
-  <Card label="Uploads">
+  <Card label="Uploads" flush>
     <!-- carousel -->
     <div class="relative backdrop-blur-md" :class="{ '!fixed inset-0 z-50': fullScreen }">
       <!-- Carousel wrapper -->
-      <div class="overflow-hidden h-64 rounded-lg" :class="{ '!h-screen': fullScreen }">
+      <div class="overflow-hidden h-64 rounded-lg-" :class="{ '!h-screen': fullScreen }">
         <template v-for="(url, i) in uploadedUrls" :key="i">
           <img
             :src="url"
