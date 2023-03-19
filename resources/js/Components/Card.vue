@@ -18,7 +18,7 @@ defineProps({
       'divide-y divide-slate-200 dark:divide-slate-700/50': true,
 
       // flush
-      'rounded-none-sm:rounded-lg -mx-4 sm:m-0': flush,
+      '-mx-4 sm:m-0': flush,
     }"
   >
     <!-- header -->
