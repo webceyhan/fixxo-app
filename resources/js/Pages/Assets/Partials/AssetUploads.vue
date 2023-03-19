@@ -64,8 +64,8 @@ function updateIndex() {
     <div class="relative backdrop-blur-md" :class="{ '!fixed inset-0 z-50': fullScreen }">
       <!-- Carousel wrapper -->
       <div
-        class="overflow-hidden h-96 rounded-lg"
-        :class="{ '!h-screen p-6': fullScreen }"
+        class="overflow-hidden h-64 rounded-lg"
+        :class="{ '!h-screen': fullScreen }"
       >
         <template v-for="(url, i) in uploadedUrls" :key="i">
           <img
