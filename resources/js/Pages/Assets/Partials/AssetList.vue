@@ -35,7 +35,7 @@ const props = defineProps({
       </div>
 
       <div
-        v-if="!compact && total_cost !== undefined"
+        v-if="!compact && asset.total_cost !== undefined"
         class="hidden md:block w-2/12 text-gray-400"
       >
         cost {{ formatMoney(asset?.total_cost ?? 0) }}
