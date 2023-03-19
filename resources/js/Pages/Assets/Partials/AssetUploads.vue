@@ -50,7 +50,7 @@ function remove(i) {
   });
 }
 
-// bugfix: we must update index to force ui pointing 
+// bugfix: we must update index to force ui pointing
 // to the right image after add / remove
 function updateIndex(i) {
   index.value--;
@@ -79,45 +79,64 @@ function updateIndex(i) {
                 hidden: index !== i,
                 '!object-contain': fullScreen,
               }"
-              @click="fullScreen = !fullScreen"
             />
 
-            <button
-              type="button"
-              class="flex absolute left-0 right-0 bottom-1 z-30 justify-center items-center focus:outline-none"
-              @click="remove(i)"
+            <footer
+              class="flex justify-center items-center absolute left-0 right-0 bottom-1 z-30"
             >
-              <span
-                class="inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/25 group-hover:bg-white/50 dark:group-hover:bg-gray-800/50"
+              <button
+                type="button"
+                class="finline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 hover:bg-white/50 dark:hover:bg-gray-800/50 focus:outline-none"
+                :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
+                @click="remove(i)"
               >
                 <Icon name="delete" />
-              </span>
-            </button>
+              </button>
+            </footer>
           </template>
         </div>
 
         <!-- Slider controls -->
+
+        <!-- previous -->
         <button
           type="button"
           class="flex absolute top-0 left-0 z-30 justify-center items-center px-2 h-full cursor-pointer group focus:outline-none"
           @click="prev()"
         >
           <span
-            class="inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/25 group-hover:bg-white/50 dark:group-hover:bg-gray-800/50"
+            class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 group-hover:bg-white/50 dark:group-hover:bg-gray-800/50"
+            :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
           >
             <Icon name="chevron-left" />
           </span>
         </button>
 
+        <!-- next -->
         <button
           type="button"
           class="flex absolute top-0 right-0 z-30 justify-center items-center px-2 h-full cursor-pointer group focus:outline-none"
           @click="next()"
         >
           <span
-            class="inline-flex justify-center items-center w-8 h-8 rounded-full sm:w-10 sm:h-10 bg-white/30 dark:bg-gray-800/25 group-hover:bg-white/50 dark:group-hover:bg-gray-800/50"
+            class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 group-hover:bg-white/50 dark:group-hover:bg-gray-800/50"
+            :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
           >
             <Icon name="chevron-right" />
+          </span>
+        </button>
+
+        <!-- full screen toggle -->
+        <button
+          type="button"
+          class="absolute top-0 right-0 z-30 p-2"
+          @click="fullScreen = !fullScreen"
+        >
+          <span
+            class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 hover:bg-white/50 dark:hover:bg-gray-800/50"
+            :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
+          >
+            <Icon :name="fullScreen ? 'x-lg' : 'fullscreen'" />
           </span>
         </button>
       </div>
