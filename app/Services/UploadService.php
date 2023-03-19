@@ -28,12 +28,22 @@ class UploadService
     /**
      * Get url of all files under a given subfolder.
      */
-    public static function urls(string $subFolder): string
+    public static function urls(string $subFolder): array
     {
         $rootPath = self::DIRECTORY . $subFolder;
 
         $files = Storage::allFiles($rootPath);
 
-        return collect($files)->map(fn ($path) => Storage::url($path));
+        return collect($files)->map(fn ($path) => Storage::url($path))->toArray();
+    }
+
+    /**
+     * Delete a file with given url.
+     */
+    public static function delete(string $url): void
+    {
+        $path = str_replace('/storage', 'public', $url);
+
+        Storage::delete($path);
     }
 }

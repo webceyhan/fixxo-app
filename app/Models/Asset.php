@@ -149,7 +149,7 @@ class Asset extends Model
     protected function uploadedUrls(): Attribute
     {
         return Attribute::make(
-            get: fn () => UploadService::urls($this->id),
+            get: fn () => UploadService::urls($this->id)
         );
     }
 
