@@ -36,9 +36,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // TODO: fix for Heroku server
+        // TODO: bugfix for issue that paginator creating http links 
+        // over https on DigitalOcean server
         if(config('app.env') === 'production') {
-            URL::forceScheme('https');
+            // URL::forceScheme('https'); // this doesn't work!
+            $this->app['request']->server->set('HTTPS', true);
          }
     }
 }
