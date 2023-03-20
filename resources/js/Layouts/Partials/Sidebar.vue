@@ -75,7 +75,7 @@ const proxyToggled = computed({
       }"
     >
       <!-- Logo -->
-      <header class="flex items-center mt-4 px-6">
+      <header class="flex items-center mt-4 px-6 py-2">
         <Logo class="block h-9 w-auto fill-current text-white mr-4" />
         <span class="text-2xl font-semibold text-white">Fixxo</span>
       </header>
