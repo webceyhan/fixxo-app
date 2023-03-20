@@ -65,12 +65,13 @@ const proxyToggled = computed({
       :class="proxyToggled ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'"
     >
       <!-- Logo -->
-      <header class="mt-4 px-6">
-        <Logo class="w-12 h-12" />
+      <header class="flex items-center mt-4 px-7">
+        <Logo class="block h-8 w-auto fill-current dark:text-gray-200" />
+        <span class="ml-4 text-lg text-gray-400">Fixxo</span>
       </header>
 
       <!-- Navigation Links -->
-      <nav>
+      <nav class="mt-6">
         <SidebarLink
           v-for="(link, index) in allowedLinks"
           :key="index"

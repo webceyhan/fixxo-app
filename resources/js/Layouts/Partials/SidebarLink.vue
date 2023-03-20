@@ -13,7 +13,7 @@ defineProps({
   <Link
     :class="{
       // base
-      'flex items-center pl-6 py-4': true,
+      'flex items-center pl-6 py-3 mb-1': true,
       // border
       'border-l-2 border-transparent hover:border-gray-700': true,
       // text
