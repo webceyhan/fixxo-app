@@ -1,5 +1,42 @@
 <script setup>
+import { router } from "@inertiajs/vue3";
+import { debounce } from "@/Shared/utils";
 import Icon from "@/Components/Icon.vue";
+
+const onSearch = ({ target }) => {
+  // check if route is already customers.index
+  if (route().current("customers.index")) {
+    // if yes, use router.reload to reload the route
+    return debounce(() => {
+      router.reload({
+        data: { search: target.value },
+        preserveScroll: true,
+      });
+    }, 500)();
+  }
+
+  // if not, use router.visit to change route and focus on search input
+  router.visit(route("customers.index"), {
+    data: {
+      // TODO: improve this on the backend
+      // if we don't set status to active, the backend will redirect to customers.index
+      // with status:active but ignoring the search query which will result empty input
+      status: "active",
+      search: target.value,
+    },
+    onFinish: () => {
+      // bugfix: focus on search input by Vue ref doesn't work
+      // because inertia refreshing the page if not on the same route
+      // so we use document.getElementById to focus on search input
+      const el = document.getElementById("searchInput");
+      // we set the value of the input to the value of the search query
+      // because inertia will reset the input value to empty string
+      el.value = target.value;      
+      el.focus();
+    },
+    preserveScroll: true,
+  });
+};
 </script>
 
 <template>
@@ -9,9 +46,11 @@ import Icon from "@/Components/Icon.vue";
     </span>
 
     <input
+      id="searchInput"
       type="text"
       class="w-full pl-12 py-3 form-input dark:text-white bg-gray-100 dark:bg-gray-900 border-0 focus:ring-indigo-400 dark:focus:ring-indigo-700 rounded-md shadow-sm"
       placeholder="Search"
+      @input="onSearch"
     />
   </div>
 </template>
