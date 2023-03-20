@@ -16,7 +16,7 @@ const props = defineProps({
     class="bg-white dark:bg-gray-800/50 border-b-4 border-indigo-500 dark:border-indigo-900 shadow-md z-10"
   >
     <div class="container mx-auto py-2 px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
+      <div class="flex items-center justify-between gap-4 h-16">
         <!-- Hamburger -->
         <button
           @click="$emit('toggle')"
@@ -26,13 +26,13 @@ const props = defineProps({
         </button>
 
         <!-- SearchBar -->
-        <Searchbar class="mr-auto"/>
+        <Searchbar class="mr-auto" />
 
         <!-- Notification Menu -->
-        <NotificationMenu class="mx-6"/>
+        <NotificationMenu class="hidden sm:inline sm:mx-4 lg:mx-6" />
 
         <!-- User Menu -->
-        <UserMenu :user="user" />
+        <UserMenu :user="user" class="flex-shrink-0" />
       </div>
     </div>
   </nav>
