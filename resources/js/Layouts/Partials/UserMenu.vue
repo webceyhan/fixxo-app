@@ -14,7 +14,7 @@ defineProps({
     <template #trigger>
       <MenuButton
         :class="{
-          'flex items-center space-x-2 focus:outline-none transition ease-in-out duration-150': true,
+          'flex items-center space-x-3 focus:outline-none transition ease-in-out duration-150': true,
           'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300': true,
         }"
       >
