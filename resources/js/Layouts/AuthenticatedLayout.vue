@@ -1,7 +1,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import { Head, usePage } from "@inertiajs/vue3";
-import Sidebar from "./Partials/Sidebar.vue";
+import Sidebar from "@/Layouts/Partials/Sidebar.vue";
 import NavBar from "@/Layouts/Partials/NavBar.vue";
 import Breadcrumbs from "@/Layouts/Partials/Breadcrumbs.vue";
 import NotificationBar from "@/Layouts/Partials/NotificationBar.vue";
