@@ -1,9 +1,6 @@
 <script setup>
-import { MenuButton } from "@headlessui/vue";
 import Icon from "@/Components/Icon.vue";
-import Avatar from "@/Components/Avatar.vue";
-import Dropdown from "@/Components/Menu/Dropdown.vue";
-import DropdownItem from "@/Components/Menu/DropdownItem.vue";
+import UserMenu from "@/Layouts/Partials/UserMenu.vue";
 
 defineEmits(["toggle"]);
 
@@ -25,32 +22,7 @@ const props = defineProps({
         <div class="hidden sm:flex sm:items-center sm:ml-6">
           <!-- Settings Dropdown -->
           <div class="ml-3 relative">
-            <Dropdown>
-              <template #trigger>
-                <MenuButton
-                  class="flex items-center space-x-2 border-0 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
-                >
-                  <p class="text-sm leading-4 font-medium">
-                    {{ user.name }}
-                  </p>
-
-                  <Avatar icon="profile" />
-                </MenuButton>
-              </template>
-
-              <DropdownItem
-                label="Profile"
-                icon="profile"
-                :href="route('profile.edit')"
-              />
-
-              <DropdownItem
-                label="Log Out"
-                icon="logout"
-                method="post"
-                :href="route('logout')"
-              />
-            </Dropdown>
+            <UserMenu :user="user" />
           </div>
         </div>
 
