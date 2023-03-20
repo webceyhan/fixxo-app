@@ -44,7 +44,7 @@ defineProps({
       leave-to-class="transform scale-95 opacity-0"
     >
       <MenuItems
-        class="z-50 absolute mt-2 w-56 rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black dark:ring-gray-500 ring-opacity-5 focus:outline-none"
+        class="z-50 absolute mt-2 w-56 rounded-md bg-white dark:bg-gray-800 shadow-lg ring-1 ring-black dark:ring-gray-500 ring-opacity-5 focus:outline-none overflow-hidden"
         :class="{
           'right-0 origin-top-right': !left,
           'left-0 origin-top-left': left,
