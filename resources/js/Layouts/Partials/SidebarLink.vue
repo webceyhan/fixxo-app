@@ -26,7 +26,7 @@ defineProps({
       '!border-indigo-600 !text-gray-100': active,
     }"
   >
-    <Icon :name="icon" class="text-3xl mr-4" />
+    <Icon :name="icon" class="text-2xl mr-4" />
     <span>{{ label }}</span>
   </Link>
 </template>
