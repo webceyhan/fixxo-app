@@ -10,9 +10,11 @@ const props = defineProps({
 </script>
 
 <template>
-  <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+  <nav
+    class="bg-white dark:bg-gray-800/50 border-b-4 border-indigo-500 dark:border-indigo-900 shadow-md z-10"
+  >
     <!-- Primary Navigation Menu -->
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="container mx-auto py-2 px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between h-16">
         <!-- left side placeholder -->
         <div class="shrink-0 flex items-center">
@@ -20,10 +22,8 @@ const props = defineProps({
         </div>
 
         <div class="hidden sm:flex sm:items-center sm:ml-6">
-          <!-- Settings Dropdown -->
-          <div class="ml-3 relative">
-            <UserMenu :user="user" />
-          </div>
+          <!-- User Menu -->
+          <UserMenu :user="user" />
         </div>
 
         <!-- Hamburger -->
