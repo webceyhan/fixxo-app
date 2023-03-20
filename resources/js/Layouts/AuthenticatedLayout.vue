@@ -18,28 +18,30 @@ const currentTitle = computed(
 </script>
 
 <template>
-  <div class="flex h-screen bg-gray-200 dark:bg-gray-900 overflow-x-hidden">
+  <div class="flex h-screen bg-gray-200 dark:bg-gray-900">
     <Head :title="currentTitle" />
 
     <!-- Side Navigation -->
     <Sidebar v-model:toggled="sidebarOpen" />
 
-    <div class="flex-1 overflow-x-hidden overflow-y-auto">
+    <div class="flex-1 flex flex-col">
       <!-- Top Navigation -->
       <NavBar :user="$page.props.auth.user" @toggle="sidebarOpen = true" />
 
       <!-- Page Wrapper -->
-      <div class="container mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
-        <!-- Page Heading -->
-        <header>
-          <Breadcrumbs :links="$page.props.breadcrumbs" class="hidden md:flex" />
-          <h2 class="text-2xl dark:text-white md:hidden">
-            <slot name="title">{{ currentTitle }}</slot>
-          </h2>
-        </header>
+      <div class="flex-1 overflow-x-hidden overflow-y-auto">
+        <div class="container mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+          <!-- Page Heading -->
+          <header>
+            <Breadcrumbs :links="$page.props.breadcrumbs" class="hidden md:flex" />
+            <h2 class="text-2xl dark:text-white md:hidden">
+              <slot name="title">{{ currentTitle }}</slot>
+            </h2>
+          </header>
 
-        <!-- Page Content -->
-        <main class="space-y-6"><slot /></main>
+          <!-- Page Content -->
+          <main class="space-y-6"><slot /></main>
+        </div>
       </div>
 
       <!-- Notifications -->
