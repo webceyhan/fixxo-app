@@ -1,6 +1,7 @@
 <script setup>
 import { router } from "@inertiajs/vue3";
 import { debounce } from "@/Shared/utils";
+import { useSearchParams } from "@/Shared/routing";
 import Icon from "@/Components/Icon.vue";
 
 const onSearch = ({ target }) => {
@@ -28,11 +29,7 @@ const onSearch = ({ target }) => {
       // bugfix: focus on search input by Vue ref doesn't work
       // because inertia refreshing the page if not on the same route
       // so we use document.getElementById to focus on search input
-      const el = document.getElementById("searchInput");
-      // we set the value of the input to the value of the search query
-      // because inertia will reset the input value to empty string
-      el.value = target.value;      
-      el.focus();
+      document.getElementById("searchInput").focus();
     },
     preserveScroll: true,
   });
@@ -47,9 +44,10 @@ const onSearch = ({ target }) => {
 
     <input
       id="searchInput"
-      type="text"
+      type="search"
       class="w-full pl-12 py-3 form-input dark:text-white bg-gray-100 dark:bg-gray-900 border-0 focus:ring-indigo-400 dark:focus:ring-indigo-700 rounded-md shadow-sm"
       placeholder="Search"
+      :value="useSearchParams().search"
       @input="onSearch"
     />
   </div>
