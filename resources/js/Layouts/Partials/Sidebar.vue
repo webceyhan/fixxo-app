@@ -61,13 +61,23 @@ const proxyToggled = computed({
 
   <Transition>
     <div
-      class="fixed inset-y-0 left-0 z-30 w-60 overflow-y-auto transition duration-300 transform bg-gray-900 dark:bg-black/50 lg:translate-x-0 lg:static lg:inset-0"
-      :class="proxyToggled ? 'translate-x-0 ease-out' : '-translate-x-full ease-in'"
+      :class="{
+        // base
+        'fixed inset-y-0 left-0 lg:static lg:inset-0 z-30 w-60 overflow-y-auto': true,
+        // background
+        'bg-gray-900 dark:bg-black/50 border-r border-gray-100 dark:border-gray-800': true,
+        // effect
+        'transition duration-300 transform lg:translate-x-0': true,
+
+        // toggle state
+        'translate-x-0 ease-out': proxyToggled,
+        '-translate-x-full ease-in': !proxyToggled,
+      }"
     >
       <!-- Logo -->
-      <header class="flex items-center mt-4 px-7">
-        <Logo class="block h-8 w-auto fill-current dark:text-gray-200" />
-        <span class="ml-4 text-lg text-gray-400">Fixxo</span>
+      <header class="flex items-center mt-4 px-6">
+        <Logo class="block h-9 w-auto fill-current text-white mr-4" />
+        <span class="text-2xl font-semibold text-white">Fixxo</span>
       </header>
 
       <!-- Navigation Links -->
