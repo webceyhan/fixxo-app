@@ -26,7 +26,7 @@ const currentTitle = computed(
 
     <div class="flex-1 flex flex-col overflow-x-hidden overflow-y-auto">
       <!-- Primary Navigation -->
-      <NavBar :user="$page.props.auth.user" />
+      <NavBar :user="$page.props.auth.user" @toggle="sidebarOpen = true" />
 
       <!-- Page Heading -->
       <header class="container mx-auto p-4 sm:p-6 pb-0 sm:pb-0">
