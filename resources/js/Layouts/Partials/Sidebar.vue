@@ -65,11 +65,9 @@ const proxyToggled = computed({
         // base
         'fixed inset-y-0 left-0 lg:static lg:inset-0 z-30 w-60 overflow-y-auto': true,
         // background
-        'bg-gray-900 dark:bg-black/50 border-r border-gray-100 dark:border-gray-800': true,
-        // effect
-        'transition duration-300 transform lg:translate-x-0': true,
-
+        'bg-gray-900 dark:bg-black border-r border-gray-100 dark:border-gray-800': true,
         // toggle state
+        'transition duration-300 transform lg:translate-x-0': true,
         'translate-x-0 ease-out': proxyToggled,
         '-translate-x-full ease-in': !proxyToggled,
       }"

@@ -19,7 +19,7 @@ defineProps({
       // text
       'text-base font-semibold leading-5 text-gray-400 hover:text-gray-100': true,
       // background
-      'hover:bg-gray-700/50': true,
+      'hover:bg-gray-800/50': true,
       // active
       '!border-indigo-600 !text-gray-100': active,
     }"
