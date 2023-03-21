@@ -17,7 +17,7 @@ defineProps({
       // border
       'border-l-2 border-transparent hover:border-gray-600': true,
       // text
-      'text-base font-semibold leading-5 text-gray-400 hover:text-gray-100': true,
+      'text-lg font-semibold leading-5 text-gray-400 hover:text-gray-100': true,
       // background
       'hover:bg-gray-800/50': true,
       // active
