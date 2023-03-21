@@ -24,7 +24,7 @@ const currentTitle = computed(
     <!-- Side Navigation -->
     <Sidebar v-model:toggled="sidebarOpen" />
 
-    <div class="flex-1 flex flex-col">
+    <div class="flex-1 flex flex-col overflow-hidden">
       <!-- Top Navigation -->
       <NavBar :user="$page.props.auth.user" @toggle="sidebarOpen = true" />
 
