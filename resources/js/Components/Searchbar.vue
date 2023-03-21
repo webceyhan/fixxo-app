@@ -8,7 +8,6 @@ import Select from "@/Components/Form/Select.vue";
 import TextInput from "@/Components/Form/TextInput.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import InputGroup from "@/Components/Form/InputGroup.vue";
-import BaseButton from "@/Components/Button/BaseButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import RadioGroup from "./Form/RadioGroup.vue";
 
