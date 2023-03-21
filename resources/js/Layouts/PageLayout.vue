@@ -28,20 +28,20 @@ defineProps({
     </Toolbar>
 
     <slot>
-      <div class="flex flex-col lg:flex-row items-start gap-4">
+      <div class="flex flex-col lg:flex-row items-start gap-6 lg:gap-8">
         <!-- // aside -->
         <aside
           :class="{
             flex: !contentOnlyMobile,
             'hidden sm:flex': contentOnlyMobile,
           }"
-          class="flex-col w-full lg:w-2/5 xl:w-1/3 gap-4"
+          class="flex-col w-full lg:w-2/5 xl:w-1/3 gap-6 lg:gap-8"
         >
           <slot name="aside" />
         </aside>
 
         <!-- // details section -->
-        <section class="w-full lg:w-3/5 xl:w-2/3 flex flex-col gap-4">
+        <section class="w-full lg:w-3/5 xl:w-2/3 flex flex-col gap-6 lg:gap-8">
           <slot name="content" />
         </section>
       </div>

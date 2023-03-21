@@ -43,7 +43,7 @@ const onIntervalChange = (interval) => {
       />
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
       <StatCard
         label="Assets"
         icon="asset"
@@ -67,7 +67,7 @@ const onIntervalChange = (interval) => {
       />
     </div>
 
-    <div class="flex flex-col md:flex-row md:flex-wrap gap-5">
+    <div class="flex flex-col md:flex-row md:flex-wrap gap-6 lg:gap-8">
       <Card class="flex-1" label="Latest assets in progress" flush>
         <AssetList :assets="assetsInProgress" compact />
 

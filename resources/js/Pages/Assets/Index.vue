@@ -30,8 +30,8 @@ const brandFilterLinks = computed(() => createOptionLinks("brand", brand));
       <Searchbar :filters="restFilters" class="basis-1/2" />
     </div>
 
-    <div class="flex gap-6">
-      <div class="hidden lg:block w-1/6 flex-shrink-0 space-y-6">
+    <div class="flex gap-8">
+      <div class="hidden lg:block w-1/6 flex-shrink-0 space-y-8">
         <AsideNav label="Filter by type" :links="typeFilterLinks" />
 
         <HashTagNav label="Filter by brand" :links="brandFilterLinks" />

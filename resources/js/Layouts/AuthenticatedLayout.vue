@@ -30,7 +30,7 @@ const currentTitle = computed(
 
       <!-- Page Wrapper -->
       <div class="flex-1 overflow-x-hidden overflow-y-auto">
-        <div class="container mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
+        <div class="container mx-auto p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-8">
           <!-- Page Heading -->
           <header>
             <Breadcrumbs :links="$page.props.breadcrumbs" class="hidden md:flex" />
@@ -40,7 +40,7 @@ const currentTitle = computed(
           </header>
 
           <!-- Page Content -->
-          <main class="space-y-6"><slot /></main>
+          <main class="space-y-6 lg:space-y-8"><slot /></main>
         </div>
       </div>
 
