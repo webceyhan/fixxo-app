@@ -25,7 +25,7 @@ defineProps({
     <header
       v-if="$slots.header || label"
       :class="{
-        'flex justify-between bg-gray-100/50 dark:bg-gray-700/25 gap-2 p-4 sm:p-6': true,
+        'flex justify-between bg-gray-100/50 dark:bg-gray-700/25 gap-2 p-4 sm:px-6': true,
         'font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight': true,
         'max-sm:bg-gray-200 max-sm:dark:bg-gray-900': flush,
       }"
@@ -43,7 +43,7 @@ defineProps({
       <slot />
     </div>
 
-    <footer v-if="$slots.footer" class="flex justify-end p-4 sm:p-6 text-gray-400">
+    <footer v-if="$slots.footer" class="flex justify-end p-4 sm:px-6 text-gray-400">
       <slot name="footer" />
     </footer>
   </div>
