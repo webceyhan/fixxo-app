@@ -41,7 +41,6 @@ const props = defineProps({
           inactive: 'lock',
         }"
         method="put"
-        class="mr-4"
       />
     </template>
 
