@@ -16,7 +16,7 @@ defineProps({
 
 <template>
   <Menu as="div" class="relative inline-block text-left">
-    <div>
+    <div class="flex items-center">
       <!-- normal button with label -->
       <MenuButton v-if="label" :as="primary ? PrimaryButton : SecondaryButton">
         <Icon v-if="icon" :name="icon" />
