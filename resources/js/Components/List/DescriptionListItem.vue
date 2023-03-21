@@ -11,18 +11,18 @@ defineProps({
 </script>
 
 <template>
-  <div class="flex flex-col md:flex-row md:items-end overflow-hidden gap-2 py-4">
+  <div class="flex flex-col overflow-hidden gap-1">
     <dt
-      class="sm:w-5/12 text-sm font-semibold text-gray-500 dark:text-gray-400 capitalize"
+      class="text-xs font-semibold tracking-widest text-gray-500 uppercase"
     >
       <slot name="label"> {{ label }} </slot>
     </dt>
 
-    <dd class="sm:w-7/12 text-sm text-gray-900 dark:text-gray-100 truncate">
+    <dd class="text-gray-900 dark:text-gray-100 truncate">
       <slot>
         <!-- format as date / datetime -->
         <span v-if="type === 'date'">
-          {{ formatDate(value) }}
+          {{ formatDate(value, false) }}
         </span>
 
         <!-- format as money -->
