@@ -27,7 +27,7 @@ const brandFilterLinks = computed(() => createOptionLinks("brand", brand));
     </template> -->
 
     <div class="flex flex-col lg:flex-row lg:justify-between gap-6">
-      <Searchbar :filters="restFilters" class="basis-1/2" />
+      <Searchbar :filters="restFilters" class="basis-full xl:basis-2/3" />
     </div>
 
     <div class="flex gap-8">

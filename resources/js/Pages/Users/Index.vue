@@ -14,7 +14,7 @@ defineProps({
 <template>
   <AuthenticatedLayout title="Users">
     <div class="flex flex-col lg:flex-row lg:justify-between gap-6">
-      <Searchbar :filters="filters" class="basis-1/2" />
+      <Searchbar :filters="filters" class="basis-full xl:basis-2/3" />
       <PrimaryButton
         label="New"
         icon="create"
