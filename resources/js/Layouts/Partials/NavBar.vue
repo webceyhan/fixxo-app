@@ -15,7 +15,7 @@ const props = defineProps({
   <nav
     class="bg-white dark:bg-gray-800/50 border-b-4 border-indigo-500 dark:border-indigo-900 shadow-md z-10"
   >
-    <div class="container mx-auto py-2 px-4 sm:px-6 lg:px-8">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between gap-4 h-16">
         <!-- Hamburger -->
         <button

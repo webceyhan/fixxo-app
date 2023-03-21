@@ -25,7 +25,7 @@ defineProps({
         </div>
 
         <Avatar
-          class="!w-14 !h-14 ring-4 ring-indigo-200 dark:ring-indigo-900"
+          class="ring-4 ring-gray-200 dark:ring-gray-900"
           src="https://images.unsplash.com/photo-1528892952291-009c663ce843?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=296&q=80"
         />
       </MenuButton>
