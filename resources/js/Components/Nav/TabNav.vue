@@ -1,5 +1,5 @@
 <script setup>
-import TabNavLink from "./TabNavItem.vue";
+import TabNavItem from "./TabNavItem.vue";
 
 const props = defineProps({
   links: Array,
@@ -13,7 +13,7 @@ const props = defineProps({
   >
     <ul class="flex flex-wrap -mb-px">
       <slot>
-        <TabNavLink v-for="(link, i) in links" :key="i" v-bind="link" />
+        <TabNavItem v-for="(link, i) in links" :key="i" v-bind="link" />
       </slot>
     </ul>
   </nav>
