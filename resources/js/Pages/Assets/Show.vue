@@ -16,6 +16,8 @@ import AssetPayments from "./Partials/AssetPayments.vue";
 import SignatureModal from "./Partials/SignatureModal.vue";
 import Receipt from "./Partials/Receipt.vue";
 import AssetUploads from "./Partials/AssetUploads.vue";
+import Icon from "@/Components/Icon.vue";
+import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
 const props = defineProps({
   asset: Object,
@@ -23,7 +25,11 @@ const props = defineProps({
   payments: Array,
 });
 
+const toggleProblemEdit = ref(false);
+const toggleNotesEdit = ref(false);
+
 const form = useForm({
+  problem: props.asset.problem,
   notes: props.asset.notes,
 });
 
@@ -31,6 +37,7 @@ const save = () => {
   form.put(route("assets.update", props.asset.id), {
     preserveScroll: true,
   });
+  return true; // return true to close the edit
 };
 
 // Partial refs
@@ -132,13 +139,29 @@ const print = (type) => {
       <AssetCard :asset="asset" />
 
       <Card label="Notes">
-        <Textarea
-          rows="5"
-          class="block w-full mb-4"
-          placeholder="Add notes..."
-          v-model="form.notes"
-        />
-        <SecondaryButton label="Save" @click="save" />
+        <div
+          v-if="!toggleNotesEdit"
+          class="relative group"
+          @click="toggleNotesEdit = true"
+        >
+          <pre class="whitespace-pre-wrap">{{ asset.notes ?? "Add notes..." }}</pre>
+          <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
+        </div>
+
+        <div v-if="toggleNotesEdit">
+          <Textarea
+            rows="5"
+            class="block w-full font-mono mb-4"
+            v-model="form.notes"
+            autofocus
+          />
+          <PrimaryButton
+            label="Save"
+            class="mr-2"
+            @click="save() && (toggleNotesEdit = false)"
+          />
+          <SecondaryButton label="Cancel" @click="toggleNotesEdit = false" />
+        </div>
       </Card>
 
       <AssetUploads :asset="asset" />
@@ -146,7 +169,29 @@ const print = (type) => {
 
     <template #content>
       <Card label="Problem">
-        {{ asset.problem }}
+        <div
+          v-if="!toggleProblemEdit"
+          class="relative group"
+          @click="toggleProblemEdit = true"
+        >
+          <pre class="whitespace-pre-wrap">{{ asset.problem ?? "Add problem..." }}</pre>
+          <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
+        </div>
+
+        <div v-if="toggleProblemEdit">
+          <Textarea
+            rows="5"
+            class="block w-full font-mono mb-4"
+            v-model="form.problem"
+            autofocus
+          />
+          <PrimaryButton
+            label="Save"
+            class="mr-2"
+            @click="save() && (toggleProblemEdit = false)"
+          />
+          <SecondaryButton label="Cancel" @click="toggleProblemEdit = false" />
+        </div>
       </Card>
 
       <AssetTasks v-bind="{ asset, tasks }" ref="assetTasks" />
