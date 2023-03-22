@@ -8,6 +8,9 @@ import RadioGroup from "@/Components/Form/RadioGroup.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Select from "@/Components/Form/Select.vue";
 import SingleStatCard from "@/Components/SingleStatCard.vue";
+import TabNav from "@/Components/Nav/TabNav.vue";
+import TabNavItem from "@/Components/Nav/TabNavItem.vue";
+
 
 const props = defineProps({
   interval: String,
@@ -32,14 +35,19 @@ const onIntervalChange = (interval) => {
 
 <template>
   <AuthenticatedLayout title="Dashboard">
-    <div class="flex items-center md:justify-end">
-      <RadioGroup
-        class="hidden lg:flex"
-        :modelValue="interval"
-        :options="intervalOptions"
-        @update:modelValue="onIntervalChange"
-        fancy
+    <div class="flex items-center md:justify-end-">
+      <TabNav
+        class="hidden lg:flex w-full"        
+        
+      >
+      <TabNavItem
+        v-for="(link, key) in intervalOptions" 
+        :key="key" 
+        :label="link"
+        :active="key === interval"
+        :data="{ interval: key }"
       />
+      </TabNav>
 
       <Select
         class="lg:hidden"
