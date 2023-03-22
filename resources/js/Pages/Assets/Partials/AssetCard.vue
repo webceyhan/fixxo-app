@@ -13,7 +13,10 @@ const props = defineProps({
   <Card>
     <template #header>
       <div class="w-full relative flex justify-end">
-        <h5 class="absolute left-0">Asset</h5>
+        <h5 class="absolute left-0">
+          <span class="mr-2">Asset</span>
+          <AssetBadge :status="asset.status" />
+        </h5>
 
         <img
           :src="asset.qr_url"
@@ -68,10 +71,6 @@ const props = defineProps({
         label="Warranty"
         :value="asset.warranty"
       />
-
-      <DescriptionListItem label="Status">
-        <AssetBadge :status="asset.status" />
-      </DescriptionListItem>
 
       <DescriptionListItem label="Created At" type="date" :value="asset.created_at" />
 

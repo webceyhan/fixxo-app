@@ -5,47 +5,36 @@ import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
 import UserBadge from "./UserBadge.vue";
 
 defineProps({
-    user: Object,
+  user: Object,
 });
 </script>
 
 <template>
-    <Card label="User">
-        <DescriptionList>
-            <DescriptionListItem label="Name" :value="user.name" />
+  <Card>
+    <template #header>
+      <h5>User</h5>
+      <UserBadge :status="user.status" />
+    </template>
 
-            <!-- TODO: add phone number to db -->
+    <DescriptionList>
+      <DescriptionListItem label="Name" :value="user.name" />
 
-            <DescriptionListItem
-                label="Email"
-                type="email"
-                :value="user.email"
-            />
+      <!-- TODO: add phone number to db -->
 
-            <DescriptionListItem label="Role" :value="user.role" />
+      <DescriptionListItem label="Email" type="email" :value="user.email" />
 
-            <DescriptionListItem label="Status">
-                <UserBadge :status="user.status" />
-            </DescriptionListItem>
+      <DescriptionListItem label="Role" :value="user.role" />
 
-            <DescriptionListItem
-                v-if="user.email_verified_at"
-                label="Email Verified At"
-                type="date"
-                :value="user.email_verified_at"
-            />
+      <DescriptionListItem
+        v-if="user.email_verified_at"
+        label="Email Verified At"
+        type="date"
+        :value="user.email_verified_at"
+      />
 
-            <DescriptionListItem
-                label="Created At"
-                type="date"
-                :value="user.created_at"
-            />
+      <DescriptionListItem label="Created At" type="date" :value="user.created_at" />
 
-            <DescriptionListItem
-                label="Last Update"
-                type="date"
-                :value="user.updated_at"
-            />
-        </DescriptionList>
-    </Card>
+      <DescriptionListItem label="Last Update" type="date" :value="user.updated_at" />
+    </DescriptionList>
+  </Card>
 </template>
