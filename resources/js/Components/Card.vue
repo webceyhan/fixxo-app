@@ -15,7 +15,7 @@ defineProps({
       'bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-lg': true,
 
       // divider
-      'divide-y divide-slate-200 dark:divide-slate-700/50': true,
+      'divide-y divide-gray-200 dark:divide-gray-900': true,
 
       // flush
       '-mx-4 sm:m-0': flush,

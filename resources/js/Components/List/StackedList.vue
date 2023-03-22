@@ -3,7 +3,7 @@ defineProps({});
 </script>
 
 <template>
-  <ul class="divide-y divide-slate-200 dark:divide-slate-700/50">
+  <ul class="divide-y divide-gray-200 dark:divide-gray-900">
     <slot />
   </ul>
 </template>
