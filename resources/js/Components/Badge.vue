@@ -9,8 +9,10 @@ defineProps({
 
 <template>
   <span
-    class="text-sm rounded-full dark:bg-gray-900 dark:bg-opacity-50 p-1 sm:px-2.5 sm:py-0.5"    
     :class="{
+      // base (leading-none fixing vertical alignment issue with icons)
+      'inline-flex items-center text-sm leading-none dark:bg-gray-900/50 rounded-full px-2.5 py-1 gap-1.5': true,
+
       // default color (secondary)
       'bg-gray-200 text-gray-400': theme === 'secondary',
 

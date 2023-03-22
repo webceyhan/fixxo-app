@@ -6,7 +6,7 @@ defineProps({
   label: String,
   icon: String,
   theme: String,
-  compact: Boolean,
+  compact: Boolean, // no label on mobile
 });
 
 // common icons by theme
@@ -20,7 +20,7 @@ const iconMap = {
 </script>
 
 <template>
-  <Badge :theme="theme" class="whitespace-nowrap" :class="{ '!p-0.5': compact }">
+  <Badge :theme="theme" class="whitespace-nowrap" :class="{ 'max-xl:!p-0': !compact }">
     <!-- icon only visible as badge on mobile -->
     <Icon :name="icon ?? iconMap[theme]" :class="{ 'xl:hidden': !compact }" />
     <!-- label only visible on larger screens -->
