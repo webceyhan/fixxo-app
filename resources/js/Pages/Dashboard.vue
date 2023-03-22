@@ -7,6 +7,7 @@ import AssetList from "@/Pages/Assets/Partials/AssetList.vue";
 import RadioGroup from "@/Components/Form/RadioGroup.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Select from "@/Components/Form/Select.vue";
+import SingleStatCard from "@/Components/SingleStatCard.vue";
 
 const props = defineProps({
   interval: String,
@@ -17,6 +18,11 @@ const props = defineProps({
   assetsReady: Array,
   assetsInProgress: Array,
   assetsUnpaid: Array,
+  //
+  totalCustomers: Number,
+  totalAssets: Number,
+  totalTasks: Number,
+  totalPayments: Number,
 });
 
 const onIntervalChange = (interval) => {
@@ -40,6 +46,36 @@ const onIntervalChange = (interval) => {
         :options="intervalOptions"
         :modelValue="interval"
         @update:modelValue="onIntervalChange"
+      />
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
+      <SingleStatCard
+        label="Total Customers"
+        icon="people"
+        icon-bg-color="bg-indigo-600/50"
+        :value="totalCustomers"
+      />
+
+      <SingleStatCard
+        label="Total Assets"
+        icon="asset"
+        icon-bg-color="bg-pink-600/50"
+        :value="totalAssets"
+      />
+
+      <SingleStatCard
+        label="Total Tasks"
+        icon="task"
+        icon-bg-color="bg-green-600/50"
+        :value="totalTasks"
+      />
+
+      <SingleStatCard
+        label="Total Payments"
+        icon="payment"
+        icon-bg-color="bg-orange-600/50"
+        :value="totalPayments"
       />
     </div>
 

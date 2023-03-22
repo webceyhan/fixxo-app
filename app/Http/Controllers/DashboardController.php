@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\Interval;
 use App\Models\Asset;
+use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -77,6 +78,11 @@ class DashboardController extends Controller
             'assetsReady' => $assetsReady,
             'assetsInProgress' => $assetsInProgress,
             'assetsUnpaid' => $assetsUnpaid,
+            //
+            'totalCustomers' => Customer::since($interval)->count(),
+            'totalAssets' => Asset::since($interval)->count(),
+            'totalTasks' => Task::since($interval)->count(),
+            'totalPayments' => Payment::since($interval)->count(),
         ]);
     }
 }
