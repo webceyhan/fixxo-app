@@ -82,7 +82,11 @@ const print = (type) => {
 
       <Dropdown label="Print" icon="print">
         <DropdownItem label="Intake Receipt" icon="file-pdf" @click="print('intake')" />
-        <DropdownItem label="Delivery Receipt" icon="file-pdf" @click="print('delivery')" />
+        <DropdownItem
+          label="Delivery Receipt"
+          icon="file-pdf"
+          @click="print('delivery')"
+        />
       </Dropdown>
 
       <Dropdown icon="create" label="New" primary>
@@ -130,7 +134,7 @@ const print = (type) => {
       <Card label="Notes">
         <Textarea
           rows="5"
-          class="w-full"
+          class="block w-full mb-4"
           placeholder="Add notes..."
           v-model="form.notes"
         />
@@ -156,6 +160,10 @@ const print = (type) => {
   <!-- print only content here -->
   <section class="hidden print:block">
     <Receipt v-if="printing === 'intake'" :asset="asset" />
-    <Receipt v-else-if="printing === 'delivery'" v-bind="{ asset, tasks, payments }" delivery />
+    <Receipt
+      v-else-if="printing === 'delivery'"
+      v-bind="{ asset, tasks, payments }"
+      delivery
+    />
   </section>
 </template>

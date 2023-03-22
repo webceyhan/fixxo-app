@@ -112,7 +112,7 @@ const save = () => {
       <Card label="Notes">
         <Textarea
           rows="5"
-          class="w-full"
+          class="block w-full mb-4"
           placeholder="Add notes..."
           v-model="form.notes"
         />
