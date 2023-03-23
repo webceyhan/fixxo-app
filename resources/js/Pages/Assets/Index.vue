@@ -3,10 +3,10 @@ import { computed } from "vue";
 import { createOptionLinks } from "@/Shared/form";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Searchbar from "@/Components/Searchbar.vue";
-import AssetList from "./Partials/AssetList.vue";
 import AsideNav from "@/Components/Nav/AsideNav.vue";
 import HashTagNav from "@/Components/Nav/HashTagNav.vue";
 import PaginationWrapper from "@/Components/PaginationWrapper.vue";
+import AssetTable from "./Partials/AssetTable.vue";
 
 const props = defineProps({
   assets: Object,
@@ -38,7 +38,7 @@ const brandFilterLinks = computed(() => createOptionLinks("brand", brand));
       </div>
 
       <PaginationWrapper :meta="assets" class="flex-1">
-        <AssetList :assets="assets.data" />
+        <AssetTable :assets="assets.data" />
       </PaginationWrapper>
     </div>
   </AuthenticatedLayout>

@@ -2,8 +2,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
-import UserList from "./Partials/UserList.vue";
 import PaginationWrapper from "@/Components/PaginationWrapper.vue";
+import UserTable from "./Partials/UserTable.vue";
 
 defineProps({
   users: Object,
@@ -24,7 +24,7 @@ defineProps({
     </div>
 
     <PaginationWrapper :meta="users">
-      <UserList :users="users.data" />
+      <UserTable :users="users.data" />
     </PaginationWrapper>
   </AuthenticatedLayout>
 </template>

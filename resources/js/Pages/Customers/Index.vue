@@ -2,8 +2,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
-import CustomerList from "./Partials/CustomerList.vue";
 import PaginationWrapper from "@/Components/PaginationWrapper.vue";
+import CustomerTable from "./Partials/CustomerTable.vue";
 
 defineProps({
   customers: Object,
@@ -24,7 +24,7 @@ defineProps({
     </div>
 
     <PaginationWrapper :meta="customers">
-      <CustomerList :customers="customers.data" />
+      <CustomerTable :customers="customers.data" />
     </PaginationWrapper>
   </AuthenticatedLayout>
 </template>
