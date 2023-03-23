@@ -11,7 +11,7 @@ defineProps({
   <span
     :class="{
       // base (leading-none fixing vertical alignment issue with icons)
-      'inline-flex items-center text-sm leading-none dark:bg-gray-900/50 rounded-full px-2.5 py-1 gap-1.5': true,
+      'inline-flex items-center text-sm leading-5 font-semibold dark:bg-gray-900/50 rounded-full px-2 gap-1.5': true,
 
       // default color (secondary)
       'bg-gray-200 text-gray-400': theme === 'secondary',
