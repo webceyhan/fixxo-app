@@ -120,14 +120,14 @@ const save = () => {
           class="relative group"
           @click="toggleNotesEdit = true"
         >
-          <pre class="whitespace-pre-wrap">{{ customer.notes ?? "Add notes..." }}</pre>
+          <pre class="whitespace-pre-wrap text-sm">{{ customer.notes ?? "Add notes..." }}</pre>
           <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
         </div>
 
         <div v-if="toggleNotesEdit">
           <Textarea
             rows="5"
-            class="block w-full font-mono mb-4"
+            class="block w-full text-sm font-mono mb-4"
             v-model="form.notes"
             autofocus
           />

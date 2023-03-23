@@ -144,14 +144,14 @@ const print = (type) => {
           class="relative group"
           @click="toggleNotesEdit = true"
         >
-          <pre class="whitespace-pre-wrap">{{ asset.notes ?? "Add notes..." }}</pre>
+          <pre class="whitespace-pre-wrap text-sm">{{ asset.notes ?? "Add notes..." }}</pre>
           <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
         </div>
 
         <div v-if="toggleNotesEdit">
           <Textarea
             rows="5"
-            class="block w-full font-mono mb-4"
+            class="block w-full text-sm font-mono mb-4"
             v-model="form.notes"
             autofocus
           />
@@ -174,14 +174,14 @@ const print = (type) => {
           class="relative group"
           @click="toggleProblemEdit = true"
         >
-          <pre class="whitespace-pre-wrap">{{ asset.problem ?? "Add problem..." }}</pre>
+          <pre class="whitespace-pre-wrap text-sm">{{ asset.problem ?? "Add problem..." }}</pre>
           <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
         </div>
 
         <div v-if="toggleProblemEdit">
           <Textarea
             rows="5"
-            class="block w-full font-mono mb-4"
+            class="block w-full text-sm font-mono mb-4"
             v-model="form.problem"
             autofocus
           />
