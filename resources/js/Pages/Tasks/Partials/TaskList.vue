@@ -69,7 +69,7 @@ const stateIcons = {
       </div>
 
       <template #badge>
-        <TaskBadge :status="task.status" />
+        <TaskBadge :status="task.status" compact-max="xl" />
       </template>
     </StackedListItem>
   </StackedList>

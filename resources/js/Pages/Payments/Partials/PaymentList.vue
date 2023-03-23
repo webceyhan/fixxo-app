@@ -36,7 +36,7 @@ defineProps({
       </div>
 
       <template #badge>
-        <PaymentBadge :type="payment.type" />
+        <PaymentBadge :type="payment.type" compact-max="xl" />
       </template>
     </StackedListItem>
   </StackedList>

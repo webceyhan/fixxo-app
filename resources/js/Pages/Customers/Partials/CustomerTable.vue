@@ -22,7 +22,7 @@ defineProps({
       </template>
 
       <template #badge>
-        <CustomerBadge :status="customer.status" />
+        <CustomerBadge :status="customer.status" compact />
       </template>
 
       <TableData>

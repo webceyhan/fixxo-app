@@ -27,10 +27,7 @@ const props = defineProps({
         </div>
       </div>
 
-      <div
-        v-if="!compact"
-        class="hidden md:block w-2/12 text-gray-400"
-      >
+      <div v-if="!compact" class="hidden md:block w-2/12 text-gray-400">
         tasks {{ asset?.tasks_count ?? 0 }}
       </div>
 
@@ -49,7 +46,7 @@ const props = defineProps({
       </div>
 
       <template #badge>
-        <AssetBadge :status="asset.status" />
+        <AssetBadge :status="asset.status" compact-max="xl" />
       </template>
     </StackedListItem>
   </StackedList>

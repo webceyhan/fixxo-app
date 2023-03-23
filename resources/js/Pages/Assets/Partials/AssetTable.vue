@@ -23,7 +23,7 @@ defineProps({
       </template>
 
       <template #badge>
-        <AssetBadge :status="asset.status" />
+        <AssetBadge :status="asset.status" compact />
       </template>
 
       <TableData :label="asset.customer.name" :value="asset.brand + ' ' + asset.name" />

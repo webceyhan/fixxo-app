@@ -18,14 +18,18 @@ defineProps({
       </template>
 
       <template #badge>
-        <UserBadge :status="user.status" />
+        <UserBadge :status="user.status" compact />
       </template>
 
       <TableData :value="user.name" :label="user.email" />
 
       <TableData class="max-lg:hidden capitalize" :value="user.role" label="Role" />
 
-      <TableData class="max-xl:hidden text-end !pr-48" :value="user.assets_count" label="Assets" />
+      <TableData
+        class="max-xl:hidden text-end !pr-48"
+        :value="user.assets_count"
+        label="Assets"
+      />
 
       <TableData class="max-lg:hidden">
         <UserBadge :status="user.status" />
