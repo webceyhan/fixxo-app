@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from "vue";
 import { router } from "@inertiajs/vue3";
 import Link from "@/Components/Link.vue";
 import Card from "@/Components/Card.vue";
@@ -15,28 +14,25 @@ import IncomeChart from "./Partials/IncomeChart.vue";
 const props = defineProps({
   interval: String,
   intervalOptions: Object,
-  incomes: Array,
+  //
+  newCustomerStats: Object,
+  newAssetStats: Object,
+  newTaskStats: Object,
+  newPaymentStats: Object,
+  //
+  incomeStats: Object,
   earningStats: Array,
   taskStats: Array,
   assetStats: Array,
+  //
   assetsReady: Array,
   assetsInProgress: Array,
   assetsUnpaid: Array,
-  //
-  totalCustomers: Number,
-  totalAssets: Number,
-  totalTasks: Number,
-  totalPayments: Number,
 });
 
 const onIntervalChange = (interval) => {
   router.reload({ data: { interval } });
 };
-
-const incomeStats = computed(() => ({
-  labels: props.incomes.map(({ date }) => date),
-  series: props.incomes.map(({ price }) => price),
-}));
 </script>
 
 <template>
@@ -66,31 +62,31 @@ const incomeStats = computed(() => ({
 
     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
       <SingleStatCard
-        label="Total Customers"
+        label="New Customers"
         icon="people"
         icon-bg-color="bg-indigo-600/50"
-        :value="totalCustomers"
+        v-bind="newCustomerStats"
       />
 
       <SingleStatCard
-        label="Total Assets"
+        label="New Assets"
         icon="asset"
         icon-bg-color="bg-pink-600/50"
-        :value="totalAssets"
+        v-bind="newAssetStats"
       />
 
       <SingleStatCard
-        label="Total Tasks"
+        label="New Tasks"
         icon="task"
         icon-bg-color="bg-green-600/50"
-        :value="totalTasks"
+        v-bind="newTaskStats"
       />
 
       <SingleStatCard
-        label="Total Payments"
+        label="New Payments"
         icon="payment"
         icon-bg-color="bg-orange-600/50"
-        :value="totalPayments"
+        v-bind="newPaymentStats"
       />
     </div>
 

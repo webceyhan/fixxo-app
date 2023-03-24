@@ -13,7 +13,7 @@ Chart.register(LineElement, PointElement, LinearScale, CategoryScale, LineContro
 
 const props = defineProps({
   labels: Array,
-  series: Array,
+  values: Array,
 });
 
 const canvasRef = ref(null);
@@ -23,7 +23,7 @@ const data = computed(() => ({
   labels: props.labels,
   datasets: [
     {
-      data: props.series,
+      data: props.values,
       backgroundColor: "#dc3545",
       borderColor: "#dc3545",
       tension: 0.5,

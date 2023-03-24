@@ -11,6 +11,60 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    const INTERVAL_FX = [
+        Interval::DAY => 'hour',
+        Interval::WEEK => 'day',
+        Interval::MONTH => 'week',
+    ];
+
+    private static function generateStats($query, $interval)
+    {
+        $fx = self::INTERVAL_FX[$interval];
+
+        $result =  $query
+            ->since($interval)
+            ->selectRaw($fx . '(created_at) AS date')
+            ->selectRaw('COUNT(id) AS amount')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        return [
+            'labels' => $result->pluck('date'),
+            'values' => $result->pluck('amount'),
+            'value' => $result->sum('amount'),
+        ];
+    }
+
+    private static function getLatestAssets($interval)
+    {
+        return Asset::query()
+            ->with('customer:id,name')
+            ->since($interval)
+            ->latest('id')
+            ->limit(5);
+    }
+
+    private function getIncomeStats($interval)
+    {
+        // TODO: put this query somewhere else!
+        // get mysql date function based on the given interval
+        $fx = self::INTERVAL_FX[$interval];
+
+        $result = Task::query()
+            ->since($interval)
+            ->selectRaw($fx . '(created_at) AS date')
+            ->selectRaw('SUM(price) AS price')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        return [
+            'labels' => $result->pluck('date'),
+            'values' => $result->pluck('price'),
+        ];
+    }
+
     /**
      * Handle the incoming request.
      */
@@ -23,55 +77,6 @@ class DashboardController extends Controller
         ];
 
         $interval = $request->input('interval', Interval::DAY);
-
-        // ------------------------------------------------------
-        // TODO: put this query somewhere else!
-        // get mysql date function based on the given interval
-        $fx = [
-            Interval::DAY => 'hour',
-            Interval::WEEK => 'day',
-            Interval::MONTH => 'week',
-        ][$interval];
-
-        $incomes = Task::query()
-            ->since($interval)
-            ->selectRaw($fx . '(created_at) AS date')
-            ->selectRaw('SUM(price) AS price')
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
-
-        // ------------------------------------------------------
-
-        $assetsReady = Asset::ready()
-            ->with('customer:id,name')
-            ->since($interval)
-            ->latest('id')
-            ->limit(5)
-            ->get();
-
-        $assetsInProgress = Asset::inProgress()
-            ->with('customer:id,name')
-            ->since($interval)
-            ->latest('id')
-            ->limit(5)
-            ->get();
-
-        $assetsUnpaid = Asset::unpaid()
-            ->with('customer:id,name')
-            ->since($interval)
-            ->latest('id')
-            ->limit(5)
-            ->get()
-            ->append('balance');
-
-        // asset count per status, from last (inertval) days
-        // TODO: provide defaults for each status when there is no record
-        $assetStats = Asset::stats()->since($interval)->get();
-
-        // task count per status, from last (inertval) days
-        // TODO: provide defaults for each status when there is no record
-        $taskStats = Task::stats()->since($interval)->get();
 
         // get earning stats from last (interval) days
         // with sum of tasks's price as total cost
@@ -91,18 +96,23 @@ class DashboardController extends Controller
         return inertia('Dashboard/Index', [
             'interval' => $interval,
             'intervalOptions' => $intervalOptions,
-            'incomes' => $incomes,
-            'assetStats' => $assetStats,
-            'taskStats' => $taskStats,
+
+            // stats
+            'newCustomerStats' => self::generateStats(Customer::query(), $interval),
+            'newAssetStats' => self::generateStats(Asset::query(), $interval),
+            'newTaskStats' => self::generateStats(Task::query(), $interval),
+            'newPaymentStats' => self::generateStats(Payment::query(), $interval),
+
+            // stats
+            'incomeStats' => $this->getIncomeStats($interval),
+            'assetStats' => Asset::stats()->since($interval)->get(),
+            'taskStats' => Task::stats()->since($interval)->get(),
             'earningStats' => $earningStats,
-            'assetsReady' => $assetsReady,
-            'assetsInProgress' => $assetsInProgress,
-            'assetsUnpaid' => $assetsUnpaid,
-            //
-            'totalCustomers' => Customer::since($interval)->count(),
-            'totalAssets' => Asset::since($interval)->count(),
-            'totalTasks' => Task::since($interval)->count(),
-            'totalPayments' => Payment::since($interval)->count(),
+
+            // assets by status
+            'assetsReady' => self::getLatestAssets($interval)->ready()->get(),
+            'assetsInProgress' => self::getLatestAssets($interval)->inProgress()->get(),
+            'assetsUnpaid' => self::getLatestAssets($interval)->unpaid()->get()->append('balance'),
         ]);
     }
 }
