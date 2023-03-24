@@ -69,7 +69,7 @@ class DashboardController extends Controller
             ]
         ];
 
-        return inertia('Dashboard', [
+        return inertia('Dashboard/Index', [
             'interval' => $interval,
             'intervalOptions' => $intervalOptions,
             'assetStats' => $assetStats,
