@@ -22,7 +22,7 @@ defineProps({
       <slot>
         <!-- format as date / datetime -->
         <span v-if="type === 'date'">
-          {{ formatDate(value, false) }}
+          {{ formatDate(value, true) }}
         </span>
 
         <!-- format as money -->
