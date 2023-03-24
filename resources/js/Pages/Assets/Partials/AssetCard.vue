@@ -1,4 +1,5 @@
 <script setup>
+import { formatDate } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import DescriptionList from "@/Components/List/DescriptionList.vue";
 import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
@@ -59,18 +60,13 @@ const props = defineProps({
 
       <!-- TODO: if purchase_date present, show warranty status
                         based on the calculated warranty date -->
-      <DescriptionListItem
-        v-if="asset.purchase_date"
-        label="Purchase Date"
-        type="date"
-        :value="asset.purchase_date"
-      />
+      <DescriptionListItem v-if="asset.purchase_date" label="Purchase Date">
+        {{ formatDate(asset.purchase_date) }}
+      </DescriptionListItem>
 
-      <DescriptionListItem
-        v-if="asset.warranty"
-        label="Warranty"
-        :value="asset.warranty"
-      />
+      <DescriptionListItem v-if="asset.warranty_date" label="Warranty Expire Date">
+        {{ formatDate(asset.warranty_date) }}
+      </DescriptionListItem>
 
       <DescriptionListItem label="Created At" type="date" :value="asset.created_at" />
 

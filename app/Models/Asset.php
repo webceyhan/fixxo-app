@@ -10,6 +10,7 @@ use App\Services\SignatureService;
 use App\Services\UploadService;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,6 +47,15 @@ class Asset extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'warranty_date',
+    ];
+
+    /**
      * Index to use for full-text search.
      *
      * @var string
@@ -53,6 +63,30 @@ class Asset extends Model
     protected $searchIndex = 'name,serial,problem';
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
+
+
+    /**
+     * Get warranty expiration date from purchase date + warranty months.
+     * If 0 returned, meaning there is no warranty at all.
+     */
+    protected function warrantyDate(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                // check if purchase nor warranty dates set
+                if (!$this->purchase_date || !$this->warranty) {
+                    return null; // skip, meaning no warranty
+                }
+
+                // try to cast dates with carbon
+                $purchaseDate = Carbon::parse($this->purchase_date);
+                $warrantyDate = $purchaseDate->addMonths($this->warranty);
+
+                return $warrantyDate->toDateString();
+            },
+        )->shouldCache();
+    }
+
 
     /**
      * Get sum of all tasks prices.

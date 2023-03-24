@@ -57,7 +57,7 @@ const form = useForm({
               :error="form.errors.purchase_date"
             />
             <FormControl
-              label="Warranty"
+              label="Warranty Period (in months)"
               type="number"
               v-model="form.warranty"
               :error="form.errors.warranty"
