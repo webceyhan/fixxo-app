@@ -108,7 +108,6 @@ class AssetController extends Controller
 
         return inertia('Assets/Edit', [
             'asset' => $asset,
-
             'typeOptions' => AssetType::values(),
             'statusOptions' => AssetStatus::values(),
         ]);
