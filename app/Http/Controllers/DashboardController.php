@@ -24,6 +24,25 @@ class DashboardController extends Controller
 
         $interval = $request->input('interval', Interval::DAY);
 
+        // ------------------------------------------------------
+        // TODO: put this query somewhere else!
+        // get mysql date function based on the given interval
+        $fx = [
+            Interval::DAY => 'hour',
+            Interval::WEEK => 'day',
+            Interval::MONTH => 'week',
+        ][$interval];
+
+        $incomes = Task::query()
+            ->since($interval)
+            ->selectRaw($fx . '(created_at) AS date')
+            ->selectRaw('SUM(price) AS price')
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        // ------------------------------------------------------
+
         $assetsReady = Asset::ready()
             ->with('customer:id,name')
             ->since($interval)
@@ -72,6 +91,7 @@ class DashboardController extends Controller
         return inertia('Dashboard/Index', [
             'interval' => $interval,
             'intervalOptions' => $intervalOptions,
+            'incomes' => $incomes,
             'assetStats' => $assetStats,
             'taskStats' => $taskStats,
             'earningStats' => $earningStats,

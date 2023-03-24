@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from "vue";
 import { router } from "@inertiajs/vue3";
 import Link from "@/Components/Link.vue";
 import Card from "@/Components/Card.vue";
@@ -7,13 +8,14 @@ import TabNav from "@/Components/Nav/TabNav.vue";
 import TabNavItem from "@/Components/Nav/TabNavItem.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import AssetList from "@/Pages/Assets/Partials/AssetList.vue";
-import StatCard from "./Partials/StatCard.vue"
-import SingleStatCard from "./Partials/SingleStatCard.vue"
-
+import StatCard from "./Partials/StatCard.vue";
+import SingleStatCard from "./Partials/SingleStatCard.vue";
+import IncomeChart from "./Partials/IncomeChart.vue";
 
 const props = defineProps({
   interval: String,
   intervalOptions: Object,
+  incomes: Array,
   earningStats: Array,
   taskStats: Array,
   assetStats: Array,
@@ -30,22 +32,24 @@ const props = defineProps({
 const onIntervalChange = (interval) => {
   router.reload({ data: { interval } });
 };
+
+const incomeStats = computed(() => ({
+  labels: props.incomes.map(({ date }) => date),
+  series: props.incomes.map(({ price }) => price),
+}));
 </script>
 
 <template>
   <AuthenticatedLayout title="Dashboard">
     <div class="flex items-center md:justify-end-">
-      <TabNav
-        class="hidden lg:flex w-full"        
-        
-      >
-      <TabNavItem
-        v-for="(link, key) in intervalOptions" 
-        :key="key" 
-        :label="link"
-        :active="key === interval"
-        :data="{ interval: key }"
-      />
+      <TabNav class="hidden lg:flex w-full">
+        <TabNavItem
+          v-for="(link, key) in intervalOptions"
+          :key="key"
+          :label="link"
+          :active="key === interval"
+          :data="{ interval: key }"
+        />
       </TabNav>
 
       <Select
@@ -55,6 +59,10 @@ const onIntervalChange = (interval) => {
         @update:modelValue="onIntervalChange"
       />
     </div>
+
+    <Card>
+      <IncomeChart v-bind="incomeStats" />
+    </Card>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
       <SingleStatCard
