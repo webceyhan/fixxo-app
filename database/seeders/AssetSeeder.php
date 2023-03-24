@@ -19,7 +19,7 @@ class AssetSeeder extends Seeder
 
         Customer::all()->each(function ($customer) use ($users) {
 
-            $amount = rand(1, 2);
+            $amount = rand(1, 5);
 
             Asset::factory($amount)->create([
                 'customer_id' => fn () => $customer->id,

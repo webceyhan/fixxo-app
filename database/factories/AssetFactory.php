@@ -61,6 +61,7 @@ class AssetFactory extends Factory
             'notes' => fake()->optional(.2)->text,
             'status' => fake()->randomElement(AssetStatus::values()),
             'returned_at' => fake()->optional()->dateTime,
+            'created_at' => fake()->dateTimeThisYear(),
         ];
     }
 }

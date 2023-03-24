@@ -19,7 +19,7 @@ class PaymentSeeder extends Seeder
 
         Asset::all()->each(function ($asset) use ($users) {
 
-            $amount = rand(1, 2);
+            $amount = rand(1, 3);
 
             Payment::factory($amount)->create([
                 'asset_id' => fn () => $asset->id,

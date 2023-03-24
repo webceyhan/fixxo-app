@@ -19,7 +19,7 @@ class TaskSeeder extends Seeder
 
         Asset::all()->each(function ($asset) use ($users) {
 
-            $amount = rand(1, 3);
+            $amount = rand(1, 5);
 
             Task::factory($amount)->create([
                 'asset_id' => fn () => $asset->id,
