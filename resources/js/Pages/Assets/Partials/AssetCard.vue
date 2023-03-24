@@ -53,13 +53,11 @@ const props = defineProps({
       />
 
       <DescriptionListItem
-        v-if="asset.serial_number"
+        v-if="asset.serial"
         label="Serial Number"
-        :value="asset.serial_number"
+        :value="asset.serial"
       />
 
-      <!-- TODO: if purchase_date present, show warranty status
-                        based on the calculated warranty date -->
       <DescriptionListItem v-if="asset.purchase_date" label="Purchase Date">
         {{ formatDate(asset.purchase_date) }}
       </DescriptionListItem>
