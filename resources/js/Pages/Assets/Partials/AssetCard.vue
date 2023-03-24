@@ -78,6 +78,10 @@ const props = defineProps({
       />
 
       <DescriptionListItem label="Last Update" type="date" :value="asset.updated_at" />
+
+      <DescriptionListItem label="Last update by">
+        {{ asset.user.name }}
+      </DescriptionListItem>
     </DescriptionList>
   </Card>
 </template>
