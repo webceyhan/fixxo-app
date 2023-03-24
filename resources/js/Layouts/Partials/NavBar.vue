@@ -1,14 +1,18 @@
 <script setup>
+import { useDarkTheme } from "@/Shared/utils";
 import Icon from "@/Components/Icon.vue";
+import Avatar from "@/Components/Avatar.vue";
 import Searchbar from "@/Layouts/Partials/SearchBar.vue";
-import NotificationMenu from "@/Layouts/Partials/NotificationMenu.vue";
 import UserMenu from "@/Layouts/Partials/UserMenu.vue";
+import NotificationMenu from "@/Layouts/Partials/NotificationMenu.vue";
 
 defineEmits(["toggle"]);
 
 const props = defineProps({
   user: Object,
 });
+
+const { isDark, toggleDark } = useDarkTheme();
 </script>
 
 <template>
@@ -24,8 +28,16 @@ const props = defineProps({
       <!-- SearchBar -->
       <Searchbar class="mr-auto" />
 
+      <!-- Theme Toggle -->
+      <button @click="toggleDark()" class="max-md:hidden">
+        <Avatar
+          :icon="isDark ? 'moon' : 'sun'"
+          class="dark:text-white/50 dark:hover:text-white"
+        />
+      </button>
+
       <!-- Notification Menu -->
-      <NotificationMenu class="hidden sm:inline sm:mx-4 lg:mx-6" />
+      <NotificationMenu class="hidden sm:inline sm:mx-2" />
 
       <!-- User Menu -->
       <UserMenu :user="user" class="flex-shrink-0" />
