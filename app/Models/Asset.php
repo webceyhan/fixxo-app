@@ -64,7 +64,6 @@ class Asset extends Model
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
-
     /**
      * Get warranty expiration date from purchase date + warranty months.
      * If 0 returned, meaning there is no warranty at all.
@@ -86,7 +85,6 @@ class Asset extends Model
             },
         )->shouldCache();
     }
-
 
     /**
      * Get sum of all tasks prices.
