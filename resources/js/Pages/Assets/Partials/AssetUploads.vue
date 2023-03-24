@@ -13,7 +13,7 @@ const props = defineProps({
 const processing = ref(false);
 
 const form = useForm({
-  asset_id: props.asset.id,
+  folder: `assets/${props.asset.id}`,
   images: [],
 });
 

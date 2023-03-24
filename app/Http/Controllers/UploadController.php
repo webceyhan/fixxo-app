@@ -12,10 +12,10 @@ class UploadController extends Controller
      */
     public function store(Request $request)
     {
-        $assetId = $request->input('asset_id');
+        $folder = $request->input('folder');
         $images = $request->file('images', []);
 
-        UploadService::putAll($images, $assetId);
+        UploadService::putAll($images, $folder);
 
         // redirect back with success message
         return back()->with('status', 'Images uploaded successfully.');
