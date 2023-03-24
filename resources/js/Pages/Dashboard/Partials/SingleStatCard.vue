@@ -1,7 +1,7 @@
 <script setup>
 import { formatNumber } from "@/Shared/utils";
-import Card from "./Card.vue";
-import Icon from "./Icon.vue";
+import Card from "@/Components/Card.vue";
+import Icon from "@/Components/Icon.vue";
 
 const props = defineProps({
   label: String,

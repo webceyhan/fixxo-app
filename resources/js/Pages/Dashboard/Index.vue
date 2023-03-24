@@ -2,13 +2,13 @@
 import { router } from "@inertiajs/vue3";
 import Link from "@/Components/Link.vue";
 import Card from "@/Components/Card.vue";
-import StatCard from "@/Components/StatCard.vue";
-import AssetList from "@/Pages/Assets/Partials/AssetList.vue";
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Select from "@/Components/Form/Select.vue";
-import SingleStatCard from "@/Components/SingleStatCard.vue";
 import TabNav from "@/Components/Nav/TabNav.vue";
 import TabNavItem from "@/Components/Nav/TabNavItem.vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import AssetList from "@/Pages/Assets/Partials/AssetList.vue";
+import StatCard from "./Partials/StatCard.vue"
+import SingleStatCard from "./Partials/SingleStatCard.vue"
 
 
 const props = defineProps({
