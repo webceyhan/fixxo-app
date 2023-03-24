@@ -32,7 +32,7 @@ defineProps({
     >
       <slot name="header">
         <Icon v-if="icon" :name="icon" class="mr-2" />
-        <h5>{{ label }}</h5>
+        <h5 class="mr-auto">{{ label }}</h5>
       </slot>
 
       <slot name="header-action" />
