@@ -46,14 +46,17 @@ export function formatMoney(value) {
     }).format(value);
 }
 
-export function formatDate(date, short = true) {
+export function formatDate(date, long = false) {
     // skip if empty or null
     if (!date || date == "") return "";
 
     return Intl.DateTimeFormat("en-BE", {
-        year: short ? "2-digit" : "numeric",
-        month: short ? "2-digit" : "long",
+        year: long ? "numeric" : "2-digit",
+        month: long ? "long" : "2-digit",
         day: "2-digit",
+        hour: long ? "2-digit" : undefined,
+        minute: long ? "2-digit" : undefined,
+        second: long ? "2-digit" : undefined,
     }).format(new Date(date));
 }
 
