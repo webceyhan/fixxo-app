@@ -5,6 +5,7 @@ import TableData from "@/Components/Table/TableData.vue";
 
 const props = defineProps({
   href: String,
+  badgeClass: String,
 });
 
 function onClick(e) {
@@ -21,7 +22,7 @@ function onClick(e) {
       <div class="relative">
         <slot name="avatar" />
 
-        <div class="lg:hidden absolute bottom-0 left-0">
+        <div class="lg:hidden absolute bottom-0 left-0" :class="badgeClass">
           <slot name="badge" />
         </div>
       </div>

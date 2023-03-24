@@ -1,5 +1,5 @@
 <script setup>
-import { formatMoney } from "@/Shared/utils";
+import { formatDate, formatMoney } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
 import Table from "@/Components/Table/Table.vue";
 import TableRow from "@/Components/Table/TableRow.vue";
@@ -17,6 +17,7 @@ defineProps({
       v-for="asset in assets"
       :key="asset.id"
       :href="route('assets.show', asset.id)"
+      badge-class="lg:!block xl:!hidden"
     >
       <template #avatar>
         <Avatar :icon="asset.type" class="opacity-75" />
@@ -28,16 +29,23 @@ defineProps({
 
       <TableData :label="asset.customer.name" :value="asset.brand + ' ' + asset.name" />
 
-      <TableData class="max-xl:hidden" label="Tasks" :value="asset.tasks_count" />
+      <TableData class="max-2xl:hidden" label="Tasks" :value="asset.tasks_count" />
 
       <TableData
-        class="max-md:hidden text-end xl:!pr-28"
         label="Cost"
+        class="max-md:hidden text-end"
         :value="formatMoney(asset.total_cost)"
       />
 
-      <TableData class="max-lg:hidden">
+      <TableData class="max-xl:hidden text-end">
         <AssetBadge :status="asset.status" />
+      </TableData>
+
+      <TableData class="max-sm:hidden text-end">
+        <template #label>
+          <span class="2xl:hidden">{{ formatDate(asset.created_at) }}</span>
+          <span class="max-2xl:hidden">{{ formatDate(asset.created_at, true) }}</span>
+        </template>
       </TableData>
     </TableRow>
   </Table>
