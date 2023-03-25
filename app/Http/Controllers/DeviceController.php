@@ -43,7 +43,9 @@ class DeviceController extends Controller
      */
     public function create()
     {
-        //
+        return $this->edit(new Device(
+            request()->only('customer_id')
+        ));
     }
 
     /**
@@ -51,7 +53,7 @@ class DeviceController extends Controller
      */
     public function store(SaveDeviceRequest $request)
     {
-        //
+        return $this->update($request, new Device());
     }
 
     /**
@@ -87,7 +89,15 @@ class DeviceController extends Controller
      */
     public function update(SaveDeviceRequest $request, Device $device)
     {
-        //
+        $params = $request->mergeIfMissing([
+            'user_id' => auth()->id(),
+        ])->validated();
+
+        $device->fill($params)->save();
+
+        return redirect()
+            ->route('devices.show', $device->id)
+            ->with('status', __('record saved'));
     }
 
     /**
