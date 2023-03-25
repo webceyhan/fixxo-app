@@ -9,6 +9,7 @@ import TaskModal from "@/Pages/Tasks/Partials/TaskModal.vue";
 const props = defineProps({
   asset: Object,
   tasks: Array,
+  canDelete: Boolean,
 });
 
 // Task Modal
@@ -37,7 +38,7 @@ defineExpose({
     </template>
 
     <TaskList :tasks="tasks" @select="edit" />
-    <TaskModal :task="editing" ref="modal" />
+    <TaskModal ref="modal" :task="editing" :can-delete="canDelete" />
 
     <template #footer>
       <span class="w-full text-right">Total Cost</span>

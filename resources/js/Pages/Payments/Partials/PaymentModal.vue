@@ -5,6 +5,7 @@ import PaymentForm from "./PaymentForm.vue";
 
 defineProps({
   payment: Object,
+  canDelete: Boolean,
 });
 
 const modal = ref(null);
@@ -23,7 +24,12 @@ defineExpose({
     </template>
 
     <template #default="{ close }">
-      <PaymentForm :payment="payment" @dismiss="close" dismissable deletable />
+      <PaymentForm
+        @dismiss="close"
+        :payment="payment"
+        :deletable="canDelete"
+        dismissable
+      />
     </template>
   </Modal>
 </template>
