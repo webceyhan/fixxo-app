@@ -77,5 +77,6 @@ Breadcrumbs::for('profile.edit', function (BreadcrumbTrail $trail) {
 Breadcrumbs::resource('users', 'Users');
 Breadcrumbs::resource('customers', 'Customers');
 Breadcrumbs::resource('assets', 'Assets', 'customer');
+Breadcrumbs::resource('devices', 'Devices', 'customer');
 Breadcrumbs::resource('tasks', 'Tasks', 'asset');
 Breadcrumbs::resource('payments', 'Payments', 'asset');
