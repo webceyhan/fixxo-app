@@ -1,0 +1,32 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Customer;
+use App\Models\Device;
+use App\Models\User;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class DeviceSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        $users = User::all();
+
+        Customer::all()->each(function ($customer) use ($users) {
+
+            $amount = rand(1, 3);
+
+            Device::factory($amount)->create([
+                'customer_id' => fn () => $customer->id,
+                'user_id' => fn () => $users->random(1)->first(),
+                // create date must be later than customer creation
+                'created_at' => fn () => fake()->dateTimeBetween($customer->created_at, 'now'),
+            ]);
+        });
+    }
+}
