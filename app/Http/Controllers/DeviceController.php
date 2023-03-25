@@ -59,7 +59,19 @@ class DeviceController extends Controller
      */
     public function show(Device $device)
     {
-        //
+        // TODO: improve this! only needed for aside card representation
+        $device->load([
+            'user:id,name',
+            'customer:id,name'
+        ]);
+
+        // append custom attributes
+        $device->append([]);
+
+        return inertia('Devices/Show', [
+            'device' => $device,
+            'canDelete' => auth()->user()->can('delete', $device),
+        ]);
     }
 
     /**
