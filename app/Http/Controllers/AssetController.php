@@ -152,6 +152,9 @@ class AssetController extends Controller
      */
     public function destroy(Asset $asset)
     {
+        // TODO: use athorizeResource() here, see UserController::__construct()
+        $this->authorize('delete', $asset);
+
         $asset->delete();
 
         return redirect()

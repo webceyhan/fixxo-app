@@ -93,6 +93,9 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
+        // TODO: use athorizeResource() here, see UserController::__construct()
+        $this->authorize('delete', $task);
+
         $task->delete();
 
         return redirect()

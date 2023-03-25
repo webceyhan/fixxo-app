@@ -11,6 +11,29 @@ use App\Models\User;
 class UserController extends Controller
 {
     /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        /**
+         * The authorizeResource method will automatically authorize all the
+         * resource methods, using the given model and the method name as the
+         * ability name. 
+         * 
+         * index -> viewAny
+         * create -> create
+         * store -> create
+         * show -> view
+         * edit -> update
+         * update -> update
+         * destroy -> delete
+         */
+        $this->authorizeResource(User::class, 'user');
+    }
+
+    /**
      * Display a listing of the resource.
      */
     public function index()

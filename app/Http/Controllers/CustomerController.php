@@ -94,6 +94,9 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
+        // TODO: use athorizeResource() here, see UserController::__construct()
+        $this->authorize('delete', $customer);
+
         $customer->delete();
 
         return redirect()
