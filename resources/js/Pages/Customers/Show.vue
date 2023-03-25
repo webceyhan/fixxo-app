@@ -18,6 +18,7 @@ import Icon from "@/Components/Icon.vue";
 const props = defineProps({
   customer: Object,
   assets: Array,
+  canDelete: Boolean,
 });
 
 const toggleNotesEdit = ref(false);
@@ -44,6 +45,7 @@ const save = () => {
         :href="route('customers.edit', customer.id)"
       />
       <DangerButton
+        v-if="canDelete"
         label="Delete"
         method="delete"
         icon="delete"
@@ -83,6 +85,7 @@ const save = () => {
           :href="route('customers.edit', customer.id)"
         />
         <DropdownItem
+          v-if="canDelete"
           label="Delete"
           method="delete"
           icon="delete"
@@ -120,7 +123,11 @@ const save = () => {
           class="relative group"
           @click="toggleNotesEdit = true"
         >
-          <pre class="whitespace-pre-wrap text-sm">{{ customer.notes ?? "Add notes..." }}</pre>
+          <pre
+            class="whitespace-pre-wrap text-sm"
+            v-html="customer.notes ?? 'Add notes...'"
+          />
+
           <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
         </div>
 

@@ -23,6 +23,9 @@ const props = defineProps({
   asset: Object,
   tasks: Array,
   payments: Array,
+  canDelete: Boolean,
+  canDeleteTask: Boolean,
+  canDeletePayment: Boolean,
 });
 
 const toggleProblemEdit = ref(false);
@@ -62,6 +65,7 @@ const print = (type) => {
     <template #desktop-menu>
       <SecondaryButton label="Edit" icon="edit" :href="route('assets.edit', asset.id)" />
       <DangerButton
+        v-if="canDelete"
         label="Delete"
         method="delete"
         icon="delete"
@@ -108,6 +112,7 @@ const print = (type) => {
       <Dropdown>
         <DropdownItem label="Edit" icon="edit" :href="route('assets.edit', asset.id)" />
         <DropdownItem
+          v-if="canDelete"
           label="Delete"
           method="delete"
           icon="delete"
@@ -144,7 +149,11 @@ const print = (type) => {
           class="relative group"
           @click="toggleNotesEdit = true"
         >
-          <pre class="whitespace-pre-wrap text-sm">{{ asset.notes ?? "Add notes..." }}</pre>
+          <pre
+            class="whitespace-pre-wrap text-sm"
+            v-html="asset.notes ?? 'Add notes...'"
+          />
+
           <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
         </div>
 
@@ -174,7 +183,11 @@ const print = (type) => {
           class="relative group"
           @click="toggleProblemEdit = true"
         >
-          <pre class="whitespace-pre-wrap text-sm">{{ asset.problem ?? "Add problem..." }}</pre>
+          <pre
+            class="whitespace-pre-wrap text-sm"
+            v-html="asset.problem ?? 'Add problem...'"
+          />
+
           <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
         </div>
 
@@ -194,9 +207,17 @@ const print = (type) => {
         </div>
       </Card>
 
-      <AssetTasks v-bind="{ asset, tasks }" ref="assetTasks" />
+      <AssetTasks
+        ref="assetTasks"
+        v-bind="{ asset, tasks }"
+        :can-delete="canDeleteTask"
+      />
 
-      <AssetPayments v-bind="{ asset, payments }" ref="assetPayments" />
+      <AssetPayments
+        ref="assetPayments"
+        v-bind="{ asset, payments }"
+        :can-delete="canDeletePayment"
+      />
 
       <SignatureModal :asset="asset" ref="signatureModal" />
     </template>
