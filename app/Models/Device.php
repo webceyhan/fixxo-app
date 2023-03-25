@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Device extends Model
 {
@@ -50,6 +51,27 @@ class Device extends Model
     protected $searchIndex = 'name,brand,type,serial';
 
 
+    // EVENTS //////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::updating(function (Device $device) {
+            // log if the status has changed
+            if ($device->isDirty('status')) {
+                $device->logs()->create([
+                    'user_id' => auth()->id(),
+                    'status' => $device->status,
+                ]);
+            }
+        });
+    }
+
+
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     public function customer(): BelongsTo
@@ -60,6 +82,11 @@ class Device extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function logs(): HasMany
+    {
+        return $this->hasMany(DeviceLog::class);
     }
 
 

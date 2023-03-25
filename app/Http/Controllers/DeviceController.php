@@ -64,7 +64,8 @@ class DeviceController extends Controller
         // TODO: improve this! only needed for aside card representation
         $device->load([
             'user:id,name',
-            'customer:id,name'
+            'customer:id,name',
+            'logs.user:id,name'
         ]);
 
         // append custom attributes

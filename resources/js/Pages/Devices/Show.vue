@@ -1,5 +1,7 @@
 <script setup>
+import { formatDate } from "@/Shared/utils";
 import PageLayout from "@/Layouts/PageLayout.vue";
+import Card from "@/Components/Card.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
@@ -8,6 +10,7 @@ import Dropdown from "@/Components/Menu/Dropdown.vue";
 import ToggleButton from "@/Components/Button/ToggleButton.vue";
 import DropdownToggleItem from "@/Components/Menu/DropdownToggleItem.vue";
 import DeviceCard from "@/Pages/Devices/Partials/DeviceCard.vue";
+import DeviceBadge from "./Partials/DeviceBadge.vue";
 
 const props = defineProps({
   device: Object,
@@ -130,6 +133,28 @@ const save = () => {
         v-bind="{ device, tickets }"
         :can-delete="canDeleteTicket"
       /> -->
+
+      <Card label="History" class="!bg-opacity-50">
+        <ul class="divide-y divide-gray-700/50">
+          <li
+            v-for="log in device.logs"
+            :key="log.id"
+            class="grid grid-cols-3 text-sm text-gray-500 p-4"
+          >
+            <div>
+              <DeviceBadge :status="log.status" />
+            </div>
+
+            <div>
+              {{ log.user.name }}
+            </div>
+
+            <div>
+              {{ formatDate(log.created_at, true) }}
+            </div>
+          </li>
+        </ul>
+      </Card>
     </template>
   </PageLayout>
 </template>
