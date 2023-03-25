@@ -60,7 +60,8 @@ class CustomerController extends Controller
     {
         return inertia('Customers/Show', [
             'customer' => $customer,
-            'assets' => $customer->assets()->get()
+            'assets' => $customer->assets()->get(),
+            'canDelete' => auth()->user()->can('delete', $customer),
         ]);
     }
 
