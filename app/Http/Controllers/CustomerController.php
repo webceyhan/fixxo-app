@@ -60,7 +60,8 @@ class CustomerController extends Controller
     {
         return inertia('Customers/Show', [
             'customer' => $customer,
-            'assets' => $customer->assets()->get()
+            'assets' => $customer->assets()->get(),
+            'canDelete' => auth()->user()->can('delete', $customer),
         ]);
     }
 
@@ -94,6 +95,9 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
+        // TODO: use athorizeResource() here, see UserController::__construct()
+        $this->authorize('delete', $customer);
+
         $customer->delete();
 
         return redirect()

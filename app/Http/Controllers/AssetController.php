@@ -6,6 +6,8 @@ use App\Enums\AssetStatus;
 use App\Enums\AssetType;
 use App\Http\Requests\SaveAssetRequest;
 use App\Models\Asset;
+use App\Models\Payment;
+use App\Models\Task;
 use App\Services\NotificationService;
 use App\Services\SignatureService;
 
@@ -95,6 +97,13 @@ class AssetController extends Controller
             'asset' => $asset->append('cost'),
             'tasks' => $asset->tasks()->with('user:id,name')->get(),
             'payments' => $asset->payments()->with('user:id,name')->get(),
+            'canDelete' => auth()->user()->can('delete', $asset),
+            // TODO: improve this!
+            // we are checking for the ability to delete a task in the future
+            // but at this point we don't have a task/payment yet so as a workaround
+            // we are using a dummy new Task/Payment instance instead of Task::class
+            'canDeleteTask' => auth()->user()->can('delete', new Task),
+            'canDeletePayment' => auth()->user()->can('delete', new Payment),
         ]);
     }
 
@@ -152,6 +161,9 @@ class AssetController extends Controller
      */
     public function destroy(Asset $asset)
     {
+        // TODO: use athorizeResource() here, see UserController::__construct()
+        $this->authorize('delete', $asset);
+
         $asset->delete();
 
         return redirect()

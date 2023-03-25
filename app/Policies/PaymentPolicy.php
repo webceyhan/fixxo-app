@@ -6,6 +6,7 @@ use App\Models\Payment;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
+// TODO: review this policy later
 class PaymentPolicy
 {
     /**
@@ -45,7 +46,7 @@ class PaymentPolicy
      */
     public function delete(User $user, Payment $payment): bool
     {
-        //
+        return $user->isAdmin;
     }
 
     /**

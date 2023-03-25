@@ -8,6 +8,8 @@ use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -69,6 +71,18 @@ class User extends Authenticatable
      */
     protected $searchIndex = 'name,email';
 
+    // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the flag whether if user has admin role or not.
+     */
+    protected function isAdmin(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->role === UserRole::ADMIN,
+        );
+    }
+
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     public function assets(): HasMany
@@ -79,5 +93,23 @@ class User extends Authenticatable
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class)->latest();
+    }
+
+    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Scope a query to only include admin users.
+     */
+    public function scopeAdmin(Builder $query): void
+    {
+        $query->where('role', UserRole::ADMIN);
+    }
+
+    /**
+     * Scope a query to only include expert users.
+     */
+    public function scopeExpert(Builder $query): void
+    {
+        $query->where('role', UserRole::EXPERT);
     }
 }

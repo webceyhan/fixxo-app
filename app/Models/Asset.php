@@ -64,7 +64,6 @@ class Asset extends Model
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
-
     /**
      * Get warranty expiration date from purchase date + warranty months.
      * If 0 returned, meaning there is no warranty at all.
@@ -86,7 +85,6 @@ class Asset extends Model
             },
         )->shouldCache();
     }
-
 
     /**
      * Get sum of all tasks prices.
@@ -207,6 +205,40 @@ class Asset extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class)->latest();
+    }
+
+    // EVENTS //////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        static::saving(function (Asset $asset) {
+            // check if status set to returned
+            $isReturned = $asset->status === AssetStatus::RETURNED;
+
+            // (re)set return date based on the given status
+            $asset->returned_at = $isReturned ? now() : null;
+
+            // TODO:  this is not needed here, later we'll implement 
+            // autocomplete for asset name, brand and type to make it easier
+            // ----------------------------------------------------------------
+            // // is asset name changed?
+            // if ($asset->isDirty('name')) {
+            //     if (!$asset->isDirty('type')) {
+            //         // try to auto-determine asset type
+            //         $asset->type = AssetService::parseType($asset->name);
+            //     }
+
+            //     if (!$asset->isDirty('brand')) {
+            //         // try to auto-determine asset brand name
+            //         $asset->brand = AssetService::parseBrandName($asset->name);
+            //     }
+            // }
+        });
     }
 
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////

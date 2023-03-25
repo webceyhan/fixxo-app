@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
+// TODO: review this policy later
 class TaskPolicy
 {
     /**
@@ -45,7 +46,7 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task): bool
     {
-        //
+        return $user->isAdmin;
     }
 
     /**

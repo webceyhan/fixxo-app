@@ -9,6 +9,7 @@ import PaymentModal from "@/Pages/Payments/Partials/PaymentModal.vue";
 const props = defineProps({
   asset: Object,
   payments: Array,
+  canDelete: Boolean,
 });
 
 // Payment Modal
@@ -37,7 +38,7 @@ defineExpose({
     </template>
 
     <PaymentList :payments="payments" @select="edit" />
-    <PaymentModal :payment="editing" ref="modal" />
+    <PaymentModal ref="modal" :payment="editing" :can-delete="canDelete" />
 
     <template #footer>
       <div class="w-full text-right">

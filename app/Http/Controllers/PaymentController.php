@@ -97,6 +97,9 @@ class PaymentController extends Controller
      */
     public function destroy(Payment $payment)
     {
+        // TODO: use athorizeResource() here, see UserController::__construct()
+        $this->authorize('delete', $payment);
+
         $payment->delete();
 
         return redirect()

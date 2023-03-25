@@ -30,6 +30,13 @@ const props = defineProps({
   assetsUnpaid: Array,
 });
 
+const labelMap = {
+  day: "Hourly",
+  week: "Daily",
+  month: "Weekly",
+  year: "Monthly",
+};
+
 const onIntervalChange = (interval) => {
   router.reload({ data: { interval } });
 };
@@ -56,9 +63,9 @@ const onIntervalChange = (interval) => {
       />
     </div>
 
-    <Card>
-      <IncomeChart v-bind="incomeStats" />
-    </Card>
+    <StatCard :label="`${labelMap[interval]} Income`">
+      <IncomeChart v-bind="incomeStats" color-class="bg-blue-500/75" />
+    </StatCard>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
       <SingleStatCard

@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
+// TODO: review this policy later
 class CustomerPolicy
 {
     /**
@@ -45,7 +46,7 @@ class CustomerPolicy
      */
     public function delete(User $user, Customer $customer): bool
     {
-        //
+        return $user->isAdmin;
     }
 
     /**

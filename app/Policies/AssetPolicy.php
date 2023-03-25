@@ -6,6 +6,7 @@ use App\Models\Asset;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
+// TODO: review this policy later
 class AssetPolicy
 {
     /**
@@ -45,7 +46,7 @@ class AssetPolicy
      */
     public function delete(User $user, Asset $asset): bool
     {
-        //
+        return $user->isAdmin;
     }
 
     /**

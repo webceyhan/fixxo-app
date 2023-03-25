@@ -5,6 +5,7 @@ import TaskForm from "./TaskForm.vue";
 
 defineProps({
   task: Object,
+  canDelete: Boolean,
 });
 
 const modal = ref(null);
@@ -23,7 +24,7 @@ defineExpose({
     </template>
 
     <template #default="{ close }">
-      <TaskForm :task="task" @dismiss="close" dismissable deletable />
+      <TaskForm :task="task" @dismiss="close" dismissable :deletable="canDelete" />
     </template>
   </Modal>
 </template>

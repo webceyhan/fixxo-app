@@ -40,6 +40,25 @@ class Payment extends Model
      */
     protected $searchIndex = 'notes';
 
+    // EVENTS //////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        // TODO: improve this logic!
+        // make the calculation consistent with the payment type
+        // so it can be easily summed up on db level (see Asset::balance)
+        static::saving(function (Payment $payment) {
+            // normalize amount signature based on the payment type
+            $sign = ($payment->type === PaymentType::CHARGE) ? '+' : '-';            
+            $payment->amount = (float) ($sign . abs($payment->amount));
+        });
+    }
+
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     public function user(): BelongsTo
