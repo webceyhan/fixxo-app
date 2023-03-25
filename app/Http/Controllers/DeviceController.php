@@ -97,5 +97,11 @@ class DeviceController extends Controller
     {
         // TODO: use athorizeResource() here, see UserController::__construct()
         $this->authorize('delete', $device);
+
+        $device->delete();
+
+        return redirect()
+            ->route('devices.index')
+            ->with('status', __('record deleted'));
     }
 }
