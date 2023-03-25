@@ -93,15 +93,27 @@ const save = () => {
           :value="device.status"
           :href="route('devices.update', device.id)"
           :options="{
-            in_progress: 'Reopen',
-            ready: 'Resolve',
-            returned: 'Return',
+            checked_in: 'Check In',
+            diagnosing: 'Diagnose',
+            repairing: 'Repair',
+            fixed: 'Fixed',
+            checked_out: 'Check Out',
           }"
           :icons="{
-            in_progress: 'arrow-repeat',
-            ready: 'resolve',
-            returned: 'return',
+            checked_in: 'box-arrow-in-right',
+            diagnosing: 'tools',
+            repairing: 'wrench',
+            fixed: 'check2-circle',
+            checked_out: 'box-arrow-in-left',
           }"
+          method="put"
+        />
+        <DropdownItem
+          v-if="device.status == 'repairing'"
+          label="Wont Fix"
+          icon="x-circle"
+          :href="route('devices.update', device.id)"
+          :data="{ status: 'unfixable' }"
           method="put"
         />
         <!-- <DropdownItem label="New Ticket" icon="create" @click="deviceTasks.create()" /> -->
