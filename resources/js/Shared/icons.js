@@ -3,7 +3,7 @@ const userRoles = {
     admin: "person-video2",
 };
 
-const assetTypes = {
+const deviceTypes = {
     desktop: "display",
     laptop: "laptop",
     tablet: "tablet",
@@ -83,8 +83,9 @@ export default {
     user: "person-workspace",
     ...userRoles,
 
-    asset: "hdd",
-    ...assetTypes,
+    asset: "hdd", // TODO: remove later!
+    device: "hdd",
+    ...deviceTypes,
 
     task: "clipboard",
 

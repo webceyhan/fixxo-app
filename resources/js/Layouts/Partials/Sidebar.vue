@@ -34,6 +34,11 @@ const links = [
     to: "assets.index",
   },
   {
+    label: "Devices",
+    icon: "device",
+    to: "devices.index",
+  },
+  {
     label: "Users",
     icon: "user",
     to: "users.index",
