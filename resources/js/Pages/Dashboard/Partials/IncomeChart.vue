@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, onMounted, watch } from "vue";
 import {
   Chart,
   LineElement,
@@ -14,31 +14,35 @@ Chart.register(LineElement, PointElement, LinearScale, CategoryScale, LineContro
 const props = defineProps({
   labels: Array,
   values: Array,
+  colorClass: String,
 });
 
 const canvasRef = ref(null);
 const chartInstance = ref(null);
-
-const data = computed(() => ({
-  labels: props.labels,
-  datasets: [
-    {
-      data: props.values,
-      backgroundColor: "#dc3545",
-      borderColor: "#dc3545",
-      tension: 0.5,
-    },
-  ],
-}));
+const colorClassRef = ref(null);
 
 const drawChart = () => {
   if (chartInstance.value) {
     chartInstance.value.destroy();
   }
 
+  const borderColor = window.getComputedStyle(colorClassRef.value).backgroundColor;
+  const backgroundColor = borderColor.replace(/[^,]+\)$/, "0.05)");
+
   chartInstance.value = new Chart(canvasRef.value, {
     type: "line",
-    data: data.value,
+    data: {
+      labels: props.labels,
+      datasets: [
+        {
+          data: props.values,
+          backgroundColor,
+          borderColor,
+          tension: 0.5,
+          fill: "start",
+        },
+      ],
+    },
     options: {
       responsive: true,
       maintainAspectRatio: true,
@@ -62,9 +66,14 @@ const drawChart = () => {
 onMounted(() => drawChart());
 
 // re-render chart when data changes
-watch(data, () => drawChart());
+watch(
+  () => props.values,
+  () => drawChart()
+);
 </script>
 
 <template>
-  <canvas ref="canvasRef" class="w-full max-h-48" />
+  <canvas ref="canvasRef" class="w-full max-h-48">
+    <span ref="colorClassRef" :class="colorClass" />
+  </canvas>
 </template>
