@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TicketStatus;
 use App\Http\Requests\SaveTicketRequest;
 use App\Models\Ticket;
 
@@ -12,7 +13,23 @@ class TicketController extends Controller
      */
     public function index()
     {
-        //
+        $allowedParams = request()->only('search', 'status');
+
+        $tickets = Ticket::query()
+            ->filterByParams($allowedParams)
+            // ->withCount(['tasks'])
+            // ->withSum('tasks as total_cost', 'price')
+            ->with('device')
+            ->latest('id')
+            ->paginate()
+            ->withQueryString();
+
+        return inertia('Tickets/Index', [
+            'tickets' => $tickets,
+            'filters' => [
+                'status' => TicketStatus::values(),
+            ]
+        ]);
     }
 
     /**

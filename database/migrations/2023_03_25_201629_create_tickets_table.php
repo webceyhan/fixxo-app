@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('device_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('issue')->nullable();
+            $table->string('issue');
             $table->string('note')->nullable();
             $table->enum('status', TicketStatus::values())->default(TicketStatus::OPEN);
             $table->timestamps();
