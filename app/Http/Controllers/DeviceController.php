@@ -81,7 +81,14 @@ class DeviceController extends Controller
      */
     public function edit(Device $device)
     {
-        //
+        // TODO: improve this! only needed for aside card representation
+        $device->load('customer');
+
+        return inertia('Devices/Edit', [
+            'device' => $device,
+            'typeOptions' => DeviceType::values(),
+            'statusOptions' => DeviceStatus::values(),
+        ]);
     }
 
     /**

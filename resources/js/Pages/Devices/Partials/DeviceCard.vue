@@ -53,7 +53,7 @@ const props = defineProps({
         {{ formatDate(device.purchase_date) }}
       </DescriptionListItem>
 
-      <DescriptionListItem v-if="device.warranty_date" label="Warranty Expire Date">
+      <DescriptionListItem v-if="device.warranty_expire_date" label="Warranty Expire Date">
         {{ formatDate(device.warranty_expire_date) }}
       </DescriptionListItem>
 
