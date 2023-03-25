@@ -83,6 +83,7 @@ class DeviceController extends Controller
      */
     public function destroy(Device $device)
     {
-        //
+        // TODO: use athorizeResource() here, see UserController::__construct()
+        $this->authorize('delete', $device);
     }
 }
