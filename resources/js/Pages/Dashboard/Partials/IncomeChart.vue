@@ -66,5 +66,5 @@ watch(data, () => drawChart());
 </script>
 
 <template>
-  <canvas ref="canvasRef" class="w-full max-h-48"  />
+  <canvas ref="canvasRef" class="w-full max-h-48" />
 </template>

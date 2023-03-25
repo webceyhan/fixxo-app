@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use \Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -15,6 +16,7 @@ class DashboardController extends Controller
         Interval::DAY => 'hour',
         Interval::WEEK => 'day',
         Interval::MONTH => 'week',
+        Interval::YEAR => 'month',
     ];
 
     private static function generateStats($query, $interval)
@@ -60,7 +62,20 @@ class DashboardController extends Controller
             ->get();
 
         return [
-            'labels' => $result->pluck('date'),
+            'labels' => $result->pluck('date')->map(function ($date) use ($interval) {
+                switch ($interval) {
+                    case Interval::DAY: // hour
+                        return Carbon::today()->setTime($date, 0, 0)->format('H:i');
+                    case Interval::WEEK: // day
+                        return Carbon::today()->day($date)->format('D');
+                    case Interval::MONTH: // week
+                        return Carbon::today()->week($date)->format('d M');
+                    case Interval::YEAR: // month
+                        return Carbon::today()->month($date)->format('M');
+                    default:
+                        return $date;
+                }
+            }),
             'values' => $result->pluck('price'),
         ];
     }
@@ -74,6 +89,7 @@ class DashboardController extends Controller
             Interval::DAY => 'Today',
             Interval::WEEK => 'This Week',
             Interval::MONTH => 'This Month',
+            Interval::YEAR => 'This Year',
         ];
 
         $interval = $request->input('interval', Interval::DAY);
