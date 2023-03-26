@@ -58,15 +58,15 @@ class Ticket extends Model
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
-    // /**
-    //  * Get sum of all tasks prices.
-    //  */
-    // protected function cost(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn () => $this->tasks->pluck('price')->sum(),
-    //     )->shouldCache();
-    // }
+    /**
+     * Get sum of all tasks prices.
+     */
+    protected function cost(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->tasks->pluck('price')->sum(),
+        )->shouldCache();
+    }
 
     // /**
     //  * Get a map of payment sums by their type.

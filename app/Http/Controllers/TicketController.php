@@ -62,7 +62,7 @@ class TicketController extends Controller
 
         // append custom attributes
         $ticket->append([
-            // 'cost',
+            'cost',
             // 'balance',
             // 'balance_map',
             'qr_url',
