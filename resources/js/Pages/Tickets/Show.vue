@@ -81,14 +81,18 @@ const print = (type) => {
         :value="ticket.status"
         :href="route('tickets.update', ticket.id)"
         :options="{
-          in_progress: 'Reopen',
-          ready: 'Resolve',
-          returned: 'Return',
+          new: 'Reopen',
+          in_progress: 'Dispatch',
+          on_hold: 'Hold',
+          resolved: 'Resolve',
+          closed: 'Close',
         }"
         :icons="{
+          new: 'arrow-repeat',
           in_progress: 'arrow-repeat',
-          ready: 'resolve',
-          returned: 'return',
+          on_hold: 'pause-circle',
+          resolved: 'check-circle',
+          closed: 'x-circle',
         }"
         method="put"
       />
@@ -131,14 +135,18 @@ const print = (type) => {
           :value="ticket.status"
           :href="route('tickets.update', ticket.id)"
           :options="{
-            in_progress: 'Reopen',
-            ready: 'Resolve',
-            returned: 'Return',
+            new: 'Reopen',
+            in_progress: 'Dispatch',
+            on_hold: 'Hold',
+            resolved: 'Resolve',
+            closed: 'Close',
           }"
           :icons="{
+            new: 'arrow-repeat',
             in_progress: 'arrow-repeat',
-            ready: 'resolve',
-            returned: 'return',
+            on_hold: 'pause-circle',
+            resolved: 'check-circle',
+            closed: 'x-circle',
           }"
           method="put"
         />
