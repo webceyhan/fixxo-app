@@ -65,7 +65,14 @@ class Task extends Model
      */
     public function scopeStats(Builder $query): void
     {
-        $query->selectRaw('COUNT(id) as value, status as label')
-            ->groupBy('status');
+        $query
+            ->selectRaw('COUNT(id) as value')
+            ->selectRaw(
+                'IF(completed_at IS NULL, "'
+                    . TaskStatus::PENDING . '", "'
+                    . TaskStatus::COMPLETED . '") as label'
+            )
+            ->groupBy('label')
+            ->orderByDesc('label');
     }
 }
