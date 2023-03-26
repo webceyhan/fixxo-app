@@ -122,7 +122,20 @@ const onIntervalChange = (interval) => {
     </div>
 
     <div class="flex flex-col md:flex-row md:flex-wrap gap-6 lg:gap-8">
-      <Card class="flex-1" label="Latest tickets in progress" flush>
+      <Card class="sm:w-full" label="New tickets" flush>
+        <TicketList :tickets="ticketsNew" />
+
+        <!-- placeholder -->
+        <div v-if="ticketsNew.length === 0" class="text-center py-10">
+          No tickets found.
+        </div>
+
+        <template #footer>
+          <Link label="View all" :href="route('tickets.index', { status: 'unpaid' })" />
+        </template>
+      </Card>
+
+      <Card class="lg:flex-1" label="Latest tickets in progress" flush>
         <TicketList :tickets="ticketsInProgress" compact />
 
         <!-- placeholder -->
@@ -138,7 +151,7 @@ const onIntervalChange = (interval) => {
         </template>
       </Card>
 
-      <Card class="flex-1" label="Latest tickets ready to pick up" flush>
+      <Card class="lg:flex-1" label="Latest tickets ready to pick up" flush>
         <TicketList :tickets="ticketsResolved" compact />
 
         <!-- placeholder -->
@@ -148,19 +161,6 @@ const onIntervalChange = (interval) => {
 
         <template #footer>
           <Link label="View all" :href="route('tickets.index', { status: 'ready' })" />
-        </template>
-      </Card>
-
-      <Card class="sm:w-full" label="New tickets" flush>
-        <TicketList :tickets="ticketsNew" />
-
-        <!-- placeholder -->
-        <div v-if="ticketsNew.length === 0" class="text-center py-10">
-          No tickets found.
-        </div>
-
-        <template #footer>
-          <Link label="View all" :href="route('tickets.index', { status: 'unpaid' })" />
         </template>
       </Card>
     </div>

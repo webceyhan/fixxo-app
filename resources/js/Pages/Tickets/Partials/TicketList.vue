@@ -6,6 +6,7 @@ import StackedListItem from "@/Components/List/StackedListItem.vue";
 
 const props = defineProps({
   tickets: Array,
+  compact: Boolean,
 });
 </script>
 
@@ -17,12 +18,17 @@ const props = defineProps({
       icon="ticket"
       :href="route('tickets.show', ticket.id)"
     >
-      <div v-if="ticket.device" class="w-full md:w-6/12">
-        {{ ticket.device.brand }}
-        {{ ticket.device.name }}
-      </div>
+      <div class="w-full">
+        <div v-if="ticket.device">
+          {{ ticket.device.brand }}
+          {{ ticket.device.name }}
+        </div>
 
-      <div class="w-full text-gray-400 line-clamp-2" v-html="ticket.subject" />
+        <div class="text-sm text-gray-400 line-clamp-2" 
+        :class="{'max-md:line-clamp-1': compact}"
+        
+        v-html="ticket.subject" />
+      </div>
 
       <!-- <div
         v-if="ticket.tasks_count != undefined"
@@ -46,11 +52,11 @@ const props = defineProps({
       </div> -->
 
       <template #badge>
-        <TicketBadge :status="ticket.status" compact-max="xl" />
+        <TicketBadge :status="ticket.status"  compact-max="xl" />
       </template>
 
       <template #timestamp>
-        <div class="whitespace-nowrap text-gray-400">
+        <div v-if="!compact" class="max-md:hidden whitespace-nowrap text-gray-400">
           {{ formatDate(ticket.created_at) }}
         </div>
       </template>

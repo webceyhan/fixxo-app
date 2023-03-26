@@ -41,7 +41,7 @@ class DashboardController extends Controller
     private static function getLatestTickets($interval)
     {
         return Ticket::query()
-            ->with('customer')
+            ->with(['device', 'customer'])
             ->since($interval)
             ->latest('id')
             ->limit(5);
