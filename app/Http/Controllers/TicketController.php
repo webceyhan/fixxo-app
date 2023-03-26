@@ -111,10 +111,10 @@ class TicketController extends Controller
      */
     public function update(SaveTicketRequest $request, Ticket $ticket)
     {
-        $params = $request->mergeIfMissing([
-            // TODO: improve this by using a custom request
-            'user_id' => auth()->id(),
-        ])->validated();
+        $params = $request->validated();
+
+        // TODO: improve this by using a custom request
+        $params['user_id'] = auth()->id();
 
         $ticket->fill($params)->save();
 
