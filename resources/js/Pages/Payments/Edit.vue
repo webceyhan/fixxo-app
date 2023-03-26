@@ -4,8 +4,8 @@ import PageLayout from "@/Layouts/PageLayout.vue";
 import Form from "@/Components/Form/Form.vue";
 import Card from "@/Components/Card.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
-import AssetCard from "../Assets/Partials/AssetCard.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
+import TicketCard from "../Tickets/Partials/TicketCard.vue";
 
 const props = defineProps({
   payment: Object,
@@ -35,7 +35,7 @@ const form = useForm({
     </template>
 
     <template #aside>
-      <AssetCard :asset="payment.asset" />
+      <TicketCard :ticket="payment.ticket" />
     </template>
 
     <template #content>

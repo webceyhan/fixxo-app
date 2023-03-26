@@ -3,7 +3,7 @@ import PageLayout from "@/Layouts/PageLayout.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import TaskCard from "./Partials/TaskCard.vue";
-import AssetCard from "../Assets/Partials/AssetCard.vue";
+import TicketCard from "../Tickets/Partials/TicketCard.vue";
 
 const props = defineProps({
   task: Object,
@@ -23,7 +23,7 @@ const props = defineProps({
     </template>
 
     <template #aside>
-      <AssetCard :asset="task.asset" />
+      <TicketCard :ticket="task.ticket" />
     </template>
 
     <template #content>

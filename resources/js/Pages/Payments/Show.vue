@@ -3,7 +3,7 @@ import PageLayout from "@/Layouts/PageLayout.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import PaymentCard from "./Partials/PaymentCard.vue";
-import AssetCard from "../Assets/Partials/AssetCard.vue";
+import TicketCard from "../Tickets/Partials/TicketCard.vue";
 
 const props = defineProps({
   payment: Object,
@@ -27,7 +27,7 @@ const props = defineProps({
     </template>
 
     <template #aside>
-      <AssetCard :asset="payment.asset" />
+      <TicketCard :ticket="payment.ticket" />
     </template>
 
     <template #content>

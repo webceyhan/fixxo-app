@@ -12,7 +12,7 @@ defineProps({
     <Card label="Payment">
         <DescriptionList>
             <!-- TODO: Add the following fields as link -->
-            <!-- asset_id: Asset -->
+            <!-- ticket_id: Ticket -->
             <!-- user_id: Taker -->
 
             <DescriptionListItem
