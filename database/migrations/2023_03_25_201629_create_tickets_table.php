@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('device_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('issue');
+            $table->string('subject');
             $table->string('note')->nullable();
             $table->enum('status', TicketStatus::values())->default(TicketStatus::NEW);
             $table->timestamps();
         });
 
-        DB::statement('ALTER TABLE `tickets` ADD FULLTEXT KEY `search` (`issue`)');
+        DB::statement('ALTER TABLE `tickets` ADD FULLTEXT KEY `search` (`subject`)');
     }
 
     /**

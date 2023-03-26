@@ -36,7 +36,6 @@ class Ticket extends Model
      * @var array
      */
     protected $attributes = [
-        'issue' => null,
         'note' => null,
         'status' => TicketStatus::NEW,
     ];
@@ -172,7 +171,7 @@ class Ticket extends Model
 
     public function customer(): belongsTo
     {
-        return $this->device->belongsTo(Customer::class);
+        return $this->device->customer();
     }
 
     // public function tasks(): HasMany
