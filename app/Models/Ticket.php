@@ -107,20 +107,20 @@ class Ticket extends Model
     //     );
     // }
 
-    // /**
-    //  * Get url to qr code.
-    //  *
-    //  * @return bool
-    //  */
-    // protected function qrUrl(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: function () {
-    //             $linkData = route('Tickets.show', $this);
-    //             return QRService::urlFor($this->id, $linkData);
-    //         }
-    //     );
-    // }
+    /**
+     * Get URL to qr code or generate if not exists.
+     *
+     * @return bool
+     */
+    protected function qrUrl(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                $linkData = route('tickets.show', $this);
+                return QRService::urlFor($this->id, $linkData);
+            }
+        );
+    }
 
     // /**
     //  * Get url to the intake signature.

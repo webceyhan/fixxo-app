@@ -13,7 +13,7 @@ const props = defineProps({
 <template>
   <Card>
     <template #header>
-      <div class="w-full relative flex justify-end h-6">
+      <div class="w-full relative flex justify-end min-h-6">
         <h5 class="absolute left-0 flex items-center justify-between gap-3">
           <span>Ticket</span>
           <TicketBadge :status="ticket.status" />

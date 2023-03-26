@@ -61,15 +61,15 @@ class TicketController extends Controller
         ]);
 
         // append custom attributes
-        // $ticket->append([
-        //     'cost',
-        //     'balance',
-        //     'balance_map',
-        //     'qr_url',
-        //     'intake_signature_url',
-        //     'delivery_signature_url',
-        //     'uploaded_urls'
-        // ]);
+        $ticket->append([
+            // 'cost',
+            // 'balance',
+            // 'balance_map',
+            'qr_url',
+            // 'intake_signature_url',
+            // 'delivery_signature_url',
+            // 'uploaded_urls'
+        ]);
 
         return inertia('Tickets/Show', [
             'ticket' => $ticket,
