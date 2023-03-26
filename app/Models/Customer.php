@@ -52,6 +52,13 @@ class Customer extends Model
 
     public function tickets(): HasManyThrough
     {
-        return $this->hasManyThrough(Ticket::class, Device::class)->latest();
+        return $this->hasManyThrough(
+            Ticket::class,
+            Device::class,
+            'customer_id', // Foreign key on the devices table...
+            'device_id', // Foreign key on the customers table...
+            'id', // Local key on the customers table...
+            'id' // Local key on the devices table...
+        )->latest();
     }
 }
