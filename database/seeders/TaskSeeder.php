@@ -26,6 +26,7 @@ class TaskSeeder extends Seeder
                 'user_id' => fn () => $users->random(1)->first(),
                 // create date must be later than ticket creation
                 'created_at' => fn () => fake()->dateTimeBetween($ticket->created_at),
+                'completed_at' => fn () => fake()->optional()->dateTimeBetween($ticket->created_at),
             ]);
         });
     }

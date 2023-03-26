@@ -1,9 +1,7 @@
 <?php
 
-use App\Enums\TaskStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -19,11 +17,9 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('description');
             $table->decimal('price')->default(0);
-            $table->enum('status', TaskStatus::values())->default(TaskStatus::PENDING);
             $table->timestamps();
+            $table->timestamp('completed_at')->nullable();
         });
-
-        DB::statement('ALTER TABLE `tasks` ADD FULLTEXT KEY `search` (`description`)');
     }
 
     /**

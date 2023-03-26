@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\TaskStatus;
 use App\Traits\Model\HasSince;
-use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -12,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends Model
 {
-    use HasFactory, Searchable, HasSince;
+    use HasFactory, HasSince;
 
     /**
      * The attributes that aren't mass assignable.
@@ -28,15 +27,8 @@ class Task extends Model
      */
     protected $attributes = [
         'price' => 0,
-        'status' => TaskStatus::PENDING,
+        'completed_at' => null,
     ];
-
-    /**
-     * Index to use for full-text search.
-     *
-     * @var string
-     */
-    protected $searchIndex = 'description';
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
