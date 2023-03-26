@@ -21,10 +21,10 @@ import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
 const props = defineProps({
   ticket: Object,
-  // tasks: Array,
+  tasks: Array,
   // payments: Array,
   canDelete: Boolean,
-  // canDeleteTask: Boolean,
+  canDeleteTask: Boolean,
   // canDeletePayment: Boolean,
 });
 
@@ -63,7 +63,11 @@ const print = (type) => {
   <PageLayout :title="`Ticket #${ticket.id}`" class="print:hidden">
     <!-- desktop menu -->
     <template #desktop-menu>
-      <SecondaryButton label="Edit" icon="edit" :href="route('tickets.edit', ticket.id)" />
+      <SecondaryButton
+        label="Edit"
+        icon="edit"
+        :href="route('tickets.edit', ticket.id)"
+      />
       <DangerButton
         v-if="canDelete"
         label="Delete"
@@ -102,7 +106,11 @@ const print = (type) => {
 
       <Dropdown icon="create" label="New" primary>
         <DropdownItem label="New Task" icon="create" @click="ticketTasks.create()" />
-        <DropdownItem label="New Payment" icon="create" @click="ticketPayments.create()" />
+        <DropdownItem
+          label="New Payment"
+          icon="create"
+          @click="ticketPayments.create()"
+        />
         <!-- <hr class="bg-gray-200 dark:bg-gray-600 border-0 h-px" /> -->
       </Dropdown>
     </template>
@@ -135,7 +143,11 @@ const print = (type) => {
           method="put"
         />
         <DropdownItem label="New Task" icon="create" @click="ticketTasks.create()" />
-        <DropdownItem label="New Payment" icon="create" @click="ticketPayments.create()" />
+        <DropdownItem
+          label="New Payment"
+          icon="create"
+          @click="ticketPayments.create()"
+        />
         <DropdownItem label="Sign" icon="sign" @click="signatureModal.open()" />
       </Dropdown>
     </template>
@@ -176,8 +188,8 @@ const print = (type) => {
       <TicketUploads :ticket="ticket" />
     </template>
 
-    <!-- <template #content>
-      <Card label="Problem">
+    <template #content>
+      <!-- <Card label="Problem">
         <div
           v-if="!toggleProblemEdit"
           class="relative group"
@@ -205,7 +217,7 @@ const print = (type) => {
           />
           <SecondaryButton label="Cancel" @click="toggleProblemEdit = false" />
         </div>
-      </Card>
+      </Card> -->
 
       <TicketTasks
         ref="ticketTasks"
@@ -213,14 +225,14 @@ const print = (type) => {
         :can-delete="canDeleteTask"
       />
 
-      <TicketPayments
+      <!-- <TicketPayments
         ref="ticketPayments"
         v-bind="{ ticket, payments }"
         :can-delete="canDeletePayment"
-      />
+      /> -->
 
-      <SignatureModal :ticket="ticket" ref="signatureModal" />
-    </template> -->
+      <!-- <SignatureModal :ticket="ticket" ref="signatureModal" /> -->
+    </template>
   </PageLayout>
 
   <!-- print only content here -->

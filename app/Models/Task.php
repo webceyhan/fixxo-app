@@ -45,9 +45,9 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function asset(): BelongsTo
+    public function ticket(): BelongsTo
     {
-        return $this->belongsTo(Asset::class);
+        return $this->belongsTo(Ticket::class);
     }
 
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////

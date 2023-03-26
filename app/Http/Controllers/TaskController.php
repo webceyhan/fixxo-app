@@ -17,7 +17,7 @@ class TaskController extends Controller
 
         $tasks = Task::query()
             ->filterByParams($allowedParams)
-            ->with(['asset:id,name', 'user:id,name'])
+            ->with(['ticket:id,name', 'user:id,name'])
             ->latest('id')
             ->paginate()
             ->withQueryString();
@@ -36,7 +36,7 @@ class TaskController extends Controller
     public function create()
     {
         return $this->edit(new Task(
-            request()->only('asset_id')
+            request()->only('ticket_id')
         ));
     }
 
@@ -63,7 +63,7 @@ class TaskController extends Controller
     public function edit(Task $task)
     {
         // TODO: improve this! only for aside card representation
-        $task->load('asset.customer:id,name');
+        $task->load('ticket.customer:id,name');
 
         return inertia('Tasks/Edit', [
             'task' => $task,
@@ -84,7 +84,7 @@ class TaskController extends Controller
         $task->fill($params)->save();
 
         return redirect()
-            ->route('assets.show', $task->asset_id)
+            ->route('tickets.show', $task->ticket_id)
             ->with('status', __('record saved'));
     }
 
@@ -99,7 +99,7 @@ class TaskController extends Controller
         $task->delete();
 
         return redirect()
-            ->route('assets.show', $task->asset_id)
+            ->route('tickets.show', $task->ticket_id)
             ->with('status', __('record deleted'));
     }
 }

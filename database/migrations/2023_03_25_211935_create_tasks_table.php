@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('asset_id')->constrained()->onDelete('cascade');
+            $table->foreignId('ticket_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('description');
             $table->decimal('price')->default(0);

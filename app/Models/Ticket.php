@@ -250,7 +250,7 @@ class Ticket extends Model
     }
 
     /**
-     * Get all Tickets with their cost (sum of its tasks) and paid amount (sum of its payments) 
+     * Get all tickets with their cost (sum of its tasks) and paid amount (sum of its payments) 
      * ordered by their balance which is the difference between cost and paid amount.
      */
     public function scopeUnpaid(Builder $query): void
@@ -259,17 +259,17 @@ class Ticket extends Model
         // and fetch using scope variables to build different queries
         $query->returned()
             ->select(
-                'Tickets.*',
+                'tickets.*',
                 DB::raw('COALESCE(t.cost, 0) AS cost'),
                 DB::raw('ABS(COALESCE(p.amount, 0)) AS paid'),
                 // bugfix: balance is defined attribute in modal so we should use different name: "balanceD"
                 DB::raw('ABS(COALESCE(p.amount, 0)) - COALESCE(t.cost, 0) AS balanced')
             )
-            ->leftJoin(DB::raw('(SELECT Ticket_id, SUM(price) AS cost FROM tasks GROUP BY Ticket_id) t'), function ($join) {
-                $join->on('Tickets.id', '=', 't.Ticket_id');
+            ->leftJoin(DB::raw('(SELECT ticket_id, SUM(price) AS cost FROM tasks GROUP BY ticket_id) t'), function ($join) {
+                $join->on('tickets.id', '=', 't.ticket_id');
             })
-            ->leftJoin(DB::raw('(SELECT Ticket_id, SUM(IF(type="refund", -ABS(amount), ABS(amount))) AS amount FROM payments GROUP BY Ticket_id) p'), function ($join) {
-                $join->on('Tickets.id', '=', 'p.Ticket_id');
+            ->leftJoin(DB::raw('(SELECT ticket_id, SUM(IF(type="refund", -ABS(amount), ABS(amount))) AS amount FROM payments GROUP BY ticket_id) p'), function ($join) {
+                $join->on('tickets.id', '=', 'p.ticket_id');
             })
             ->having('balanced', '<', 0);
     }

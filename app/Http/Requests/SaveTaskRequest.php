@@ -34,7 +34,7 @@ class SaveTaskRequest extends FormRequest
 
         // store
         return [
-            'asset_id' => 'required_without:id',
+            'ticket_id' => 'required_without:id',
             'description' => 'nullable|string',
             'price' => 'nullable|numeric',
             'status' => ['nullable', Rule::in(TaskStatus::values())],
