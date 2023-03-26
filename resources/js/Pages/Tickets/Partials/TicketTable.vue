@@ -1,5 +1,5 @@
 <script setup>
-import { formatDate, formatMoney } from "@/Shared/utils";
+import { formatDate } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
 import Table from "@/Components/Table/Table.vue";
 import TableRow from "@/Components/Table/TableRow.vue";
@@ -28,6 +28,7 @@ defineProps({
       </template>
 
       <TableData
+        label-class="line-clamp-2"
         :label="ticket.issue"
         :value="ticket.device.brand + ' ' + ticket.device.name"
       />
