@@ -83,7 +83,6 @@ export default {
     user: "person-workspace",
     ...userRoles,
 
-    asset: "hdd", // TODO: remove later!
     device: "hdd",
     ...deviceTypes,
 
