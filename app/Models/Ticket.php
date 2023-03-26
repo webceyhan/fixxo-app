@@ -68,44 +68,44 @@ class Ticket extends Model
         )->shouldCache();
     }
 
-    // /**
-    //  * Get a map of payment sums by their type.
-    //  */
-    // protected function balanceMap(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: function () {
-    //             // initialize map in a specific order
-    //             $map = array_fill_keys(PaymentType::values(), 0);
+    /**
+     * Get a map of payment sums by their type.
+     */
+    protected function balanceMap(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                // initialize map in a specific order
+                $map = array_fill_keys(PaymentType::values(), 0);
 
-    //             // populate map with sums
-    //             $this->payments->each(function ($payment) use (&$map) {
-    //                 $map[$payment->type] += $payment->amount;
-    //             });
+                // populate map with sums
+                $this->payments->each(function ($payment) use (&$map) {
+                    $map[$payment->type] += $payment->amount;
+                });
 
-    //             return $map;
-    //         },
-    //     )->shouldCache();
-    // }
+                return $map;
+            },
+        )->shouldCache();
+    }
 
-    // /**
-    //  * Get balance calculated from total cost & payments.
-    //  */
-    // protected function balance(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: function () {
-    //             // extract vars
-    //             [
-    //                 'charge' => $charge,
-    //                 'discount' => $discount,
-    //                 'warranty' => $warranty,
-    //             ] = $this->balanceMap;
+    /**
+     * Get balance calculated from total cost & payments.
+     */
+    protected function balance(): Attribute
+    {
+        return Attribute::make(
+            get: function () {
+                // extract vars
+                [
+                    'charge' => $charge,
+                    'discount' => $discount,
+                    'warranty' => $warranty,
+                ] = $this->balanceMap;
 
-    //             return $charge - $this->cost + (abs($discount) + abs($warranty));
-    //         }
-    //     );
-    // }
+                return $charge - $this->cost + (abs($discount) + abs($warranty));
+            }
+        );
+    }
 
     /**
      * Get URL to qr code or generate if not exists.
@@ -187,10 +187,10 @@ class Ticket extends Model
         return $this->hasMany(Task::class)->latest();
     }
 
-    // public function payments(): HasMany
-    // {
-    //     return $this->hasMany(Payment::class)->latest();
-    // }
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class)->latest();
+    }
 
 
     // EVENTS //////////////////////////////////////////////////////////////////////////////////////

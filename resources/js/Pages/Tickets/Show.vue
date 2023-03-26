@@ -22,10 +22,10 @@ import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 const props = defineProps({
   ticket: Object,
   tasks: Array,
-  // payments: Array,
+  payments: Array,
   canDelete: Boolean,
   canDeleteTask: Boolean,
-  // canDeletePayment: Boolean,
+  canDeletePayment: Boolean,
 });
 
 // const toggleProblemEdit = ref(false);
@@ -225,11 +225,11 @@ const print = (type) => {
         :can-delete="canDeleteTask"
       />
 
-      <!-- <TicketPayments
+      <TicketPayments
         ref="ticketPayments"
         v-bind="{ ticket, payments }"
         :can-delete="canDeletePayment"
-      /> -->
+      />
 
       <!-- <SignatureModal :ticket="ticket" ref="signatureModal" /> -->
     </template>
