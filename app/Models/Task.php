@@ -45,6 +45,22 @@ class Task extends Model
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * Scope a query to get tasks that are pending.
+     */
+    public function scopePending(Builder $query): void
+    {
+        $query->whereNull('completed_at');
+    }
+
+    /**
+     * Scope a query to get tasks that are completed.
+     */
+    public function scopeCompleted(Builder $query): void
+    {
+        $query->whereNotNull('completed_at');
+    }
+
+    /**
      * Scope a query to get statistics grouped by status.
      */
     public function scopeStats(Builder $query): void
