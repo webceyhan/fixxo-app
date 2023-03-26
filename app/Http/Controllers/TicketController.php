@@ -7,6 +7,7 @@ use App\Http\Requests\SaveTicketRequest;
 use App\Models\Payment;
 use App\Models\Task;
 use App\Models\Ticket;
+use App\Services\NotificationService;
 use App\Services\SignatureService;
 
 class TicketController extends Controller
@@ -40,7 +41,9 @@ class TicketController extends Controller
      */
     public function create()
     {
-        //
+        return $this->edit(new Ticket(
+            request()->only('device_id')
+        ));
     }
 
     /**
@@ -48,7 +51,7 @@ class TicketController extends Controller
      */
     public function store(SaveTicketRequest $request)
     {
-        //
+        return $this->update($request, new Ticket());
     }
 
     /**
@@ -94,7 +97,13 @@ class TicketController extends Controller
      */
     public function edit(Ticket $ticket)
     {
-        //
+        // TODO: improve this! only needed for aside card representation
+        $ticket->load(['device', 'customer']);
+
+        return inertia('Tickets/Edit', [
+            'ticket' => $ticket,
+            'statusOptions' => TicketStatus::values(),
+        ]);
     }
 
     /**
@@ -102,7 +111,32 @@ class TicketController extends Controller
      */
     public function update(SaveTicketRequest $request, Ticket $ticket)
     {
-        //
+        $params = $request->mergeIfMissing([
+            // TODO: improve this by using a custom request
+            'user_id' => auth()->id(),
+        ])->validated();
+
+        $ticket->fill($params)->save();
+
+        // check if status is ready for pickup
+        if ($ticket->status == TicketStatus::RESOLVED) {
+
+            // send SMS to customer if phone number is provided
+            if ($ticket->customer->phone !== null) {
+                $phone = $ticket->customer->phone;
+                $message = __('Your device is ready for pickup.');
+
+                try { // try to send SMS or skip
+                    NotificationService::sendSMS($phone, $message);
+                } catch (\Throwable $e) {
+                    // TODO: log error
+                }
+            }
+        }
+
+        return redirect()
+            ->route('tickets.show', $ticket->id)
+            ->with('status', __('record saved'));
     }
 
     /**
@@ -110,7 +144,14 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        //
+        // TODO: use athorizeResource() here, see UserController::__construct()
+        $this->authorize('delete', $ticket);
+
+        $ticket->delete();
+
+        return redirect()
+            ->route('tickets.index')
+            ->with('status', __('record deleted'));
     }
 
     /**
