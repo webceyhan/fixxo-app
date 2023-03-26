@@ -28,13 +28,13 @@ const props = defineProps({
   canDeletePayment: Boolean,
 });
 
-// const toggleProblemEdit = ref(false);
-// const toggleNotesEdit = ref(false);
+const toggleSubjectEdit = ref(false);
+const toggleNoteEdit = ref(false);
 
-// const form = useForm({
-//   problem: props.ticket.problem,
-//   notes: props.ticket.notes,
-// });
+const form = useForm({
+  subject: props.ticket.subject,
+  note: props.ticket.note,
+});
 
 const save = () => {
   form.put(route("tickets.update", props.ticket.id), {
@@ -155,69 +155,65 @@ const print = (type) => {
     <template #aside>
       <TicketCard :ticket="ticket" />
 
-      <!-- <Card label="Notes">
-        <div
-          v-if="!toggleNotesEdit"
-          class="relative group"
-          @click="toggleNotesEdit = true"
-        >
+      <Card label="Note">
+        <div v-if="!toggleNoteEdit" class="relative group" @click="toggleNoteEdit = true">
           <pre
             class="whitespace-pre-wrap text-sm"
-            v-html="ticket.notes ?? 'Add notes...'"
+            v-html="ticket.note ?? 'Add note...'"
           />
 
           <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
         </div>
 
-        <div v-if="toggleNotesEdit">
+        <div v-if="toggleNoteEdit">
           <Textarea
             rows="5"
             class="block w-full text-sm font-mono mb-4"
-            v-model="form.notes"
+            v-model="form.note"
             autofocus
           />
           <PrimaryButton
             label="Save"
             class="mr-2"
-            @click="save() && (toggleNotesEdit = false)"
+            @click="save() && (toggleNoteEdit = false)"
           />
-          <SecondaryButton label="Cancel" @click="toggleNotesEdit = false" />
+          <SecondaryButton label="Cancel" @click="toggleNoteEdit = false" />
         </div>
-      </Card> -->
+      </Card>
 
       <TicketUploads :ticket="ticket" />
     </template>
 
     <template #content>
-      <!-- <Card label="Problem">
+      <Card label="Subject">
         <div
-          v-if="!toggleProblemEdit"
+          v-if="!toggleSubjectEdit"
           class="relative group"
-          @click="toggleProblemEdit = true"
+          @click="toggleSubjectEdit = true"
         >
           <pre
             class="whitespace-pre-wrap text-sm"
-            v-html="ticket.problem ?? 'Add problem...'"
+            v-html="ticket.subject ?? 'Add subject...'"
           />
 
           <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
         </div>
 
-        <div v-if="toggleProblemEdit">
+        <div v-if="toggleSubjectEdit">
           <Textarea
             rows="5"
             class="block w-full text-sm font-mono mb-4"
-            v-model="form.problem"
+            v-model="form.subject"
             autofocus
           />
           <PrimaryButton
             label="Save"
             class="mr-2"
-            @click="save() && (toggleProblemEdit = false)"
+            @click="save() && (toggleSubjectEdit = false)"
           />
-          <SecondaryButton label="Cancel" @click="toggleProblemEdit = false" />
+          <SecondaryButton label="Cancel" @click="toggleSubjectEdit = false" />
         </div>
-      </Card> -->
+      </Card>
 
       <TicketTasks
         ref="ticketTasks"
