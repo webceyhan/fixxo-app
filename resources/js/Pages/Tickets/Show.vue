@@ -173,7 +173,7 @@ const print = (type) => {
         </div>
       </Card> -->
 
-      <!-- <TicketUploads :ticket="ticket" /> -->
+      <TicketUploads :ticket="ticket" />
     </template>
 
     <!-- <template #content>

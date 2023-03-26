@@ -66,15 +66,15 @@ class TicketController extends Controller
             // 'balance',
             // 'balance_map',
             'qr_url',
+            'uploaded_urls',
             // 'intake_signature_url',
             // 'delivery_signature_url',
-            // 'uploaded_urls'
         ]);
 
         return inertia('Tickets/Show', [
             'ticket' => $ticket,
             'customer' => $ticket->customer,
-            //    'tasks' => $ticket->tasks()->with('user:id,name')->get(),
+            'tasks' => $ticket->tasks()->with('user:id,name')->get(),
             //    'payments' => $ticket->payments()->with('user:id,name')->get(),
             //    'canDelete' => auth()->user()->can('delete', $ticket),
             // TODO: improve this!

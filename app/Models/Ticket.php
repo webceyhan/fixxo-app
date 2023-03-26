@@ -147,15 +147,15 @@ class Ticket extends Model
     //     );
     // }
 
-    // /**
-    //  * Get an array of uploaded file urls.
-    //  */
-    // protected function uploadedUrls(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn () => UploadService::urls('Tickets/' . $this->id)
-    //     );
-    // }
+    /**
+     * Get an array URL's to uploaded files.
+     */
+    protected function uploadedUrls(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => UploadService::urls('tickets/' . $this->id)
+        );
+    }
 
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
@@ -182,10 +182,10 @@ class Ticket extends Model
         );
     }
 
-    // public function tasks(): HasMany
-    // {
-    //     return $this->hasMany(Task::class)->latest();
-    // }
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class)->latest();
+    }
 
     // public function payments(): HasMany
     // {
