@@ -3,8 +3,8 @@ import { ref } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
-import PaymentList from "@/Pages/Payments/Partials/PaymentList.vue";
-import PaymentModal from "@/Pages/Payments/Partials/PaymentModal.vue";
+import PaymentList from "./Payment/PaymentList.vue";
+import PaymentModal from "./Payment/PaymentModal.vue";
 
 const props = defineProps({
   ticket: Object,
