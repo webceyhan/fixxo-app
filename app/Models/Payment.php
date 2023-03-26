@@ -51,10 +51,10 @@ class Payment extends Model
     {
         // TODO: improve this logic!
         // make the calculation consistent with the payment type
-        // so it can be easily summed up on db level (see Asset::balance)
+        // so it can be easily summed up on db level (see Ticket::balance)
         static::saving(function (Payment $payment) {
             // normalize amount signature based on the payment type
-            $sign = ($payment->type === PaymentType::CHARGE) ? '+' : '-';            
+            $sign = ($payment->type === PaymentType::CHARGE) ? '+' : '-';
             $payment->amount = (float) ($sign . abs($payment->amount));
         });
     }
@@ -66,8 +66,8 @@ class Payment extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function asset(): BelongsTo
+    public function ticket(): BelongsTo
     {
-        return $this->belongsTo(Asset::class);
+        return $this->belongsTo(Ticket::class);
     }
 }

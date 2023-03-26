@@ -36,7 +36,7 @@ class SavePaymentRequest extends FormRequest
 
         // store
         return [
-            'asset_id' => 'required_without:id',
+            'ticket_id' => 'required_without:id',
             'amount' => 'nullable|numeric',
             'notes' => 'nullable|string',
             'type' => ['nullable', Rule::in(PaymentType::values())],

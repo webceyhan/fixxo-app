@@ -18,7 +18,11 @@ class PaymentController extends Controller
 
         $payments = Payment::query()
             ->filterByParams($allowedParams)
-            ->with(['asset:id,name,customer_id', 'asset.customer:id,name', 'user:id,name'])
+            ->with([
+                'ticket:id,name,customer_id',
+                'ticket.customer:id,name',
+                'user:id,name'
+            ])
             ->latest('id')
             ->paginate()
             ->withQueryString();
@@ -38,7 +42,7 @@ class PaymentController extends Controller
     public function create()
     {
         return $this->edit(new Payment(
-            request()->only('asset_id')
+            request()->only('ticket_id')
         ));
     }
 
@@ -66,7 +70,7 @@ class PaymentController extends Controller
     {
         // TODO: improve this! 
         // only for aside card representation
-        $payment->load('asset.customer:id,name');
+        $payment->load('ticket.customer:id,name');
 
         return inertia('Payments/Edit', [
             'payment' => $payment,
@@ -88,7 +92,7 @@ class PaymentController extends Controller
         $payment->fill($params)->save();
 
         return redirect()
-            ->route('assets.show', $payment->asset_id)
+            ->route('tickets.show', $payment->ticket_id)
             ->with('status', __('record saved'));
     }
 
@@ -103,7 +107,7 @@ class PaymentController extends Controller
         $payment->delete();
 
         return redirect()
-            ->route('assets.show', $payment->asset_id)
+            ->route('tickets.show', $payment->ticket_id)
             ->with('status', __('record deleted'));
     }
 }
