@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('devices', DeviceController::class);
     Route::resource('tickets', TicketController::class);
     Route::resource('tasks', TaskController::class);
-    Route::resource('payments', PaymentController::class);
+    Route::resource('payments', PaymentController::class)->only(['store', 'update', 'destroy']);
 });
 
 require __DIR__ . '/auth.php';
