@@ -78,7 +78,7 @@ class TicketController extends Controller
             'customer' => $ticket->customer,
             'tasks' => $ticket->tasks()->with('user:id,name')->get(),
             'payments' => $ticket->payments()->with('user:id,name')->get(),
-            // 'canDelete' => auth()->user()->can('delete', $ticket),
+            'canDelete' => auth()->user()->can('delete', $ticket),
             // TODO: improve this!
             // we are checking for the ability to delete a task in the future
             // but at this point we don't have a task/payment yet so as a workaround
