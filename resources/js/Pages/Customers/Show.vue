@@ -2,22 +2,24 @@
 import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
+import Icon from "@/Components/Icon.vue";
 import Card from "@/Components/Card.vue";
-import AssetList from "../Assets/Partials/AssetList.vue";
 import Textarea from "@/Components/Form/Textarea.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
-import CustomerCard from "./Partials/CustomerCard.vue";
 import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import ToggleButton from "@/Components/Button/ToggleButton.vue";
 import DropdownToggleItem from "@/Components/Menu/DropdownToggleItem.vue";
-import Icon from "@/Components/Icon.vue";
+import DeviceList from "@/Pages/Devices/Partials/DeviceList.vue";
+import TicketList from "@/Pages/Tickets/Partials/TicketList.vue";
+import CustomerCard from "./Partials/CustomerCard.vue";
 
 const props = defineProps({
   customer: Object,
-  assets: Array,
+  devices: Array,
+  tickets: Array,
   canDelete: Boolean,
 });
 
@@ -69,9 +71,9 @@ const save = () => {
       />
 
       <PrimaryButton
-        label="New Asset"
+        label="New Ticket"
         icon="create"
-        :href="route('assets.create')"
+        :href="route('tickets.create')"
         :data="{ customer_id: customer.id }"
       />
     </template>
@@ -106,9 +108,9 @@ const save = () => {
           method="put"
         />
         <DropdownItem
-          label="New Asset"
+          label="New Ticket"
           icon="create"
-          :href="route('assets.create')"
+          :href="route('tickets.create')"
           :data="{ customer_id: customer.id }"
         />
       </Dropdown>
@@ -149,8 +151,12 @@ const save = () => {
     </template>
 
     <template #content>
-      <Card label="Assets" flush>
-        <AssetList :assets="assets" />
+      <Card label="Devices" flush>
+        <DeviceList :devices="devices" />
+      </Card>
+
+      <Card label="Tickets" flush>
+        <TicketList :tickets="tickets" />
       </Card>
     </template>
   </PageLayout>
