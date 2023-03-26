@@ -61,7 +61,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('customers', CustomerController::class);
     Route::resource('devices', DeviceController::class);
     Route::resource('tickets', TicketController::class);
-    Route::resource('tasks', TaskController::class);
+    Route::resource('tasks', TaskController::class)->only(['store', 'update', 'destroy']);
     Route::resource('payments', PaymentController::class)->only(['store', 'update', 'destroy']);
 });
 
