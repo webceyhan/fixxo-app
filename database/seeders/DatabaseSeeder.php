@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             DeviceSeeder::class,
             TicketSeeder::class,
-            AssetSeeder::class,
             TaskSeeder::class,
             PaymentSeeder::class,
         ]);
