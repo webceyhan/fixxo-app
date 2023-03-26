@@ -3,8 +3,8 @@ import { ref } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
-import TaskList from "@/Pages/Tasks/Partials/TaskList.vue";
-import TaskModal from "@/Pages/Tasks/Partials/TaskModal.vue";
+import TaskList from "./Task/TaskList.vue";
+import TaskModal from "./Task/TaskModal.vue";
 
 const props = defineProps({
   ticket: Object,
