@@ -8,6 +8,7 @@ use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Customer extends Model
 {
@@ -44,8 +45,13 @@ class Customer extends Model
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
-    public function assets(): HasMany
+    public function devices(): HasMany
     {
-        return $this->hasMany(Asset::class)->latest();
+        return $this->hasMany(Device::class)->latest();
+    }
+
+    public function tickets(): HasManyThrough
+    {
+        return $this->hasManyThrough(Ticket::class, Device::class)->latest();
     }
 }
