@@ -122,30 +122,30 @@ class Ticket extends Model
         );
     }
 
-    // /**
-    //  * Get url to the intake signature.
-    //  */
-    // protected function intakeSignatureUrl(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn () => SignatureService::url($this->id . '-intake'),
-    //         // TODO: find a way to make this work!
-    //         // Attribute::make() doesn't support setting value that doesn't exist in the model
-    //         // set: fn ($value) => SignatureService::put($this->id . '-intake', $value),
-    //     );
-    // }
+    /**
+     * Get url to the intake signature.
+     */
+    protected function intakeSignatureUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => SignatureService::url($this->id . '-intake'),
+            // TODO: find a way to make this work!
+            // Attribute::make() doesn't support setting value that doesn't exist in the model
+            // set: fn ($value) => SignatureService::put($this->id . '-intake', $value),
+        );
+    }
 
-    // /**
-    //  * Get url to the delivery signature.
-    //  */
-    // protected function deliverySignatureUrl(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn () => SignatureService::url($this->id . '-delivery'),
-    //         // TODO: see above!
-    //         // set: fn ($value) => SignatureService::put($this->id . '-delivery', $value),
-    //     );
-    // }
+    /**
+     * Get url to the delivery signature.
+     */
+    protected function deliverySignatureUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => SignatureService::url($this->id . '-delivery'),
+            // TODO: see above!
+            // set: fn ($value) => SignatureService::put($this->id . '-delivery', $value),
+        );
+    }
 
     /**
      * Get an array URL's to uploaded files.

@@ -231,7 +231,7 @@ const print = (type) => {
         :can-delete="canDeletePayment"
       />
 
-      <!-- <SignatureModal :ticket="ticket" ref="signatureModal" /> -->
+      <SignatureModal :ticket="ticket" ref="signatureModal" />
     </template>
   </PageLayout>
 

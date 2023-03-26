@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
      */
     Route::post('/uploads', [UploadController::class, 'store'])->name('uploads.store');
     Route::delete('/uploads', [UploadController::class, 'destroy'])->name('uploads.destroy');
-    Route::post('/assets/{asset}/sign', [AssetController::class, 'sign'])->name('assets.sign');
+    Route::post('/tickets/{ticket}/sign', [TicketController::class, 'sign'])->name('tickets.sign');
 
     /**
      * Resources

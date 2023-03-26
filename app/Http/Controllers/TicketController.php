@@ -7,6 +7,7 @@ use App\Http\Requests\SaveTicketRequest;
 use App\Models\Payment;
 use App\Models\Task;
 use App\Models\Ticket;
+use App\Services\SignatureService;
 
 class TicketController extends Controller
 {
@@ -69,8 +70,8 @@ class TicketController extends Controller
             'balance_map',
             'qr_url',
             'uploaded_urls',
-            // 'intake_signature_url',
-            // 'delivery_signature_url',
+            'intake_signature_url',
+            'delivery_signature_url',
         ]);
 
         return inertia('Tickets/Show', [
@@ -110,5 +111,19 @@ class TicketController extends Controller
     public function destroy(Ticket $ticket)
     {
         //
+    }
+
+    /**
+     * Add signature to the specified ticket.
+     */
+    public function sign(Ticket $ticket)
+    {
+        $type = request()->input('type');
+        $blob = request()->input('blob');
+
+        // TODO: see related Ticket model attribute
+        SignatureService::put("{$ticket->id}-{$type}", $blob);
+
+        return redirect()->back();
     }
 }
