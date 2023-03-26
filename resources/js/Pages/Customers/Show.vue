@@ -71,10 +71,18 @@ const save = () => {
       />
 
       <PrimaryButton
+        label="New Device"
+        icon="create"
+        :href="route('devices.create')"
+        :data="{ customer_id: customer.id }"
+      />
+
+      <PrimaryButton
+        v-if="devices[0]"
         label="New Ticket"
         icon="create"
         :href="route('tickets.create')"
-        :data="{ customer_id: customer.id }"
+        :data="{ device_id: devices[0].id }"
       />
     </template>
 
@@ -108,10 +116,17 @@ const save = () => {
           method="put"
         />
         <DropdownItem
+          label="New Device"
+          icon="create"
+          :href="route('devices.create')"
+          :data="{ customer_id: customer.id }"
+        />
+        <DropdownItem
+          v-if="devices[0]"
           label="New Ticket"
           icon="create"
           :href="route('tickets.create')"
-          :data="{ customer_id: customer.id }"
+          :data="{ device_id: devices[0].id }"
         />
       </Dropdown>
     </template>
