@@ -26,7 +26,7 @@ class PaymentFactory extends Factory
             'type' => $type,
             'method' => fake()->randomElement(PaymentMethod::values()),
             'notes' => fake()->optional(.2)->text,
-            // 'created_at' => fake()->dateTimeThisYear(),
+            'created_at' => fake()->dateTimeThisYear(),
         ];
     }
 }

@@ -57,6 +57,7 @@ class DeviceFactory extends Factory
             'purchase_date' => fake()->optional(.2)->date(),
             'warranty_expire_date' => fake()->optional(.2)->date(),
             'status' => fake()->randomElement(DeviceStatus::values()),
+            'created_at' => fake()->dateTimeThisYear(),
         ];
     }
 }

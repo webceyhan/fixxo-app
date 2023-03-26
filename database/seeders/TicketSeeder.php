@@ -25,7 +25,7 @@ class TicketSeeder extends Seeder
                 'device_id' => fn () => $device->id,
                 'user_id' => fn () => $users->random(1)->first(),
                 // create date must be later than device creation
-                // 'created_at' => fn () => fake()->dateTimeBetween($device->created_at),
+                'created_at' => fn () => fake()->dateTimeBetween($device->created_at),
             ]);
         });
     }

@@ -19,13 +19,13 @@ class DeviceSeeder extends Seeder
 
         Customer::all()->each(function ($customer) use ($users) {
 
-            $amount = rand(1, 3);
+            $amount = rand(1, 2);
 
             Device::factory($amount)->create([
                 'customer_id' => fn () => $customer->id,
                 'user_id' => fn () => $users->random(1)->first(),
                 // create date must be later than customer creation
-                // 'created_at' => fn () => fake()->dateTimeBetween($customer->created_at),
+                'created_at' => fn () => fake()->dateTimeBetween($customer->created_at),
             ]);
         });
     }

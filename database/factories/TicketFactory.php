@@ -21,6 +21,7 @@ class TicketFactory extends Factory
             'subject' => fake()->text,
             'note' => fake()->optional(.2)->text,
             'status' => fake()->randomElement(TicketStatus::values()),
+            'created_at' => fake()->dateTimeThisYear(),
         ];
     }
 }

@@ -24,6 +24,8 @@ class PaymentSeeder extends Seeder
             Payment::factory($amount)->create([
                 'ticket_id' => fn () => $ticket->id,
                 'user_id' => fn () => $users->random(1)->first(),
+                // create date must be later than ticket creation
+                'created_at' => fn () => fake()->dateTimeBetween($ticket->created_at),
             ]);
         });
     }
