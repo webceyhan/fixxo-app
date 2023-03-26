@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Interval;
-use App\Models\Asset;
 use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\Task;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use \Carbon\Carbon;
 
@@ -38,10 +38,10 @@ class DashboardController extends Controller
         ];
     }
 
-    private static function getLatestAssets($interval)
+    private static function getLatestTickets($interval)
     {
-        return Asset::query()
-            ->with('customer:id,name')
+        return Ticket::query()
+            ->with('customer')
             ->since($interval)
             ->latest('id')
             ->limit(5);
@@ -115,20 +115,20 @@ class DashboardController extends Controller
 
             // stats
             'newCustomerStats' => self::generateStats(Customer::query(), $interval),
-            'newAssetStats' => self::generateStats(Asset::query(), $interval),
+            'newTicketStats' => self::generateStats(Ticket::query(), $interval),
             'newTaskStats' => self::generateStats(Task::query(), $interval),
             'newPaymentStats' => self::generateStats(Payment::query(), $interval),
 
             // stats
             'incomeStats' => $this->getIncomeStats($interval),
-            'assetStats' => Asset::stats()->since($interval)->get(),
+            'ticketStats' => Ticket::stats()->since($interval)->get(),
             'taskStats' => Task::stats()->since($interval)->get(),
             'earningStats' => $earningStats,
 
-            // assets by status
-            'assetsReady' => self::getLatestAssets($interval)->ready()->get(),
-            'assetsInProgress' => self::getLatestAssets($interval)->inProgress()->get(),
-            'assetsUnpaid' => self::getLatestAssets($interval)->unpaid()->get()->append('balance'),
+            // latest tickets by status
+            'ticketsNew' => self::getLatestTickets($interval)->new()->get(),
+            'ticketsInProgress' => self::getLatestTickets($interval)->inProgress()->get(),
+            'ticketsResolved' => self::getLatestTickets($interval)->resolved()->get(),
         ]);
     }
 }

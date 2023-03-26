@@ -6,7 +6,7 @@ import Select from "@/Components/Form/Select.vue";
 import TabNav from "@/Components/Nav/TabNav.vue";
 import TabNavItem from "@/Components/Nav/TabNavItem.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import AssetList from "@/Pages/Assets/Partials/AssetList.vue";
+import TicketList from "@/Pages/Tickets/Partials/TicketList.vue";
 import StatCard from "./Partials/StatCard.vue";
 import SingleStatCard from "./Partials/SingleStatCard.vue";
 import IncomeChart from "./Partials/IncomeChart.vue";
@@ -16,18 +16,18 @@ const props = defineProps({
   intervalOptions: Object,
   //
   newCustomerStats: Object,
-  newAssetStats: Object,
+  newTicketStats: Object,
   newTaskStats: Object,
   newPaymentStats: Object,
   //
   incomeStats: Object,
-  earningStats: Array,
+  ticketStats: Array,
   taskStats: Array,
-  assetStats: Array,
+  earningStats: Array,
   //
-  assetsReady: Array,
-  assetsInProgress: Array,
-  assetsUnpaid: Array,
+  ticketsNew: Array,
+  ticketsInProgress: Array,
+  ticketsResolved: Array,
 });
 
 const labelMap = {
@@ -76,10 +76,10 @@ const onIntervalChange = (interval) => {
       />
 
       <SingleStatCard
-        label="New Assets"
-        icon="asset"
+        label="New Tickets"
+        icon="ticket"
         icon-bg-color="bg-pink-600/50"
-        v-bind="newAssetStats"
+        v-bind="newTicketStats"
       />
 
       <SingleStatCard
@@ -99,9 +99,9 @@ const onIntervalChange = (interval) => {
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
       <StatCard
-        label="Assets"
-        icon="asset"
-        :items="assetStats"
+        label="Tickets"
+        icon="ticket"
+        :items="ticketStats"
         class="!border-blue-500/25"
       />
 
@@ -122,45 +122,45 @@ const onIntervalChange = (interval) => {
     </div>
 
     <div class="flex flex-col md:flex-row md:flex-wrap gap-6 lg:gap-8">
-      <Card class="flex-1" label="Latest assets in progress" flush>
-        <AssetList :assets="assetsInProgress" compact />
+      <Card class="flex-1" label="Latest tickets in progress" flush>
+        <TicketList :tickets="ticketsInProgress" compact />
 
         <!-- placeholder -->
-        <div v-if="assetsInProgress.length === 0" class="text-center py-10">
-          No assets found.
+        <div v-if="ticketsInProgress.length === 0" class="text-center py-10">
+          No tickets found.
         </div>
 
         <template #footer>
           <Link
             label="View all"
-            :href="route('assets.index', { status: 'in_progress' })"
+            :href="route('tickets.index', { status: 'in_progress' })"
           />
         </template>
       </Card>
 
-      <Card class="flex-1" label="Latest assets ready to pick up" flush>
-        <AssetList :assets="assetsReady" compact />
+      <Card class="flex-1" label="Latest tickets ready to pick up" flush>
+        <TicketList :tickets="ticketsResolved" compact />
 
         <!-- placeholder -->
-        <div v-if="assetsReady.length === 0" class="text-center py-10">
-          No assets found.
+        <div v-if="ticketsResolved.length === 0" class="text-center py-10">
+          No tickets found.
         </div>
 
         <template #footer>
-          <Link label="View all" :href="route('assets.index', { status: 'ready' })" />
+          <Link label="View all" :href="route('tickets.index', { status: 'ready' })" />
         </template>
       </Card>
 
-      <Card class="sm:w-full" label="Unpaid returned assets" flush>
-        <AssetList :assets="assetsUnpaid" />
+      <Card class="sm:w-full" label="New tickets" flush>
+        <TicketList :tickets="ticketsNew" />
 
         <!-- placeholder -->
-        <div v-if="assetsUnpaid.length === 0" class="text-center py-10">
-          No assets found.
+        <div v-if="ticketsNew.length === 0" class="text-center py-10">
+          No tickets found.
         </div>
 
         <template #footer>
-          <Link label="View all" :href="route('assets.index', { status: 'unpaid' })" />
+          <Link label="View all" :href="route('tickets.index', { status: 'unpaid' })" />
         </template>
       </Card>
     </div>
