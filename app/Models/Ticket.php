@@ -38,7 +38,7 @@ class Ticket extends Model
     protected $attributes = [
         'issue' => null,
         'note' => null,
-        'status' => TicketStatus::OPEN,
+        'status' => TicketStatus::NEW,
     ];
 
     /**
@@ -203,11 +203,11 @@ class Ticket extends Model
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to only include open Tickets.
+     * Scope a query to only include new Tickets.
      */
-    public function scopeOpen(Builder $query): void
+    public function scopeNew(Builder $query): void
     {
-        $query->where('status', TicketStatus::OPEN);
+        $query->where('status', TicketStatus::NEW);
     }
 
     /**

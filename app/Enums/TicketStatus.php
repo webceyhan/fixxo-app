@@ -5,7 +5,7 @@ namespace App\Enums;
 class TicketStatus extends Enum
 {
     // The ticket has been created but has not yet been assigned to anyone for resolution.
-    const OPEN = 'open';
+    const NEW = 'new';
 
     // The ticket has been assigned to someone and work is underway to resolve the issue.
     const IN_PROGRESS = 'in_progress';

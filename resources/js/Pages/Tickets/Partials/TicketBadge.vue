@@ -6,8 +6,8 @@ defineProps({
 });
 
 const states = {
-  open: {
-    label: "Open",
+  new: {
+    label: "New",
     theme: "secondary",
   },
   in_progress: {

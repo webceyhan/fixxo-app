@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('issue');
             $table->string('note')->nullable();
-            $table->enum('status', TicketStatus::values())->default(TicketStatus::OPEN);
+            $table->enum('status', TicketStatus::values())->default(TicketStatus::NEW);
             $table->timestamps();
         });
 
