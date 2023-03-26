@@ -29,11 +29,6 @@ const links = [
     to: "customers.index",
   },
   {
-    label: "Assets",
-    icon: "asset",
-    to: "assets.index",
-  },
-  {
     label: "Tickets",
     icon: "ticket",
     to: "tickets.index",

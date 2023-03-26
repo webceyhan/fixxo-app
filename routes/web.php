@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AssetController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
@@ -49,7 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     /**
-     * Asset extras
+     * Ticket extras
      */
     Route::post('/uploads', [UploadController::class, 'store'])->name('uploads.store');
     Route::delete('/uploads', [UploadController::class, 'destroy'])->name('uploads.destroy');
@@ -60,7 +59,6 @@ Route::middleware('auth')->group(function () {
      */
     Route::resource('users', UserController::class);
     Route::resource('customers', CustomerController::class);
-    Route::resource('assets', AssetController::class);
     Route::resource('devices', DeviceController::class);
     Route::resource('tickets', TicketController::class);
     Route::resource('tasks', TaskController::class);
