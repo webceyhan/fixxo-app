@@ -53,7 +53,37 @@ class TicketController extends Controller
      */
     public function show(Ticket $ticket)
     {
-        //
+        // TODO: improve this! only needed for aside card representation
+        $ticket->load([
+            'device',
+            'customer',
+            'user:id,name',
+        ]);
+
+        // append custom attributes
+        // $ticket->append([
+        //     'cost',
+        //     'balance',
+        //     'balance_map',
+        //     'qr_url',
+        //     'intake_signature_url',
+        //     'delivery_signature_url',
+        //     'uploaded_urls'
+        // ]);
+
+        return inertia('Tickets/Show', [
+            'ticket' => $ticket,
+            'customer' => $ticket->customer,
+            //    'tasks' => $ticket->tasks()->with('user:id,name')->get(),
+            //    'payments' => $ticket->payments()->with('user:id,name')->get(),
+            //    'canDelete' => auth()->user()->can('delete', $ticket),
+            // TODO: improve this!
+            // we are checking for the ability to delete a task in the future
+            // but at this point we don't have a task/payment yet so as a workaround
+            // we are using a dummy new Task/Payment instance instead of Task::class
+            //    'canDeleteTask' => auth()->user()->can('delete', new Task),
+            //    'canDeletePayment' => auth()->user()->can('delete', new Payment),
+        ]);
     }
 
     /**

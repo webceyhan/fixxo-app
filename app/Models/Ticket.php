@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Support\Facades\DB;
 
 class Ticket extends Model
@@ -169,9 +170,16 @@ class Ticket extends Model
         return $this->belongsTo(Device::class);
     }
 
-    public function customer(): belongsTo
+    public function customer(): HasOneThrough
     {
-        return $this->device->customer();
+        return $this->hasOneThrough(
+            Customer::class,
+            Device::class,
+            'id', // Foreign key on the devices table...
+            'id', // Foreign key on the customers table...
+            'device_id', // Local key on the tickets table...
+            'customer_id' // Local key on the devices table...
+        );
     }
 
     // public function tasks(): HasMany
