@@ -21,7 +21,7 @@ class TaskFactory extends Factory
             'description' => fake()->text(100),
             'price' => fake()->randomFloat(2, 0, 100),
             'status' => fake()->randomElement(TaskStatus::values()),
-            'created_at' => fake()->dateTimeThisYear(),
+            // 'created_at' => fake()->dateTimeThisYear(),
         ];
     }
 }

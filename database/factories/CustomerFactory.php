@@ -24,7 +24,7 @@ class CustomerFactory extends Factory
             'email' => fake()->optional()->safeEmail,
             'notes' => fake()->optional(.2)->text,
             'status' => fake()->randomElement(UserStatus::values()),
-            'created_at' => fake()->dateTimeThisYear(),
+            // 'created_at' => fake()->dateTimeThisYear(),
         ];
     }
 }
