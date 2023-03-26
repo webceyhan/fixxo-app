@@ -29,7 +29,7 @@ defineProps({
       </div>
 
       <div class="hidden md:block w-2/12 text-gray-400">
-        assets {{ user?.assets_count ?? 0 }}
+        tickets {{ user?.tickets_count ?? 0 }}
       </div>
 
       <template #badge>

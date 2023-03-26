@@ -1,18 +1,18 @@
 <script setup>
 import PageLayout from "@/Layouts/PageLayout.vue";
-import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
-import DangerButton from "@/Components/Button/DangerButton.vue";
-import UserCard from "./Partials/UserCard.vue";
-import AssetList from "../Assets/Partials/AssetList.vue";
 import Card from "@/Components/Card.vue";
+import DangerButton from "@/Components/Button/DangerButton.vue";
+import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
+import ToggleButton from "@/Components/Button/ToggleButton.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import DropdownItem from "@/Components/Menu/DropdownItem.vue";
-import ToggleButton from "@/Components/Button/ToggleButton.vue";
 import DropdownToggleItem from "@/Components/Menu/DropdownToggleItem.vue";
+import TicketList from "@/Pages/Tickets/Partials/TicketList.vue";
+import UserCard from "./Partials/UserCard.vue";
 
 const props = defineProps({
   user: Object,
-  recentAssets: Array,
+  recentTickets: Array,
 });
 </script>
 
@@ -76,8 +76,8 @@ const props = defineProps({
     </template>
 
     <template #content>
-      <Card label="Recent assets.." flush>
-        <AssetList :assets="recentAssets" />
+      <Card label="Recent tickets.." flush>
+        <TicketList :tickets="recentTickets" />
       </Card>
     </template>
   </PageLayout>
