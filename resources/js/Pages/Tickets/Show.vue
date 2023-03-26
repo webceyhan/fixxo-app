@@ -236,12 +236,12 @@ const print = (type) => {
   </PageLayout>
 
   <!-- print only content here -->
-  <!-- <section class="hidden print:block">
+  <section class="hidden print:block">
     <Receipt v-if="printing === 'intake'" :ticket="ticket" />
     <Receipt
       v-else-if="printing === 'delivery'"
       v-bind="{ ticket, tasks, payments }"
       delivery
     />
-  </section> -->
+  </section>
 </template>
