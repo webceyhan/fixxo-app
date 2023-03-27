@@ -3,7 +3,7 @@ let index = 0;
 
 export default {
   inheritAttrs: false,
-  components: { Checkbox, InputGroup, InputGroupText },
+  components: { Checkbox, InputGroup, InputGroupText, RadioGroup },
 };
 </script>
 
@@ -17,6 +17,7 @@ import InputError from "./InputError.vue";
 import Checkbox from "./Checkbox.vue";
 import InputGroup from "./InputGroup.vue";
 import InputGroupText from "./InputGroupText.vue";
+import RadioGroup from "./RadioGroup.vue";
 
 const id = `form-control-${index++}`;
 
@@ -27,6 +28,7 @@ const props = defineProps({
   prefix: String,
   suffix: String,
   error: String,
+  fancy: Boolean,
 });
 
 const attrs = computed(() => ({
@@ -51,8 +53,16 @@ defineExpose({
     <template v-else>
       <InputLabel :for="id" :value="label" />
 
+      <RadioGroup
+        v-if="$attrs.options && fancy"
+        v-bind="attrs"
+        fancy
+        ref="input"
+        class="mt-1 block w-full"
+      />
+
       <Select
-        v-if="$attrs.options"
+        v-else-if="$attrs.options"
         v-bind="attrs"
         ref="input"
         class="mt-1 block w-full"

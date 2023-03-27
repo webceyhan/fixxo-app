@@ -2,6 +2,7 @@
 import { useForm } from "@inertiajs/vue3";
 import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
+import RadioGroup from "@/Components/Form/RadioGroup.vue";
 
 const props = defineProps({
   payment: Object,
@@ -13,7 +14,7 @@ const methodOptions = ["cash", "card", "online"];
 
 const form = useForm({
   ...props.payment,
-    // TODO: see above
+  // TODO: see above
   amount: props.payment.amount ?? 0,
   type: props.payment.type ?? typeOptions[0],
   method: props.payment.method ?? methodOptions[0],
@@ -23,6 +24,10 @@ const form = useForm({
 
 <template>
   <Form :form="form" resource="payments">
+    <FormControl label="Type" v-model="form.type" :options="typeOptions" fancy />
+
+    <FormControl label="Method" v-model="form.method" :options="methodOptions" fancy />
+
     <FormControl
       label="Amount"
       prefix="€"
@@ -34,10 +39,6 @@ const form = useForm({
       required
       autofocus
     />
-
-    <FormControl label="Type" v-model="form.type" :options="typeOptions" />
-
-    <FormControl label="Method" v-model="form.method" :options="methodOptions" />
 
     <FormControl label="Note" rows="3" v-model="form.note" :error="form.errors.note" />
   </Form>
