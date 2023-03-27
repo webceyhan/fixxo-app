@@ -1,13 +1,27 @@
 <script setup>
-import { formatDate } from "@/Shared/utils";
-import TicketBadge from "./TicketBadge.vue";
+import { formatDate, formatMoney } from "@/Shared/utils";
+import Avatar from "@/Components/Avatar.vue";
 import StackedList from "@/Components/List/StackedList.vue";
 import StackedListItem from "@/Components/List/StackedListItem.vue";
+import ProgressBar from "@/Components/ProgressBar.vue";
+import TicketBadge from "./TicketBadge.vue";
 
 const props = defineProps({
   tickets: Array,
   compact: Boolean,
+  withBalance: Boolean,
+  withTaskCount: Boolean,
 });
+
+function getProgress(ticket) {
+  const { completed_task_count, total_task_count } = ticket;
+
+  if (completed_task_count == 0) return 0;
+
+  if (completed_task_count == total_task_count) return 100;
+
+  return Math.round((completed_task_count / total_task_count) * 100);
+}
 </script>
 
 <template>
@@ -15,44 +29,45 @@ const props = defineProps({
     <StackedListItem
       v-for="ticket in tickets"
       :key="ticket.id"
-      icon="ticket"
       :href="route('tickets.show', ticket.id)"
     >
+      <template #avatar>
+        <Avatar icon="ticket" class="flex-shrink-0 opacity-50" />
+        <div v-if="compact" class="absolute left-0 bottom-3 text-center">
+          <TicketBadge :status="ticket.status" compact />
+        </div>
+      </template>
+
       <div class="w-full">
         <div v-if="ticket.device">
           {{ ticket.device.brand }}
           {{ ticket.device.name }}
         </div>
 
-        <div class="text-sm text-gray-400 line-clamp-2" 
-        :class="{'max-md:line-clamp-1': compact}"
-        
-        v-html="ticket.subject" />
-      </div>
-
-      <!-- <div
-        v-if="ticket.tasks_count != undefined"
-        class="hidden md:block w-2/12 text-gray-400"
-      >
-        tasks {{ ticket?.tasks_count ?? 0 }}
+        <div
+          class="text-sm text-gray-400"
+          :class="{
+            'line-clamp-2': !compact,
+            'line-clamp-1': compact,
+          }"
+          v-html="ticket.subject"
+        />
       </div>
 
       <div
-        v-if="ticket.total_cost != undefined"
-        class="hidden md:block w-2/12 text-gray-400"
+        v-if="withTaskCount"
+        class="w-2/12 text-gray-400 whitespace-nowrap text-sm text-end"
       >
-        cost {{ formatMoney(ticket.total_cost) }}
+        {{ ticket.completed_task_count }}/{{ ticket.total_task_count }}
+        <ProgressBar :value="getProgress(ticket)" class="mt-1" />
       </div>
 
-      <div
-        v-if="ticket.balance != undefined"
-        class="hidden md:block w-2/12 text-gray-400 whitespace-nowrap text-end"
-      >
+      <div v-if="withBalance" class="w-2/12 text-gray-400 whitespace-nowrap text-end">
         {{ formatMoney(ticket.balance) }}
-      </div> -->
+      </div>
 
-      <template #badge>
-        <TicketBadge :status="ticket.status"  compact-max="xl" />
+      <template v-if="!compact" #badge>
+        <TicketBadge :status="ticket.status" compact-max="xl" />
       </template>
 
       <template #timestamp>

@@ -123,10 +123,8 @@ const onIntervalChange = (interval) => {
     </div>
 
     <div class="flex flex-col md:flex-row md:flex-wrap gap-6 lg:gap-8">
-
-
       <Card class="lg:flex-1" label="Latest tickets in progress" flush>
-        <TicketList :tickets="ticketsInProgress" compact />
+        <TicketList :tickets="ticketsInProgress" compact with-task-count />
 
         <!-- placeholder -->
         <div v-if="ticketsInProgress.length === 0" class="text-center py-10">
@@ -141,8 +139,8 @@ const onIntervalChange = (interval) => {
         </template>
       </Card>
 
-      <Card class="lg:flex-1" label="Latest tickets ready to pick up" flush>
-        <TicketList :tickets="ticketsResolved" compact />
+      <Card class="lg:flex-1" label="Latest resolved tickets" flush>
+        <TicketList :tickets="ticketsResolved" compact with-task-count />
 
         <!-- placeholder -->
         <div v-if="ticketsResolved.length === 0" class="text-center py-10">
@@ -153,12 +151,10 @@ const onIntervalChange = (interval) => {
           <Link label="View all" :href="route('tickets.index', { status: 'ready' })" />
         </template>
       </Card>
-
-</div>
-<div class="flex flex-col md:flex-row md:flex-wrap gap-6 lg:gap-8">
-
-      <Card class="lg:flex-1" label="Tickets with outstanding balance" flush>
-        <TicketList :tickets="ticketsOutstanding" compact />
+    </div>
+    <div class="flex flex-col md:flex-row md:flex-wrap gap-6 lg:gap-8">
+      <Card class="lg:flex-1" label="Outstanding tickets" flush>
+        <TicketList :tickets="ticketsOutstanding" compact with-balance />
 
         <!-- placeholder -->
         <div v-if="ticketsOutstanding.length === 0" class="text-center py-10">
@@ -166,12 +162,15 @@ const onIntervalChange = (interval) => {
         </div>
 
         <template #footer>
-          <Link label="View all" :href="route('tickets.index', { status: 'outstanding' })" />
+          <Link
+            label="View all"
+            :href="route('tickets.index', { status: 'outstanding' })"
+          />
         </template>
       </Card>
 
-      <Card class="lg:flex-1" label="Overdue Tickets" flush>
-        <TicketList :tickets="ticketsOverdue" compact />
+      <Card class="lg:flex-1" label="Overdue tickets" flush>
+        <TicketList :tickets="ticketsOverdue" compact with-balance />
 
         <!-- placeholder -->
         <div v-if="ticketsOverdue.length === 0" class="text-center py-10">
