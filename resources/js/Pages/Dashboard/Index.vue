@@ -25,9 +25,10 @@ const props = defineProps({
   taskStats: Array,
   earningStats: Array,
   //
-  ticketsNew: Array,
   ticketsInProgress: Array,
   ticketsResolved: Array,
+  ticketsOutstanding: Array,
+  ticketsOverdue: Array,
 });
 
 const labelMap = {
@@ -122,18 +123,7 @@ const onIntervalChange = (interval) => {
     </div>
 
     <div class="flex flex-col md:flex-row md:flex-wrap gap-6 lg:gap-8">
-      <Card class="sm:w-full" label="New tickets" flush>
-        <TicketList :tickets="ticketsNew" />
 
-        <!-- placeholder -->
-        <div v-if="ticketsNew.length === 0" class="text-center py-10">
-          No tickets found.
-        </div>
-
-        <template #footer>
-          <Link label="View all" :href="route('tickets.index', { status: 'unpaid' })" />
-        </template>
-      </Card>
 
       <Card class="lg:flex-1" label="Latest tickets in progress" flush>
         <TicketList :tickets="ticketsInProgress" compact />
@@ -161,6 +151,35 @@ const onIntervalChange = (interval) => {
 
         <template #footer>
           <Link label="View all" :href="route('tickets.index', { status: 'ready' })" />
+        </template>
+      </Card>
+
+</div>
+<div class="flex flex-col md:flex-row md:flex-wrap gap-6 lg:gap-8">
+
+      <Card class="lg:flex-1" label="Tickets with outstanding balance" flush>
+        <TicketList :tickets="ticketsOutstanding" compact />
+
+        <!-- placeholder -->
+        <div v-if="ticketsOutstanding.length === 0" class="text-center py-10">
+          No tickets found.
+        </div>
+
+        <template #footer>
+          <Link label="View all" :href="route('tickets.index', { status: 'outstanding' })" />
+        </template>
+      </Card>
+
+      <Card class="lg:flex-1" label="Overdue Tickets" flush>
+        <TicketList :tickets="ticketsOverdue" compact />
+
+        <!-- placeholder -->
+        <div v-if="ticketsOverdue.length === 0" class="text-center py-10">
+          No tickets found.
+        </div>
+
+        <template #footer>
+          <Link label="View all" :href="route('tickets.index', { status: 'overdue' })" />
         </template>
       </Card>
     </div>

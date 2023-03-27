@@ -201,28 +201,19 @@ class Ticket extends Model
     }
 
     /**
-     * Get all tickets with their cost (sum of its tasks) and paid amount (sum of its payments) 
-     * ordered by their balance which is the difference between cost and paid amount.
+     * Scope a query to only include tickets with outstanding balance.
      */
-    public function scopeUnpaid(Builder $query): void
+    public function scopeOutstanding(Builder $query): Builder
     {
-        // todo: make this calculations on the model level using precalculated attributes 
-        // and fetch using scope variables to build different queries
-        $query->returned()
-            ->select(
-                'tickets.*',
-                DB::raw('COALESCE(t.cost, 0) AS cost'),
-                DB::raw('ABS(COALESCE(p.amount, 0)) AS paid'),
-                // bugfix: balance is defined attribute in modal so we should use different name: "balanceD"
-                DB::raw('ABS(COALESCE(p.amount, 0)) - COALESCE(t.cost, 0) AS balanced')
-            )
-            ->leftJoin(DB::raw('(SELECT ticket_id, SUM(cost) AS cost FROM tasks GROUP BY ticket_id) t'), function ($join) {
-                $join->on('tickets.id', '=', 't.ticket_id');
-            })
-            ->leftJoin(DB::raw('(SELECT ticket_id, SUM(IF(type="refund", -ABS(amount), ABS(amount))) AS amount FROM payments GROUP BY ticket_id) p'), function ($join) {
-                $join->on('tickets.id', '=', 'p.ticket_id');
-            })
-            ->having('balanced', '<', 0);
+        return $query->where('balance', '<', 0);
+    }
+
+    /**
+     * Scope a query to only include overdue tickets.
+     */
+    public function scopeOverdue(Builder $query): Builder
+    {
+        return $query->outstanding()->closed();
     }
 
     /**

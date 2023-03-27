@@ -126,9 +126,10 @@ class DashboardController extends Controller
             'earningStats' => $earningStats,
 
             // latest tickets by status
-            'ticketsNew' => self::getLatestTickets($interval)->new()->get(),
             'ticketsInProgress' => self::getLatestTickets($interval)->inProgress()->get(),
             'ticketsResolved' => self::getLatestTickets($interval)->resolved()->get(),
+            'ticketsOutstanding' => self::getLatestTickets($interval)->outstanding()->get(),
+            'ticketsOverdue' => self::getLatestTickets($interval)->overdue()->get(),
         ]);
     }
 }

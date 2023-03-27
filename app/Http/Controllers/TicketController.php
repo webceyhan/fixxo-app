@@ -20,6 +20,19 @@ class TicketController extends Controller
         $allowedParams = request()->only('search', 'status');
 
         $tickets = Ticket::query()
+            ->when(
+                in_array(request('status'), ['outstanding', 'overdue']),
+                function ($query) use (&$allowedParams) {
+                    switch ($allowedParams['status']) {
+                        case 'outstanding':
+                            unset($allowedParams['status']);
+                            return $query->outstanding();
+                        case 'overdue':
+                            unset($allowedParams['status']);
+                            return $query->overdue();
+                    }
+                }
+            )
             ->filterByParams($allowedParams)
             ->with('device')
             ->latest('id')
