@@ -12,14 +12,9 @@ defineProps({
   tasks: Array,
 });
 
-const nextState = {
-  pending: "done",
-  done: "pending",
-};
-
 const stateIcons = {
-  pending: "clipboard",
-  done: "clipboard-check",
+  false: "clipboard",
+  true: "clipboard-check",
 };
 </script>
 
@@ -37,12 +32,12 @@ const stateIcons = {
             as="button"
             method="put"
             :href="route('tasks.update', task.id)"
-            :data="{ status: nextState[task.status] }"
+            :data="{ is_completed: !task.is_completed }"
             preserve-scroll
             @click.stop
           >
             <Avatar
-              :icon="stateIcons[task.status]"
+              :icon="stateIcons[task.is_completed]"
               class="opacity-50 hover:opacity-100"
             />
           </Link>
@@ -52,7 +47,7 @@ const stateIcons = {
       <div class="w-full truncate">
         <span
           class="group-hover:no-underline"
-          :class="{ 'line-through': task.status === 'done' }"
+          :class="{ 'line-through': task.is_completed }"
         >
           {{ task.description }}
         </span>
@@ -68,7 +63,7 @@ const stateIcons = {
       </div>
 
       <template #badge>
-        <TaskBadge :status="task.status" compact-max="xl" />
+        <TaskBadge :completed="task.is_completed" compact-max="xl" />
       </template>
     </StackedListItem>
   </StackedList>

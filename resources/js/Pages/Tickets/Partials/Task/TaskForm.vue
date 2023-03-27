@@ -7,15 +7,12 @@ const props = defineProps({
   task: Object,
 });
 
-// TODO: this must be fetched from the server
-const statusOptions = ["pending", "done"];
-
 const form = useForm({
   ...props.task,
   // TODO: see above
   description: props.task.description,
   price: props.task.price ?? 0,
-  status: props.task.status ?? statusOptions[0],
+  is_completed: props.task.is_completed ?? false,
 });
 </script>
 
@@ -35,6 +32,6 @@ const form = useForm({
       v-model="form.price"
       :error="form.errors.price"
     />
-    <FormControl label="Status" v-model="form.status" :options="statusOptions" />
+    <FormControl label="Completed" type="checkbox" v-model="form.is_completed" />
   </Form>
 </template>

@@ -2,21 +2,21 @@
 import StatusBadge from "@/Components/StatusBadge.vue";
 
 defineProps({
-  status: String,
+  completed: Boolean,
 });
 
 const states = {
-  pending: {
+  false: {
     label: "Pending",
     theme: "warning",
   },
-  done: {
-    label: "Done",
+  true: {
+    label: "Completed",
     theme: "success",
   },
 };
 </script>
 
 <template>
-  <StatusBadge v-bind="states[status]" />
+  <StatusBadge v-bind="states[completed]" />
 </template>
