@@ -1,5 +1,5 @@
 <template>
-  <div class="input-group">
+  <div class="input-group flex items-stretch">
     <slot />
   </div>
 </template>

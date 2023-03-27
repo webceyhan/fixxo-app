@@ -3,7 +3,7 @@ let index = 0;
 
 export default {
   inheritAttrs: false,
-  components: { Checkbox },
+  components: { Checkbox, InputGroup, InputGroupText },
 };
 </script>
 
@@ -15,6 +15,8 @@ import TextInput from "./TextInput.vue";
 import InputLabel from "./InputLabel.vue";
 import InputError from "./InputError.vue";
 import Checkbox from "./Checkbox.vue";
+import InputGroup from "./InputGroup.vue";
+import InputGroupText from "./InputGroupText.vue";
 
 const id = `form-control-${index++}`;
 
@@ -22,6 +24,8 @@ const input = ref(null);
 
 const props = defineProps({
   label: String,
+  prefix: String,
+  suffix: String,
   error: String,
 });
 
@@ -60,6 +64,12 @@ defineExpose({
         ref="input"
         class="mt-1 block w-full"
       />
+
+      <InputGroup v-else-if="prefix || suffix" class="mt-1 block w-full">
+        <InputGroupText v-if="prefix" :value="prefix" />
+        <TextInput v-bind="attrs" ref="input" class="w-full"/>
+        <InputGroupText v-if="suffix" :value="suffix" />
+      </InputGroup>
 
       <TextInput v-else v-bind="attrs" ref="input" class="mt-1 block w-full" />
 
