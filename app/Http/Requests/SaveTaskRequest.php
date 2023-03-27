@@ -27,7 +27,7 @@ class SaveTaskRequest extends FormRequest
         if ($this->isMethod('put')) {
             return [
                 'description' => 'sometimes|required|string',
-                'price' => 'sometimes|required|numeric',
+                'cost' => 'sometimes|required|numeric',
                 'is_completed' => 'sometimes|required|boolean',
             ];
         }
@@ -36,7 +36,7 @@ class SaveTaskRequest extends FormRequest
         return [
             'ticket_id' => 'required_without:id',
             'description' => 'nullable|string',
-            'price' => 'nullable|numeric',
+            'cost' => 'nullable|numeric',
             'is_completed' => 'nullable|boolean',
         ];
     }

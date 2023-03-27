@@ -28,7 +28,7 @@ class Task extends Model
      * @var array
      */
     protected $attributes = [
-        'price' => 0,
+        'cost' => 0,
         'completed_at' => null,
     ];
 

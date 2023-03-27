@@ -59,7 +59,7 @@ const stateIcons = {
       </div>
 
       <div class="w-36 order-1 text-gray-400 text-right text-sm">
-        {{ formatMoney(task.price) }}
+        {{ formatMoney(task.cost) }}
       </div>
 
       <template #badge>

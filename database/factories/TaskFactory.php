@@ -18,7 +18,7 @@ class TaskFactory extends Factory
     {
         return [
             'description' => fake()->text(100),
-            'price' => fake()->randomFloat(2, 0, 100),
+            'cost' => fake()->randomFloat(2, 0, 100),
         ];
     }
 }

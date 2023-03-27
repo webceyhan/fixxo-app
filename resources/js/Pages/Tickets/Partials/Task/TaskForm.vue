@@ -12,7 +12,7 @@ const form = useForm({
   ...props.task,
   // TODO: see above
   description: props.task.description,
-  price: props.task.price ?? 0,
+  cost: props.task.cost ?? 0,
   is_completed: props.task.is_completed ?? false,
 });
 </script>
@@ -29,13 +29,13 @@ const form = useForm({
     />
 
     <FormControl
-      label="Price"
+      label="Cost"
       prefix="€"
       type="number"
       min="0"
       step="1"
-      v-model="form.price"
-      :error="form.errors.price"
+      v-model="form.cost"
+      :error="form.errors.cost"
     />
 
     <FormControl label="Completed" type="checkbox" v-model="form.is_completed">

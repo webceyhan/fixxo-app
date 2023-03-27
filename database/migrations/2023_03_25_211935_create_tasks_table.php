@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('ticket_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('description');
-            $table->decimal('price')->default(0);
+            $table->decimal('cost')->default(0);
             $table->timestamps();
             $table->timestamp('completed_at')->nullable();
         });

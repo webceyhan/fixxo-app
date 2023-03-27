@@ -92,7 +92,7 @@ const signatureUrl = computed(() => {
             class="flex justify-between border-b border-dashed"
           >
             <span class="truncate w-4/5"> {{ task.description }} </span>
-            <span>{{ formatMoney(task.price) }}</span>
+            <span>{{ formatMoney(task.cost) }}</span>
           </li>
         </ul>
       </div>
