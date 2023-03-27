@@ -26,8 +26,8 @@ defineProps({
         </span>
 
         <div class="hidden md:block text-gray-400 text-sm mt-1">
-          created on {{ formatDate(payment.created_at, false) }} by
-          {{ payment.user?.name }}
+          <strong>{{ payment.user.name }}</strong> -
+          <em>{{ formatDate(payment.created_at, true) }}</em>
         </div>
       </div>
 
