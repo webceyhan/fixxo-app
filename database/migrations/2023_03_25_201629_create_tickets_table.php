@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('subject');
             $table->string('note')->nullable();
             $table->decimal('balance')->default(0);
-            $table->integer('pending_task_count')->default(0);
+            $table->integer('completed_task_count')->default(0);
             $table->integer('total_task_count')->default(0);
             $table->enum('status', TicketStatus::values())->default(TicketStatus::NEW);
             $table->timestamps();

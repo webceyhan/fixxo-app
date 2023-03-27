@@ -12,7 +12,6 @@ class TaskObserver
     public function created(Task $task): void
     {
         $ticket = $task->ticket;
-        $isPending = !$task->completed_at;
 
         // credit ticket's balance
         $ticket->balance -= $task->cost;
@@ -20,8 +19,8 @@ class TaskObserver
         // update ticket's total-task-count
         $ticket->total_task_count += 1;
 
-        // increase pending-task-count if applicable
-        $isPending && $ticket->pending_task_count += 1;
+        // increase ticket's completed-task-count if applicable
+        $ticket->completed_task_count += $task->completed_at ? 1 : 0;
 
         $ticket->save();
     }
@@ -32,7 +31,6 @@ class TaskObserver
     public function updated(Task $task): void
     {
         $ticket = $task->ticket;
-        $isPending = !$task->completed_at;
 
         // update ticket's balance if task cost was changed
         if ($task->wasChanged('cost')) {
@@ -40,9 +38,9 @@ class TaskObserver
             $ticket->balance -= $task->cost; // credit new task cost
         }
 
-        // update ticket's pending-task-count if changed
+        // update ticket's completed-task-count if task completion was changed
         if ($task->wasChanged('completed_at')) {
-            $ticket->pending_task_count += $isPending ? 1 : -1;
+            $ticket->completed_task_count += $task->completed_at ? 1 : -1;
         }
 
         $ticket->isDirty() && $ticket->save();
@@ -54,7 +52,6 @@ class TaskObserver
     public function deleted(Task $task): void
     {
         $ticket = $task->ticket;
-        $isPending = !$task->completed_at;
 
         // debit ticket balance
         $ticket->balance += $task->cost;
@@ -62,8 +59,8 @@ class TaskObserver
         // update ticket's total-task-count
         $ticket->total_task_count -= 1;
 
-        // descrease ticket pending-task-count if applicable
-        $isPending && $ticket->pending_task_count -= 1;
+        // descrease ticket's completed-task-count if applicable
+        $ticket->completed_task_count -= $task->completed_at ? 1 : 0;
 
         $ticket->save();
     }
