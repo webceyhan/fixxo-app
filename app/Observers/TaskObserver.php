@@ -50,7 +50,16 @@ class TaskObserver
      */
     public function deleted(Task $task): void
     {
-        //
+        $ticket = $task->ticket;
+        $isPending = !$task->completed_at;
+
+        // debit ticket balance
+        $ticket->balance += $task->cost;
+
+        // descrease ticket pending-task count if applicable
+        $isPending && $ticket->pending_task_count -= 1;
+
+        $ticket->save();
     }
 
     /**
