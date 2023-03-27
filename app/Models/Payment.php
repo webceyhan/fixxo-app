@@ -5,14 +5,13 @@ namespace App\Models;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentType;
 use App\Traits\Model\HasSince;
-use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Payment extends Model
 {
-    use HasFactory, Searchable, HasSince;
+    use HasFactory, HasSince;
 
     /**
      * The attributes that aren't mass assignable.
@@ -30,15 +29,8 @@ class Payment extends Model
         'amount' => 0,
         'type' => PaymentType::CHARGE,
         'method' => PaymentMethod::CASH,
-        'notes' => null,
+        'note' => null,
     ];
-
-    /**
-     * Index to use for full-text search.
-     *
-     * @var string
-     */
-    protected $searchIndex = 'notes';
 
     // EVENTS //////////////////////////////////////////////////////////////////////////////////////
 

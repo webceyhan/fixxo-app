@@ -17,7 +17,7 @@ const form = useForm({
   amount: props.payment.amount ?? 0,
   type: props.payment.type ?? typeOptions[0],
   method: props.payment.method ?? methodOptions[0],
-  notes: props.payment.notes,
+  note: props.payment.note,
 });
 </script>
 
@@ -33,6 +33,6 @@ const form = useForm({
     />
     <FormControl label="Type" v-model="form.type" :options="typeOptions" />
     <FormControl label="Method" v-model="form.method" :options="methodOptions" />
-    <FormControl label="Notes" rows="3" v-model="form.notes" :error="form.errors.notes" />
+    <FormControl label="Note" rows="3" v-model="form.note" :error="form.errors.note" />
   </Form>
 </template>

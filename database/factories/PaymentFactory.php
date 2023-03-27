@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\PaymentMethod;
 use App\Enums\PaymentType;
+use App\Enums\PaymentMethod;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -25,8 +25,7 @@ class PaymentFactory extends Factory
             'amount' => $sign . fake()->randomFloat(2, 0, 100),
             'type' => $type,
             'method' => fake()->randomElement(PaymentMethod::values()),
-            'notes' => fake()->optional(.2)->text,
-            'created_at' => fake()->dateTimeThisYear(),
+            'note' => fake()->optional(.2)->text,
         ];
     }
 }
