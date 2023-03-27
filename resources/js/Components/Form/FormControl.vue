@@ -38,9 +38,10 @@ defineExpose({
 
 <template>
   <div>
-    <div v-if="$attrs.type == 'checkbox'" class="flex items-center mt-1 gap-2">
+    <div v-if="$attrs.type == 'checkbox'" class="flex items-center gap-2">
       <Checkbox ref="input" v-bind="attrs" />
       <InputLabel :for="id" :value="label" />
+      <slot />
     </div>
 
     <template v-else>

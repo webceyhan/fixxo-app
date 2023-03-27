@@ -1,5 +1,6 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
+import { formatDate } from "@/Shared/utils";
 import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 
@@ -32,6 +33,11 @@ const form = useForm({
       v-model="form.price"
       :error="form.errors.price"
     />
-    <FormControl label="Completed" type="checkbox" v-model="form.is_completed" />
+
+    <FormControl label="Completed" type="checkbox" v-model="form.is_completed">
+      <span v-if="form.is_completed" class="ml-auto text-sm text-gray-400">
+        <em>{{ formatDate(task.completed_at, true) }}</em>
+      </span>
+    </FormControl>
   </Form>
 </template>

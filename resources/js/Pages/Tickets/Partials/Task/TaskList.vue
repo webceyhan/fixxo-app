@@ -53,8 +53,15 @@ const stateIcons = {
         </span>
 
         <div class="hidden md:block text-gray-400 text-sm mt-1">
-          Created by <strong>{{ task.user.name }}</strong> on
-          <em>{{ formatDate(task.created_at, true) }}</em>
+          <template v-if="task.is_completed">
+            Completed by <strong>{{ task.user.name }}</strong> on
+            <em>{{ formatDate(task.completed_at, true) }}</em>
+          </template>
+
+          <template v-else>
+            Created by <strong>{{ task.user.name }}</strong> on
+            <em>{{ formatDate(task.created_at, true) }}</em>
+          </template>
         </div>
       </div>
 
