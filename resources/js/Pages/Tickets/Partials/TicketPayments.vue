@@ -43,23 +43,18 @@ defineExpose({
     <template #footer>
       <div class="w-full text-right">
         <div class="flex">
-          <span class="w-full capitalize">cost</span>
+          <span class="w-full">Total Cost</span>
           <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
             {{ formatMoney(ticket.cost) }}
           </span>
         </div>
 
-        <template
-          v-for="type in ['discount', 'warranty', 'charge', 'refund']"
-          :key="type"
-        >
-          <div v-if="ticket.balance_map[type]" class="flex">
-            <span class="w-full capitalize">{{ type }}</span>
-            <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
-              {{ formatMoney(ticket.balance_map[type]) }}
-            </span>
-          </div>
-        </template>
+        <div class="flex">
+          <span class="w-full">Total Paid</span>
+          <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
+            {{ formatMoney(ticket.paid) }}
+          </span>
+        </div>
 
         <div class="flex">
           <span

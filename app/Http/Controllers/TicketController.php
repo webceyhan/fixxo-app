@@ -66,6 +66,8 @@ class TicketController extends Controller
 
         // append custom attributes
         $ticket->append([
+            'cost',
+            'paid',
             'qr_url',
             'uploaded_urls',
             'intake_signature_url',

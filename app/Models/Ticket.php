@@ -59,52 +59,23 @@ class Ticket extends Model
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Get sum of all tasks prices.
+     * Get total cost of all tasks.
      */
     protected function cost(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->tasks->pluck('price')->sum(),
+            get: fn () => $this->tasks->sum('cost'),
         )->shouldCache();
     }
 
     /**
-     * Get a map of payment sums by their type.
+     * Get total amount of all payments.
      */
-    protected function balanceMap(): Attribute
+    protected function paid(): Attribute
     {
         return Attribute::make(
-            get: function () {
-                // initialize map in a specific order
-                $map = array_fill_keys(PaymentType::values(), 0);
-
-                // populate map with sums
-                $this->payments->each(function ($payment) use (&$map) {
-                    $map[$payment->type] += $payment->amount;
-                });
-
-                return $map;
-            },
+            get: fn () => $this->payments->sum('amount'),
         )->shouldCache();
-    }
-
-    /**
-     * Get balance calculated from total cost & payments.
-     */
-    protected function balance(): Attribute
-    {
-        return Attribute::make(
-            get: function () {
-                // extract vars
-                [
-                    'charge' => $charge,
-                    'discount' => $discount,
-                    'warranty' => $warranty,
-                ] = $this->balanceMap;
-
-                return $charge - $this->cost + (abs($discount) + abs($warranty));
-            }
-        );
     }
 
     /**
