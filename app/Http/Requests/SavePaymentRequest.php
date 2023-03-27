@@ -28,7 +28,7 @@ class SavePaymentRequest extends FormRequest
         if ($this->isMethod('put')) {
             return [
                 'amount' => 'nullable|numeric',
-                'notes' => 'nullable|string',
+                'note' => 'nullable|string',
                 'type' => ['nullable', Rule::in(PaymentType::values())],
                 'method' => ['nullable', Rule::in(PaymentMethod::values())],
             ];
@@ -38,7 +38,7 @@ class SavePaymentRequest extends FormRequest
         return [
             'ticket_id' => 'required_without:id',
             'amount' => 'nullable|numeric',
-            'notes' => 'nullable|string',
+            'note' => 'nullable|string',
             'type' => ['nullable', Rule::in(PaymentType::values())],
             'method' => ['nullable', Rule::in(PaymentMethod::values())],
         ];
