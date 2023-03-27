@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
@@ -15,6 +15,10 @@ const props = defineProps({
 // Task Modal
 const modal = ref(null);
 const editing = ref(null);
+
+const totalCount = computed(() => props.tasks.length);
+const completedCount = computed(() => props.tasks.filter((t) => t.is_completed).length);
+const totalCost = computed(() => props.tasks.reduce((a, b) => a + +b.cost, 0));
 
 const create = () => {
   edit({ ticket_id: props.ticket.id });
@@ -32,7 +36,13 @@ defineExpose({
 </script>
 
 <template>
-  <Card label="Tasks" flush>
+  <Card flush>
+    <template #header>
+      <h5>
+        Tasks <span class="ml-1 opacity-50"> {{ completedCount }}/{{ totalCount }} </span>
+      </h5>
+    </template>
+
     <template #header-action>
       <SecondaryButton label="New Task" icon="create" @click="create" small />
     </template>
@@ -43,7 +53,7 @@ defineExpose({
     <template #footer>
       <span class="w-full text-right">Total Cost</span>
       <span class="w-2/3 mr-7 sm:mr-9 text-right">
-        {{ formatMoney(ticket.cost) }}
+        {{ formatMoney(totalCost) }}
       </span>
     </template>
   </Card>
