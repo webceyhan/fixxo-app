@@ -56,7 +56,7 @@ class DashboardController extends Controller
         $result = Task::query()
             ->since($interval)
             ->selectRaw($fx . '(created_at) AS date')
-            ->selectRaw('SUM(price) AS price')
+            ->selectRaw('SUM(cost) AS cost')
             ->groupBy('date')
             ->orderBy('date')
             ->get();
@@ -76,7 +76,7 @@ class DashboardController extends Controller
                         return $date;
                 }
             }),
-            'values' => $result->pluck('price'),
+            'values' => $result->pluck('cost'),
         ];
     }
 
@@ -95,13 +95,13 @@ class DashboardController extends Controller
         $interval = $request->input('interval', Interval::DAY);
 
         // get earning stats from last (interval) days
-        // with sum of tasks's price as total cost
+        // with sum of tasks's cost as total cost
         // and sum of payments's amount as total payment
         // TODO: find a better way to do this using eloquent
         $earningStats = [
             [
                 'label' => 'expected',
-                'value' => Task::since($interval)->sum('price')
+                'value' => Task::since($interval)->sum('cost')
             ],
             [
                 'label' => 'received',

@@ -19,7 +19,7 @@ class DeviceController extends Controller
         $devices = Device::query()
             ->filterByParams($allowedParams)
             // ->withCount(['tasks'])
-            // ->withSum('tasks as total_cost', 'price')
+            // ->withSum('tasks as total_cost', 'cost')
             ->with('customer:id,name')
             ->latest('id')
             ->paginate()

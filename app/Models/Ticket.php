@@ -216,7 +216,7 @@ class Ticket extends Model
                 // bugfix: balance is defined attribute in modal so we should use different name: "balanceD"
                 DB::raw('ABS(COALESCE(p.amount, 0)) - COALESCE(t.cost, 0) AS balanced')
             )
-            ->leftJoin(DB::raw('(SELECT ticket_id, SUM(price) AS cost FROM tasks GROUP BY ticket_id) t'), function ($join) {
+            ->leftJoin(DB::raw('(SELECT ticket_id, SUM(cost) AS cost FROM tasks GROUP BY ticket_id) t'), function ($join) {
                 $join->on('tickets.id', '=', 't.ticket_id');
             })
             ->leftJoin(DB::raw('(SELECT ticket_id, SUM(IF(type="refund", -ABS(amount), ABS(amount))) AS amount FROM payments GROUP BY ticket_id) p'), function ($join) {
