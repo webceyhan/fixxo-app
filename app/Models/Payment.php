@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\PaymentMethod;
 use App\Enums\PaymentType;
 use App\Traits\Model\HasSince;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -61,5 +62,63 @@ class Payment extends Model
     public function ticket(): BelongsTo
     {
         return $this->belongsTo(Ticket::class);
+    }
+
+    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Scope a query to only include payments as charge.
+     */
+    public function scopeAsCharge(Builder $query): Builder
+    {
+        return $query->where('type', PaymentType::CHARGE);
+    }
+
+    /**
+     * Scope a query to only include payments as discount.
+     */
+    public function scopeAsDiscount(Builder $query): Builder
+    {
+        return $query->where('type', PaymentType::DISCOUNT);
+    }
+
+    /**
+     * Scope a query to only include payments as warranty reimbursement.
+     */
+    public function scopeAsWarranty(Builder $query): Builder
+    {
+        return $query->where('type', PaymentType::WARRANTY);
+    }
+
+    /**
+     * Scope a query to only include payments as refund.
+     */
+    public function scopeAsRefund(Builder $query): Builder
+    {
+        return $query->where('type', PaymentType::REFUND);
+    }
+
+    /**
+     * Scope a query to only payments by cash.
+     */
+    public function scopeByCash(Builder $query): Builder
+    {
+        return $query->where('method', PaymentMethod::CASH);
+    }
+
+    /**
+     * Scope a query to only payments by card.
+     */
+    public function scopeByCard(Builder $query): Builder
+    {
+        return $query->where('method', PaymentMethod::CARD);
+    }
+
+    /**
+     * Scope a query to only payments by online.
+     */
+    public function scopeByOnline(Builder $query): Builder
+    {
+        return $query->where('method', PaymentMethod::ONLINE);
     }
 }
