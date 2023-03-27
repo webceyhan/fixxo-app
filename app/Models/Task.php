@@ -48,8 +48,10 @@ class Task extends Model
     protected function isCompleted(): Attribute
     {
         return Attribute::make(
-            // define vritual getter for completed_at timestamp as boolean
-            get: fn ($value, $attributes) => $attributes['completed_at'] !== null,
+            // define virtual getter for completed_at timestamp as boolean
+            get: fn ($value, $attributes) =>
+            array_key_exists('completed_at', $attributes)
+                && $attributes['completed_at'] !== null,
             // define vritual setter for completed_at timestamp as boolean
             set: fn ($value, $attributes) => [
                 // return an array to prevent error since it's just a virtual attribute
