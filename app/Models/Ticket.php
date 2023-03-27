@@ -3,14 +3,11 @@
 namespace App\Models;
 
 use App\Enums\TicketStatus;
-use App\Enums\TicketType;
-use App\Enums\PaymentType;
 use App\Services\QRService;
 use App\Services\SignatureService;
 use App\Services\UploadService;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -54,7 +51,6 @@ class Ticket extends Model
      * @var string
      */
     protected $searchIndex = 'issue';
-
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
@@ -128,7 +124,6 @@ class Ticket extends Model
         );
     }
 
-
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     public function user(): BelongsTo
@@ -162,21 +157,6 @@ class Ticket extends Model
     {
         return $this->hasMany(Payment::class)->latest();
     }
-
-
-    // EVENTS //////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::saving(function (Ticket $ticket) {
-        });
-    }
-
 
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
