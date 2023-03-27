@@ -11,7 +11,17 @@ class TaskObserver
      */
     public function created(Task $task): void
     {
-        //
+        $ticket = $task->ticket;
+
+        // credit ticket's balance with task cost
+        $ticket->balance -= abs($task->cost);
+
+        // increase pending-task-count if applicable
+        if (!$task->completed_at) {
+            $ticket->pending_task_count += 1;
+        }
+
+        $ticket->save();
     }
 
     /**
