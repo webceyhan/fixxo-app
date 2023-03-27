@@ -21,8 +21,6 @@ class TicketController extends Controller
 
         $tickets = Ticket::query()
             ->filterByParams($allowedParams)
-            // ->withCount(['tasks'])
-            // ->withSum('tasks as total_cost', 'price')
             ->with('device')
             ->latest('id')
             ->paginate()
@@ -68,9 +66,6 @@ class TicketController extends Controller
 
         // append custom attributes
         $ticket->append([
-            'cost',
-            'balance',
-            'balance_map',
             'qr_url',
             'uploaded_urls',
             'intake_signature_url',

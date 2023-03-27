@@ -1,5 +1,5 @@
 <script setup>
-import { formatDate } from "@/Shared/utils";
+import { formatDate, formatMoney } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
 import Table from "@/Components/Table/Table.vue";
 import TableRow from "@/Components/Table/TableRow.vue";
@@ -33,13 +33,18 @@ defineProps({
         :value="ticket.device.brand + ' ' + ticket.device.name"
       />
 
-      <!-- <TableData class="max-2xl:hidden" label="Tasks" :value="ticket.tasks_count" /> -->
+      <TableData class="max-md:hidden" label="Tasks">
+        <template #value>
+          {{ ticket.completed_task_count }}/
+          {{ ticket.total_task_count }}
+        </template>
+      </TableData>
 
-      <!-- <TableData
-        label="Cost"
-        class="max-md:hidden text-end"
-        :value="formatMoney(ticket.total_cost)"
-      /> -->
+      <TableData
+        label="Balance"
+        class="max-xl:hidden text-end whitespace-nowrap"
+        :value="formatMoney(ticket.balance)"
+      />
 
       <TableData class="max-xl:hidden text-end">
         <TicketBadge :status="ticket.status" />
