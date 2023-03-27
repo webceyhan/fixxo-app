@@ -14,7 +14,7 @@ class TaskObserver
         $ticket = $task->ticket;
 
         // credit ticket's balance with task cost
-        $ticket->balance -= abs($task->cost);
+        $ticket->balance -= $task->cost;
 
         // increase pending-task-count if applicable
         if (!$task->completed_at) {
@@ -29,7 +29,20 @@ class TaskObserver
      */
     public function updated(Task $task): void
     {
-        //
+        $ticket = $task->ticket;
+
+        // update ticket's balance if task cost was changed
+        if ($task->wasChanged('cost')) {
+            $ticket->balance += $task->getOriginal('cost'); // debit previous
+            $ticket->balance -= $task->cost; // credit new task cost
+        }
+
+        // update ticket's pending-task-count if changed
+        if ($task->wasChanged('completed_at')) {
+            $ticket->pending_task_count += !$task->completed_at ? 1 : -1;
+        }
+
+        $ticket->isDirty() && $ticket->save();
     }
 
     /**
