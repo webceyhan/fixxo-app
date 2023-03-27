@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TaskStatus;
+use App\Models\Attributes\BooleanDateAttribute;
 use App\Traits\Model\HasSince;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -47,18 +48,7 @@ class Task extends Model
      */
     protected function isCompleted(): Attribute
     {
-        return Attribute::make(
-            // define virtual getter for completed_at timestamp as boolean
-            get: fn ($value, $attributes) =>
-            array_key_exists('completed_at', $attributes)
-                && $attributes['completed_at'] !== null,
-            // define vritual setter for completed_at timestamp as boolean
-            set: fn ($value, $attributes) => [
-                // return an array to prevent error since it's just a virtual attribute
-                // and mutating the real completed_at attribute under the hood
-                'completed_at' => $value ? now() : null,
-            ]
-        );
+        return BooleanDateAttribute::for('completed_at');
     }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
