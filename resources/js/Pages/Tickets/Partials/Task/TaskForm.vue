@@ -27,9 +27,13 @@ const form = useForm({
       required
       autofocus
     />
+
     <FormControl
       label="Price"
+      prefix="€"
       type="number"
+      min="0"
+      step="1"
       v-model="form.price"
       :error="form.errors.price"
     />
