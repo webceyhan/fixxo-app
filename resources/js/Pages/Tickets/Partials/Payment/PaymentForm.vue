@@ -25,14 +25,20 @@ const form = useForm({
   <Form :form="form" resource="payments">
     <FormControl
       label="Amount"
+      prefix="€"
       type="number"
+      min="0"
+      step="1"
       v-model="form.amount"
       :error="form.errors.amount"
       required
       autofocus
     />
+
     <FormControl label="Type" v-model="form.type" :options="typeOptions" />
+
     <FormControl label="Method" v-model="form.method" :options="methodOptions" />
+
     <FormControl label="Note" rows="3" v-model="form.note" :error="form.errors.note" />
   </Form>
 </template>
