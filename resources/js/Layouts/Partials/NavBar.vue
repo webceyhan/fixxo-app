@@ -17,7 +17,7 @@ const { isDark, toggleDark } = useDarkTheme();
 
 <template>
   <nav
-    class="sticky top-0 border-b-4 border-indigo-500 dark:border-indigo-900 backdrop-blur-md backdrop-brightness-125 shadow-md z-10"
+    class="sticky top-0 border-b-4 border-indigo-500 dark:border-indigo-900 backdrop-blur-md backdrop-brightness-125 shadow-md z-50"
   >
     <div class="container mx-auto flex items-center gap-4 py-3 px-4 sm:px-6 lg:px-8">
       <!-- Hamburger -->
