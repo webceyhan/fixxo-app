@@ -19,7 +19,13 @@ class DeviceObserver
      */
     public function updated(Device $device): void
     {
-        //
+        // log if the status has changed
+        if ($device->isDirty('status')) {
+            $device->logs()->create([
+                'user_id' => auth()->id(),
+                'status' => $device->status,
+            ]);
+        }
     }
 
     /**

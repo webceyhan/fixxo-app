@@ -50,28 +50,6 @@ class Device extends Model
      */
     protected $searchIndex = 'name,brand,type,serial';
 
-
-    // EVENTS //////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * The "booted" method of the model.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        static::updating(function (Device $device) {
-            // log if the status has changed
-            if ($device->isDirty('status')) {
-                $device->logs()->create([
-                    'user_id' => auth()->id(),
-                    'status' => $device->status,
-                ]);
-            }
-        });
-    }
-
-
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     public function customer(): BelongsTo
@@ -93,7 +71,6 @@ class Device extends Model
     {
         return $this->hasMany(DeviceLog::class);
     }
-
 
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
