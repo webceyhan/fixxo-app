@@ -8,19 +8,26 @@ class DeviceStatus extends Enum
     const CHECKED_IN = 'checked_in';
 
     // The technician is currently diagnosing the problem with the device.
-    const DIAGNOSING = 'diagnosing';
-
-    // The technician has determined that parts are needed to repair the device and is waiting for them to arrive.
-    const PENDING_PARTS = 'pending_parts';
+    // const DIAGNOSING = 'diagnosing';
 
     // The technician is currently repairing the device.
-    const REPAIRING = 'repairing';
+    // const REPAIRING = 'repairing';
+
+    // The technician is currently diagnosing/repairing the device.
+    const IN_REPAIR = 'in_repair';
+
+    // The technician has determined that parts are needed to repair the device and is waiting for them to arrive.
+    // const PENDING_PARTS = 'pending_parts';
+    
+    // The technician has determined that parts are needed to repair the device and is waiting for them to arrive.
+    // Or waiting for the customer to approve the repair.
+    const ON_HOLD = 'on_hold';
 
     // The repair work is complete and the device is ready to pick up.
     const FIXED = 'fixed';
 
     // The device cannot be repaired and will be returned to the customer.
-    const UNFIXABLE = 'unfixable';
+    const DEFECT = 'defect';
 
     // The device has been returned to the customer.
     const CHECKED_OUT = 'checked_out';

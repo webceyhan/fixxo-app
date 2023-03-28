@@ -10,24 +10,20 @@ const states = {
     label: "Checked In",
     theme: "secondary",
   },
-  diagnosing: {
-    label: "Diagnosing",
+  in_repair: {
+    label: "In Repair",
     theme: "primary",
   },
-  pending_parts: {
-    label: "Pending Parts",
+  on_hold: {
+    label: "On Hold",
     theme: "warning",
-  },
-  repairing: {
-    label: "Repairing",
-    theme: "primary",
   },
   fixed: {
     label: "Fixed",
     theme: "success",
   },
-  unfixable: {
-    label: "Unfixable",
+  defect: {
+    label: "Defect",
     theme: "danger",
   },
   checked_out: {

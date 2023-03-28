@@ -50,26 +50,24 @@ const save = () => {
         :href="route('devices.update', device.id)"
         :options="{
           checked_in: 'Check In',
-          diagnosing: 'Diagnose',
-          repairing: 'Repair',
-          fixed: 'Fixed',
+          in_repair: 'Start Repair',
+          fixed: 'Mark as Fixed',
           checked_out: 'Check Out',
         }"
         :icons="{
           checked_in: 'box-arrow-in-right',
-          diagnosing: 'tools',
-          repairing: 'wrench',
+          in_repair: 'wrench',
           fixed: 'check2-circle',
           checked_out: 'box-arrow-in-left',
         }"
         method="put"
       />
       <SecondaryButton
-        v-if="device.status == 'repairing'"
-        label="Wont Fix"
+        v-if="device.status == 'in_repair'"
+        label="Mark as Defect"
         icon="x-circle"
         :href="route('devices.update', device.id)"
-        :data="{ status: 'unfixable' }"
+        :data="{ status: 'defect' }"
         method="put"
       />
 
@@ -98,26 +96,24 @@ const save = () => {
           :href="route('devices.update', device.id)"
           :options="{
             checked_in: 'Check In',
-            diagnosing: 'Diagnose',
-            repairing: 'Repair',
-            fixed: 'Fixed',
+            in_repair: 'Start Repair',
+            fixed: 'Mark as Fixed',
             checked_out: 'Check Out',
           }"
           :icons="{
             checked_in: 'box-arrow-in-right',
-            diagnosing: 'tools',
-            repairing: 'wrench',
+            in_repair: 'wrench',
             fixed: 'check2-circle',
             checked_out: 'box-arrow-in-left',
           }"
           method="put"
         />
         <DropdownItem
-          v-if="device.status == 'repairing'"
-          label="Wont Fix"
+          v-if="device.status == 'in_repair'"
+          label="Mark as Defect"
           icon="x-circle"
           :href="route('devices.update', device.id)"
-          :data="{ status: 'unfixable' }"
+          :data="{ status: 'defect' }"
           method="put"
         />
         <DropdownItem
