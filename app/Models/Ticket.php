@@ -80,7 +80,7 @@ class Ticket extends Model
     protected function pendingTaskCount(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->total_task_count - $this->completed_task_count,
+            get: fn () => $this->total_tasks_count - $this->completed_tasks_count,
         );
     }
 

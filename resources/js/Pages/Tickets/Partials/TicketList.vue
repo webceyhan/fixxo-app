@@ -14,13 +14,13 @@ const props = defineProps({
 });
 
 function getProgress(ticket) {
-  const { completed_task_count, total_task_count } = ticket;
+  const { completed_tasks_count, total_tasks_count } = ticket;
 
-  if (completed_task_count == 0) return 0;
+  if (completed_tasks_count == 0) return 0;
 
-  if (completed_task_count == total_task_count) return 100;
+  if (completed_tasks_count == total_tasks_count) return 100;
 
-  return Math.round((completed_task_count / total_task_count) * 100);
+  return Math.round((completed_tasks_count / total_tasks_count) * 100);
 }
 </script>
 
@@ -58,7 +58,7 @@ function getProgress(ticket) {
         v-if="withTaskCount"
         class="w-2/12 text-gray-400 whitespace-nowrap text-sm text-end"
       >
-        {{ ticket.completed_task_count }}/{{ ticket.total_task_count }}
+        {{ ticket.completed_tasks_count }}/{{ ticket.total_tasks_count }}
         <ProgressBar :value="getProgress(ticket)" class="mt-1" />
       </div>
 
