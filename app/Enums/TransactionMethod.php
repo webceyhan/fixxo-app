@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-class PaymentMethod extends Enum
+class TransactionMethod extends Enum
 {
     const CASH = 'cash';
     const CARD = 'card';

@@ -2,15 +2,15 @@
 
 namespace App\Models;
 
-use App\Enums\PaymentMethod;
-use App\Enums\PaymentType;
+use App\Enums\TransactionMethod;
+use App\Enums\TransactionType;
 use App\Traits\Model\HasSince;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Payment extends Model
+class Transaction extends Model
 {
     use HasFactory, HasSince;
 
@@ -28,8 +28,8 @@ class Payment extends Model
      */
     protected $attributes = [
         'amount' => 0,
-        'type' => PaymentType::CHARGE,
-        'method' => PaymentMethod::CASH,
+        'type' => TransactionType::CHARGE,
+        'method' => TransactionMethod::CASH,
         'note' => null,
     ];
 
@@ -48,58 +48,58 @@ class Payment extends Model
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to only include payments as charge.
+     * Scope a query to only include transactions as charge.
      */
     public function scopeAsCharge(Builder $query): Builder
     {
-        return $query->where('type', PaymentType::CHARGE);
+        return $query->where('type', TransactionType::CHARGE);
     }
 
     /**
-     * Scope a query to only include payments as discount.
+     * Scope a query to only include transactions as discount.
      */
     public function scopeAsDiscount(Builder $query): Builder
     {
-        return $query->where('type', PaymentType::DISCOUNT);
+        return $query->where('type', TransactionType::DISCOUNT);
     }
 
     /**
-     * Scope a query to only include payments as warranty reimbursement.
+     * Scope a query to only include transactions as warranty reimbursement.
      */
     public function scopeAsWarranty(Builder $query): Builder
     {
-        return $query->where('type', PaymentType::WARRANTY);
+        return $query->where('type', TransactionType::WARRANTY);
     }
 
     /**
-     * Scope a query to only include payments as refund.
+     * Scope a query to only include transactions as refund.
      */
     public function scopeAsRefund(Builder $query): Builder
     {
-        return $query->where('type', PaymentType::REFUND);
+        return $query->where('type', TransactionType::REFUND);
     }
 
     /**
-     * Scope a query to only payments by cash.
+     * Scope a query to only transactions by cash.
      */
     public function scopeByCash(Builder $query): Builder
     {
-        return $query->where('method', PaymentMethod::CASH);
+        return $query->where('method', TransactionMethod::CASH);
     }
 
     /**
-     * Scope a query to only payments by card.
+     * Scope a query to only transactions by card.
      */
     public function scopeByCard(Builder $query): Builder
     {
-        return $query->where('method', PaymentMethod::CARD);
+        return $query->where('method', TransactionMethod::CARD);
     }
 
     /**
-     * Scope a query to only payments by online.
+     * Scope a query to only transactions by online.
      */
     public function scopeByOnline(Builder $query): Builder
     {
-        return $query->where('method', PaymentMethod::ONLINE);
+        return $query->where('method', TransactionMethod::ONLINE);
     }
 }

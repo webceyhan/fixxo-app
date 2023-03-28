@@ -65,12 +65,12 @@ class Ticket extends Model
     }
 
     /**
-     * Get total amount of all payments.
+     * Get total amount of all transactions.
      */
     protected function paid(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->payments->sum('amount'),
+            get: fn () => $this->transactions->sum('amount'),
         )->shouldCache();
     }
 
@@ -163,9 +163,9 @@ class Ticket extends Model
         return $this->hasMany(Task::class)->latest();
     }
 
-    public function payments(): HasMany
+    public function transactions(): HasMany
     {
-        return $this->hasMany(Payment::class)->latest();
+        return $this->hasMany(Transaction::class)->latest();
     }
 
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////

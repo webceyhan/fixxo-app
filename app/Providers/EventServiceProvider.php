@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Models\Payment;
-use App\Models\Task;
 use App\Models\Ticket;
-use App\Observers\PaymentObserver;
-use App\Observers\TaskObserver;
+use App\Models\Task;
+use App\Models\Transaction;
 use App\Observers\TicketObserver;
+use App\Observers\TaskObserver;
+use App\Observers\TransactionObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -33,7 +33,7 @@ class EventServiceProvider extends ServiceProvider
     {
         Ticket::observe(TicketObserver::class);
         Task::observe(TaskObserver::class);
-        Payment::observe(PaymentObserver::class);
+        Transaction::observe(TransactionObserver::class);
     }
 
     /**

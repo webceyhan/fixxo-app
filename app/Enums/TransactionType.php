@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-class PaymentType extends Enum
+class TransactionType extends Enum
 {
     const CHARGE = 'charge';
     const DISCOUNT = 'discount';
