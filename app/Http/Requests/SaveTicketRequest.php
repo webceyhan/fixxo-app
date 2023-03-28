@@ -26,7 +26,7 @@ class SaveTicketRequest extends FormRequest
         // update
         if ($this->isMethod('put')) {
             return [
-                'subject' => 'nullable|string',
+                'description' => 'nullable|string',
                 'note' => 'nullable|string',
                 'status' => ['nullable', Rule::in(TicketStatus::values())],
             ];
@@ -35,7 +35,7 @@ class SaveTicketRequest extends FormRequest
         // store
         return [
             'device_id' => 'required_without:id',
-            'subject' => 'required|string',
+            'description' => 'required|string',
             'note' => 'nullable|string',
             'status' => ['nullable', Rule::in(TicketStatus::values())],
         ];

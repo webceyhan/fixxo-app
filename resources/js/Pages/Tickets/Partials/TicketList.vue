@@ -50,7 +50,7 @@ function getProgress(ticket) {
             'line-clamp-2': !compact,
             'line-clamp-1': compact,
           }"
-          v-html="ticket.subject"
+          v-html="ticket.description"
         />
       </div>
 

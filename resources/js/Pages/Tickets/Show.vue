@@ -28,11 +28,11 @@ const props = defineProps({
   canDeletePayment: Boolean,
 });
 
-const toggleSubjectEdit = ref(false);
+const toggleDescriptionEdit = ref(false);
 const toggleNoteEdit = ref(false);
 
 const form = useForm({
-  subject: props.ticket.subject,
+  description: props.ticket.description,
   note: props.ticket.note,
 });
 
@@ -193,33 +193,33 @@ const print = (type) => {
     </template>
 
     <template #content>
-      <Card label="Subject">
+      <Card label="Description">
         <div
-          v-if="!toggleSubjectEdit"
+          v-if="!toggleDescriptionEdit"
           class="relative group"
-          @click="toggleSubjectEdit = true"
+          @click="toggleDescriptionEdit = true"
         >
           <pre
             class="whitespace-pre-wrap text-sm"
-            v-html="ticket.subject ?? 'Add subject...'"
+            v-html="ticket.description ?? 'Add description...'"
           />
 
           <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
         </div>
 
-        <div v-if="toggleSubjectEdit">
+        <div v-if="toggleDescriptionEdit">
           <Textarea
             rows="5"
             class="block w-full text-sm font-mono mb-4"
-            v-model="form.subject"
+            v-model="form.description"
             autofocus
           />
           <PrimaryButton
             label="Save"
             class="mr-2"
-            @click="save() && (toggleSubjectEdit = false)"
+            @click="save() && (toggleDescriptionEdit = false)"
           />
-          <SecondaryButton label="Cancel" @click="toggleSubjectEdit = false" />
+          <SecondaryButton label="Cancel" @click="toggleDescriptionEdit = false" />
         </div>
       </Card>
 

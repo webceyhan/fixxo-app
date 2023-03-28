@@ -75,10 +75,10 @@ const signatureUrl = computed(() => {
         <p class="capitalize">{{ ticket.customer.name }}</p>
       </div>
 
-      <!-- subject -->
+      <!-- description -->
       <div>
-        <h1 class="text-lg font-semibold">Subject</h1>
-        <p>{{ ticket.subject }}</p>
+        <h1 class="text-lg font-semibold">Description</h1>
+        <p>{{ ticket.description }}</p>
       </div>
 
       <!-- tasks -->

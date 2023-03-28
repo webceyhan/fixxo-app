@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('device_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('subject');
+            $table->string('description');
             $table->string('note')->nullable();
             $table->decimal('balance')->default(0);
             $table->integer('completed_task_count')->default(0);
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        DB::statement('ALTER TABLE `tickets` ADD FULLTEXT KEY `search` (`subject`)');
+        DB::statement('ALTER TABLE `tickets` ADD FULLTEXT KEY `search` (`description`)');
     }
 
     /**

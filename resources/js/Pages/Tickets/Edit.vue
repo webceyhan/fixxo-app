@@ -13,7 +13,7 @@ const props = defineProps({
 
 const form = useForm({
   ...props.ticket,
-  subject: props.ticket.subject,
+  description: props.ticket.description,
   note: props.ticket.note,
   status: props.ticket.status,
 });
@@ -30,10 +30,10 @@ const form = useForm({
         <section class="max-w-xl">
           <Form :form="form" resource="tickets">
             <FormControl
-              label="Subject"
+              label="Description"
               rows="3"
-              v-model="form.subject"
-              :error="form.errors.subject"
+              v-model="form.description"
+              :error="form.errors.description"
             />
             <FormControl
               label="Note"

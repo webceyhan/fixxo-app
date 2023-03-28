@@ -29,7 +29,7 @@ defineProps({
 
       <TableData
         label-class="line-clamp-2"
-        :label="ticket.subject"
+        :label="ticket.description"
         :value="ticket.device.brand + ' ' + ticket.device.name"
       />
 
