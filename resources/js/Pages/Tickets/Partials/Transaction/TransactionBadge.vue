@@ -6,8 +6,8 @@ defineProps({
 });
 
 const states = {
-  charge: {
-    label: "Charge",
+  payment: {
+    label: "Payment",
     theme: "success",
     icon: 'plus-lg'
   },

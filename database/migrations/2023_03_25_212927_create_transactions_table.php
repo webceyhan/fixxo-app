@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('ticket_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('amount')->default(0);
-            $table->enum('type', TransactionType::values())->default(TransactionType::CHARGE);
+            $table->enum('type', TransactionType::values())->default(TransactionType::PAYMENT);
             $table->enum('method', TransactionMethod::values())->default(TransactionMethod::CASH);
             $table->string('note')->nullable();
             $table->timestamps();

@@ -9,7 +9,7 @@ const props = defineProps({
 });
 
 // TODO: this must be fetched from the server
-const typeOptions = ["charge", "discount", "warranty", "refund"];
+const typeOptions = ["payment", "discount", "warranty", "refund"];
 const methodOptions = ["cash", "card", "online"];
 
 const form = useForm({

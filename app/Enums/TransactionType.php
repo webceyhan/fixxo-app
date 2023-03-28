@@ -4,7 +4,7 @@ namespace App\Enums;
 
 class TransactionType extends Enum
 {
-    const CHARGE = 'charge';
+    const PAYMENT = 'payment';
     const DISCOUNT = 'discount';
     const WARRANTY = 'warranty';
     const REFUND = 'refund';

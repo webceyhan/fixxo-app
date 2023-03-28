@@ -28,7 +28,7 @@ class Transaction extends Model
      */
     protected $attributes = [
         'amount' => 0,
-        'type' => TransactionType::CHARGE,
+        'type' => TransactionType::PAYMENT,
         'method' => TransactionMethod::CASH,
         'note' => null,
     ];
@@ -48,11 +48,11 @@ class Transaction extends Model
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to only include transactions as charge.
+     * Scope a query to only include transactions as payment.
      */
-    public function scopeAsCharge(Builder $query): Builder
+    public function scopeAsPayment(Builder $query): Builder
     {
-        return $query->where('type', TransactionType::CHARGE);
+        return $query->where('type', TransactionType::PAYMENT);
     }
 
     /**
