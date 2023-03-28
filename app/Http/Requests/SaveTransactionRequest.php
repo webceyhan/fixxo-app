@@ -2,12 +2,12 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\PaymentMethod;
-use App\Enums\PaymentType;
+use App\Enums\TransactionMethod;
+use App\Enums\TransactionType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class SavePaymentRequest extends FormRequest
+class SaveTransactionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +29,8 @@ class SavePaymentRequest extends FormRequest
             return [
                 'amount' => 'nullable|numeric',
                 'note' => 'nullable|string',
-                'type' => ['nullable', Rule::in(PaymentType::values())],
-                'method' => ['nullable', Rule::in(PaymentMethod::values())],
+                'type' => ['nullable', Rule::in(TransactionType::values())],
+                'method' => ['nullable', Rule::in(TransactionMethod::values())],
             ];
         }
 
@@ -39,8 +39,8 @@ class SavePaymentRequest extends FormRequest
             'ticket_id' => 'required_without:id',
             'amount' => 'nullable|numeric',
             'note' => 'nullable|string',
-            'type' => ['nullable', Rule::in(PaymentType::values())],
-            'method' => ['nullable', Rule::in(PaymentMethod::values())],
+            'type' => ['nullable', Rule::in(TransactionType::values())],
+            'method' => ['nullable', Rule::in(TransactionMethod::values())],
         ];
     }
 }

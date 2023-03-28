@@ -3,10 +3,10 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
-use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TicketController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -62,7 +62,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('devices', DeviceController::class);
     Route::resource('tickets', TicketController::class);
     Route::resource('tasks', TaskController::class)->only(['store', 'update', 'destroy']);
-    Route::resource('payments', PaymentController::class)->only(['store', 'update', 'destroy']);
+    Route::resource('transactions', TransactionController::class)->only(['store', 'update', 'destroy']);
 });
 
 require __DIR__ . '/auth.php';
