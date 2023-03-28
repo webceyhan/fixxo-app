@@ -75,6 +75,16 @@ class Ticket extends Model
     }
 
     /**
+     * Get count of all pending (not-completed) tasks.
+     */
+    protected function pendingTaskCount(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->total_task_count - $this->completed_task_count,
+        );
+    }
+
+    /**
      * Get URL to qr code or generate if not exists.
      *
      * @return bool
