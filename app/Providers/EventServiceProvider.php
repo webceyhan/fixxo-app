@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Models\Device;
 use App\Models\Ticket;
 use App\Models\Task;
 use App\Models\Transaction;
+use App\Observers\DeviceObserver;
 use App\Observers\TicketObserver;
 use App\Observers\TaskObserver;
 use App\Observers\TransactionObserver;
@@ -31,6 +33,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Device::observe(DeviceObserver::class);
         Ticket::observe(TicketObserver::class);
         Task::observe(TaskObserver::class);
         Transaction::observe(TransactionObserver::class);
