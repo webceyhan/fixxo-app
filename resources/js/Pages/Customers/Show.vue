@@ -23,10 +23,10 @@ const props = defineProps({
   canDelete: Boolean,
 });
 
-const toggleNotesEdit = ref(false);
+const toggleNoteEdit = ref(false);
 
 const form = useForm({
-  notes: props.customer.notes,
+  note: props.customer.note,
 });
 
 const save = () => {
@@ -134,33 +134,33 @@ const save = () => {
     <template #aside>
       <CustomerCard :customer="customer" />
 
-      <Card label="Notes">
+      <Card label="Note">
         <div
-          v-if="!toggleNotesEdit"
+          v-if="!toggleNoteEdit"
           class="relative group"
-          @click="toggleNotesEdit = true"
+          @click="toggleNoteEdit = true"
         >
           <pre
             class="whitespace-pre-wrap text-sm"
-            v-html="customer.notes ?? 'Add notes...'"
+            v-html="customer.note ?? 'Add note...'"
           />
 
           <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
         </div>
 
-        <div v-if="toggleNotesEdit">
+        <div v-if="toggleNoteEdit">
           <Textarea
             rows="5"
             class="block w-full text-sm font-mono mb-4"
-            v-model="form.notes"
+            v-model="form.note"
             autofocus
           />
           <PrimaryButton
             label="Save"
             class="mr-2"
-            @click="save() && (toggleNotesEdit = false)"
+            @click="save() && (toggleNoteEdit = false)"
           />
-          <SecondaryButton label="Cancel" @click="toggleNotesEdit = false" />
+          <SecondaryButton label="Cancel" @click="toggleNoteEdit = false" />
         </div>
       </Card>
     </template>

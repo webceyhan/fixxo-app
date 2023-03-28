@@ -32,7 +32,7 @@ class Customer extends Model
         'address' => null,
         'phone' => null,
         'email' => null,
-        'notes' => null,
+        'note' => null,
         'status' => UserStatus::ACTIVE,
     ];
 

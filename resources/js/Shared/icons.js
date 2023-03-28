@@ -54,7 +54,7 @@ const fields = {
     id: "hash",
     time: "clock",
     date: "calendar-date",
-    notes: "sticky",
+    note: "sticky",
 
     // CONTACT
     company: "building",
