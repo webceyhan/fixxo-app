@@ -18,12 +18,9 @@ class TransactionFactory extends Factory
      */
     public function definition(): array
     {
-        $type = fake()->randomElement(TransactionType::values());
-        $sign = $type === TransactionType::REFUND ? '-' : '';
-
         return [
-            'amount' => $sign . fake()->randomFloat(2, 0, 100),
-            'type' => $type,
+            'amount' => fake()->randomFloat(2, 0, 100),
+            'type' => fake()->randomElement(TransactionType::values()),
             'method' => fake()->randomElement(TransactionMethod::values()),
             'note' => fake()->optional(.2)->text,
         ];
