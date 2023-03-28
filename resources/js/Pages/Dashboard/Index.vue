@@ -18,7 +18,7 @@ const props = defineProps({
   newCustomerStats: Object,
   newTicketStats: Object,
   newTaskStats: Object,
-  newPaymentStats: Object,
+  newTransactionStats: Object,
   //
   incomeStats: Object,
   ticketStats: Array,
@@ -91,10 +91,10 @@ const onIntervalChange = (interval) => {
       />
 
       <SingleStatCard
-        label="New Payments"
-        icon="payment"
+        label="New Transactions"
+        icon="transaction"
         icon-bg-color="bg-orange-600/50"
-        v-bind="newPaymentStats"
+        v-bind="newTransactionStats"
       />
     </div>
 
