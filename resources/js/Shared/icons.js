@@ -15,6 +15,13 @@ const deviceTypes = {
     other: "hdd",
 };
 
+const transactionTypes = {
+    payment: "plus-lg",    
+    discount: "percent",
+    warranty: "shield-check",
+    refund: "dash-lg",
+};
+
 const transactionMethods = {
     cash: "cash",
     card: "credit-card",
@@ -89,6 +96,7 @@ export default {
     task: "clipboard",
 
     transaction: "credit-card",
+    ...transactionTypes,
     ...transactionMethods,
 
     profile: "person",
