@@ -33,7 +33,6 @@ class TicketObserver
 
         switch ($ticket->status) {
             case TicketStatus::NEW:
-            case TicketStatus::ON_HOLD:
             case TicketStatus::RESOLVED:
             case TicketStatus::CLOSED:
                 // if there are pending tasks, mark ticket as in-progress
@@ -42,6 +41,7 @@ class TicketObserver
                 }
                 break;
 
+            case TicketStatus::ON_HOLD:
             case TicketStatus::IN_PROGRESS:
                 // if there are no pending tasks, mark ticket as resolved
                 if ($ticket->pending_task_count === 0) {
