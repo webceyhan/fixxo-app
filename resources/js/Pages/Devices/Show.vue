@@ -73,12 +73,12 @@ const save = () => {
         method="put"
       />
 
-      <!-- <PrimaryButton
+      <PrimaryButton
         label="New Ticket"
         icon="create"
         :href="route('tickets.create')"
         :data="{ device_id: device.id }"
-      /> -->
+      />
     </template>
 
     <!-- mobile menu -->
@@ -120,7 +120,12 @@ const save = () => {
           :data="{ status: 'unfixable' }"
           method="put"
         />
-        <!-- <DropdownItem label="New Ticket" icon="create" @click="deviceTasks.create()" /> -->
+        <DropdownItem
+          label="New Ticket"
+          icon="create"
+          :href="route('tickets.create')"
+          :data="{ device_id: device.id }"
+        />
       </Dropdown>
     </template>
 
