@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\TransactionType;
 use App\Models\Ticket;
 use App\Models\Transaction;
 use App\Models\User;
@@ -17,16 +18,34 @@ class TransactionSeeder extends Seeder
     {
         $users = User::all();
 
-        Ticket::all()->each(function ($ticket) use ($users) {
+        Ticket::resolved()->each(function ($ticket) use ($users) {
+            // total balance to pay
+            $balance = abs($ticket->balance);
 
-            $amount = rand(1, 3);
+            $userId = $users->random(1)->first()->id;
+            $timestamp = fake()->dateTimeBetween($ticket->created_at);
 
-            Transaction::factory($amount)->create([
-                'ticket_id' => fn () => $ticket->id,
-                'user_id' => fn () => $users->random(1)->first(),
-                // create date must be later than ticket creation
-                'created_at' => fn () => fake()->dateTimeBetween($ticket->created_at),
-            ]);
+            // make 10% discount if balance is more than $100
+            if ($balance >= 100) {
+                Transaction::factory()->discount()->create([
+                    'ticket_id' => fn () => $ticket->id,
+                    'user_id' => fn () => $userId,
+                    'amount' => fn () => $balance * 0.1,
+                    'created_at' => fn () => $timestamp,
+                ]);
+                // update balance
+                $balance -= ($balance * 0.1);
+            }
+
+            // pay the rest if balance is more than $0
+            if ($balance > 0) {
+                Transaction::factory()->payment()->create([
+                    'ticket_id' => fn () => $ticket->id,
+                    'user_id' => fn () => $userId,
+                    'amount' => fn () => $balance,
+                    'created_at' => fn () => $timestamp,
+                ]);
+            }
         });
     }
 }
