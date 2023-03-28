@@ -15,7 +15,7 @@ const deviceTypes = {
     other: "hdd",
 };
 
-const paymentMethods = {
+const transactionMethods = {
     cash: "cash",
     card: "credit-card",
     online: "globe",
@@ -88,8 +88,8 @@ export default {
 
     task: "clipboard",
 
-    payment: "credit-card",
-    ...paymentMethods,
+    transaction: "credit-card",
+    ...transactionMethods,
 
     profile: "person",
     setting: "gear",

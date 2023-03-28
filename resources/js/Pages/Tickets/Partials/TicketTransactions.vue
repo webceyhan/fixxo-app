@@ -3,16 +3,16 @@ import { ref } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
-import PaymentList from "./Payment/PaymentList.vue";
-import PaymentModal from "./Payment/PaymentModal.vue";
+import TransactionList from "./Transaction/TransactionList.vue";
+import TransactionModal from "./Transaction/TransactionModal.vue";
 
 const props = defineProps({
   ticket: Object,
-  payments: Array,
+  transactions: Array,
   canDelete: Boolean,
 });
 
-// Payment Modal
+// Transaction Modal
 const modal = ref(null);
 const editing = ref(null);
 
@@ -20,8 +20,8 @@ const create = () => {
   edit({ ticket_id: props.ticket.id });
 };
 
-const edit = (payment) => {
-  editing.value = payment;
+const edit = (transaction) => {
+  editing.value = transaction;
   modal.value.open();
 };
 
@@ -34,11 +34,11 @@ defineExpose({
 <template>
   <Card label="Balance" flush>
     <template #header-action>
-      <SecondaryButton label="New Payment" icon="create" @click="create" small />
+      <SecondaryButton label="New Transaction" icon="create" @click="create" small />
     </template>
 
-    <PaymentList :payments="payments" @select="edit" />
-    <PaymentModal ref="modal" :payment="editing" :can-delete="canDelete" />
+    <TransactionList :transactions="transactions" @select="edit" />
+    <TransactionModal ref="modal" :transaction="editing" :can-delete="canDelete" />
 
     <template #footer>
       <div class="w-full text-right">

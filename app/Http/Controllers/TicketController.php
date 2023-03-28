@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\TicketStatus;
 use App\Http\Requests\SaveTicketRequest;
-use App\Models\Payment;
+use App\Models\Transaction;
 use App\Models\Task;
 use App\Models\Ticket;
 use App\Services\NotificationService;
@@ -91,14 +91,14 @@ class TicketController extends Controller
             'ticket' => $ticket,
             'customer' => $ticket->customer,
             'tasks' => $ticket->tasks()->with('user:id,name')->get(),
-            'payments' => $ticket->payments()->with('user:id,name')->get(),
+            'transactions' => $ticket->transactions()->with('user:id,name')->get(),
             'canDelete' => auth()->user()->can('delete', $ticket),
             // TODO: improve this!
             // we are checking for the ability to delete a task in the future
-            // but at this point we don't have a task/payment yet so as a workaround
-            // we are using a dummy new Task/Payment instance instead of Task::class
+            // but at this point we don't have a task/transaction yet so as a workaround
+            // we are using a dummy new Task/Transaction instance instead of Task::class
             'canDeleteTask' => auth()->user()->can('delete', new Task),
-            'canDeletePayment' => auth()->user()->can('delete', new Payment),
+            'canDeleteTransaction' => auth()->user()->can('delete', new Transaction),
         ]);
     }
 

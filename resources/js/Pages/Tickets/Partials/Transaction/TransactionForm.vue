@@ -5,7 +5,7 @@ import FormControl from "@/Components/Form/FormControl.vue";
 import RadioGroup from "@/Components/Form/RadioGroup.vue";
 
 const props = defineProps({
-  payment: Object,
+  transaction: Object,
 });
 
 // TODO: this must be fetched from the server
@@ -13,17 +13,17 @@ const typeOptions = ["charge", "discount", "warranty", "refund"];
 const methodOptions = ["cash", "card", "online"];
 
 const form = useForm({
-  ...props.payment,
+  ...props.transaction,
   // TODO: see above
-  amount: props.payment.amount ?? 0,
-  type: props.payment.type ?? typeOptions[0],
-  method: props.payment.method ?? methodOptions[0],
-  note: props.payment.note,
+  amount: props.transaction.amount ?? 0,
+  type: props.transaction.type ?? typeOptions[0],
+  method: props.transaction.method ?? methodOptions[0],
+  note: props.transaction.note,
 });
 </script>
 
 <template>
-  <Form :form="form" resource="payments">
+  <Form :form="form" resource="transactions">
     <FormControl label="Type" v-model="form.type" :options="typeOptions" fancy />
 
     <FormControl label="Method" v-model="form.method" :options="methodOptions" fancy />

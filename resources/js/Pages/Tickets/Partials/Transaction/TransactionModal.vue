@@ -1,10 +1,10 @@
 <script setup>
 import { ref } from "vue";
 import Modal from "@/Components/Modal.vue";
-import PaymentForm from "./PaymentForm.vue";
+import TransactionForm from "./TransactionForm.vue";
 
 defineProps({
-  payment: Object,
+  transaction: Object,
   canDelete: Boolean,
 });
 
@@ -19,14 +19,14 @@ defineExpose({
 <template>
   <Modal ref="modal" size="xl">
     <template #title>
-      <span v-if="payment?.id"> Edit Payment #{{ payment.id }} </span>
-      <span v-else> Create Payment </span>
+      <span v-if="transaction?.id"> Edit Transaction #{{ transaction.id }} </span>
+      <span v-else> Create Transaction </span>
     </template>
 
     <template #default="{ close }">
-      <PaymentForm
+      <TransactionForm
         @dismiss="close"
-        :payment="payment"
+        :transaction="transaction"
         :deletable="canDelete"
         dismissable
       />

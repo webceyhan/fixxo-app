@@ -6,7 +6,7 @@ import Logo from "@/Layouts/Partials/Logo.vue";
 const props = defineProps({
   ticket: Object,
   tasks: Array,
-  payments: Array,
+  transactions: Array,
   delivery: Boolean,
 });
 

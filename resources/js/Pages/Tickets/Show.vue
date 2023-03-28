@@ -12,7 +12,7 @@ import ToggleButton from "@/Components/Button/ToggleButton.vue";
 import DropdownToggleItem from "@/Components/Menu/DropdownToggleItem.vue";
 import TicketCard from "@/Pages/Tickets/Partials/TicketCard.vue";
 import TicketTasks from "./Partials/TicketTasks.vue";
-import TicketPayments from "./Partials/TicketPayments.vue";
+import TicketTransactions from "./Partials/TicketTransactions.vue";
 import SignatureModal from "./Partials/SignatureModal.vue";
 import Receipt from "./Partials/Receipt.vue";
 import TicketUploads from "./Partials/TicketUploads.vue";
@@ -22,10 +22,10 @@ import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 const props = defineProps({
   ticket: Object,
   tasks: Array,
-  payments: Array,
+  transactions: Array,
   canDelete: Boolean,
   canDeleteTask: Boolean,
-  canDeletePayment: Boolean,
+  canDeleteTransaction: Boolean,
 });
 
 const toggleDescriptionEdit = ref(false);
@@ -45,7 +45,7 @@ const save = () => {
 
 // Partial refs
 const ticketTasks = ref(null);
-const ticketPayments = ref(null);
+const ticketTransactions = ref(null);
 const signatureModal = ref(null);
 
 const printing = ref();
@@ -111,9 +111,9 @@ const print = (type) => {
       <Dropdown icon="create" label="New" primary>
         <DropdownItem label="New Task" icon="create" @click="ticketTasks.create()" />
         <DropdownItem
-          label="New Payment"
+          label="New Transaction"
           icon="create"
-          @click="ticketPayments.create()"
+          @click="ticketTransactions.create()"
         />
         <!-- <hr class="bg-gray-200 dark:bg-gray-600 border-0 h-px" /> -->
       </Dropdown>
@@ -152,9 +152,9 @@ const print = (type) => {
         />
         <DropdownItem label="New Task" icon="create" @click="ticketTasks.create()" />
         <DropdownItem
-          label="New Payment"
+          label="New Transaction"
           icon="create"
-          @click="ticketPayments.create()"
+          @click="ticketTransactions.create()"
         />
         <DropdownItem label="Sign" icon="sign" @click="signatureModal.open()" />
       </Dropdown>
@@ -229,10 +229,10 @@ const print = (type) => {
         :can-delete="canDeleteTask"
       />
 
-      <TicketPayments
-        ref="ticketPayments"
-        v-bind="{ ticket, payments }"
-        :can-delete="canDeletePayment"
+      <TicketTransactions
+        ref="ticketTransactions"
+        v-bind="{ ticket, transactions }"
+        :can-delete="canDeleteTransaction"
       />
 
       <SignatureModal :ticket="ticket" ref="signatureModal" />
@@ -244,7 +244,7 @@ const print = (type) => {
     <Receipt v-if="printing === 'intake'" :ticket="ticket" />
     <Receipt
       v-else-if="printing === 'delivery'"
-      v-bind="{ ticket, tasks, payments }"
+      v-bind="{ ticket, tasks, transactions }"
       delivery
     />
   </section>

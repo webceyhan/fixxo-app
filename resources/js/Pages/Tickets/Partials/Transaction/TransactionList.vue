@@ -2,41 +2,41 @@
 import { formatDate, formatMoney } from "@/Shared/utils";
 import StackedList from "@/Components/List/StackedList.vue";
 import StackedListItem from "@/Components/List/StackedListItem.vue";
-import PaymentBadge from "./PaymentBadge.vue";
+import TransactionBadge from "./TransactionBadge.vue";
 
 defineEmits(["select"]);
 
 defineProps({
-  payments: Array,
+  transactions: Array,
 });
 </script>
 
 <template>
   <StackedList>
     <StackedListItem
-      v-for="payment in payments"
-      :key="payment.id"
-      icon="payment"
-      @click="$emit('select', payment)"
+      v-for="transaction in transactions"
+      :key="transaction.id"
+      icon="transaction"
+      @click="$emit('select', transaction)"
       clickable
     >
       <div class="w-full truncate">
         <span>
-          {{ payment.note ?? payment.type }}
+          {{ transaction.note ?? transaction.type }}
         </span>
 
         <div class="hidden md:block text-gray-400 text-sm mt-1">
-          <strong>{{ payment.user.name }}</strong> -
-          <em>{{ formatDate(payment.created_at, true) }}</em>
+          <strong>{{ transaction.user.name }}</strong> -
+          <em>{{ formatDate(transaction.created_at, true) }}</em>
         </div>
       </div>
 
       <div class="w-36 order-1 text-gray-400 text-right text-sm">
-        {{ formatMoney(payment.amount) }}
+        {{ formatMoney(transaction.amount) }}
       </div>
 
       <template #badge>
-        <PaymentBadge :type="payment.type" compact-max="xl" />
+        <TransactionBadge :type="transaction.type" compact-max="xl" />
       </template>
     </StackedListItem>
   </StackedList>
