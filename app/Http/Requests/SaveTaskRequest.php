@@ -35,8 +35,8 @@ class SaveTaskRequest extends FormRequest
         // store
         return [
             'ticket_id' => 'required_without:id',
-            'description' => 'nullable|string',
-            'cost' => 'nullable|numeric',
+            'description' => 'required|string',
+            'cost' => 'required|numeric',
             'is_completed' => 'nullable|boolean',
         ];
     }
