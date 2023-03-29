@@ -19,7 +19,8 @@ class TicketSeeder extends Seeder
 
         Device::all()->each(function ($device) use ($users) {
 
-            $amount = rand(1, 3);
+            // create optional tickets
+            $amount = rand(0, 3);
 
             Ticket::factory($amount)->create([
                 'device_id' => fn () => $device->id,
