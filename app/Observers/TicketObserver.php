@@ -13,27 +13,10 @@ class TicketObserver
      */
     public function saving(Ticket $ticket): void
     {
-        // skip if status was already changed
+        // skip if status was set manually
         if ($ticket->isDirty('status')) return;
 
-        switch ($ticket->status) {
-            case TicketStatus::NEW:
-            case TicketStatus::RESOLVED:
-            case TicketStatus::CLOSED:
-                // if there are pending tasks, mark ticket as in-progress
-                if ($ticket->pending_tasks_count > 0) {
-                    $ticket->status = TicketStatus::IN_PROGRESS;
-                }
-                break;
-
-            case TicketStatus::ON_HOLD:
-            case TicketStatus::IN_PROGRESS:
-                // if there are no pending tasks, mark ticket as resolved
-                if ($ticket->pending_tasks_count === 0) {
-                    $ticket->status = TicketStatus::RESOLVED;
-                }
-                break;
-        }
+        $ticket->status = $this->guessTicketStatus($ticket);
     }
 
     /**
@@ -86,5 +69,41 @@ class TicketObserver
         $device->total_tickets_count--;
 
         $device->save();
+    }
+
+    /**
+     * Guess ticket status based on its tasks.
+     */
+    private function guessTicketStatus(Ticket $ticket): string
+    {
+        $totalTasksCount = $ticket->total_tasks_count;
+        $completedTasksCount = $ticket->completed_tasks_count;
+        $pendingTasksCount = $totalTasksCount - $completedTasksCount;
+
+        $hasTasks = $totalTasksCount > 0;
+        $hasPendingTasks = $pendingTasksCount > 0;
+
+        switch ($ticket->status) {
+            case TicketStatus::NEW:
+            case TicketStatus::ON_HOLD:
+                // if ticket has pending tasks, it's in progress
+                if ($hasPendingTasks) return TicketStatus::IN_PROGRESS;
+                // if ticket has tasks but no pending, it's resolved
+                if ($hasTasks) return TicketStatus::RESOLVED;
+                break;
+
+            case TicketStatus::IN_PROGRESS:
+                if (!$hasTasks) return TicketStatus::ON_HOLD;
+                if (!$hasPendingTasks) return TicketStatus::RESOLVED;
+                break;
+
+            case TicketStatus::RESOLVED:
+            case TicketStatus::CLOSED:
+                if (!$hasTasks) return TicketStatus::ON_HOLD;
+                if ($hasPendingTasks) return TicketStatus::IN_PROGRESS;
+                break;
+        }
+
+        return $ticket->status;
     }
 }
