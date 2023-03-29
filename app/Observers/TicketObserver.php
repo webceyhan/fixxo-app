@@ -13,7 +13,7 @@ class TicketObserver
      */
     public function saving(Ticket $ticket): void
     {
-        // skip if status was set manually
+        // skip if status was manually set
         if ($ticket->isDirty('status')) return;
 
         $ticket->status = $this->guessTicketStatus($ticket);
@@ -93,13 +93,17 @@ class TicketObserver
                 break;
 
             case TicketStatus::IN_PROGRESS:
+                // if ticket has no tasks, it's on hold
                 if (!$hasTasks) return TicketStatus::ON_HOLD;
+                // if ticket has tasks but no pending, it's resolved
                 if (!$hasPendingTasks) return TicketStatus::RESOLVED;
                 break;
 
             case TicketStatus::RESOLVED:
             case TicketStatus::CLOSED:
+                // if ticket has no tasks, it's on hold
                 if (!$hasTasks) return TicketStatus::ON_HOLD;
+                // if ticket has pending tasks, it's in progress
                 if ($hasPendingTasks) return TicketStatus::IN_PROGRESS;
                 break;
         }
