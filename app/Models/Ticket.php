@@ -77,7 +77,7 @@ class Ticket extends Model
     /**
      * Get count of all pending (not-completed) tasks.
      */
-    protected function pendingTaskCount(): Attribute
+    protected function pendingTasksCount(): Attribute
     {
         return Attribute::make(
             get: fn () => $this->total_tasks_count - $this->completed_tasks_count,

@@ -21,7 +21,7 @@ class TicketObserver
             case TicketStatus::RESOLVED:
             case TicketStatus::CLOSED:
                 // if there are pending tasks, mark ticket as in-progress
-                if ($ticket->pending_task_count > 0) {
+                if ($ticket->pending_tasks_count > 0) {
                     $ticket->status = TicketStatus::IN_PROGRESS;
                 }
                 break;
@@ -29,7 +29,7 @@ class TicketObserver
             case TicketStatus::ON_HOLD:
             case TicketStatus::IN_PROGRESS:
                 // if there are no pending tasks, mark ticket as resolved
-                if ($ticket->pending_task_count === 0) {
+                if ($ticket->pending_tasks_count === 0) {
                     $ticket->status = TicketStatus::RESOLVED;
                 }
                 break;
