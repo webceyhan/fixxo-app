@@ -16,11 +16,9 @@ class TaskObserver
         // credit ticket's balance
         $ticket->balance -= $task->cost;
 
-        // update ticket's total-task-count
-        $ticket->total_tasks_count += 1;
-
-        // increase ticket's completed-task-count if applicable
+        // update ticket's task counters accordingly
         $ticket->completed_tasks_count += $task->completed_at ? 1 : 0;
+        $ticket->total_tasks_count += 1;
 
         $ticket->save();
     }
@@ -38,7 +36,7 @@ class TaskObserver
             $ticket->balance -= $task->cost; // credit new task cost
         }
 
-        // update ticket's completed-task-count if task completion was changed
+        // update ticket's completed task counter if applicable
         if ($task->wasChanged('completed_at')) {
             $ticket->completed_tasks_count += $task->completed_at ? 1 : -1;
         }
@@ -56,11 +54,9 @@ class TaskObserver
         // debit ticket balance
         $ticket->balance += $task->cost;
 
-        // update ticket's total-task-count
-        $ticket->total_tasks_count -= 1;
-
-        // descrease ticket's completed-task-count if applicable
+        // update ticket's task counters accordingly
         $ticket->completed_tasks_count -= $task->completed_at ? 1 : 0;
+        $ticket->total_tasks_count -= 1;
 
         $ticket->save();
     }
