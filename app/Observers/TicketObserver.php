@@ -71,8 +71,6 @@ class TicketObserver
         $device->isDirty() && $device->save();
     }
 
-
-
     /**
      * Handle the Ticket "deleted" event.
      */
@@ -88,21 +86,5 @@ class TicketObserver
         $device->total_tickets_count--;
 
         $device->save();
-    }
-
-    /**
-     * Handle the Ticket "restored" event.
-     */
-    public function restored(Ticket $ticket): void
-    {
-        //
-    }
-
-    /**
-     * Handle the Ticket "force deleted" event.
-     */
-    public function forceDeleted(Ticket $ticket): void
-    {
-        //
     }
 }

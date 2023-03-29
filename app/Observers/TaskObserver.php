@@ -60,20 +60,4 @@ class TaskObserver
 
         $ticket->save();
     }
-
-    /**
-     * Handle the Task "restored" event.
-     */
-    public function restored(Task $task): void
-    {
-        //
-    }
-
-    /**
-     * Handle the Task "force deleted" event.
-     */
-    public function forceDeleted(Task $task): void
-    {
-        //
-    }
 }
