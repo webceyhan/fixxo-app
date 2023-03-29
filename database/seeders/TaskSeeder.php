@@ -19,7 +19,8 @@ class TaskSeeder extends Seeder
 
         Ticket::all()->each(function ($ticket) use ($users) {
 
-            $amount = rand(1, 5);
+            // create optional tasks
+            $amount = rand(0, 5);
 
             Task::factory($amount)->create([
                 'ticket_id' => fn () => $ticket->id,
