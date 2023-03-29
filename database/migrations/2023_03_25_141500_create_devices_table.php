@@ -23,10 +23,10 @@ return new class extends Migration
             $table->string('serial')->nullable();
             $table->date('purchase_date')->nullable();
             $table->date('warranty_expire_date')->nullable();
-            // aggregations
+            // aggregate fields
             $table->integer('closed_tickets_count')->default(0);
             $table->integer('total_tickets_count')->default(0);
-            //
+            // ----------------
             $table->enum('status', DeviceStatus::values())->default(DeviceStatus::CHECKED_IN);
             $table->timestamps();
         });

@@ -20,8 +20,10 @@ return new class extends Migration
             $table->string('description');
             $table->string('note')->nullable();
             $table->decimal('balance')->default(0);
+            // aggregate fields
             $table->integer('completed_tasks_count')->default(0);
             $table->integer('total_tasks_count')->default(0);
+            // ----------------
             $table->enum('status', TicketStatus::values())->default(TicketStatus::NEW);
             $table->timestamps();
         });
