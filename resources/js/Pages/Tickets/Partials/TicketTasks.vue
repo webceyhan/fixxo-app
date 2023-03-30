@@ -16,8 +16,6 @@ const props = defineProps({
 const modal = ref(null);
 const editing = ref(null);
 
-const totalCount = computed(() => props.tasks.length);
-const completedCount = computed(() => props.tasks.filter((t) => t.is_completed).length);
 const totalCost = computed(() => props.tasks.reduce((a, b) => a + +b.cost, 0));
 
 const create = () => {
@@ -39,7 +37,11 @@ defineExpose({
   <Card flush>
     <template #header>
       <h5>
-        Tasks <span class="ml-1 opacity-50"> {{ completedCount }}/{{ totalCount }} </span>
+        Tasks
+        <span class="ml-1 opacity-50">
+          {{ ticket.completed_tasks_count }}/
+          {{ ticket.total_tasks_count }}
+        </span>
       </h5>
     </template>
 
