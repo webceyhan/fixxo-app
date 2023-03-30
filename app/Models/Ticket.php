@@ -256,4 +256,56 @@ class Ticket extends Model
         $this->total_tasks_count = $tasks->count();
         $this->completed_tasks_count = $tasks->whereNotNull('completed_at')->count();
     }
+
+    /**
+     * Calculate ticket status based on its tasks.
+     */
+    public function calculateStatus(): void
+    {
+        $this->calculateTaskCounters();
+
+        $totalTasksCount = $this->total_tasks_count;
+        $completedTasksCount = $this->completed_tasks_count;
+        $pendingTasksCount = $totalTasksCount - $completedTasksCount;
+
+        $hasTasks = $totalTasksCount > 0;
+        $hasPendingTasks = $pendingTasksCount > 0;
+
+        switch ($this->status) {
+            case TicketStatus::NEW:
+            case TicketStatus::ON_HOLD:
+                // if ticket has pending tasks, it's in progress
+                if ($hasPendingTasks) {
+                    $this->status = TicketStatus::IN_PROGRESS;
+                }
+                // if ticket has tasks but no pending, it's resolved
+                if ($hasTasks && !$hasPendingTasks) {
+                    $this->status = TicketStatus::RESOLVED;
+                }
+                break;
+
+            case TicketStatus::IN_PROGRESS:
+                // if ticket has no tasks, it's on hold
+                if (!$hasTasks) {
+                    $this->status = TicketStatus::ON_HOLD;
+                }
+                // if ticket has tasks but no pending, it's resolved
+                if ($hasTasks && !$hasPendingTasks) {
+                    $this->status = TicketStatus::RESOLVED;
+                }
+                break;
+
+            case TicketStatus::RESOLVED:
+            case TicketStatus::CLOSED:
+                // if ticket has no tasks, it's on hold
+                if (!$hasTasks) {
+                    $this->status = TicketStatus::ON_HOLD;
+                }
+                // if ticket has pending tasks, it's in progress
+                if ($hasPendingTasks) {
+                    $this->status = TicketStatus::IN_PROGRESS;
+                }
+                break;
+        }
+    }
 }

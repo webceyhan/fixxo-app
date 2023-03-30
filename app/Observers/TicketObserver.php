@@ -13,10 +13,8 @@ class TicketObserver
      */
     public function saving(Ticket $ticket): void
     {
-        // skip if status was manually set
-        if ($ticket->isDirty('status')) return;
-
-        $ticket->status = $this->guessTicketStatus($ticket);
+        // calculate ticket status if not manually set
+        $ticket->isDirty('status') || $ticket->calculateStatus();
     }
 
     /**
@@ -69,45 +67,5 @@ class TicketObserver
         $device->total_tickets_count--;
 
         $device->save();
-    }
-
-    /**
-     * Guess ticket status based on its tasks.
-     */
-    private function guessTicketStatus(Ticket $ticket): string
-    {
-        $totalTasksCount = $ticket->total_tasks_count;
-        $completedTasksCount = $ticket->completed_tasks_count;
-        $pendingTasksCount = $totalTasksCount - $completedTasksCount;
-
-        $hasTasks = $totalTasksCount > 0;
-        $hasPendingTasks = $pendingTasksCount > 0;
-
-        switch ($ticket->status) {
-            case TicketStatus::NEW:
-            case TicketStatus::ON_HOLD:
-                // if ticket has pending tasks, it's in progress
-                if ($hasPendingTasks) return TicketStatus::IN_PROGRESS;
-                // if ticket has tasks but no pending, it's resolved
-                if ($hasTasks) return TicketStatus::RESOLVED;
-                break;
-
-            case TicketStatus::IN_PROGRESS:
-                // if ticket has no tasks, it's on hold
-                if (!$hasTasks) return TicketStatus::ON_HOLD;
-                // if ticket has tasks but no pending, it's resolved
-                if (!$hasPendingTasks) return TicketStatus::RESOLVED;
-                break;
-
-            case TicketStatus::RESOLVED:
-            case TicketStatus::CLOSED:
-                // if ticket has no tasks, it's on hold
-                if (!$hasTasks) return TicketStatus::ON_HOLD;
-                // if ticket has pending tasks, it's in progress
-                if ($hasPendingTasks) return TicketStatus::IN_PROGRESS;
-                break;
-        }
-
-        return $ticket->status;
     }
 }
