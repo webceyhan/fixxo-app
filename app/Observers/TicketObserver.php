@@ -2,8 +2,6 @@
 
 namespace App\Observers;
 
-use App\Enums\DeviceStatus;
-use App\Enums\TicketStatus;
 use App\Models\Ticket;
 
 class TicketObserver
@@ -24,12 +22,8 @@ class TicketObserver
     {
         $device = $ticket->device;
 
-        // update device's pending-tickets-count if applicable
-        $isClosed = $ticket->status === TicketStatus::CLOSED;
-        $device->closed_tickets_count += $isClosed ? 1 : 0;
-
-        // update device's total-tickets-count
-        $device->total_tickets_count++;
+        // update device's ticket counters accordingly
+        $device->calculateTicketCounters();
 
         $device->save();
     }
@@ -41,12 +35,9 @@ class TicketObserver
     {
         $device = $ticket->device;
 
-        // update device's pending-tickets-count if ticket status was changed
+        // update device's ticket counters if applicable
         if ($ticket->wasChanged('status')) {
-            $isClosed = $ticket->status === TicketStatus::CLOSED;
-            $isPreviousClosed = $ticket->getOriginal('status') === TicketStatus::CLOSED;
-            $device->closed_tickets_count -= $isPreviousClosed ? 1 : 0; // reset previous value
-            $device->closed_tickets_count += $isClosed ? 1 : 0; // update with new value
+            $device->calculateTicketCounters();
         }
 
         $device->isDirty() && $device->save();
@@ -59,12 +50,8 @@ class TicketObserver
     {
         $device = $ticket->device;
 
-        // update device's pending-tickets-count if applicable
-        $isClosed = $ticket->status === TicketStatus::CLOSED;
-        $device->closed_tickets_count -= $isClosed ? 1 : 0;
-
-        // update device's total-tickets-count
-        $device->total_tickets_count--;
+        // update device's ticket counters accordingly
+        $device->calculateTicketCounters();
 
         $device->save();
     }

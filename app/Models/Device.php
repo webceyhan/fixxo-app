@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\DeviceStatus;
+use App\Enums\TicketStatus;
 use App\Traits\Model\HasSince;
 use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -96,5 +97,18 @@ class Device extends Model
             ->whereNotNull('brand')
             ->groupBy('brand')
             ->orderByRaw('COUNT(brand) DESC');
+    }
+
+    // HELPERS /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Calculate total and closed ticket counters.
+     */
+    public function calculateTicketCounters(): void
+    {
+        $tickets = $this->tickets;
+
+        $this->total_tickets_count = $tickets->count();
+        $this->closed_tickets_count = $tickets->where('status', TicketStatus::CLOSED)->count();
     }
 }
