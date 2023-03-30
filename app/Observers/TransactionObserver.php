@@ -13,8 +13,8 @@ class TransactionObserver
     {
         $ticket = $transaction->ticket;
 
-        // debit ticket's balance
-        $ticket->balance += $transaction->amount;
+        // update ticket's balance
+        $ticket->calculateBalance();
 
         $ticket->save();
     }
@@ -28,8 +28,7 @@ class TransactionObserver
 
         // update ticket's balance if transaction amount was changed
         if ($transaction->wasChanged('amount')) {
-            $ticket->balance -= $transaction->getOriginal('amount'); // credit previous
-            $ticket->balance += $transaction->amount; // debit new transaction amount
+            $ticket->calculateBalance();
         }
 
         $ticket->isDirty() && $ticket->save();
@@ -42,25 +41,9 @@ class TransactionObserver
     {
         $ticket = $transaction->ticket;
 
-        // credit ticket's balance
-        $ticket->balance -= $transaction->amount;
+        // update ticket's balance
+        $ticket->calculateBalance();
 
         $ticket->save();
-    }
-
-    /**
-     * Handle the Transaction "restored" event.
-     */
-    public function restored(Transaction $transaction): void
-    {
-        //
-    }
-
-    /**
-     * Handle the Transaction "force deleted" event.
-     */
-    public function forceDeleted(Transaction $transaction): void
-    {
-        //
     }
 }

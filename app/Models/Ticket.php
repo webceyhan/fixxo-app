@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
-use Illuminate\Support\Facades\DB;
 
 class Ticket extends Model
 {
@@ -234,5 +233,16 @@ class Ticket extends Model
         $query->selectRaw('COUNT(id) as value, status as label')
             ->whereNot('status', TicketStatus::CLOSED)
             ->groupBy('status');
+    }
+
+
+    // HELPERS /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Calculate ticket's balance based on the sum of tasks and transactions.
+     */
+    public function calculateBalance(): void
+    {
+        $this->balance = $this->paid - $this->cost;
     }
 }
