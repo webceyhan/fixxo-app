@@ -17,8 +17,7 @@ class TaskObserver
         $ticket->calculateBalance();
 
         // update ticket's task counters accordingly
-        $ticket->completed_tasks_count += $task->completed_at ? 1 : 0;
-        $ticket->total_tasks_count += 1;
+        $ticket->calculateTaskCounters();
 
         $ticket->save();
     }
@@ -30,14 +29,14 @@ class TaskObserver
     {
         $ticket = $task->ticket;
 
-        // update ticket's balance if task cost was changed
+        // update ticket's balance if applicable
         if ($task->wasChanged('cost')) {
             $ticket->calculateBalance();
         }
 
-        // update ticket's completed task counter if applicable
+        // update ticket's task counters if applicable
         if ($task->wasChanged('completed_at')) {
-            $ticket->completed_tasks_count += $task->completed_at ? 1 : -1;
+            $ticket->calculateTaskCounters();
         }
 
         $ticket->isDirty() && $ticket->save();
@@ -54,8 +53,7 @@ class TaskObserver
         $ticket->calculateBalance();
 
         // update ticket's task counters accordingly
-        $ticket->completed_tasks_count -= $task->completed_at ? 1 : 0;
-        $ticket->total_tasks_count -= 1;
+        $ticket->calculateTaskCounters();
 
         $ticket->save();
     }

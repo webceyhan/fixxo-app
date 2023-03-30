@@ -245,4 +245,15 @@ class Ticket extends Model
     {
         $this->balance = $this->paid - $this->cost;
     }
+
+    /**
+     * Calculate total and completed tasks counters.
+     */
+    public function calculateTaskCounters(): void
+    {
+        $tasks = $this->tasks;
+
+        $this->total_tasks_count = $tasks->count();
+        $this->completed_tasks_count = $tasks->whereNotNull('completed_at')->count();
+    }
 }
