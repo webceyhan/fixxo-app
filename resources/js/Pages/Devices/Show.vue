@@ -5,10 +5,10 @@ import Card from "@/Components/Card.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
-import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
-import ToggleButton from "@/Components/Button/ToggleButton.vue";
-import DropdownToggleItem from "@/Components/Menu/DropdownToggleItem.vue";
+import DropdownItem from "@/Components/Menu/DropdownItem.vue";
+import DropdownDivider from "@/Components/Menu/DropdownDivider.vue";
+import DropdownHeader from "@/Components/Menu/DropdownHeader.vue";
 import TicketList from "@/Pages/Tickets/Partials/TicketList.vue";
 import DeviceCard from "./Partials/DeviceCard.vue";
 import DeviceBadge from "./Partials/DeviceBadge.vue";
@@ -25,6 +25,39 @@ const save = () => {
   });
   return true; // return true to close the edit
 };
+
+const statusActions = [
+  {
+    label: "Check In",
+    icon: "box-arrow-in-right",
+    value: "checked_in",
+  },
+  {
+    label: "Start Reparing",
+    icon: "wrench",
+    value: "in_repair",
+  },
+  {
+    label: "Put On Hold",
+    icon: "pause-circle",
+    value: "on_hold",
+  },
+  {
+    label: "Mark as Fixed",
+    icon: "check2-circle",
+    value: "fixed",
+  },
+  {
+    label: "Mark as Defect",
+    icon: "x-circle",
+    value: "defect",
+  },
+  {
+    label: "Check Out",
+    icon: "box-arrow-in-left",
+    value: "checked_out",
+  },
+];
 </script>
 
 <template>
@@ -44,32 +77,19 @@ const save = () => {
         :href="route('devices.destroy', device.id)"
         class="mr-4"
       />
-      <ToggleButton
-        name="status"
-        :value="device.status"
-        :href="route('devices.update', device.id)"
-        :options="{
-          checked_in: 'Check In',
-          in_repair: 'Start Repair',
-          fixed: 'Mark as Fixed',
-          checked_out: 'Check Out',
-        }"
-        :icons="{
-          checked_in: 'box-arrow-in-right',
-          in_repair: 'wrench',
-          fixed: 'check2-circle',
-          checked_out: 'box-arrow-in-left',
-        }"
-        method="put"
-      />
-      <SecondaryButton
-        v-if="device.status == 'in_repair'"
-        label="Mark as Defect"
-        icon="x-circle"
-        :href="route('devices.update', device.id)"
-        :data="{ status: 'defect' }"
-        method="put"
-      />
+
+      <Dropdown label="Change Status" icon="arrow-repeat">
+        <DropdownItem
+          v-for="action in statusActions"
+          v-show="action.value != device.status"
+          :key="action.value"
+          :label="action.label"
+          :icon="action.icon"
+          :href="route('devices.update', device.id)"
+          :data="{ status: action.value }"
+          method="put"
+        />
+      </Dropdown>
 
       <PrimaryButton
         label="New Ticket"
@@ -90,37 +110,26 @@ const save = () => {
           icon="delete"
           :href="route('devices.destroy', device.id)"
         />
-        <DropdownToggleItem
-          name="status"
-          :value="device.status"
-          :href="route('devices.update', device.id)"
-          :options="{
-            checked_in: 'Check In',
-            in_repair: 'Start Repair',
-            fixed: 'Mark as Fixed',
-            checked_out: 'Check Out',
-          }"
-          :icons="{
-            checked_in: 'box-arrow-in-right',
-            in_repair: 'wrench',
-            fixed: 'check2-circle',
-            checked_out: 'box-arrow-in-left',
-          }"
-          method="put"
-        />
-        <DropdownItem
-          v-if="device.status == 'in_repair'"
-          label="Mark as Defect"
-          icon="x-circle"
-          :href="route('devices.update', device.id)"
-          :data="{ status: 'defect' }"
-          method="put"
-        />
         <DropdownItem
           label="New Ticket"
           icon="create"
           :href="route('tickets.create')"
           :data="{ device_id: device.id }"
+        />
+
+        <DropdownDivider />
+
+        <DropdownHeader label="Change Status" />
+
+        <DropdownItem
+          v-for="action in statusActions"
+          v-show="action.value != device.status"
+          :key="action.value"
+          :label="action.label"
+          :icon="action.icon"
+          :href="route('devices.update', device.id)"
+          :data="{ status: action.value }"
+          method="put"
         />
       </Dropdown>
     </template>

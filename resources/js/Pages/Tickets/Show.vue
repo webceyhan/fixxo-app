@@ -2,22 +2,22 @@
 import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
+import Icon from "@/Components/Icon.vue";
 import Card from "@/Components/Card.vue";
 import Textarea from "@/Components/Form/Textarea.vue";
-import DangerButton from "@/Components/Button/DangerButton.vue";
+import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
-import DropdownItem from "@/Components/Menu/DropdownItem.vue";
+import DangerButton from "@/Components/Button/DangerButton.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
-import ToggleButton from "@/Components/Button/ToggleButton.vue";
-import DropdownToggleItem from "@/Components/Menu/DropdownToggleItem.vue";
-import TicketCard from "@/Pages/Tickets/Partials/TicketCard.vue";
+import DropdownItem from "@/Components/Menu/DropdownItem.vue";
+import DropdownDivider from "@/Components/Menu/DropdownDivider.vue";
+import DropdownHeader from "@/Components/Menu/DropdownHeader.vue";
+import TicketCard from "./Partials/TicketCard.vue";
 import TicketTasks from "./Partials/TicketTasks.vue";
 import TicketTransactions from "./Partials/TicketTransactions.vue";
 import SignatureModal from "./Partials/SignatureModal.vue";
-import Receipt from "./Partials/Receipt.vue";
 import TicketUploads from "./Partials/TicketUploads.vue";
-import Icon from "@/Components/Icon.vue";
-import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
+import Receipt from "./Partials/Receipt.vue";
 
 const props = defineProps({
   ticket: Object,
@@ -57,6 +57,34 @@ const print = (type) => {
     printing.value = null;
   }, 100);
 };
+
+const statusActions = [
+  {
+    label: "Open",
+    value: "new",
+    icon: "arrow-repeat",
+  },
+  {
+    label: "Dispatch",
+    value: "in_progress",
+    icon: "play",
+  },
+  {
+    label: "Put On Hold",
+    value: "on_hold",
+    icon: "pause",
+  },
+  {
+    label: "Mark as Resolved",
+    value: "resolved",
+    icon: "check",
+  },
+  {
+    label: "Close",
+    value: "closed",
+    icon: "x",
+  },
+];
 </script>
 
 <template>
@@ -76,26 +104,19 @@ const print = (type) => {
         :href="route('tickets.destroy', ticket.id)"
         class="mr-4"
       />
-      <ToggleButton
-        name="status"
-        :value="ticket.status"
-        :href="route('tickets.update', ticket.id)"
-        :options="{
-          new: 'Reopen',
-          in_progress: 'Dispatch',
-          on_hold: 'Hold',
-          resolved: 'Resolve',
-          closed: 'Close',
-        }"
-        :icons="{
-          new: 'arrow-repeat',
-          in_progress: 'arrow-repeat',
-          on_hold: 'pause-circle',
-          resolved: 'check-circle',
-          closed: 'x-circle',
-        }"
-        method="put"
-      />
+
+      <Dropdown label="Change Status" icon="arrow-repeat">
+        <DropdownItem
+          v-for="action in statusActions"
+          v-show="action.value != ticket.status"
+          :key="action.value"
+          :label="action.label"
+          :icon="action.icon"
+          :href="route('tickets.update', ticket.id)"
+          :data="{ status: action.value }"
+          method="put"
+        />
+      </Dropdown>
 
       <SecondaryButton label="Sign" icon="sign" @click="signatureModal.open()" />
 
@@ -130,26 +151,6 @@ const print = (type) => {
           icon="delete"
           :href="route('tickets.destroy', ticket.id)"
         />
-        <DropdownToggleItem
-          name="status"
-          :value="ticket.status"
-          :href="route('tickets.update', ticket.id)"
-          :options="{
-            new: 'Reopen',
-            in_progress: 'Dispatch',
-            on_hold: 'Hold',
-            resolved: 'Resolve',
-            closed: 'Close',
-          }"
-          :icons="{
-            new: 'arrow-repeat',
-            in_progress: 'arrow-repeat',
-            on_hold: 'pause-circle',
-            resolved: 'check-circle',
-            closed: 'x-circle',
-          }"
-          method="put"
-        />
         <DropdownItem label="New Task" icon="create" @click="ticketTasks.create()" />
         <DropdownItem
           label="New Transaction"
@@ -157,6 +158,21 @@ const print = (type) => {
           @click="ticketTransactions.create()"
         />
         <DropdownItem label="Sign" icon="sign" @click="signatureModal.open()" />
+
+        <DropdownDivider />
+
+        <DropdownHeader label="Change Status" />
+
+        <DropdownItem
+          v-for="action in statusActions"
+          v-show="action.value != ticket.status"
+          :key="action.value"
+          :label="action.label"
+          :icon="action.icon"
+          :href="route('tickets.update', ticket.id)"
+          :data="{ status: action.value }"
+          method="put"
+        />
       </Dropdown>
     </template>
 
