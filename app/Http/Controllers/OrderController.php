@@ -15,15 +15,15 @@ class OrderController extends Controller
     {
         $allowedParams = request()->only('search', 'status');
 
-        $tickets = Order::query()
+        $orders = Order::query()
             ->filterByParams($allowedParams)
-            ->with('ticket.customer')
+            // ->with('ticket.customer')
             ->latest('id')
             ->paginate()
             ->withQueryString();
 
         return inertia('Orders/Index', [
-            'tickets' => $tickets,
+            'orders' => $orders,
             'filters' => [
                 'status' => OrderStatus::values(),
             ]
