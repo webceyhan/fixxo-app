@@ -20,12 +20,12 @@ class OrderFactory extends Factory
         $parts = ['screen', 'battery', 'cable', 'hdd', 'ram'];
 
         return [
-            'name' => $this->faker->randomElement($parts),
-            'url' => $this->faker->url,
+            'name' => fake()->randomElement($parts),
+            'url' => fake()->url,
             'quantity' => rand(1, 2),
-            'cost' => $this->faker->randomFloat(2, 0, 100),
-            'note' => $this->faker->optional(.2)->text,
-            'status' => $this->faker->randomElement(OrderStatus::values()),
+            'cost' => fake()->randomFloat(2, 0, 100),
+            'note' => fake()->optional(.2)->text,
+            'status' => fake()->randomElement(OrderStatus::values()),
         ];
     }
 }
