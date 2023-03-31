@@ -14,8 +14,7 @@ const props = defineProps({
       <h5>
         Tickets
         <span class="ml-1 opacity-50">
-          {{ device.closed_tickets_count }}/
-          {{ device.total_tickets_count }}
+          {{ device.closed_tickets_count }}/{{ device.total_tickets_count }}
         </span>
       </h5>
     </template>

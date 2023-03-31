@@ -39,8 +39,7 @@ defineExpose({
       <h5>
         Tasks
         <span class="ml-1 opacity-50">
-          {{ ticket.completed_tasks_count }}/
-          {{ ticket.total_tasks_count }}
+          {{ ticket.completed_tasks_count }}/{{ ticket.total_tasks_count }}
         </span>
       </h5>
     </template>
