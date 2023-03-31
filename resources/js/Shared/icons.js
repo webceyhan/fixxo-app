@@ -94,6 +94,7 @@ export default {
     ...deviceTypes,
 
     task: "clipboard",
+    order: "bag",
 
     transaction: "credit-card",
     ...transactionTypes,
