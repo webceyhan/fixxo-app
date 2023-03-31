@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\TicketStatus;
 use App\Http\Requests\SaveTicketRequest;
+use App\Models\Order;
 use App\Models\Transaction;
 use App\Models\Task;
 use App\Models\Ticket;
@@ -99,6 +100,7 @@ class TicketController extends Controller
             // but at this point we don't have a task/transaction yet so as a workaround
             // we are using a dummy new Task/Transaction instance instead of Task::class
             'canDeleteTask' => auth()->user()->can('delete', new Task),
+            'canDeleteOrder' => auth()->user()->can('delete', new Order),
             'canDeleteTransaction' => auth()->user()->can('delete', new Transaction),
         ]);
     }
