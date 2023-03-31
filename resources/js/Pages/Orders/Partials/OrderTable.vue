@@ -26,7 +26,7 @@ defineProps({
         <OrderBadge :status="order.status" compact />
       </template>
 
-      <TableData :value="order.name" :label="order.url" label-class="xl:hidden" />
+      <TableData :value="order.name" :label="order.url" label-class="line-clamp-1" />
 
       <TableData
         class="max-xl:hidden text-end"
