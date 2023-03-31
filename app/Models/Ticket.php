@@ -157,6 +157,11 @@ class Ticket extends Model
         );
     }
 
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class)->latest();
+    }
+
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class)->latest();

@@ -14,6 +14,7 @@ import DropdownDivider from "@/Components/Menu/DropdownDivider.vue";
 import DropdownHeader from "@/Components/Menu/DropdownHeader.vue";
 import TicketCard from "./Partials/TicketCard.vue";
 import TicketTasks from "./Partials/TicketTasks.vue";
+import TicketOrders from "./Partials/TicketOrders.vue";
 import TicketTransactions from "./Partials/TicketTransactions.vue";
 import SignatureModal from "./Partials/SignatureModal.vue";
 import TicketUploads from "./Partials/TicketUploads.vue";
@@ -22,9 +23,11 @@ import Receipt from "./Partials/Receipt.vue";
 const props = defineProps({
   ticket: Object,
   tasks: Array,
+  orders: Array,
   transactions: Array,
   canDelete: Boolean,
   canDeleteTask: Boolean,
+  canDeleteOrder: Boolean,
   canDeleteTransaction: Boolean,
 });
 
@@ -243,6 +246,12 @@ const statusActions = [
         ref="ticketTasks"
         v-bind="{ ticket, tasks }"
         :can-delete="canDeleteTask"
+      />
+
+      <TicketOrders
+        ref="ticketOrders"
+        v-bind="{ ticket, orders }"
+        :can-delete="canDeleteOrder"
       />
 
       <TicketTransactions
