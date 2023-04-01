@@ -15,12 +15,12 @@ defineProps({
   <AuthenticatedLayout title="Orders">
     <div class="flex flex-col lg:flex-row lg:justify-between gap-6">
       <Searchbar :filters="filters" class="basis-full xl:basis-2/3" />
-      <PrimaryButton
+      <!-- <PrimaryButton
         label="New"
         icon="create"
         class="!rounded-full"
         :href="route('orders.create')"
-      />
+      /> -->
     </div>
 
     <PaginationWrapper :meta="orders">
