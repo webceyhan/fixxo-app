@@ -16,7 +16,7 @@ const form = useForm({
   quantity: props.order.quantity ?? 1,
   cost: props.order.cost ?? 0,
   note: props.order.note,
-  status: props.order.status,
+  status: props.order.status ?? statusOptions[0],
 });
 </script>
 

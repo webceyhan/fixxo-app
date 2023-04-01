@@ -31,19 +31,11 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(SaveOrderRequest $request)
     {
-        //
+        return $this->update($request, new Order());
     }
 
     /**
@@ -67,7 +59,16 @@ class OrderController extends Controller
      */
     public function update(SaveOrderRequest $request, Order $order)
     {
-        //
+        $params = $request->validated();
+
+        // TODO: improve this by using a custom request
+        $params['user_id'] = auth()->id();
+
+        $order->fill($params)->save();
+
+        return redirect()
+            ->route('tickets.show', $order->ticket_id)
+            ->with('status', __('record saved'));
     }
 
     /**
@@ -75,6 +76,13 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        // TODO: use athorizeResource() here, see UserController::__construct()
+        $this->authorize('delete', $order);
+
+        $order->delete();
+
+        return redirect()
+            ->route('tickets.show', $order->ticket_id)
+            ->with('status', __('record deleted'));
     }
 }
