@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import { statusOptions } from "./shared";
 import Form from "@/Components/Form/Form.vue";
@@ -18,10 +19,16 @@ const form = useForm({
   note: props.order.note,
   status: props.order.status ?? statusOptions[0],
 });
+
+const formEl = ref(null);
+
+defineExpose({
+  save: () => formEl.value.save(),
+});
 </script>
 
 <template>
-  <Form :form="form" resource="orders">
+  <Form :form="form" resource="orders" ref="formEl">
     <FormControl
       label="Name"
       v-model="form.name"
