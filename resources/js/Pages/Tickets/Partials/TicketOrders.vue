@@ -3,8 +3,8 @@ import { ref, computed } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
+import OrderModal from "@/Pages/Orders/Partials/OrderModal.vue";
 import OrderList from "@/Pages/Orders/Partials/OrderList.vue";
-import TaskModal from "./Task/TaskModal.vue";
 
 const props = defineProps({
   ticket: Object,
@@ -12,7 +12,7 @@ const props = defineProps({
   canDelete: Boolean,
 });
 
-// Task Modal
+// Order Modal
 const modal = ref(null);
 const editing = ref(null);
 
@@ -49,7 +49,7 @@ defineExpose({
     </template>
 
     <OrderList :orders="orders" @select="edit" />
-    <TaskModal ref="modal" :task="editing" :can-delete="canDelete" />
+    <OrderModal ref="modal" :order="editing" :can-delete="canDelete" />
 
     <template #footer>
       <span class="w-full text-right">Total Cost</span>
