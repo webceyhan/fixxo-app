@@ -55,9 +55,12 @@ class DeviceFactory extends Factory
             'type' => $type,
             'serial' => fake()->uuid,
             'purchase_date' => fake()->optional(.2)->date(),
+            // TODO: add has_warranty accessor to model
             'warranty_expire_date' => fake()->optional(.2)->date(),
             'status' => fake()->randomElement(DeviceStatus::values()),
             'created_at' => fake()->dateTimeThisYear(),
         ];
+
+        // TODO: add states for different device types, has_warranty, status etc.
     }
 }
