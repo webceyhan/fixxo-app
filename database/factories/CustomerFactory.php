@@ -26,5 +26,7 @@ class CustomerFactory extends Factory
             'status' => fake()->randomElement(UserStatus::values()),
             'created_at' => fake()->dateTimeThisYear()
         ];
+
+        // TODO: add trashed state
     }
 }
