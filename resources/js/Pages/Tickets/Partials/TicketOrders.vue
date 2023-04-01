@@ -39,7 +39,7 @@ defineExpose({
       <h5>
         Orders
         <span class="ml-1 opacity-50">
-          {{ ticket.completed_orders_count }}/{{ ticket.total_orders_count }}
+          {{ ticket.received_orders_count }}/{{ ticket.total_orders_count }}
         </span>
       </h5>
     </template>

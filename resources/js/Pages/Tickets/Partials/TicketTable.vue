@@ -33,16 +33,23 @@ defineProps({
         :value="ticket.device.brand + ' ' + ticket.device.name"
       />
 
-      <TableData class="max-md:hidden" label="Tasks">
+      <TableData class="max-xl:hidden" label="Tasks">
         <template #value>
           {{ ticket.completed_tasks_count }}/
           {{ ticket.total_tasks_count }}
         </template>
       </TableData>
 
+      <TableData class="max-xl:hidden" label="Orders">
+        <template #value>
+          {{ ticket.received_orders_count }}/
+          {{ ticket.total_orders_count }}
+        </template>
+      </TableData>
+
       <TableData
         label="Balance"
-        class="max-xl:hidden text-end whitespace-nowrap"
+        class="max-lg:hidden text-end whitespace-nowrap"
         :value="formatMoney(ticket.balance)"
       />
 
