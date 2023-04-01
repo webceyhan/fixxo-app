@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('note')->nullable();
+            // TODO: use soft deletes instead!
             $table->enum('status', UserStatus::values())->default(UserStatus::ACTIVE);
             $table->timestamps();
         });

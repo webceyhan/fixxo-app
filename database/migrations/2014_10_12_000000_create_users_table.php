@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->enum('role', UserRole::values())->default(UserRole::EXPERT);
+            // TODO: use soft deletes instead!
             $table->enum('status', UserStatus::values())->default(UserStatus::ACTIVE);
             $table->timestamps();
         });
