@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Models\Device;
+use App\Models\Order;
 use App\Models\Ticket;
 use App\Models\Task;
 use App\Models\Transaction;
 use App\Observers\DeviceObserver;
+use App\Observers\OrderObserver;
 use App\Observers\TicketObserver;
 use App\Observers\TaskObserver;
 use App\Observers\TransactionObserver;
@@ -36,6 +38,7 @@ class EventServiceProvider extends ServiceProvider
         Device::observe(DeviceObserver::class);
         Ticket::observe(TicketObserver::class);
         Task::observe(TaskObserver::class);
+        Order::observe(OrderObserver::class);
         Transaction::observe(TransactionObserver::class);
     }
 

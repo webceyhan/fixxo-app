@@ -23,6 +23,8 @@ return new class extends Migration
             // aggregate fields
             $table->integer('completed_tasks_count')->default(0);
             $table->integer('total_tasks_count')->default(0);
+            $table->integer('received_orders_count')->default(0);
+            $table->integer('total_orders_count')->default(0);
             // ----------------
             $table->enum('status', TicketStatus::values())->default(TicketStatus::NEW);
             $table->timestamps();

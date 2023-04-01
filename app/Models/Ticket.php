@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatus;
 use App\Enums\TicketStatus;
 use App\Services\QRService;
 use App\Services\SignatureService;
@@ -54,12 +55,12 @@ class Ticket extends Model
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Get total cost of all tasks.
+     * Get total cost of all tasks and orders.
      */
     protected function cost(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->tasks->sum('cost'),
+            get: fn () => $this->tasks->sum('cost') + $this->orders->sum('cost'),
         )->shouldCache();
     }
 
@@ -80,6 +81,16 @@ class Ticket extends Model
     {
         return Attribute::make(
             get: fn () => $this->total_tasks_count - $this->completed_tasks_count,
+        );
+    }
+
+    /**
+     * Get count of all pending (not-received) orders.
+     */
+    protected function pendingOrdersCount(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->total_orders_count - $this->received_orders_count,
         );
     }
 
@@ -263,11 +274,23 @@ class Ticket extends Model
     }
 
     /**
+     * Calculate total and received orders counters.
+     */
+    public function calculateOrderCounters(): void
+    {
+        $orders = $this->orders;
+
+        $this->received_orders_count = $orders->where('status', OrderStatus::RECEIVED)->count();
+        $this->total_orders_count = $orders->count();
+    }
+
+    /**
      * Calculate ticket status based on its tasks.
      */
     public function calculateStatus(): void
     {
         $this->calculateTaskCounters();
+        $this->calculateOrderCounters();
 
         // get the task related counters
         $totalTasksCount = $this->total_tasks_count;
