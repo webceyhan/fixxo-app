@@ -43,7 +43,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        return $this->edit($order);
     }
 
     /**
@@ -51,7 +51,17 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        //
+        return inertia('Orders/Show', [
+            'order' => $order,
+            'ticket' => $order->ticket
+                ->append(['qr_url'])
+                ->load([
+                    'device',
+                    'customer',
+                    'user:id,name',
+                ]),
+            'canDelete' => auth()->user()->can('delete', $order),
+        ]);
     }
 
     /**
