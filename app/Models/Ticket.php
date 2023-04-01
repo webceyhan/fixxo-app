@@ -55,12 +55,33 @@ class Ticket extends Model
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * Get total cost of all tasks.
+     */
+    protected function tasksCost(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->tasks->sum('cost')
+        )->shouldCache();
+    }
+
+    /**
+     * Get total cost of all orders (excluding cancelled orders).
+     */
+    protected function ordersCost(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => $this->orders->sum('cost')
+                - $this->orders->where('status', OrderStatus::CANCELLED)->sum('cost'),
+        )->shouldCache();
+    }
+
+    /**
      * Get total cost of all tasks and orders.
      */
     protected function cost(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->tasks->sum('cost') + $this->orders->sum('cost'),
+            get: fn () => $this->tasks_cost + $this->orders_cost,
         )->shouldCache();
     }
 
@@ -90,7 +111,7 @@ class Ticket extends Model
     protected function pendingOrdersCount(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->total_orders_count - $this->received_orders_count,
+            get: fn () => $this->total_orders_count - $this->received_orders_count
         );
     }
 
@@ -280,8 +301,11 @@ class Ticket extends Model
     {
         $orders = $this->orders;
 
+        // we should deduct cancelled orders from the total count
+        $cancelled_orders_count = $orders->where('status', OrderStatus::CANCELLED)->count();
+
         $this->received_orders_count = $orders->where('status', OrderStatus::RECEIVED)->count();
-        $this->total_orders_count = $orders->count();
+        $this->total_orders_count = $orders->count() - $cancelled_orders_count;
     }
 
     /**
@@ -300,17 +324,18 @@ class Ticket extends Model
         // get the boolean flags
         $hasTasks = $totalTasksCount > 0;
         $hasPendingTasks = $pendingTasksCount > 0;
+        $hasPendingOrders = $this->pending_orders_count > 0;
 
         switch ($this->status) {
             case TicketStatus::NEW:
             case TicketStatus::ON_HOLD:
                 // if the ticket has pending tasks, it is still in progress and needs further action
-                if ($hasPendingTasks) {
+                if ($hasPendingTasks && !$hasPendingOrders) {
                     $this->status = TicketStatus::IN_PROGRESS;
                 }
                 // if the ticket has no pending tasks but still has tasks, it means that all tasks
                 // are completed, so the ticket is now resolved and no further action is needed
-                if ($hasTasks && !$hasPendingTasks) {
+                if ($hasTasks && !$hasPendingTasks && !$hasPendingOrders) {
                     $this->status = TicketStatus::RESOLVED;
                 }
                 break;
@@ -318,12 +343,12 @@ class Ticket extends Model
             case TicketStatus::IN_PROGRESS:
                 // if the ticket has no tasks, it means that there is nothing left 
                 // to do for now, so the ticket is put on hold
-                if (!$hasTasks) {
+                if (!$hasTasks || $hasPendingOrders) {
                     $this->status = TicketStatus::ON_HOLD;
                 }
                 // if the ticket has tasks but no pending tasks, it means that all tasks are completed, 
                 // so the ticket is now resolved and no further action is needed
-                if ($hasTasks && !$hasPendingTasks) {
+                if ($hasTasks && !$hasPendingTasks && !$hasPendingOrders) {
                     $this->status = TicketStatus::RESOLVED;
                 }
                 break;
@@ -332,12 +357,12 @@ class Ticket extends Model
             case TicketStatus::CLOSED:
                 // if the ticket has no tasks, it means that there is nothing left 
                 // to do for now, so the ticket is put on hold
-                if (!$hasTasks) {
+                if (!$hasTasks || $hasPendingOrders) {
                     $this->status = TicketStatus::ON_HOLD;
                 }
                 // if the ticket has pending tasks, it means that there are still tasks left to do, 
                 // so the ticket is still in progress and needs further action
-                if ($hasPendingTasks) {
+                if ($hasPendingTasks && !$hasPendingOrders) {
                     $this->status = TicketStatus::IN_PROGRESS;
                 }
                 break;

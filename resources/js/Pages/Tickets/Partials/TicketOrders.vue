@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
@@ -15,8 +15,6 @@ const props = defineProps({
 // Order Modal
 const modal = ref(null);
 const editing = ref(null);
-
-const totalCost = computed(() => props.orders.reduce((a, b) => a + +b.cost, 0));
 
 const create = () => {
   edit({ ticket_id: props.ticket.id });
@@ -54,7 +52,7 @@ defineExpose({
     <template #footer>
       <span class="w-full text-right">Total Cost</span>
       <span class="w-2/3 mr-7 sm:mr-9 text-right">
-        {{ formatMoney(totalCost) }}
+        {{ formatMoney(ticket.orders_cost) }}
       </span>
     </template>
   </Card>

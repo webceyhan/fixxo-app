@@ -80,6 +80,8 @@ class TicketController extends Controller
 
         // append custom attributes
         $ticket->append([
+            'tasks_cost',
+            'orders_cost',
             'cost',
             'paid',
             'qr_url',

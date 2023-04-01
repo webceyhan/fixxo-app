@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Enums\OrderStatus;
 use App\Models\Order;
 
 class OrderObserver
@@ -37,6 +38,7 @@ class OrderObserver
         // update ticket's order counters if applicable
         if ($order->wasChanged('status')) {
             $ticket->calculateOrderCounters();
+            $ticket->calculateBalance(); // in case if order was cancelled
         }
 
         $ticket->isDirty() && $ticket->save();
