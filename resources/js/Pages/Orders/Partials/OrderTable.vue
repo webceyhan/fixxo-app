@@ -26,7 +26,13 @@ defineProps({
         <OrderBadge :status="order.status" compact />
       </template>
 
-      <TableData :value="order.name" :label="order.url" label-class="line-clamp-1" />
+      <TableData :value="order.name">
+        <template #label>
+          for {{ order.ticket.device.brand }}
+          {{ order.ticket.device.name }}
+          - {{ order.ticket.customer.name }}
+        </template>
+      </TableData>
 
       <TableData
         class="max-xl:hidden text-end"

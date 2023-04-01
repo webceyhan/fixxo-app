@@ -17,7 +17,7 @@ class OrderController extends Controller
 
         $orders = Order::query()
             ->filterByParams($allowedParams)
-            // ->with('ticket.customer')
+            ->with('ticket.device', 'ticket.customer')
             ->latest('id')
             ->paginate()
             ->withQueryString();
