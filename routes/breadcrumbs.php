@@ -24,19 +24,19 @@ Breadcrumbs::macro('resource', function (string $name, string $title, string $pa
         $parentModel = $parentModelClass::find($parentId);
     }
 
-    // Home > Assets
+    // Home > Tickets
     Breadcrumbs::for("{$name}.index", function (BreadcrumbTrail $trail) use ($name, $title) {
         $trail->parent('home');
         $trail->push($title, route("{$name}.index"));
     });
 
-    // Home > Customers > [Customer] > New Asset
+    // Home > Customers > [Customer] > New Ticket
     Breadcrumbs::for("{$name}.create", function (BreadcrumbTrail $trail) use ($name, $title, $parentModel, $parentRoute) {
         $trail->parent($parentRoute ?? "{$name}.index", $parentModel);
         $trail->push('New ' . Str::singular($title), route("{$name}.create"));
     });
 
-    // Home > Customers > [Customer] > [Asset]
+    // Home > Customers > [Customer] > [Ticket]
     Breadcrumbs::for("{$name}.show", function (BreadcrumbTrail $trail, Model $model) use ($name, $title, $parent, $parentRoute) {
         // if the model has a parent, use the parent's title
         $parentModel = $parent ? $model->{$parent} : null;
@@ -49,7 +49,7 @@ Breadcrumbs::macro('resource', function (string $name, string $title, string $pa
         $trail->push($dynamicTitle, route("{$name}.show", $model));
     });
 
-    // Home > Customers > [Customer] > [Asset] > Edit Asset
+    // Home > Customers > [Customer] > [Ticket] > Edit Ticket
     Breadcrumbs::for("{$name}.edit", function (BreadcrumbTrail $trail, Model $model) use ($name, $title) {
         $trail->parent("{$name}.show", $model);
         $trail->push('Edit ' . Str::singular($title), route("{$name}.edit", $model));
@@ -76,6 +76,7 @@ Breadcrumbs::for('profile.edit', function (BreadcrumbTrail $trail) {
 
 Breadcrumbs::resource('users', 'Users');
 Breadcrumbs::resource('customers', 'Customers');
-Breadcrumbs::resource('assets', 'Assets', 'customer');
-Breadcrumbs::resource('tasks', 'Tasks', 'asset');
-Breadcrumbs::resource('payments', 'Payments', 'asset');
+Breadcrumbs::resource('devices', 'Devices', 'customer');
+Breadcrumbs::resource('tickets', 'Tickets', 'device');
+Breadcrumbs::resource('tasks', 'Tasks', 'ticket');
+Breadcrumbs::resource('transactions', 'Transactions', 'ticket');

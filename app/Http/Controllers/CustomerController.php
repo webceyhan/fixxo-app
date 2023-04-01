@@ -24,7 +24,7 @@ class CustomerController extends Controller
 
         $customers = Customer::query()
             ->filterByParams($allowedParams)
-            ->withCount(['assets'])
+            ->withCount(['devices', 'tickets'])
             ->latest('id')
             ->paginate()
             ->withQueryString();
@@ -60,7 +60,8 @@ class CustomerController extends Controller
     {
         return inertia('Customers/Show', [
             'customer' => $customer,
-            'assets' => $customer->assets()->get(),
+            'devices' => $customer->devices()->get(),
+            'tickets' => $customer->tickets()->get(),
             'canDelete' => auth()->user()->can('delete', $customer),
         ]);
     }

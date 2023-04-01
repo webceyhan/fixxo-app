@@ -6,7 +6,7 @@ use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Http\Requests\SaveUserRequest;
 use App\Models\User;
-
+use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {
@@ -49,7 +49,13 @@ class UserController extends Controller
 
         $users = User::query()
             ->filterByParams($allowedParams)
-            ->withCount(['assets', 'tasks'])
+            ->withCount(['tickets'])
+            // TODO: later implement this to show only relevant tickets
+            // ->withCount([
+            //     'tickets as open_tickets_count' => function (Builder $query) {
+            //         $query->inProgress();
+            //     },
+            // ])
             ->latest('id')
             ->paginate()
             ->withQueryString();
@@ -88,7 +94,7 @@ class UserController extends Controller
     {
         return inertia('Users/Show', [
             'user' => $user,
-            'recentAssets' => $user->assets()->latest('id')->take(5)->get(),
+            'recentTickets' => $user->tickets()->with('device')->take(5)->get(),
         ]);
     }
 

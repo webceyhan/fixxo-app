@@ -2,29 +2,31 @@
 import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
+import Icon from "@/Components/Icon.vue";
 import Card from "@/Components/Card.vue";
-import AssetList from "../Assets/Partials/AssetList.vue";
 import Textarea from "@/Components/Form/Textarea.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
-import CustomerCard from "./Partials/CustomerCard.vue";
 import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import ToggleButton from "@/Components/Button/ToggleButton.vue";
 import DropdownToggleItem from "@/Components/Menu/DropdownToggleItem.vue";
-import Icon from "@/Components/Icon.vue";
+import DeviceList from "@/Pages/Devices/Partials/DeviceList.vue";
+import TicketList from "@/Pages/Tickets/Partials/TicketList.vue";
+import CustomerCard from "./Partials/CustomerCard.vue";
 
 const props = defineProps({
   customer: Object,
-  assets: Array,
+  devices: Array,
+  tickets: Array,
   canDelete: Boolean,
 });
 
-const toggleNotesEdit = ref(false);
+const toggleNoteEdit = ref(false);
 
 const form = useForm({
-  notes: props.customer.notes,
+  note: props.customer.note,
 });
 
 const save = () => {
@@ -69,10 +71,18 @@ const save = () => {
       />
 
       <PrimaryButton
-        label="New Asset"
+        label="New Device"
         icon="create"
-        :href="route('assets.create')"
+        :href="route('devices.create')"
         :data="{ customer_id: customer.id }"
+      />
+
+      <PrimaryButton
+        v-if="devices[0]"
+        label="New Ticket"
+        icon="create"
+        :href="route('tickets.create')"
+        :data="{ device_id: devices[0].id }"
       />
     </template>
 
@@ -106,10 +116,17 @@ const save = () => {
           method="put"
         />
         <DropdownItem
-          label="New Asset"
+          label="New Device"
           icon="create"
-          :href="route('assets.create')"
+          :href="route('devices.create')"
           :data="{ customer_id: customer.id }"
+        />
+        <DropdownItem
+          v-if="devices[0]"
+          label="New Ticket"
+          icon="create"
+          :href="route('tickets.create')"
+          :data="{ device_id: devices[0].id }"
         />
       </Dropdown>
     </template>
@@ -117,40 +134,44 @@ const save = () => {
     <template #aside>
       <CustomerCard :customer="customer" />
 
-      <Card label="Notes">
+      <Card label="Note">
         <div
-          v-if="!toggleNotesEdit"
+          v-if="!toggleNoteEdit"
           class="relative group"
-          @click="toggleNotesEdit = true"
+          @click="toggleNoteEdit = true"
         >
           <pre
             class="whitespace-pre-wrap text-sm"
-            v-html="customer.notes ?? 'Add notes...'"
+            v-html="customer.note ?? 'Add note...'"
           />
 
           <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
         </div>
 
-        <div v-if="toggleNotesEdit">
+        <div v-if="toggleNoteEdit">
           <Textarea
             rows="5"
             class="block w-full text-sm font-mono mb-4"
-            v-model="form.notes"
+            v-model="form.note"
             autofocus
           />
           <PrimaryButton
             label="Save"
             class="mr-2"
-            @click="save() && (toggleNotesEdit = false)"
+            @click="save() && (toggleNoteEdit = false)"
           />
-          <SecondaryButton label="Cancel" @click="toggleNotesEdit = false" />
+          <SecondaryButton label="Cancel" @click="toggleNoteEdit = false" />
         </div>
       </Card>
     </template>
 
     <template #content>
-      <Card label="Assets" flush>
-        <AssetList :assets="assets" />
+      <Card label="Devices" flush>
+        <DeviceList :devices="devices" />
+      </Card>
+
+      <Card label="Tickets" flush>
+        <TicketList :tickets="tickets" />
       </Card>
     </template>
   </PageLayout>

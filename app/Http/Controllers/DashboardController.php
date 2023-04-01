@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Interval;
-use App\Models\Asset;
 use App\Models\Customer;
-use App\Models\Payment;
+use App\Models\Transaction;
 use App\Models\Task;
+use App\Models\Ticket;
 use Illuminate\Http\Request;
 use \Carbon\Carbon;
 
@@ -38,10 +38,10 @@ class DashboardController extends Controller
         ];
     }
 
-    private static function getLatestAssets($interval)
+    private static function getLatestTickets($interval)
     {
-        return Asset::query()
-            ->with('customer:id,name')
+        return Ticket::query()
+            ->with(['device', 'customer'])
             ->since($interval)
             ->latest('id')
             ->limit(5);
@@ -56,7 +56,7 @@ class DashboardController extends Controller
         $result = Task::query()
             ->since($interval)
             ->selectRaw($fx . '(created_at) AS date')
-            ->selectRaw('SUM(price) AS price')
+            ->selectRaw('SUM(cost) AS cost')
             ->groupBy('date')
             ->orderBy('date')
             ->get();
@@ -76,7 +76,7 @@ class DashboardController extends Controller
                         return $date;
                 }
             }),
-            'values' => $result->pluck('price'),
+            'values' => $result->pluck('cost'),
         ];
     }
 
@@ -95,17 +95,17 @@ class DashboardController extends Controller
         $interval = $request->input('interval', Interval::DAY);
 
         // get earning stats from last (interval) days
-        // with sum of tasks's price as total cost
-        // and sum of payments's amount as total payment
+        // with sum of tasks's cost as total cost
+        // and sum of transactions's amount as total transaction
         // TODO: find a better way to do this using eloquent
         $earningStats = [
             [
                 'label' => 'expected',
-                'value' => Task::since($interval)->sum('price')
+                'value' => Task::since($interval)->sum('cost')
             ],
             [
                 'label' => 'received',
-                'value' => Payment::since($interval)->sum('amount')
+                'value' => Transaction::since($interval)->sum('amount')
             ]
         ];
 
@@ -115,20 +115,21 @@ class DashboardController extends Controller
 
             // stats
             'newCustomerStats' => self::generateStats(Customer::query(), $interval),
-            'newAssetStats' => self::generateStats(Asset::query(), $interval),
+            'newTicketStats' => self::generateStats(Ticket::query(), $interval),
             'newTaskStats' => self::generateStats(Task::query(), $interval),
-            'newPaymentStats' => self::generateStats(Payment::query(), $interval),
+            'newTransactionStats' => self::generateStats(Transaction::query(), $interval),
 
             // stats
             'incomeStats' => $this->getIncomeStats($interval),
-            'assetStats' => Asset::stats()->since($interval)->get(),
+            'ticketStats' => Ticket::stats()->since($interval)->get(),
             'taskStats' => Task::stats()->since($interval)->get(),
             'earningStats' => $earningStats,
 
-            // assets by status
-            'assetsReady' => self::getLatestAssets($interval)->ready()->get(),
-            'assetsInProgress' => self::getLatestAssets($interval)->inProgress()->get(),
-            'assetsUnpaid' => self::getLatestAssets($interval)->unpaid()->get()->append('balance'),
+            // latest tickets by status
+            'ticketsInProgress' => self::getLatestTickets($interval)->inProgress()->get(),
+            'ticketsResolved' => self::getLatestTickets($interval)->resolved()->get(),
+            'ticketsOutstanding' => self::getLatestTickets($interval)->outstanding()->get(),
+            'ticketsOverdue' => self::getLatestTickets($interval)->overdue()->get(),
         ]);
     }
 }

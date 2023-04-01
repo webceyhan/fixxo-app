@@ -27,17 +27,17 @@ class SaveTaskRequest extends FormRequest
         if ($this->isMethod('put')) {
             return [
                 'description' => 'sometimes|required|string',
-                'price' => 'sometimes|required|numeric',
-                'status' => ['sometimes', 'required', Rule::in(TaskStatus::values())],
+                'cost' => 'sometimes|required|numeric',
+                'is_completed' => 'sometimes|required|boolean',
             ];
         }
 
         // store
         return [
-            'asset_id' => 'required_without:id',
-            'description' => 'nullable|string',
-            'price' => 'nullable|numeric',
-            'status' => ['nullable', Rule::in(TaskStatus::values())],
+            'ticket_id' => 'required_without:id',
+            'description' => 'required|string',
+            'cost' => 'required|numeric',
+            'is_completed' => 'nullable|boolean',
         ];
     }
 }

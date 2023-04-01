@@ -10,6 +10,7 @@ const props = defineProps({
   resource: String,
   deletable: Boolean,
   dismissable: Boolean,
+  noActions: Boolean,
 });
 
 const save = () => {
@@ -33,6 +34,8 @@ const cancel = () => {
 
   window.history.back();
 };
+
+defineExpose({ save, cancel });
 </script>
 
 <template>
@@ -40,7 +43,7 @@ const cancel = () => {
     <slot />
 
     <slot name="actions">
-      <div class="flex justify-between gap-4">
+      <div v-if="!noActions" class="flex justify-between gap-4">
         <PrimaryButton label="Save" icon="save" type="submit" />
 
         <SecondaryButton label="Cancel" icon="dismiss" @click="cancel" class="mr-auto" />

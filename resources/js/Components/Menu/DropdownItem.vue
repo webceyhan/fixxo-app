@@ -8,11 +8,11 @@ defineProps({
   icon: String,
 });
 </script>
-
 <template>
-  <MenuItem v-slot="{ active }">
+  <MenuItem v-slot="{ active, close }">
     <component
       :is="$attrs.href ? Link : 'button'"
+      @start="() => close()"
       as="button"
       :class="{
         'group flex w-full items-center px-4 py-2 space-x-4': true,

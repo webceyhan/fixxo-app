@@ -3,7 +3,7 @@ const userRoles = {
     admin: "person-video2",
 };
 
-const assetTypes = {
+const deviceTypes = {
     desktop: "display",
     laptop: "laptop",
     tablet: "tablet",
@@ -15,7 +15,14 @@ const assetTypes = {
     other: "hdd",
 };
 
-const paymentMethods = {
+const transactionTypes = {
+    payment: "plus-lg",    
+    discount: "percent",
+    warranty: "shield-check",
+    refund: "dash-lg",
+};
+
+const transactionMethods = {
     cash: "cash",
     card: "credit-card",
     online: "globe",
@@ -54,7 +61,7 @@ const fields = {
     id: "hash",
     time: "clock",
     date: "calendar-date",
-    notes: "sticky",
+    note: "sticky",
 
     // CONTACT
     company: "building",
@@ -83,13 +90,15 @@ export default {
     user: "person-workspace",
     ...userRoles,
 
-    asset: "hdd",
-    ...assetTypes,
+    device: "hdd",
+    ...deviceTypes,
 
     task: "clipboard",
+    order: "bag",
 
-    payment: "credit-card",
-    ...paymentMethods,
+    transaction: "credit-card",
+    ...transactionTypes,
+    ...transactionMethods,
 
     profile: "person",
     setting: "gear",

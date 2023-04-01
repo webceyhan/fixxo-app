@@ -19,7 +19,7 @@ const form = useForm({
   address: props.customer.address,
   phone: props.customer.phone,
   email: props.customer.email,
-  notes: props.customer.notes,
+  note: props.customer.note,
   status: props.customer.status,
 });
 </script>
@@ -65,10 +65,10 @@ const form = useForm({
               :error="form.errors.email"
             />
             <FormControl
-              label="Notes"
+              label="Note"
               rows="3"
-              v-model="form.notes"
-              :error="form.errors.notes"
+              v-model="form.note"
+              :error="form.errors.note"
             />
             <FormControl label="Status" v-model="form.status" :options="statusOptions" />
           </Form>

@@ -83,11 +83,12 @@ class User extends Authenticatable
         );
     }
 
+    
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
-    public function assets(): HasMany
+    public function tickets(): HasMany
     {
-        return $this->hasMany(Asset::class)->latest();
+        return $this->hasMany(Ticket::class)->latest();
     }
 
     public function tasks(): HasMany

@@ -22,9 +22,9 @@ class CustomerFactory extends Factory
             'address' => fake()->address,
             'phone' => fake()->e164PhoneNumber,
             'email' => fake()->optional()->safeEmail,
-            'notes' => fake()->optional(.2)->text,
+            'note' => fake()->optional(.2)->text,
             'status' => fake()->randomElement(UserStatus::values()),
-            'created_at' => fake()->dateTimeThisYear(),
+            'created_at' => fake()->dateTimeThisYear()
         ];
     }
 }

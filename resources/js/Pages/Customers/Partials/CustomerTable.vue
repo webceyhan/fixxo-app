@@ -32,8 +32,14 @@ defineProps({
 
       <TableData
         class="max-xl:hidden text-end"
-        label="Assets"
-        :value="customer.assets_count"
+        label="Devices"
+        :value="customer.devices_count"
+      />
+
+      <TableData
+        class="max-xl:hidden text-end"
+        label="Tickets"
+        :value="customer.tickets_count"
       />
 
       <TableData class="max-lg:hidden text-end">

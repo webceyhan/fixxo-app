@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
-            $table->string('notes')->nullable();
+            $table->string('note')->nullable();
             $table->enum('status', UserStatus::values())->default(UserStatus::ACTIVE);
             $table->timestamps();
         });

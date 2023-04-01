@@ -32,7 +32,7 @@ class SaveCustomerRequest extends FormRequest
                 'address' => 'nullable|string',
                 'phone' => 'nullable|string',
                 'email' => 'nullable|email',
-                'notes' => 'nullable|string',
+                'note' => 'nullable|string',
                 'status' => ['nullable', Rule::in(UserStatus::values())],
             ];
         }
@@ -45,7 +45,7 @@ class SaveCustomerRequest extends FormRequest
             'address' => 'nullable|string',
             'phone' => 'nullable|string',
             'email' => 'nullable|email',
-            'notes' => 'nullable|string',
+            'note' => 'nullable|string',
             'status' => ['nullable', Rule::in(UserStatus::values())],
         ];
     }

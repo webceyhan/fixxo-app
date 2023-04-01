@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use App\Enums\TaskStatus;
+use App\Models\Attributes\BooleanDateAttribute;
 use App\Traits\Model\HasSince;
-use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends Model
 {
-    use HasFactory, Searchable, HasSince;
+    use HasFactory, HasSince;
 
     /**
      * The attributes that aren't mass assignable.
@@ -27,16 +28,28 @@ class Task extends Model
      * @var array
      */
     protected $attributes = [
-        'price' => 0,
-        'status' => TaskStatus::PENDING,
+        'cost' => 0,
+        'completed_at' => null,
     ];
 
     /**
-     * Index to use for full-text search.
+     * The attributes that should be appended to the model's array form.
      *
-     * @var string
+     * @var array
      */
-    protected $searchIndex = 'description';
+    protected $appends = [
+        'is_completed',
+    ];
+
+    // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the task's status.
+     */
+    protected function isCompleted(): Attribute
+    {
+        return BooleanDateAttribute::for('completed_at');
+    }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
@@ -45,19 +58,42 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function asset(): BelongsTo
+    public function ticket(): BelongsTo
     {
-        return $this->belongsTo(Asset::class);
+        return $this->belongsTo(Ticket::class);
     }
 
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Scope a query to get tasks that are pending.
+     */
+    public function scopePending(Builder $query): void
+    {
+        $query->whereNull('completed_at');
+    }
+
+    /**
+     * Scope a query to get tasks that are completed.
+     */
+    public function scopeCompleted(Builder $query): void
+    {
+        $query->whereNotNull('completed_at');
+    }
 
     /**
      * Scope a query to get statistics grouped by status.
      */
     public function scopeStats(Builder $query): void
     {
-        $query->selectRaw('COUNT(id) as value, status as label')
-            ->groupBy('status');
+        $query
+            ->selectRaw('COUNT(id) as value')
+            ->selectRaw(
+                'IF(completed_at IS NULL, "'
+                    . TaskStatus::PENDING . '", "'
+                    . TaskStatus::COMPLETED . '") as label'
+            )
+            ->groupBy('label')
+            ->orderByDesc('label');
     }
 }

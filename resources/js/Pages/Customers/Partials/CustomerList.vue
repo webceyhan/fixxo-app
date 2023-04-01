@@ -28,8 +28,8 @@ defineProps({
         {{ customer.phone }}
       </div>
 
-      <div v-if="customer.assets_count" class="hidden md:block w-2/12 text-gray-400">
-        assets {{ customer.assets_count }}
+      <div v-if="customer.tickets_count" class="hidden md:block w-2/12 text-gray-400">
+        tickets {{ customer.tickets_count }}
       </div>
 
       <template #badge>
