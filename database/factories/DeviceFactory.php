@@ -24,7 +24,7 @@ class DeviceFactory extends Factory
         ],
         'Sony' => [
             'Vaio' => DeviceType::LAPTOP,
-            'Playstation' => DeviceType::CONSOLE,
+            'PlayStation' => DeviceType::CONSOLE,
         ],
         'Hp' => [
             'Pavilion' => DeviceType::DESKTOP,
