@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits\Model;
+namespace App\Models\Traits;
 
 use App\Enums\Interval;
 use Illuminate\Database\Eloquent\Builder;

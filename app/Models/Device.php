@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Enums\DeviceStatus;
 use App\Enums\TicketStatus;
 use App\Traits\Model\HasSince;
-use App\Traits\Model\Searchable;
+use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
