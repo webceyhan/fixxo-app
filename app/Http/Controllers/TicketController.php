@@ -38,8 +38,7 @@ class TicketController extends Controller
             ->search(request()->input('search'))
             ->with('device')
             ->latest('id')
-            ->paginate()
-            ->withQueryString();
+            ->paginate();
 
         return inertia('Tickets/Index', [
             'tickets' => $tickets,

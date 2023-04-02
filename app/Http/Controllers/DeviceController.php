@@ -21,8 +21,7 @@ class DeviceController extends Controller
             // ->withSum('tasks as total_cost', 'cost')
             ->with('customer:id,name')
             ->latest('id')
-            ->paginate()
-            ->withQueryString();
+            ->paginate();
 
         // Get all distinct brands to use as filter options
         $brands = Device::brands()->get();

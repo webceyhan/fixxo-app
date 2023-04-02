@@ -55,8 +55,7 @@ class UserController extends Controller
             //     },
             // ])
             ->latest('id')
-            ->paginate()
-            ->withQueryString();
+            ->paginate();
 
         return inertia('Users/Index', [
             'users' => $users,

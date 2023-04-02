@@ -25,8 +25,7 @@ class CustomerController extends Controller
             ->search(request()->input('search'))
             ->withCount(['devices', 'tickets'])
             ->latest('id')
-            ->paginate()
-            ->withQueryString();
+            ->paginate();
 
         return inertia('Customers/Index', [
             'customers' => $customers,

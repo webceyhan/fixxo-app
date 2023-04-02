@@ -18,8 +18,7 @@ class OrderController extends Controller
             ->search(request()->input('search'))
             ->with('ticket.device', 'ticket.customer')
             ->latest('id')
-            ->paginate()
-            ->withQueryString();
+            ->paginate();
 
         return inertia('Orders/Index', [
             'orders' => $orders,
