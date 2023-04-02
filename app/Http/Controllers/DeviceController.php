@@ -14,10 +14,9 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        $allowedParams = request()->only('search', 'type', 'status', 'brand');
-
         $devices = Device::query()
-            ->filterByParams($allowedParams)
+            ->filter(request()->all())
+            ->search(request()->input('search'))
             // ->withCount(['tasks'])
             // ->withSum('tasks as total_cost', 'cost')
             ->with('customer:id,name')

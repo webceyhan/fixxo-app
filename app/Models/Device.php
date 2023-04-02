@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\DeviceStatus;
 use App\Enums\TicketStatus;
+use App\Models\Traits\Filterable;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Device extends Model
 {
-    use HasFactory, Searchable, HasSince;
+    use HasFactory, Filterable, Searchable, HasSince;
 
     /**
      * The attributes that aren't mass assignable.
@@ -46,11 +47,27 @@ class Device extends Model
     protected $appends = [];
 
     /**
-     * Index to use for full-text search.
+     * Searchable attributes.
      *
-     * @var string
+     * @var array<int, string>
      */
-    protected $searchIndex = 'name,brand,type,serial';
+    protected $searchable = [
+        'name',
+        'brand',
+        'type',
+        'serial',
+    ];
+
+    /**
+     * Filterable attributes.
+     *
+     * @var array<int, string>
+     */
+    protected $filterable = [
+        'brand',
+        'type',
+        'status',
+    ];
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 

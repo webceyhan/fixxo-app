@@ -6,7 +6,6 @@ use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Http\Requests\SaveUserRequest;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {
@@ -45,10 +44,9 @@ class UserController extends Controller
             ]);
         }
 
-        $allowedParams = request()->only('search', 'role', 'status');
-
         $users = User::query()
-            ->filterByParams($allowedParams)
+            ->filter(request()->all())
+            ->search(request()->input('search'))
             ->withCount(['tickets'])
             // TODO: later implement this to show only relevant tickets
             // ->withCount([

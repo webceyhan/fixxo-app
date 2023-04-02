@@ -34,7 +34,8 @@ class TicketController extends Controller
                     }
                 }
             )
-            ->filterByParams($allowedParams)
+            ->filter($allowedParams)
+            ->search(request()->input('search'))
             ->with('device')
             ->latest('id')
             ->paginate()

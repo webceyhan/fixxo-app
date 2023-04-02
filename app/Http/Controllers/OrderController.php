@@ -13,10 +13,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $allowedParams = request()->only('search', 'status');
-
         $orders = Order::query()
-            ->filterByParams($allowedParams)
+            ->filter(request()->all())
+            ->search(request()->input('search'))
             ->with('ticket.device', 'ticket.customer')
             ->latest('id')
             ->paginate()

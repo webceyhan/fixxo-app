@@ -4,37 +4,24 @@ namespace App\Models\Traits;
 
 use Illuminate\Database\Eloquent\Builder;
 
-/**
- * Extend Eloquent models with the ability to do full-text search.
- *
- * @static \Illuminate\Database\Eloquent\Builder searchBy(string $keyword)
- * @static \Illuminate\Database\Eloquent\Builder filterByParams(array $params)
- * @static \Illuminate\Database\Eloquent\Builder matchAgainst(string $keyword, string $index)
- */
 trait Searchable
 {
     /**
-     * Index to use for full-text search.
+     * Searchable attributes.
      *
-     * @var string
+     * @var array<int, string>
      */
-    // protected $searchIndex = '';
-
-    public static function fullTextColumns(): array
-    {
-        // get the search index definition from model
-        $searchIndex = (new static)->searchIndex;
-
-        // convert it to an array
-        return explode(',', $searchIndex);
-    }
+    // protected $searchable = [];
 
     /**
-     * Scope a query to only include records by full-text search
-     * matching given keyword against full-text index.
+     * Scope a query to only include records matching
+     * given keyword against searchable model attributes.
      */
-    public function scopeMatchAgainst(Builder $query, string $keyword, string $index): void
+    public function scopeSearch(Builder $query, ?string $keyword = null): void
     {
+        // skip if no keyword is given
+        if (empty($keyword)) return;
+
         // issue: value is "Kelly Muller DVM", keyword 'dvm' is working but vm is not
         // but if you begin with 'k', 'ke', 'kel', 'kell' or 'kelly' it works!
 
@@ -46,7 +33,7 @@ trait Searchable
         $keyword = addslashes(implode('* ', explode(' ', $keyword)) . '*');
 
         // create full-text statement in boolean mode
-        $statement = "MATCH($index) AGAINST ('$keyword' IN BOOLEAN MODE)";
+        $statement = "MATCH({$this->index()}) AGAINST ('$keyword' IN BOOLEAN MODE)";
 
         $query
             ->select('*') // bugfix: must select all with selectRaw()
@@ -56,34 +43,19 @@ trait Searchable
     }
 
     /**
-     * Scope a query to only include records matching
-     * given keyword against predefined search index in model.
+     * Get the full-text index using the searchable attributes.
      */
-    public function scopeSearchBy(Builder $query, string $keyword): void
+    private function index(): string
     {
-        if (is_numeric($keyword)) {
-            // search by id if keyword is numeric
-            $query->where('id', (int)$keyword);
-        } else {
-            // or perform a full-text search
-            $query->matchAgainst($keyword, $this->searchIndex);
-        }
+        return  implode(',', $this->searchable ?? []);
     }
 
     /**
-     * Scope a query to filter records by given parameters (if available)
-     * which correspond to model's filterable attributes definition.
+     * Get the full-text index columns.
+     * This is used to create the full-text index in the migration.
      */
-    public function scopeFilterByParams(Builder $query, array $params = []): void
+    public static function fullTextColumns(): array
     {
-        foreach ($params as $key => $value) {
-
-            if ($key === 'search') {
-                $query->when($value, fn ($query, $value) => $query->searchBy($value));
-                continue;
-            }
-
-            $query->when($value, fn ($query, $value) => $query->where($key, $value));
-        }
+        return (new static)->searchable ?? [];
     }
 }

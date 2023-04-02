@@ -20,10 +20,9 @@ class CustomerController extends Controller
             ]);
         }
 
-        $allowedParams = request()->only('search', 'status');
-
         $customers = Customer::query()
-            ->filterByParams($allowedParams)
+            ->filter(request()->all())
+            ->search(request()->input('search'))
             ->withCount(['devices', 'tickets'])
             ->latest('id')
             ->paginate()

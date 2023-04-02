@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Models\Traits\Filterable;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,7 +19,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, Searchable, HasSince;
+    use HasApiTokens, HasFactory, Notifiable, Filterable, Searchable, HasSince;
 
     /**
      * The attributes that are mass assignable.
@@ -65,11 +66,26 @@ class User extends Authenticatable
     ];
 
     /**
-     * Index to use for full-text search.
+     * Searchable attributes.
      *
-     * @var string
+     * @var array<int, string>
      */
-    protected $searchIndex = 'name,email';
+    protected $searchable = [
+        'name',
+        'email',
+    ];
+
+    /**
+     * Filterable attributes.
+     *
+     * @var array<int, string>
+     */
+    protected $filterable = [
+        'name',
+        'email',
+        'role',
+        'status',
+    ];
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
@@ -83,7 +99,7 @@ class User extends Authenticatable
         );
     }
 
-    
+
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     public function tickets(): HasMany

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use App\Models\Traits\Filterable;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Order extends Model
 {
-    use HasFactory, Searchable, HasSince;
+    use HasFactory, Filterable, Searchable, HasSince;
 
     /**
      * The attributes that aren't mass assignable.
@@ -35,11 +36,24 @@ class Order extends Model
     ];
 
     /**
-     * Index to use for full-text search.
+     * Searchable attributes.
      *
-     * @var string
+     * @var array<int, string>
      */
-    protected $searchIndex = 'name,url,note';
+    protected $searchable = [
+        'name',
+        'url',
+        'note',
+    ];
+
+    /**
+     * Filterable attributes.
+     *
+     * @var array<int, string>
+     */
+    protected $filterable = [
+        'status',
+    ];
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
