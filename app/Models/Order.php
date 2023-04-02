@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
-use App\Traits\Model\HasSince;
+use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

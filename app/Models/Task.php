@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Enums\TaskStatus;
 use App\Models\Attributes\BooleanDateAttribute;
-use App\Traits\Model\HasSince;
+use App\Models\Traits\HasSince;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

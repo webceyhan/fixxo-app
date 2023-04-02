@@ -4,11 +4,11 @@ namespace App\Models;
 
 use App\Enums\OrderStatus;
 use App\Enums\TicketStatus;
+use App\Models\Traits\HasSince;
+use App\Models\Traits\Searchable;
 use App\Services\QRService;
 use App\Services\SignatureService;
 use App\Services\UploadService;
-use App\Traits\Model\HasSince;
-use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

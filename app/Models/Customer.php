@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\UserStatus;
-use App\Traits\Model\HasSince;
+use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
