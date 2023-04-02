@@ -3,7 +3,6 @@
 use App\Enums\TicketStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -22,7 +21,7 @@ return new class extends Migration
             $table->string('note')->nullable();
             // aggregate fields
             // TODO: maybe move to separate table?
-            $table->decimal('balance')->default(0); 
+            $table->decimal('balance')->default(0);
             // TODO: add total task/order cost fields
             // TODO: add total paid field
             $table->integer('completed_tasks_count')->default(0);
@@ -32,9 +31,10 @@ return new class extends Migration
             // ----------------
             $table->enum('status', TicketStatus::values())->default(TicketStatus::NEW);
             $table->timestamps();
-        });
 
-        DB::statement('ALTER TABLE `tickets` ADD FULLTEXT KEY `search` (`description`)');
+            // index definitions
+            $table->fullText(['description']);
+        });
     }
 
     /**

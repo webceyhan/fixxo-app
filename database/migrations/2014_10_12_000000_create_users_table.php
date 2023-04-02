@@ -4,7 +4,6 @@ use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -25,9 +24,10 @@ return new class extends Migration
             // TODO: use soft deletes instead!
             $table->enum('status', UserStatus::values())->default(UserStatus::ACTIVE);
             $table->timestamps();
-        });
 
-        DB::statement('ALTER TABLE `users` ADD FULLTEXT KEY `search` (`name`,`email`)');
+            // index definitions
+            $table->fullText(['name', 'email']);
+        });
     }
 
     /**
