@@ -50,7 +50,7 @@ class Ticket extends Model
      *
      * @var string
      */
-    protected $searchIndex = 'issue';
+    protected $searchIndex = 'description';
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 

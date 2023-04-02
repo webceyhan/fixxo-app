@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\OrderStatus;
+use App\Models\Order;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -25,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
 
             // index definitions
-            $table->fullText(['name', 'url', 'note']);
+            $table->fullText(Order::fullTextColumns());
         });
     }
 

@@ -20,6 +20,15 @@ trait Searchable
      */
     // protected $searchIndex = '';
 
+    public static function fullTextColumns(): array
+    {
+        // get the search index definition from model
+        $searchIndex = (new static)->searchIndex;
+
+        // convert it to an array
+        return explode(',', $searchIndex);
+    }
+
     /**
      * Scope a query to only include records by full-text search
      * matching given keyword against full-text index.

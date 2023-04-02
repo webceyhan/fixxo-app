@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\UserStatus;
+use App\Models\Customer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -26,7 +27,7 @@ return new class extends Migration
             $table->timestamps();
 
             // index definitions
-            $table->fullText(['name', 'company', 'vat', 'address', 'phone', 'email']);
+            $table->fullText(Customer::fullTextColumns());
         });
     }
 

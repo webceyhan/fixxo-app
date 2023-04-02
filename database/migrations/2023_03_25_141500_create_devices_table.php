@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\DeviceStatus;
+use App\Models\Device;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -33,7 +34,7 @@ return new class extends Migration
             $table->timestamps();
 
             // index definitions
-            $table->fullText(['name', 'brand', 'type', 'serial']);
+            $table->fullText(Device::fullTextColumns());
         });
     }
 
