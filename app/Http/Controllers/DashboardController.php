@@ -39,15 +39,6 @@ class DashboardController extends Controller
         ];
     }
 
-    private static function getLatestTickets($interval)
-    {
-        return Ticket::query()
-            ->with(['device', 'customer'])
-            ->since($interval)
-            ->latest('id')
-            ->limit(5);
-    }
-
     private function getIncomeStats($interval)
     {
         // TODO: put this query somewhere else!
@@ -104,8 +95,8 @@ class DashboardController extends Controller
         ];
 
         return inertia('Dashboard/Index', [
-            'filters'=> DashboardQuery::filters(),
-            
+            'filters' => DashboardQuery::filters(),
+
             // stats
             'newCustomerStats' => self::generateStats(Customer::query(), $interval),
             'newTicketStats' => self::generateStats(Ticket::query(), $interval),
@@ -119,10 +110,10 @@ class DashboardController extends Controller
             'earningStats' => $earningStats,
 
             // latest tickets by status
-            'ticketsInProgress' => self::getLatestTickets($interval)->inProgress()->get(),
-            'ticketsResolved' => self::getLatestTickets($interval)->resolved()->get(),
-            'ticketsOutstanding' => self::getLatestTickets($interval)->outstanding()->get(),
-            'ticketsOverdue' => self::getLatestTickets($interval)->overdue()->get(),
+            'ticketsInProgress' => DashboardQuery::recentTickets()->inProgress()->get(),
+            'ticketsResolved' => DashboardQuery::recentTickets()->resolved()->get(),
+            'ticketsOutstanding' => DashboardQuery::recentTickets()->outstanding()->get(),
+            'ticketsOverdue' => DashboardQuery::recentTickets()->overdue()->get(),
         ]);
     }
 }
