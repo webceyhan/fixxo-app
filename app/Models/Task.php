@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\TaskStatus;
 use App\Models\Attributes\BooleanDateAttribute;
 use App\Models\Traits\HasSince;
 use Illuminate\Database\Eloquent\Builder;
@@ -79,21 +78,5 @@ class Task extends Model
     public function scopeCompleted(Builder $query): void
     {
         $query->whereNotNull('completed_at');
-    }
-
-    /**
-     * Scope a query to get statistics grouped by status.
-     */
-    public function scopeStats(Builder $query): void
-    {
-        $query
-            ->selectRaw('COUNT(id) as value')
-            ->selectRaw(
-                'IF(completed_at IS NULL, "'
-                    . TaskStatus::PENDING . '", "'
-                    . TaskStatus::COMPLETED . '") as label'
-            )
-            ->groupBy('label')
-            ->orderByDesc('label');
     }
 }

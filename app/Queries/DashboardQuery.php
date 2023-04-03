@@ -3,8 +3,12 @@
 namespace App\Queries;
 
 use App\Enums\Interval;
+use App\Enums\TaskStatus;
+use App\Enums\TicketStatus;
+use App\Models\Task;
 use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class DashboardQuery extends QueryBuilder
@@ -21,7 +25,7 @@ class DashboardQuery extends QueryBuilder
     /**
      * Get the query for recent tickets for the dashboard.
      */
-    public static function recentTickets()
+    public static function recentTickets(): self
     {
         return (new self(Ticket::query()))
             ->with([
@@ -35,11 +39,11 @@ class DashboardQuery extends QueryBuilder
     /**
      * Generate chart data for the given query.
      */
-    public static function chartDataFor(Builder $query): array
+    public static function chartDataFor(Builder $query, bool $count = true): array
     {
         $result = (new self($query))
             ->selectRaw(self::intervalFx() . '(created_at) AS label')
-            ->selectRaw('COUNT(id) AS value')
+            ->when($count, fn ($q) => $q->selectRaw('COUNT(id) AS value'))
             ->groupBy('label')
             ->orderBy('label')
             ->get();
@@ -50,6 +54,50 @@ class DashboardQuery extends QueryBuilder
             'value' => $result->sum('value'),
         ];
     }
+
+    /**
+     * Generate chart data for income stats.
+     */
+    public static function chartDataForIncome()
+    {
+        $query = Task::query()->selectRaw('SUM(cost) AS value');
+
+        $data = self::chartDataFor($query, false);
+
+        return [
+            ...$data,
+            'labels' => $data['labels']->map(self::intervalFormatter()),
+        ];
+    }
+
+    /**
+     * Get ticket stats for the dashboard.
+     */
+    public static function ticketStats(): array
+    {
+        $query = Ticket::query()
+            ->selectRaw('COUNT(id) AS value, status AS label')
+            ->whereNot('status', TicketStatus::CLOSED);
+
+        return self::statsFor($query);
+    }
+
+    /**
+     * Get task stats for the dashboard.
+     */
+    public static function taskStats(): array
+    {
+        $query = Task::query()
+            ->selectRaw(
+                'IF(completed_at IS NULL, "'
+                    . TaskStatus::PENDING . '", "'
+                    . TaskStatus::COMPLETED . '") AS label'
+            );
+
+        return self::statsFor($query);
+    }
+
+
 
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 
@@ -73,7 +121,7 @@ class DashboardQuery extends QueryBuilder
     }
 
     /**
-     * Get the interval for the query.
+     * Get the requested interval.
      */
     private static function interval(): string
     {
@@ -81,7 +129,7 @@ class DashboardQuery extends QueryBuilder
     }
 
     /**
-     * Get the mysql function for interval.
+     * Get the mysql function for the interval.
      */
     private static function intervalFx(): string
     {
@@ -91,5 +139,48 @@ class DashboardQuery extends QueryBuilder
             Interval::MONTH => 'week',
             Interval::YEAR => 'month',
         ][static::interval()];
+    }
+
+    /**
+     * Get the date formatter for the interval.
+     */
+    private static function intervalFormatter(): callable
+    {
+        switch (static::interval()) {
+            case Interval::DAY: // hour
+                return fn ($date) => Carbon::today()->setTime($date, 0, 0)->format('H:i');
+
+            case Interval::WEEK: // day
+                return fn ($date) => Carbon::today()->day($date)->format('D');
+
+            case Interval::MONTH: // week
+                return fn ($date) => Carbon::today()->week($date)->format('d M');
+
+            case Interval::YEAR: // month
+                return fn ($date) => Carbon::today()->month($date)->format('M');
+
+            default:
+                return fn ($date) => $date;
+        }
+    }
+
+    /**
+     * Get the label-value pairs for the given query.
+     * 
+     * Example structure:
+     *     label        |   value
+     *     -------------+-----------
+     *     pending      |   1
+     *     completed    |   2
+     */
+    private static function statsFor(Builder $query): array
+    {
+        return (new self($query))
+            ->selectRaw('COUNT(id) AS value')
+            // label has to be provided by the query
+            ->groupBy('label')
+            ->orderByDesc('label')
+            ->get()
+            ->toArray();
     }
 }

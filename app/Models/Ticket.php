@@ -264,17 +264,6 @@ class Ticket extends Model
         return $query->outstanding()->closed();
     }
 
-    /**
-     * Scope a query to get statistics grouped by status.
-     */
-    public function scopeStats(Builder $query): void
-    {
-        $query->selectRaw('COUNT(id) as value, status as label')
-            ->whereNot('status', TicketStatus::CLOSED)
-            ->groupBy('status');
-    }
-
-
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 
     /**

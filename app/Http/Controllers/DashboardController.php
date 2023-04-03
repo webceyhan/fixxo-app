@@ -79,15 +79,15 @@ class DashboardController extends Controller
             'filters' => DashboardQuery::filters(),
 
             // chart data
+            'incomeChartData' => DashboardQuery::chartDataForIncome(),
             'customerChartData' => DashboardQuery::chartDataFor(Customer::query()),
             'ticketChartData' => DashboardQuery::chartDataFor(Ticket::query()),
             'taskChartData' => DashboardQuery::chartDataFor(Task::query()),
             'transactionChartData' => DashboardQuery::chartDataFor(Transaction::query()),
 
             // stats
-            'incomeStats' => $this->getIncomeStats($interval),
-            'ticketStats' => Ticket::stats()->since($interval)->get(),
-            'taskStats' => Task::stats()->since($interval)->get(),
+            'ticketStats' => DashboardQuery::ticketStats(),
+            'taskStats' => DashboardQuery::taskStats(),
             'earningStats' => $earningStats,
 
             // latest tickets by status
