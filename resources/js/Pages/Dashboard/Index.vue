@@ -164,7 +164,7 @@ const onIntervalChange = (interval) => {
         <template #footer>
           <Link
             label="View all"
-            :href="route('tickets.index', { status: 'outstanding' })"
+            :href="route('tickets.index', { filter: { outstanding: 1 } })"
           />
         </template>
       </Card>
@@ -178,7 +178,10 @@ const onIntervalChange = (interval) => {
         </div>
 
         <template #footer>
-          <Link label="View all" :href="route('tickets.index', { status: 'overdue' })" />
+          <Link
+            label="View all"
+            :href="route('tickets.index', { filter: { overdue: 1 } })"
+          />
         </template>
       </Card>
     </div>
