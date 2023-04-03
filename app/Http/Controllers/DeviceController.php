@@ -15,10 +15,8 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        $devices = (new DeviceQuery())->paginate();
-
         return inertia('Devices/Index', [
-            'devices' => $devices,
+            'devices' => (new DeviceQuery)->paginate(),
             'filters' => DeviceQuery::filters(),
         ]);
     }

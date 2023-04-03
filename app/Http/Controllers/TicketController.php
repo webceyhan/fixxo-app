@@ -19,10 +19,8 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $tickets = (new TicketQuery())->paginate();
-
         return inertia('Tickets/Index', [
-            'tickets' => $tickets,
+            'tickets' => (new TicketQuery)->paginate(),
             'filters' => TicketQuery::filters(),
         ]);
     }

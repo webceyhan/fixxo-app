@@ -38,10 +38,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = (new UserQuery())->paginate();
-
         return inertia('Users/Index', [
-            'users' => $users,
+            'users' => (new UserQuery)->paginate(),
             'filters' => UserQuery::filters(),
         ]);
     }

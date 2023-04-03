@@ -14,10 +14,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers = (new CustomerQuery())->paginate();
-
         return inertia('Customers/Index', [
-            'customers' => $customers,
+            'customers' => (new CustomerQuery)->paginate(),
             'filters' => CustomerQuery::filters(),
         ]);
     }

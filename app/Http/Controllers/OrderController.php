@@ -13,10 +13,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = (new OrderQuery())->paginate();
-
         return inertia('Orders/Index', [
-            'orders' => $orders,
+            'orders' => (new OrderQuery)->paginate(),
             'filters' => OrderQuery::filters(),
         ]);
     }
