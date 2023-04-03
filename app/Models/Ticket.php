@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\OrderStatus;
 use App\Enums\TicketStatus;
-use App\Models\Traits\Filterable;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
 use App\Services\QRService;
@@ -20,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Ticket extends Model
 {
-    use HasFactory, Filterable, Searchable, HasSince;
+    use HasFactory, Searchable, HasSince;
 
     /**
      * The attributes that aren't mass assignable.
@@ -53,15 +52,6 @@ class Ticket extends Model
      */
     protected $searchable = [
         'description',
-    ];
-
-    /**
-     * Filterable attributes.
-     *
-     * @var array<int, string>
-     */
-    protected $filterable = [
-        'status',
     ];
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////

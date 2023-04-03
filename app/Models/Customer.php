@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\UserStatus;
-use App\Models\Traits\Filterable;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Customer extends Model
 {
-    use HasFactory, Filterable, Searchable, HasSince;
+    use HasFactory, Searchable, HasSince;
 
     /**
      * The attributes that aren't mass assignable.
@@ -49,15 +48,6 @@ class Customer extends Model
         'address',
         'phone',
         'email',
-    ];
-
-    /**
-     * Filterable attributes.
-     *
-     * @var array<int, string>
-     */
-    protected $filterable = [
-        'status'
     ];
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
