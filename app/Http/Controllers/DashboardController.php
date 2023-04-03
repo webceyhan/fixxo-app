@@ -20,25 +20,6 @@ class DashboardController extends Controller
         Interval::YEAR => 'month',
     ];
 
-    private static function generateStats($query, $interval)
-    {
-        $fx = self::INTERVAL_FX[$interval];
-
-        $result =  $query
-            ->since($interval)
-            ->selectRaw($fx . '(created_at) AS date')
-            ->selectRaw('COUNT(id) AS amount')
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
-
-        return [
-            'labels' => $result->pluck('date'),
-            'values' => $result->pluck('amount'),
-            'value' => $result->sum('amount'),
-        ];
-    }
-
     private function getIncomeStats($interval)
     {
         // TODO: put this query somewhere else!
@@ -97,11 +78,11 @@ class DashboardController extends Controller
         return inertia('Dashboard/Index', [
             'filters' => DashboardQuery::filters(),
 
-            // stats
-            'newCustomerStats' => self::generateStats(Customer::query(), $interval),
-            'newTicketStats' => self::generateStats(Ticket::query(), $interval),
-            'newTaskStats' => self::generateStats(Task::query(), $interval),
-            'newTransactionStats' => self::generateStats(Transaction::query(), $interval),
+            // chart data
+            'customerChartData' => DashboardQuery::chartDataFor(Customer::query()),
+            'ticketChartData' => DashboardQuery::chartDataFor(Ticket::query()),
+            'taskChartData' => DashboardQuery::chartDataFor(Task::query()),
+            'transactionChartData' => DashboardQuery::chartDataFor(Transaction::query()),
 
             // stats
             'incomeStats' => $this->getIncomeStats($interval),

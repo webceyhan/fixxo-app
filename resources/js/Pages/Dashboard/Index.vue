@@ -15,10 +15,10 @@ import IncomeChart from "./Partials/IncomeChart.vue";
 const props = defineProps({
   filters: Object,
   //
-  newCustomerStats: Object,
-  newTicketStats: Object,
-  newTaskStats: Object,
-  newTransactionStats: Object,
+  customerChartData: Object,
+  ticketChartData: Object,
+  taskChartData: Object,
+  transactionChartData: Object,
   //
   incomeStats: Object,
   ticketStats: Array,
@@ -75,28 +75,28 @@ const onIntervalChange = (interval) => {
         label="New Customers"
         icon="people"
         icon-bg-color="bg-indigo-600/50"
-        v-bind="newCustomerStats"
+        v-bind="customerChartData"
       />
 
       <SingleStatCard
         label="New Tickets"
         icon="ticket"
         icon-bg-color="bg-pink-600/50"
-        v-bind="newTicketStats"
+        v-bind="ticketChartData"
       />
 
       <SingleStatCard
         label="New Tasks"
         icon="task"
         icon-bg-color="bg-green-600/50"
-        v-bind="newTaskStats"
+        v-bind="taskChartData"
       />
 
       <SingleStatCard
         label="New Transactions"
         icon="transaction"
         icon-bg-color="bg-orange-600/50"
-        v-bind="newTransactionStats"
+        v-bind="transactionChartData"
       />
     </div>
 

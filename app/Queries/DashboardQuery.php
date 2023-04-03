@@ -13,18 +13,45 @@ class DashboardQuery extends QueryBuilder
     {
         parent::__construct($baseQuery);
 
-        $this->since(static::interval())->latest();
+        $this->since(static::interval());
+    }
+
+    // PARTIAL QUERIES /////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get the query for recent tickets for the dashboard.
+     */
+    public static function recentTickets()
+    {
+        return (new self(Ticket::query()))
+            ->with([
+                'device',
+                'customer'
+            ])
+            ->latest()
+            ->limit(5);
     }
 
     /**
-     * Get the interval for the query.
+     * Generate chart data for the given query.
      */
-    public static function interval(): string
+    public static function chartDataFor(Builder $query): array
     {
-        return request('interval', Interval::DAY);
+        $result = (new self($query))
+            ->selectRaw(self::intervalFx() . '(created_at) AS label')
+            ->selectRaw('COUNT(id) AS value')
+            ->groupBy('label')
+            ->orderBy('label')
+            ->get();
+
+        return [
+            'labels' => $result->pluck('label'),
+            'values' => $result->pluck('value'),
+            'value' => $result->sum('value'),
+        ];
     }
 
-
+    // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Get the filters for the query UI.
@@ -45,15 +72,24 @@ class DashboardQuery extends QueryBuilder
         ];
     }
 
-    // PARTIAL QUERIES /////////////////////////////////////////////////////////////////////////////
-    
-    public static function recentTickets()
+    /**
+     * Get the interval for the query.
+     */
+    private static function interval(): string
     {
-        return (new self(Ticket::query()))
-            ->with([
-                'device',
-                'customer'
-            ])
-            ->limit(5);
+        return request('interval', Interval::DAY);
+    }
+
+    /**
+     * Get the mysql function for interval.
+     */
+    private static function intervalFx(): string
+    {
+        return [
+            Interval::DAY => 'hour',
+            Interval::WEEK => 'day',
+            Interval::MONTH => 'week',
+            Interval::YEAR => 'month',
+        ][static::interval()];
     }
 }
