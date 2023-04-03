@@ -7,6 +7,7 @@ use App\Enums\TaskStatus;
 use App\Enums\TicketStatus;
 use App\Models\Task;
 use App\Models\Ticket;
+use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -97,7 +98,22 @@ class DashboardQuery extends QueryBuilder
         return self::statsFor($query);
     }
 
-
+    /**
+     * Get earning stats for the dashboard.
+     */
+    public static function earningStats(): array
+    {
+        return [
+            [
+                'label' => 'expected',
+                'value' => (new self(Task::query()))->sum('cost')
+            ],
+            [
+                'label' => 'received',
+                'value' => (new self(Transaction::query()))->sum('amount')
+            ]
+        ];
+    }
 
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 
