@@ -1,6 +1,17 @@
 import { useSearchParams } from "./routing";
 
 /**
+ * Normalize array-like keys to object
+ */
+const normalizeParam = (key, value) => {
+    // try to unwrap array-like keys
+    const [, group, name] = key.match(/(^.*)\[(.*)\]/) ?? [];
+
+    // convert {filter[key]:value} to filter:{key:value}
+    return group ? { [group]: { [name]: value } } : { [key]: value };
+};
+
+/**
  * Normalize array-like options to array of objects
  *
  * possible input:
@@ -57,7 +68,7 @@ export function createOptionLinks(key, options, withIcons = false) {
     const selectedOption = useSearchParams()[key];
 
     return normalizeOptions(options, (value) => ({
-        data: { [key]: value },
+        data: normalizeParam(key, value),
         active: value === selectedOption,
         icon: withIcons ? value : null,
     }));
