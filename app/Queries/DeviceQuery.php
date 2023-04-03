@@ -36,13 +36,22 @@ class DeviceQuery extends QueryBuilder
     }
 
     /**
+     * Get all distinct brands sorted by their frequency.
+     */
+    public static function brands(): Builder
+    {
+        return Device::query()
+            ->select('brand')
+            ->whereNotNull('brand')
+            ->groupBy('brand')
+            ->orderByRaw('COUNT(brand) DESC');
+    }
+
+    /**
      * Get the filters for the query UI.
      */
     public static function filters(): array
     {
-        // Get all distinct brands to use as filter options
-        $brands = Device::brands()->get();
-
         return [
             'status' => [
                 'options' => DeviceStatus::values(),
@@ -52,7 +61,7 @@ class DeviceQuery extends QueryBuilder
                 'options' => DeviceType::values(),
             ],
             'brand' => [
-                'options' => $brands->pluck('brand'),
+                'options' => self::brands()->pluck('brand'),
             ]
         ];
     }
