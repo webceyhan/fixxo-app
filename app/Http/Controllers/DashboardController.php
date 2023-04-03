@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Transaction;
 use App\Models\Task;
 use App\Models\Ticket;
+use App\Queries\DashboardQuery;
 use Illuminate\Http\Request;
 use \Carbon\Carbon;
 
@@ -85,13 +86,6 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $intervalOptions = [
-            Interval::DAY => 'Today',
-            Interval::WEEK => 'This Week',
-            Interval::MONTH => 'This Month',
-            Interval::YEAR => 'This Year',
-        ];
-
         $interval = $request->input('interval', Interval::DAY);
 
         // get earning stats from last (interval) days
@@ -110,9 +104,8 @@ class DashboardController extends Controller
         ];
 
         return inertia('Dashboard/Index', [
-            'interval' => $interval,
-            'intervalOptions' => $intervalOptions,
-
+            'filters'=> DashboardQuery::filters(),
+            
             // stats
             'newCustomerStats' => self::generateStats(Customer::query(), $interval),
             'newTicketStats' => self::generateStats(Ticket::query(), $interval),

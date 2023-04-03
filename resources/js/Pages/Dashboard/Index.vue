@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from "vue";
 import { router } from "@inertiajs/vue3";
 import Link from "@/Components/Link.vue";
 import Card from "@/Components/Card.vue";
@@ -12,8 +13,7 @@ import SingleStatCard from "./Partials/SingleStatCard.vue";
 import IncomeChart from "./Partials/IncomeChart.vue";
 
 const props = defineProps({
-  interval: String,
-  intervalOptions: Object,
+  filters: Object,
   //
   newCustomerStats: Object,
   newTicketStats: Object,
@@ -38,6 +38,8 @@ const labelMap = {
   year: "Monthly",
 };
 
+const intervalFilter = computed(() => props.filters.interval);
+
 const onIntervalChange = (interval) => {
   router.reload({ data: { interval } });
 };
@@ -48,23 +50,23 @@ const onIntervalChange = (interval) => {
     <div class="flex items-center md:justify-end-">
       <TabNav class="hidden lg:flex w-full">
         <TabNavItem
-          v-for="(link, key) in intervalOptions"
+          v-for="(label, key) in intervalFilter.options"
           :key="key"
-          :label="link"
-          :active="key === interval"
+          :label="label"
+          :active="key === intervalFilter.value"
           :data="{ interval: key }"
         />
       </TabNav>
 
       <Select
         class="lg:hidden"
-        :options="intervalOptions"
-        :modelValue="interval"
+        :options="intervalFilter.options"
+        :modelValue="intervalFilter.value"
         @update:modelValue="onIntervalChange"
       />
     </div>
 
-    <StatCard :label="`${labelMap[interval]} Income`">
+    <StatCard :label="`${labelMap[intervalFilter.value]} Income`">
       <IncomeChart v-bind="incomeStats" color-class="bg-blue-500/75" />
     </StatCard>
 
