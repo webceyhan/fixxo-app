@@ -20,39 +20,6 @@ class DashboardController extends Controller
         Interval::YEAR => 'month',
     ];
 
-    private function getIncomeStats($interval)
-    {
-        // TODO: put this query somewhere else!
-        // get mysql date function based on the given interval
-        $fx = self::INTERVAL_FX[$interval];
-
-        $result = Task::query()
-            ->since($interval)
-            ->selectRaw($fx . '(created_at) AS date')
-            ->selectRaw('SUM(cost) AS cost')
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
-
-        return [
-            'labels' => $result->pluck('date')->map(function ($date) use ($interval) {
-                switch ($interval) {
-                    case Interval::DAY: // hour
-                        return Carbon::today()->setTime($date, 0, 0)->format('H:i');
-                    case Interval::WEEK: // day
-                        return Carbon::today()->day($date)->format('D');
-                    case Interval::MONTH: // week
-                        return Carbon::today()->week($date)->format('d M');
-                    case Interval::YEAR: // month
-                        return Carbon::today()->month($date)->format('M');
-                    default:
-                        return $date;
-                }
-            }),
-            'values' => $result->pluck('cost'),
-        ];
-    }
-
     /**
      * Handle the incoming request.
      */
