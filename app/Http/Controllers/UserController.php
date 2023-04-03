@@ -42,15 +42,7 @@ class UserController extends Controller
 
         return inertia('Users/Index', [
             'users' => $users,
-            'filters' => [
-                'status' => [
-                    'options' => UserStatus::values(),
-                    'default' => UserStatus::ACTIVE,
-                ],
-                'role' => [
-                    'options' => UserRole::values(),
-                ],
-            ]
+            'filters' => UserQuery::filters(),
         ]);
     }
 

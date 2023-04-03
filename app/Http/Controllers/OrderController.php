@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\OrderStatus;
 use App\Http\Requests\SaveOrderRequest;
 use App\Models\Order;
 use App\Queries\OrderQuery;
@@ -18,12 +17,7 @@ class OrderController extends Controller
 
         return inertia('Orders/Index', [
             'orders' => $orders,
-            'filters' => [
-                'status' => [
-                    'options' => OrderStatus::values(),
-                    'default' => OrderStatus::NEW
-                ]
-            ]
+            'filters' => OrderQuery::filters(),
         ]);
     }
 

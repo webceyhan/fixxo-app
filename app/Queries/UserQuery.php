@@ -2,6 +2,7 @@
 
 namespace App\Queries;
 
+use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
@@ -33,5 +34,21 @@ class UserQuery extends QueryBuilder
             ->withCount([
                 'tickets',
             ]);
+    }
+
+    /**
+     * Get the filters for the query UI.
+     */
+    public static function filters(): array
+    {
+        return [
+            'status' => [
+                'options' => UserStatus::values(),
+                'default' => UserStatus::ACTIVE,
+            ],
+            'role' => [
+                'options' => UserRole::values(),
+            ],
+        ];
     }
 }

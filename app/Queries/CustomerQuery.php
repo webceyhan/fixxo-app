@@ -33,4 +33,17 @@ class CustomerQuery extends QueryBuilder
                 'tickets'
             ]);
     }
+
+    /**
+     * Get the filters for the query UI.
+     */
+    public static function filters(): array
+    {
+        return [
+            'status' => [
+                'options' => UserStatus::values(),
+                'default' => UserStatus::ACTIVE,
+            ]
+        ];
+    }
 }

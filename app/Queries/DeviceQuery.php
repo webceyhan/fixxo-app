@@ -3,6 +3,7 @@
 namespace App\Queries;
 
 use App\Enums\DeviceStatus;
+use App\Enums\DeviceType;
 use App\Models\Device;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -32,5 +33,27 @@ class DeviceQuery extends QueryBuilder
             ->with([
                 'customer:id,name'
             ]);
+    }
+
+    /**
+     * Get the filters for the query UI.
+     */
+    public static function filters(): array
+    {
+        // Get all distinct brands to use as filter options
+        $brands = Device::brands()->get();
+
+        return [
+            'status' => [
+                'options' => DeviceStatus::values(),
+                'default' => DeviceStatus::CHECKED_IN
+            ],
+            'type' => [
+                'options' => DeviceType::values(),
+            ],
+            'brand' => [
+                'options' => $brands->pluck('brand'),
+            ]
+        ];
     }
 }

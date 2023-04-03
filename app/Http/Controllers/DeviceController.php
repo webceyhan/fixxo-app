@@ -17,23 +17,9 @@ class DeviceController extends Controller
     {
         $devices = (new DeviceQuery())->paginate();
 
-        // Get all distinct brands to use as filter options
-        $brands = Device::brands()->get();
-
         return inertia('Devices/Index', [
             'devices' => $devices,
-            'filters' => [
-                'status' => [
-                    'options' => DeviceStatus::values(),
-                    'default' => DeviceStatus::CHECKED_IN
-                ],
-                'type' => [
-                    'options' => DeviceType::values(),
-                ],
-                'brand' => [
-                    'options' => $brands->pluck('brand'),
-                ]
-            ]
+            'filters' => DeviceQuery::filters(),
         ]);
     }
 

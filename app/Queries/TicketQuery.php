@@ -30,4 +30,17 @@ class TicketQuery extends QueryBuilder
                 'device',
             ]);
     }
+
+    /**
+     * Get the filters for the query UI.
+     */
+    public static function filters(): array
+    {
+        return [
+            'status' => [
+                'options' => TicketStatus::values(),
+                'default' => TicketStatus::NEW
+            ]
+        ];
+    }
 }

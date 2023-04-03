@@ -29,4 +29,17 @@ class OrderQuery extends QueryBuilder
                 'ticket.customer',
             ]);
     }
+
+    /**
+     * Get the filters for the query UI.
+     */
+    public static function filters(): array
+    {
+        return [
+            'status' => [
+                'options' => OrderStatus::values(),
+                'default' => OrderStatus::NEW
+            ]
+        ];
+    }
 }

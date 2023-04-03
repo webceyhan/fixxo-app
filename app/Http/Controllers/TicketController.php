@@ -23,12 +23,7 @@ class TicketController extends Controller
 
         return inertia('Tickets/Index', [
             'tickets' => $tickets,
-            'filters' => [
-                'status' => [
-                    'options' => TicketStatus::values(),
-                    'default' => TicketStatus::NEW
-                ]
-            ]
+            'filters' => TicketQuery::filters(),
         ]);
     }
 
