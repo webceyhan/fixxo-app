@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\OrderStatus;
 use App\Http\Requests\SaveOrderRequest;
 use App\Models\Order;
+use App\Queries\OrderQuery;
 
 class OrderController extends Controller
 {
@@ -13,12 +14,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::query()
-            ->filter(request()->all())
-            ->search(request()->input('search'))
-            ->with('ticket.device', 'ticket.customer')
-            ->latest('id')
-            ->paginate();
+        $orders = (new OrderQuery())->paginate();
 
         return inertia('Orders/Index', [
             'orders' => $orders,

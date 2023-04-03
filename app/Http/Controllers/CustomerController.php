@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\UserStatus;
 use App\Http\Requests\SaveCustomerRequest;
 use App\Models\Customer;
+use App\Queries\CustomerQuery;
 
 class CustomerController extends Controller
 {
@@ -20,12 +21,7 @@ class CustomerController extends Controller
             ]);
         }
 
-        $customers = Customer::query()
-            ->filter(request()->all())
-            ->search(request()->input('search'))
-            ->withCount(['devices', 'tickets'])
-            ->latest('id')
-            ->paginate();
+        $customers = (new CustomerQuery())->paginate();
 
         return inertia('Customers/Index', [
             'customers' => $customers,

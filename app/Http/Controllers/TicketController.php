@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Transaction;
 use App\Models\Task;
 use App\Models\Ticket;
+use App\Queries\TicketQuery;
 use App\Services\NotificationService;
 use App\Services\SignatureService;
 
@@ -18,27 +19,7 @@ class TicketController extends Controller
      */
     public function index()
     {
-        $allowedParams = request()->only('search', 'status');
-
-        $tickets = Ticket::query()
-            ->when(
-                in_array(request('status'), ['outstanding', 'overdue']),
-                function ($query) use (&$allowedParams) {
-                    switch ($allowedParams['status']) {
-                        case 'outstanding':
-                            unset($allowedParams['status']);
-                            return $query->outstanding();
-                        case 'overdue':
-                            unset($allowedParams['status']);
-                            return $query->overdue();
-                    }
-                }
-            )
-            ->filter($allowedParams)
-            ->search(request()->input('search'))
-            ->with('device')
-            ->latest('id')
-            ->paginate();
+        $tickets = (new TicketQuery())->paginate();
 
         return inertia('Tickets/Index', [
             'tickets' => $tickets,

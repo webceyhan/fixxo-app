@@ -6,6 +6,7 @@ use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Http\Requests\SaveUserRequest;
 use App\Models\User;
+use App\Queries\UserQuery;
 
 class UserController extends Controller
 {
@@ -44,18 +45,7 @@ class UserController extends Controller
             ]);
         }
 
-        $users = User::query()
-            ->filter(request()->all())
-            ->search(request()->input('search'))
-            ->withCount(['tickets'])
-            // TODO: later implement this to show only relevant tickets
-            // ->withCount([
-            //     'tickets as open_tickets_count' => function (Builder $query) {
-            //         $query->inProgress();
-            //     },
-            // ])
-            ->latest('id')
-            ->paginate();
+        $users = (new UserQuery())->paginate();
 
         return inertia('Users/Index', [
             'users' => $users,

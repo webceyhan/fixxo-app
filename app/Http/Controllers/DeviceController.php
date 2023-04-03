@@ -6,6 +6,7 @@ use App\Enums\DeviceStatus;
 use App\Enums\DeviceType;
 use App\Http\Requests\SaveDeviceRequest;
 use App\Models\Device;
+use App\Queries\DeviceQuery;
 
 class DeviceController extends Controller
 {
@@ -14,14 +15,7 @@ class DeviceController extends Controller
      */
     public function index()
     {
-        $devices = Device::query()
-            ->filter(request()->all())
-            ->search(request()->input('search'))
-            // ->withCount(['tasks'])
-            // ->withSum('tasks as total_cost', 'cost')
-            ->with('customer:id,name')
-            ->latest('id')
-            ->paginate();
+        $devices = (new DeviceQuery())->paginate();
 
         // Get all distinct brands to use as filter options
         $brands = Device::brands()->get();
