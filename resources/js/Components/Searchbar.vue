@@ -18,7 +18,10 @@ const props = defineProps({
 const onSearch = ({ target }) => {
   debounce(() => {
     router.reload({
-      data: { search: target.value },
+      data: {
+        filter: { search: target.value },
+        page: 1, // reset pagination
+      },
       preserveState: true,
     });
   }, 500)();
@@ -26,13 +29,23 @@ const onSearch = ({ target }) => {
 
 const onFilter = ({ target }) => {
   router.reload({
-    data: { [target.name]: target.value },
+    data: {
+      filter: { [target.name]: target.value },
+      page: 1, // reset pagination
+    },
     preserveState: true,
   });
 };
 
 const searchParams = computed(() => {
-  return useSearchParams();
+  const params = useSearchParams();
+  const keys = [...Object.keys(props.filters), "search"];
+
+  // fetch value from wrapped filter object
+  const valueOf = (key) => params[`filter[${key}]`];
+
+  // convert { filter[key]: value } to { key: value }
+  return keys.reduce((acc, key) => ({ ...acc, [key]: valueOf(key) }), {});
 });
 
 const isDirty = computed(() => {
