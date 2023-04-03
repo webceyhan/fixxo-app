@@ -14,13 +14,6 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        // redirect with the default status if no status is provided
-        if (request()->input('status') === null) {
-            return redirect()->route('customers.index', [
-                'status' => UserStatus::ACTIVE
-            ]);
-        }
-
         $customers = (new CustomerQuery())->paginate();
 
         return inertia('Customers/Index', [

@@ -2,6 +2,7 @@
 
 namespace App\Queries;
 
+use App\Enums\TicketStatus;
 use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -20,7 +21,7 @@ class TicketQuery extends QueryBuilder
             ])
             ->allowedFilters([
                 AllowedFilter::scope('search'),
-                AllowedFilter::exact('status'),
+                AllowedFilter::exact('status')->default(TicketStatus::NEW),
                 AllowedFilter::scope('overdue'),
                 AllowedFilter::scope('outstanding'),
             ])

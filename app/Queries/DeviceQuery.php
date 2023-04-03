@@ -2,6 +2,7 @@
 
 namespace App\Queries;
 
+use App\Enums\DeviceStatus;
 use App\Models\Device;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -25,7 +26,7 @@ class DeviceQuery extends QueryBuilder
                 AllowedFilter::scope('search'),
                 AllowedFilter::exact('brand'),
                 AllowedFilter::exact('type'),
-                AllowedFilter::exact('status'),
+                AllowedFilter::exact('status')->default(DeviceStatus::CHECKED_IN)
             ])
             ->defaultSort('-created_at')
             ->with([

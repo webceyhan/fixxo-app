@@ -2,6 +2,7 @@
 
 namespace App\Queries;
 
+use App\Enums\UserStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -26,7 +27,7 @@ class UserQuery extends QueryBuilder
                 'email',
                 AllowedFilter::scope('search'),
                 AllowedFilter::exact('role'),
-                AllowedFilter::exact('status'),
+                AllowedFilter::exact('status')->default(UserStatus::ACTIVE)
             ])
             ->defaultSort('-created_at')
             ->withCount([

@@ -2,6 +2,7 @@
 
 namespace App\Queries;
 
+use App\Enums\OrderStatus;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -20,7 +21,7 @@ class OrderQuery extends QueryBuilder
             ])
             ->allowedFilters([
                 AllowedFilter::scope('search'),
-                AllowedFilter::exact('status'),
+                AllowedFilter::exact('status')->default(OrderStatus::NEW),
             ])
             ->defaultSort('-created_at')
             ->with([
