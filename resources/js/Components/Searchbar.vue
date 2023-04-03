@@ -78,11 +78,11 @@ const onReset = () => {
 
       <!-- filters -->
       <RadioGroup
-        v-for="(options, key) in filters"
+        v-for="(filter, key) in filters"
         :key="key"
         :name="key"
-        :options="options"
-        :model-value="searchParams[key]"
+        :options="filter.options"
+        :model-value="searchParams[key] ?? filter.default"
         @update:model-value="(value) => onFilter({ target: { name: key, value } })"
         fancy
       />
@@ -115,11 +115,11 @@ const onReset = () => {
 
         <div class="flex flex-col p-4 space-y-2">
           <Select
-            v-for="(options, key) in filters"
+            v-for="(filter, key) in filters"
             :key="key"
             :name="key"
-            :value="searchParams[key]"
-            :options="options"
+            :value="searchParams[key] ?? filter.default"
+            :options="filter.options"
             @change="onFilter"
             class="w-full"
           >

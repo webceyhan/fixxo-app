@@ -19,7 +19,10 @@ class CustomerController extends Controller
         return inertia('Customers/Index', [
             'customers' => $customers,
             'filters' => [
-                'status' => UserStatus::values()
+                'status' => [
+                    'options' => UserStatus::values(),
+                    'default' => UserStatus::ACTIVE,
+                ]
             ]
         ]);
     }

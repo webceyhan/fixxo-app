@@ -23,9 +23,16 @@ class DeviceController extends Controller
         return inertia('Devices/Index', [
             'devices' => $devices,
             'filters' => [
-                'type' => DeviceType::values(),
-                'status' => DeviceStatus::values(),
-                'brand' => $brands->pluck('brand'),
+                'status' => [
+                    'options' => DeviceStatus::values(),
+                    'default' => DeviceStatus::CHECKED_IN
+                ],
+                'type' => [
+                    'options' => DeviceType::values(),
+                ],
+                'brand' => [
+                    'options' => $brands->pluck('brand'),
+                ]
             ]
         ]);
     }

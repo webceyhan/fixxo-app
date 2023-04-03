@@ -19,7 +19,10 @@ class OrderController extends Controller
         return inertia('Orders/Index', [
             'orders' => $orders,
             'filters' => [
-                'status' => OrderStatus::values(),
+                'status' => [
+                    'options' => OrderStatus::values(),
+                    'default' => OrderStatus::NEW
+                ]
             ]
         ]);
     }
