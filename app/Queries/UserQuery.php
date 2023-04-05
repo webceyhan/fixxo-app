@@ -17,15 +17,15 @@ class UserQuery extends QueryBuilder
 
         $this
             ->allowedSorts([
-                'name',
-                'email',
-                'role',
-                'status',
+                // 'name',
+                // 'email',
+                // 'role',
+                // 'status',
                 'created_at',
             ])
             ->allowedFilters([
-                'name',
-                'email',
+                // 'name',
+                // 'email',
                 AllowedFilter::scope('search'),
                 AllowedFilter::exact('role'),
                 AllowedFilter::exact('status')->default(UserStatus::ACTIVE)

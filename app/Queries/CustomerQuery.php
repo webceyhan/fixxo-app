@@ -16,14 +16,14 @@ class CustomerQuery extends QueryBuilder
 
         $this
             ->allowedSorts([
-                'name',
-                'email',
-                'status',
+                // 'name',
+                // 'email',
+                // 'status',
                 'created_at',
             ])
             ->allowedFilters([
-                'name',
-                'email',
+                // 'name',
+                // 'email',
                 AllowedFilter::scope('search'),
                 AllowedFilter::exact('status')->default(UserStatus::ACTIVE)
             ])

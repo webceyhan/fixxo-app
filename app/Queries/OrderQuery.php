@@ -16,7 +16,7 @@ class OrderQuery extends QueryBuilder
 
         $this
             ->allowedSorts([
-                'status',
+                // 'status',
                 'created_at',
             ])
             ->allowedFilters([

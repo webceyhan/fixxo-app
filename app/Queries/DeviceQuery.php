@@ -17,10 +17,10 @@ class DeviceQuery extends QueryBuilder
 
         $this
             ->allowedSorts([
-                'name',
-                'brand',
-                'type',
-                'status',
+                // 'name',
+                // 'brand',
+                // 'type',
+                // 'status',
                 'created_at',
             ])
             ->allowedFilters([
