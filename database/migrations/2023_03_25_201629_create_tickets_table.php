@@ -30,7 +30,7 @@ return new class extends Migration
             $table->integer('received_orders_count')->default(0);
             $table->integer('total_orders_count')->default(0);
             // ----------------
-            $table->enum('status', TicketStatus::values())->default(TicketStatus::NEW);
+            $table->enum('status', TicketStatus::values())->default(TicketStatus::NEW->value);
             $table->timestamps();
 
             // index definitions

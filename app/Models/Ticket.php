@@ -54,6 +54,15 @@ class Ticket extends Model
         'description',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => TicketStatus::class,
+    ];
+
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
     /**
