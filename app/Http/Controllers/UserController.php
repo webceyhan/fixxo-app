@@ -6,7 +6,7 @@ use App\Enums\UserRole;
 use App\Enums\UserStatus;
 use App\Http\Requests\SaveUserRequest;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Builder;
+use App\Queries\UserQuery;
 
 class UserController extends Controller
 {
@@ -38,34 +38,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        // redirect with the default status if no status is provided
-        if (request()->input('status') === null) {
-            return redirect()->route('users.index', [
-                'status' => UserStatus::ACTIVE
-            ]);
-        }
-
-        $allowedParams = request()->only('search', 'role', 'status');
-
-        $users = User::query()
-            ->filterByParams($allowedParams)
-            ->withCount(['tickets'])
-            // TODO: later implement this to show only relevant tickets
-            // ->withCount([
-            //     'tickets as open_tickets_count' => function (Builder $query) {
-            //         $query->inProgress();
-            //     },
-            // ])
-            ->latest('id')
-            ->paginate()
-            ->withQueryString();
-
         return inertia('Users/Index', [
-            'users' => $users,
-            'filters' => [
-                'role' => UserRole::values(),
-                'status' => UserStatus::values(),
-            ]
+            'users' => (new UserQuery)->paginate(),
+            'filters' => UserQuery::filters(),
         ]);
     }
 

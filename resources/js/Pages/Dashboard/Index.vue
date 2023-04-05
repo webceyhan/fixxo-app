@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from "vue";
 import { router } from "@inertiajs/vue3";
 import Link from "@/Components/Link.vue";
 import Card from "@/Components/Card.vue";
@@ -12,15 +13,14 @@ import SingleStatCard from "./Partials/SingleStatCard.vue";
 import IncomeChart from "./Partials/IncomeChart.vue";
 
 const props = defineProps({
-  interval: String,
-  intervalOptions: Object,
+  filters: Object,
   //
-  newCustomerStats: Object,
-  newTicketStats: Object,
-  newTaskStats: Object,
-  newTransactionStats: Object,
+  incomeChartData: Object,
+  customerChartData: Object,
+  ticketChartData: Object,
+  taskChartData: Object,
+  transactionChartData: Object,
   //
-  incomeStats: Object,
   ticketStats: Array,
   taskStats: Array,
   earningStats: Array,
@@ -38,6 +38,8 @@ const labelMap = {
   year: "Monthly",
 };
 
+const intervalFilter = computed(() => props.filters.interval);
+
 const onIntervalChange = (interval) => {
   router.reload({ data: { interval } });
 };
@@ -48,24 +50,24 @@ const onIntervalChange = (interval) => {
     <div class="flex items-center md:justify-end-">
       <TabNav class="hidden lg:flex w-full">
         <TabNavItem
-          v-for="(link, key) in intervalOptions"
+          v-for="(label, key) in intervalFilter.options"
           :key="key"
-          :label="link"
-          :active="key === interval"
+          :label="label"
+          :active="key === intervalFilter.value"
           :data="{ interval: key }"
         />
       </TabNav>
 
       <Select
         class="lg:hidden"
-        :options="intervalOptions"
-        :modelValue="interval"
+        :options="intervalFilter.options"
+        :modelValue="intervalFilter.value"
         @update:modelValue="onIntervalChange"
       />
     </div>
 
-    <StatCard :label="`${labelMap[interval]} Income`">
-      <IncomeChart v-bind="incomeStats" color-class="bg-blue-500/75" />
+    <StatCard :label="`${labelMap[intervalFilter.value]} Income`">
+      <IncomeChart v-bind="incomeChartData" color-class="bg-blue-500/75" />
     </StatCard>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
@@ -73,28 +75,28 @@ const onIntervalChange = (interval) => {
         label="New Customers"
         icon="people"
         icon-bg-color="bg-indigo-600/50"
-        v-bind="newCustomerStats"
+        v-bind="customerChartData"
       />
 
       <SingleStatCard
         label="New Tickets"
         icon="ticket"
         icon-bg-color="bg-pink-600/50"
-        v-bind="newTicketStats"
+        v-bind="ticketChartData"
       />
 
       <SingleStatCard
         label="New Tasks"
         icon="task"
         icon-bg-color="bg-green-600/50"
-        v-bind="newTaskStats"
+        v-bind="taskChartData"
       />
 
       <SingleStatCard
         label="New Transactions"
         icon="transaction"
         icon-bg-color="bg-orange-600/50"
-        v-bind="newTransactionStats"
+        v-bind="transactionChartData"
       />
     </div>
 
@@ -164,7 +166,7 @@ const onIntervalChange = (interval) => {
         <template #footer>
           <Link
             label="View all"
-            :href="route('tickets.index', { status: 'outstanding' })"
+            :href="route('tickets.index', { filter: { outstanding: 1 } })"
           />
         </template>
       </Card>
@@ -178,7 +180,10 @@ const onIntervalChange = (interval) => {
         </div>
 
         <template #footer>
-          <Link label="View all" :href="route('tickets.index', { status: 'overdue' })" />
+          <Link
+            label="View all"
+            :href="route('tickets.index', { filter: { overdue: 1 } })"
+          />
         </template>
       </Card>
     </div>

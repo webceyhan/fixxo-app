@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\UserStatus;
 use App\Http\Requests\SaveCustomerRequest;
 use App\Models\Customer;
+use App\Queries\CustomerQuery;
 
 class CustomerController extends Controller
 {
@@ -13,27 +14,9 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        // redirect with the default status if no status is provided
-        if (request()->input('status') === null) {
-            return redirect()->route('customers.index', [
-                'status' => UserStatus::ACTIVE
-            ]);
-        }
-
-        $allowedParams = request()->only('search', 'status');
-
-        $customers = Customer::query()
-            ->filterByParams($allowedParams)
-            ->withCount(['devices', 'tickets'])
-            ->latest('id')
-            ->paginate()
-            ->withQueryString();
-
         return inertia('Customers/Index', [
-            'customers' => $customers,
-            'filters' => [
-                'status' => UserStatus::values()
-            ]
+            'customers' => (new CustomerQuery)->paginate(),
+            'filters' => CustomerQuery::filters(),
         ]);
     }
 

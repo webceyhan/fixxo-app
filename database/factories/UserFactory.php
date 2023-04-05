@@ -28,6 +28,8 @@ class UserFactory extends Factory
             'role' => fake()->randomElement(UserRole::values()),
             'status' => fake()->randomElement(UserStatus::values()),
         ];
+
+        // TODO: add trashed state
     }
 
     /**

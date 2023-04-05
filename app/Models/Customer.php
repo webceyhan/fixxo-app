@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Enums\UserStatus;
-use App\Traits\Model\HasSince;
-use App\Traits\Model\Searchable;
+use App\Models\Traits\HasSince;
+use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -37,11 +37,18 @@ class Customer extends Model
     ];
 
     /**
-     * Index to use for full-text search.
+     * Searchable attributes.
      *
-     * @var string
+     * @var array<int, string>
      */
-    protected $searchIndex = 'name,company,vat,address,phone,email';
+    protected $searchable = [
+        'name',
+        'company',
+        'vat',
+        'address',
+        'phone',
+        'email',
+    ];
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 

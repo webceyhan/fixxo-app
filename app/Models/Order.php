@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
-use App\Traits\Model\HasSince;
-use App\Traits\Model\Searchable;
+use App\Models\Traits\HasSince;
+use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -35,11 +35,15 @@ class Order extends Model
     ];
 
     /**
-     * Index to use for full-text search.
+     * Searchable attributes.
      *
-     * @var string
+     * @var array<int, string>
      */
-    protected $searchIndex = 'name,url,note';
+    protected $searchable = [
+        'name',
+        'url',
+        'note',
+    ];
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 

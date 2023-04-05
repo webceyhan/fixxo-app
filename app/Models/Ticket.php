@@ -4,11 +4,11 @@ namespace App\Models;
 
 use App\Enums\OrderStatus;
 use App\Enums\TicketStatus;
+use App\Models\Traits\HasSince;
+use App\Models\Traits\Searchable;
 use App\Services\QRService;
 use App\Services\SignatureService;
 use App\Services\UploadService;
-use App\Traits\Model\HasSince;
-use App\Traits\Model\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,11 +46,13 @@ class Ticket extends Model
     protected $appends = [];
 
     /**
-     * Index to use for full-text search.
+     * Searchable attributes.
      *
-     * @var string
+     * @var array<int, string>
      */
-    protected $searchIndex = 'issue';
+    protected $searchable = [
+        'description',
+    ];
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
@@ -261,17 +263,6 @@ class Ticket extends Model
     {
         return $query->outstanding()->closed();
     }
-
-    /**
-     * Scope a query to get statistics grouped by status.
-     */
-    public function scopeStats(Builder $query): void
-    {
-        $query->selectRaw('COUNT(id) as value, status as label')
-            ->whereNot('status', TicketStatus::CLOSED)
-            ->groupBy('status');
-    }
-
 
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 

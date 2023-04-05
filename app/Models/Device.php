@@ -4,10 +4,9 @@ namespace App\Models;
 
 use App\Enums\DeviceStatus;
 use App\Enums\TicketStatus;
-use App\Traits\Model\HasSince;
-use App\Traits\Model\Searchable;
+use App\Models\Traits\HasSince;
+use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -46,11 +45,16 @@ class Device extends Model
     protected $appends = [];
 
     /**
-     * Index to use for full-text search.
+     * Searchable attributes.
      *
-     * @var string
+     * @var array<int, string>
      */
-    protected $searchIndex = 'name,brand,type,serial';
+    protected $searchable = [
+        'name',
+        'brand',
+        'type',
+        'serial',
+    ];
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
@@ -84,19 +88,6 @@ class Device extends Model
     public function logs(): HasMany
     {
         return $this->hasMany(DeviceLog::class);
-    }
-
-    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Scope a query to retrieve all brands sorted by their frequency.
-     */
-    public function scopeBrands(Builder $query): void
-    {
-        $query->select('brand')
-            ->whereNotNull('brand')
-            ->groupBy('brand')
-            ->orderByRaw('COUNT(brand) DESC');
     }
 
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////

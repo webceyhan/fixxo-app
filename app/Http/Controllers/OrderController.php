@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\OrderStatus;
 use App\Http\Requests\SaveOrderRequest;
 use App\Models\Order;
+use App\Queries\OrderQuery;
 
 class OrderController extends Controller
 {
@@ -13,20 +13,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $allowedParams = request()->only('search', 'status');
-
-        $orders = Order::query()
-            ->filterByParams($allowedParams)
-            ->with('ticket.device', 'ticket.customer')
-            ->latest('id')
-            ->paginate()
-            ->withQueryString();
-
         return inertia('Orders/Index', [
-            'orders' => $orders,
-            'filters' => [
-                'status' => OrderStatus::values(),
-            ]
+            'orders' => (new OrderQuery)->paginate(),
+            'filters' => OrderQuery::filters(),
         ]);
     }
 

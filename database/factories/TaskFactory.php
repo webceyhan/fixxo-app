@@ -20,5 +20,7 @@ class TaskFactory extends Factory
             'description' => fake()->text(100),
             'cost' => fake()->randomFloat(2, 0, 100),
         ];
+        
+        // TODO: add completed state
     }
 }

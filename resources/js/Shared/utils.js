@@ -48,19 +48,55 @@ export function formatMoney(value) {
     }).format(value);
 }
 
-export function formatDate(date, long = false) {
-    // skip if empty or null
-    if (!date || date == "") return "";
+// export function formatDate(date, long = false) {
+//     // skip if empty or null
+//     if (!date || date == "") return "";
 
-    return Intl.DateTimeFormat("en-BE", {
+//     return Intl.DateTimeFormat("en-BE", {
+//         year: long ? "numeric" : "2-digit",
+//         month: long ? "long" : "2-digit",
+//         day: "2-digit",
+//         hour: long ? "2-digit" : undefined,
+//         minute: long ? "2-digit" : undefined,
+//         second: long ? "2-digit" : undefined,
+//     }).format(new Date(date));
+// }
+
+const rtf = new Intl.RelativeTimeFormat("en", { style: "short" });
+
+export const formatDate = (timestamp, long = false) => {
+    // skip if empty or null
+    if (!timestamp || timestamp == "") return "";
+
+    const date = new Date(timestamp);
+
+    const diff = Math.floor((new Date() - date) / 1000);
+    if (diff < 60) return rtf.format(-diff, "second");
+    if (diff < 3600) return rtf.format(-Math.floor(diff / 60), "minute");
+    if (diff < 86400) return rtf.format(-Math.floor(diff / 3600), "hour");
+    if (diff < 604800) return rtf.format(-Math.floor(diff / 86400), "day");
+
+    const config = {
+        // year: "2-digit",
+        // month: "2-digit",
+        // day: "2-digit",
+
         year: long ? "numeric" : "2-digit",
         month: long ? "long" : "2-digit",
         day: "2-digit",
         hour: long ? "2-digit" : undefined,
         minute: long ? "2-digit" : undefined,
         second: long ? "2-digit" : undefined,
-    }).format(new Date(date));
-}
+    };
+
+    // is timestamp given?
+    if (timestamp?.length > 10) {
+        config.hour = "2-digit";
+        config.minute = "2-digit";
+    }
+
+    return Intl.DateTimeFormat("en-BE", config).format(date);
+};
 
 export function formatPhone(value, defaultCountryCode = "32") {
     // skip if empty or null
