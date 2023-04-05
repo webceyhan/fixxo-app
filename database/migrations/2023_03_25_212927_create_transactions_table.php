@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->decimal('amount')->default(0);
             $table->enum('type', TransactionType::values())->default(TransactionType::PAYMENT);
-            $table->enum('method', TransactionMethod::values())->default(TransactionMethod::CASH);
+            $table->enum('method', TransactionMethod::values())->default(TransactionMethod::CASH->value);
             $table->string('note')->nullable();
             $table->timestamps();
         });
