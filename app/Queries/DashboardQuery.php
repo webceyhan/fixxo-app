@@ -125,13 +125,13 @@ class DashboardQuery extends QueryBuilder
         return [
             'interval' => [
                 'options' => [
-                    Interval::DAY => 'Today',
-                    Interval::WEEK => 'This Week',
-                    Interval::MONTH => 'This Month',
-                    Interval::YEAR => 'This Year',
+                    Interval::DAY->value => 'Today',
+                    Interval::WEEK->value => 'This Week',
+                    Interval::MONTH->value => 'This Month',
+                    Interval::YEAR->value => 'This Year',
                 ],
-                'value' => static::interval(),
-                'default' => Interval::DAY,
+                'value' => static::interval()->value,
+                'default' => Interval::DAY->value,
             ]
         ];
     }
@@ -139,9 +139,9 @@ class DashboardQuery extends QueryBuilder
     /**
      * Get the requested interval.
      */
-    private static function interval(): string
+    private static function interval(): Interval
     {
-        return request('interval', Interval::DAY);
+        return Interval::tryFrom(request('interval')) ?? Interval::DAY;
     }
 
     /**
@@ -150,11 +150,11 @@ class DashboardQuery extends QueryBuilder
     private static function intervalFx(): string
     {
         return [
-            Interval::DAY => 'hour',
-            Interval::WEEK => 'day',
-            Interval::MONTH => 'week',
-            Interval::YEAR => 'month',
-        ][static::interval()];
+            Interval::DAY->value => 'hour',
+            Interval::WEEK->value => 'day',
+            Interval::MONTH->value => 'week',
+            Interval::YEAR->value => 'month',
+        ][static::interval()->value];
     }
 
     /**

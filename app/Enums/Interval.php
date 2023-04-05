@@ -2,21 +2,25 @@
 
 namespace App\Enums;
 
-class Interval extends Enum
+use App\Enums\Traits\HasBase;
+
+enum Interval: string
 {
-    const DAY = 'day';
-    const WEEK = 'week';
-    const MONTH = 'month';
-    const YEAR = 'year';
+    use HasBase;
+
+    case DAY = 'day';
+    case WEEK = 'week';
+    case MONTH = 'month';
+    case YEAR = 'year';
 
     /**
      * Convert given interval to date.
      */
-    public static function toDate(string $value): \Carbon\Carbon
+    public function toDate(): \Carbon\Carbon
     {
         $date = \Carbon\Carbon::today();
 
-        switch ($value) {
+        switch ($this) {
             case self::DAY:
                 return $date->subDay();
 
