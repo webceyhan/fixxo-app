@@ -56,6 +56,15 @@ class Device extends Model
         'serial',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => DeviceStatus::class,
+    ];
+
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
     /**

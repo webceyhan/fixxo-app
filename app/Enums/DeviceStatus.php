@@ -2,33 +2,37 @@
 
 namespace App\Enums;
 
-class DeviceStatus extends Enum
+use App\Enums\Traits\HasBase;
+
+enum DeviceStatus: string
 {
-    // The device has been brought in for repair and is waiting to be checked by a technician.
-    const CHECKED_IN = 'checked_in';
+    use HasBase;
 
-    // The technician is currently diagnosing the problem with the device.
-    // const DIAGNOSING = 'diagnosing';
+        // The device has been brought in for repair and is waiting to be checked by a technician.
+    case CHECKED_IN = 'checked_in';
 
-    // The technician is currently repairing the device.
-    // const REPAIRING = 'repairing';
+        // The technician is currently diagnosing the problem with the device.
+        // case DIAGNOSING = 'diagnosing';
 
-    // The technician is currently diagnosing/repairing the device.
-    const IN_REPAIR = 'in_repair';
+        // The technician is currently repairing the device.
+        // case REPAIRING = 'repairing';
 
-    // The technician has determined that parts are needed to repair the device and is waiting for them to arrive.
-    // const PENDING_PARTS = 'pending_parts';
-    
-    // The technician has determined that parts are needed to repair the device and is waiting for them to arrive.
-    // Or waiting for the customer to approve the repair.
-    const ON_HOLD = 'on_hold';
+        // The technician is currently diagnosing/repairing the device.
+    case IN_REPAIR = 'in_repair';
 
-    // The repair work is complete and the device is ready to pick up.
-    const FIXED = 'fixed';
+        // The technician has determined that parts are needed to repair the device and is waiting for them to arrive.
+        // case PENDING_PARTS = 'pending_parts';
 
-    // The device cannot be repaired and will be returned to the customer.
-    const DEFECT = 'defect';
+        // The technician has determined that parts are needed to repair the device and is waiting for them to arrive.
+        // Or waiting for the customer to approve the repair.
+    case ON_HOLD = 'on_hold';
 
-    // The device has been returned to the customer.
-    const CHECKED_OUT = 'checked_out';
+        // The repair work is complete and the device is ready to pick up.
+    case FIXED = 'fixed';
+
+        // The device cannot be repaired and will be returned to the customer.
+    case DEFECT = 'defect';
+
+        // The device has been returned to the customer.
+    case CHECKED_OUT = 'checked_out';
 }

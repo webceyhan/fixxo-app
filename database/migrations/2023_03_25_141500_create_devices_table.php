@@ -30,7 +30,7 @@ return new class extends Migration
             $table->integer('closed_tickets_count')->default(0);
             $table->integer('total_tickets_count')->default(0);
             // ----------------
-            $table->enum('status', DeviceStatus::values())->default(DeviceStatus::CHECKED_IN);
+            $table->enum('status', DeviceStatus::values())->default(DeviceStatus::CHECKED_IN->value);
             $table->timestamps();
 
             // index definitions

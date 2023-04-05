@@ -27,7 +27,7 @@ class DeviceQuery extends QueryBuilder
                 AllowedFilter::scope('search'),
                 AllowedFilter::exact('brand'),
                 AllowedFilter::exact('type'),
-                AllowedFilter::exact('status')->default(DeviceStatus::CHECKED_IN)
+                AllowedFilter::exact('status')->default(DeviceStatus::CHECKED_IN->value)
             ])
             ->defaultSort('-created_at')
             ->with([
@@ -55,7 +55,7 @@ class DeviceQuery extends QueryBuilder
         return [
             'status' => [
                 'options' => DeviceStatus::values(),
-                'default' => DeviceStatus::CHECKED_IN
+                'default' => DeviceStatus::CHECKED_IN->value,
             ],
             'type' => [
                 'options' => DeviceType::values(),
