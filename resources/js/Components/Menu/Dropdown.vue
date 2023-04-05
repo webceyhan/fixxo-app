@@ -7,6 +7,7 @@ import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 defineProps({
   label: String,
   icon: String,
+  triggerClass: String,
   theme: { type: String, default: "secondary" },
   left: Boolean,
   primary: Boolean,
@@ -16,7 +17,7 @@ defineProps({
 
 <template>
   <Menu as="div" class="relative inline-block text-left">
-    <div class="flex items-center">
+    <div class="flex h-full">
       <!-- normal button with label -->
       <MenuButton v-if="label" :as="primary ? PrimaryButton : SecondaryButton">
         <Icon v-if="icon" :name="icon" />
@@ -26,11 +27,11 @@ defineProps({
       </MenuButton>
 
       <!-- menu icon button -->
-      <MenuButton v-else>
+      <MenuButton v-else :class="triggerClass">
         <slot name="trigger">
           <Icon
             :name="icon ?? 'three-dots-vertical'"
-            class="text-white p-2 hover:bg-gray-800 rounded"
+            class="dark:text-gray-300 p-2 hover:bg-gray-800 rounded"
           />
         </slot>
       </MenuButton>
