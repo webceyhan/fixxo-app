@@ -39,6 +39,7 @@ class Transaction extends Model
      * @var array
      */
     protected $casts = [
+        'type' => TransactionType::class,
         'method' => TransactionMethod::class,
     ];
 

@@ -2,10 +2,14 @@
 
 namespace App\Enums;
 
-class TransactionType extends Enum
+use App\Enums\Traits\HasBase;
+
+enum TransactionType: string
 {
-    const PAYMENT = 'payment';
-    const DISCOUNT = 'discount';
-    const WARRANTY = 'warranty';
-    const REFUND = 'refund';
+    use HasBase;
+
+    case PAYMENT = 'payment';
+    case DISCOUNT = 'discount';
+    case WARRANTY = 'warranty';
+    case REFUND = 'refund';
 }
