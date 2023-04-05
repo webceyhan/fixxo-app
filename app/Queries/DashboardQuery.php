@@ -91,8 +91,8 @@ class DashboardQuery extends QueryBuilder
         $query = Task::query()
             ->selectRaw(
                 'IF(completed_at IS NULL, "'
-                    . TaskStatus::PENDING . '", "'
-                    . TaskStatus::COMPLETED . '") AS label'
+                    . TaskStatus::PENDING->value . '", "'
+                    . TaskStatus::COMPLETED->value . '") AS label'
             );
 
         return self::statsFor($query);

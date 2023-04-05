@@ -2,8 +2,10 @@
 
 namespace App\Enums;
 
-class TaskStatus extends Enum
+enum TaskStatus: string
 {
-    const PENDING = 'pending';
-    const COMPLETED = 'completed';
+    use Traits\HasBase;
+
+    case PENDING = 'pending';
+    case COMPLETED = 'completed';
 }
