@@ -45,6 +45,15 @@ class Order extends Model
         'note',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => OrderStatus::class,
+    ];
+
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     public function user(): BelongsTo
