@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->enum('role', UserRole::values())->default(UserRole::EXPERT);
+            $table->enum('role', UserRole::values())->default(UserRole::EXPERT->value);
             // TODO: use soft deletes instead!
             $table->enum('status', UserStatus::values())->default(UserStatus::ACTIVE);
             $table->timestamps();
