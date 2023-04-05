@@ -47,7 +47,7 @@ class DeviceFactory extends Factory
     {
         $brand = fake()->randomElement(array_keys(self::MODELS));
         $model = fake()->randomElement(array_keys(self::MODELS[$brand]));
-        $type = self::MODELS[$brand][$model]->value;
+        $type = self::MODELS[$brand][$model];
 
         return [
             'name' => $model,

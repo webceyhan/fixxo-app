@@ -130,8 +130,8 @@ class DashboardQuery extends QueryBuilder
                     Interval::MONTH->value => 'This Month',
                     Interval::YEAR->value => 'This Year',
                 ],
-                'value' => static::interval()->value,
-                'default' => Interval::DAY->value,
+                'value' => static::interval(),
+                'default' => Interval::WEEK,
             ]
         ];
     }
