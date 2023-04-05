@@ -2,8 +2,12 @@
 
 namespace App\Enums;
 
-class UserStatus extends Enum
+use App\Enums\Traits\HasBase;
+
+enum UserStatus: string
 {
-    const ACTIVE = 'active';
-    const INACTIVE = 'inactive';
+    use HasBase;
+
+    case ACTIVE = 'active';
+    case INACTIVE = 'inactive';
 }

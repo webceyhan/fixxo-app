@@ -62,6 +62,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'role' => UserRole::class,
+        'status' => UserStatus::class,
         'email_verified_at' => 'datetime',
     ];
 
