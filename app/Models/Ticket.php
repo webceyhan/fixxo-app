@@ -312,11 +312,8 @@ class Ticket extends Model
      */
     public function calculateOrderCounters(): void
     {
-        $orders = $this->orders;
-
-        // we should exclude cancelled orders from the total count
-        $this->total_orders_count = $orders->where('status', '!=', OrderStatus::CANCELLED)->count();
-        $this->received_orders_count = $orders->where('status', OrderStatus::RECEIVED)->count();
+        $this->total_orders_count = $this->orders()->valid()->count();
+        $this->received_orders_count = $this->orders()->received()->count();
     }
 
     /**
