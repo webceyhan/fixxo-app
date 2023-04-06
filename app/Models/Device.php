@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\DeviceStatus;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -96,6 +97,80 @@ class Device extends Model
     public function logs(): HasMany
     {
         return $this->hasMany(DeviceLog::class);
+    }
+
+    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Scope a query to only include checked-in devices.
+     * 
+     * @see DeviceStatus::CHECKED_IN
+     */
+    public function scopeCheckedIn(Builder $query): void
+    {
+        $query->where('status', DeviceStatus::CHECKED_IN);
+    }
+
+    /**
+     * Scope a query to only include in-repair devices.
+     * 
+     * @see DeviceStatus::IN_REPAIR
+     */
+    public function scopeInRepair(Builder $query): void
+    {
+        $query->where('status', DeviceStatus::IN_REPAIR);
+    }
+
+    /**
+     * Scope a query to only include on-hold devices.
+     * 
+     * @see DeviceStatus::ON_HOLD
+     */
+    public function scopeOnHold(Builder $query): void
+    {
+        $query->where('status', DeviceStatus::ON_HOLD);
+    }
+
+    /**
+     * Scope a query to only include fixed devices.
+     * 
+     * @see DeviceStatus::FIXED
+     */
+    public function scopeFixed(Builder $query): void
+    {
+        $query->where('status', DeviceStatus::FIXED);
+    }
+
+    /**
+     * Scope a query to only include defect devices.
+     * 
+     * @see DeviceStatus::DEFECT
+     */
+    public function scopeDefect(Builder $query): void
+    {
+        $query->where('status', DeviceStatus::DEFECT);
+    }
+
+    /**
+     * Scope a query to only include checked-out devices.
+     * 
+     * @see DeviceStatus::CHECKED_OUT
+     */
+    public function scopeCheckedOut(Builder $query): void
+    {
+        $query->where('status', DeviceStatus::CHECKED_OUT);
+    }
+
+    /**
+     * Scope a query to only include pending devices.
+     * Which is all devices except checked-out ones.
+     * 
+     * @see DeviceStatus
+     * @ignore This is a virtual status.
+     */
+    public function scopePending(Builder $query): void
+    {
+        $query->where('status', '!=', DeviceStatus::CHECKED_OUT);
     }
 
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
