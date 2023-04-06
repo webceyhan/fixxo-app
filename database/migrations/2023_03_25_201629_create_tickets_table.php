@@ -18,6 +18,7 @@ return new class extends Migration
             // TODO: maybe add customer_id field istead of through device?
             $table->foreignId('device_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->string('description');
             $table->string('note')->nullable();
             // aggregate fields

@@ -16,6 +16,15 @@ class TicketObserver
     }
 
     /**
+     * Handle the Ticket "creating" event.
+     */
+    public function creating(Ticket $ticket): void
+    {
+        // set customer_id automatically
+        $ticket->customer_id = $ticket->device->customer_id;
+    }
+
+    /**
      * Handle the Ticket "created" event.
      */
     public function created(Ticket $ticket): void
