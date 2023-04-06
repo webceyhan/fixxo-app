@@ -277,6 +277,18 @@ class Ticket extends Model
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * Update aggregate fields.
+     */
+    public function updateAggregateFields(): void
+    {
+        $this->calculateBalance();
+        $this->calculateTaskCounters();
+        $this->calculateOrderCounters();
+
+        $this->save();
+    }
+
+    /**
      * Calculate ticket's balance based on the sum of tasks and transactions.
      */
     public function calculateBalance(): void
