@@ -11,7 +11,7 @@ class TransactionObserver
      */
     public function created(Transaction $transaction): void
     {
-        $transaction->ticket->updateAggregateFields();
+        $transaction->ticket->hydrateBalance()->save();
     }
 
     /**
@@ -19,9 +19,8 @@ class TransactionObserver
      */
     public function updated(Transaction $transaction): void
     {
-        // update ticket's aggregate fields if applicable
         if ($transaction->wasChanged('amount')) {
-            $transaction->ticket->updateAggregateFields();
+            $transaction->ticket->hydrateBalance()->save();
         }
     }
 
@@ -30,6 +29,6 @@ class TransactionObserver
      */
     public function deleted(Transaction $transaction): void
     {
-        $transaction->ticket->updateAggregateFields();
+        $transaction->ticket->hydrateBalance()->save();
     }
 }

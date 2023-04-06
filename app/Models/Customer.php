@@ -94,32 +94,25 @@ class Customer extends Model
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Update aggregate fields.
+     * Hydrate total balance of all tickets.
      */
-    public function updateAggregateFields(): void
-    {
-        $this->calculateBalance();
-        $this->calculateTicketCounters();
-
-        $this->save();
-    }
-
-    /**
-     * Calculate total balance of all tickets.
-     */
-    public function calculateBalance(): void
+    public function hydrateBalance(): self
     {
         $this->balance = $this->tickets->sum('balance');
+
+        return $this;
     }
 
     /**
-     * Calculate total and open ticket counters.
+     * Hydrate total and open ticket counters.
      */
-    public function calculateTicketCounters(): void
+    public function hydrateTicketCounters(): self
     {
         $this->total_tickets_count = $this->tickets->count();
-        // @see Ticket::calculateTaskCounters() for more info
+        // @see Ticket::hydrateTaskCounters() for more info
         // $this->open_tickets_count = $this->tickets()->closed()->count();
         $this->closed_tickets_count = $this->tickets->where('status', TicketStatus::CLOSED)->count();
+
+        return $this;
     }
 }

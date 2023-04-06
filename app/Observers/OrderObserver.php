@@ -11,7 +11,7 @@ class OrderObserver
      */
     public function created(Order $order): void
     {
-        $order->ticket->updateAggregateFields();
+        $order->ticket->hydrateBalance()->hydrateOrderCounters()->save();
     }
 
     /**
@@ -19,10 +19,15 @@ class OrderObserver
      */
     public function updated(Order $order): void
     {
-        // update ticket's aggregate fields if applicable
-        if ($order->wasChanged(['cost', 'status'])) {
-            $order->ticket->updateAggregateFields();
+        if ($order->wasChanged('cost')) {
+            $order->ticket->hydrateBalance();
         }
+
+        if ($order->wasChanged('status')) {
+            $order->ticket->hydrateOrderCounters();
+        }
+
+        $order->ticket->isDirty() && $order->ticket->save();
     }
 
     /**
@@ -30,6 +35,6 @@ class OrderObserver
      */
     public function deleted(Order $order): void
     {
-        $order->ticket->updateAggregateFields();
+        $order->ticket->hydrateBalance()->hydrateOrderCounters()->save();
     }
 }

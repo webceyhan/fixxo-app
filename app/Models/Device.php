@@ -177,40 +177,34 @@ class Device extends Model
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Update aggregate fields.
+     * Hydrate device status based on its tickets.
      */
-    public function updateAggregateFields(): void
+    public function hydrateStatus(): self
     {
-        $this->calculateTicketCounters();
+        $this->hydrateTicketCounters();
 
-        $this->save();
+        $this->status = DeviceStatus::fromModel($this);
+
+        return $this;
     }
 
     /**
-     * Calculate total and closed ticket counters.
+     * Hydrate device's ticket counters.
      */
-    public function calculateTicketCounters(): void
+    public function hydrateTicketCounters(): self
     {
         $this->total_tickets_count = $this->tickets->count();
-        // @see Ticket::calculateTaskCounters() for more info
+        // @see Ticket::hydrateTaskCounters() for more info
         // $this->inprogress_tickets_count = $this->tickets()->inProgress()->count();
         // $this->onhold_tickets_count = $this->tickets()->onHold()->count();
         // $this->resolved_tickets_count = $this->tickets()->resolved()->count();
         // $this->closed_tickets_count = $this->tickets()->closed()->count();
-   
+
         $this->inprogress_tickets_count = $this->tickets->where('status', TicketStatus::IN_PROGRESS)->count();
         $this->onhold_tickets_count = $this->tickets->where('status', TicketStatus::ON_HOLD)->count();
         $this->resolved_tickets_count = $this->tickets->where('status', TicketStatus::RESOLVED)->count();
         $this->closed_tickets_count = $this->tickets->where('status', TicketStatus::CLOSED)->count();
-    }
 
-    /**
-     * Calculate device status based on its tickets.
-     */
-    public function calculateStatus(): void
-    {
-        $this->calculateTicketCounters();
-
-        $this->status = DeviceStatus::fromModel($this);
+        return $this;
     }
 }

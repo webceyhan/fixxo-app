@@ -293,29 +293,32 @@ class Ticket extends Model
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Update aggregate fields.
+     * Hydrate ticket status based on its tasks and orders.
      */
-    public function updateAggregateFields(): void
+    public function hydrateStatus(): self
     {
-        $this->calculateBalance();
-        $this->calculateTaskCounters();
-        $this->calculateOrderCounters();
+        $this->hydrateTaskCounters();
+        $this->hydrateOrderCounters();
 
-        $this->save();
+        $this->status = TicketStatus::fromModel($this);
+
+        return $this;
     }
 
     /**
-     * Calculate ticket's balance based on the sum of tasks and transactions.
+     * Hydrate ticket balance with the sum of tasks and transactions.
      */
-    public function calculateBalance(): void
+    public function hydrateBalance(): self
     {
         $this->balance = $this->paid - $this->cost;
+
+        return $this;
     }
 
     /**
-     * Calculate total and completed tasks counters.
+     * Hydrate ticket task counters.
      */
-    public function calculateTaskCounters(): void
+    public function hydrateTaskCounters(): self
     {
         // NOTE: we can't use $this->tasks->completed()->count() here because it's collection of tasks        
         // but can't use $this->tasks()->completed()->count() which has no caching and very slow
@@ -325,29 +328,22 @@ class Ticket extends Model
 
         $this->total_tasks_count = $this->tasks->count();
         $this->completed_tasks_count = $this->tasks->where('completed_at', '!=', null)->count();
+
+        return $this;
     }
 
     /**
-     * Calculate total and received orders counters.
+     * Hydrate ticket's orders counters.
      */
-    public function calculateOrderCounters(): void
+    public function hydrateOrderCounters(): self
     {
-        // @see calculateTaskCounters() for more info
+        // @see hydrateTaskCounters() for more info
         // $this->total_orders_count = $this->orders()->valid()->count();
         // $this->received_orders_count = $this->orders()->received()->count();
 
         $this->total_orders_count = $this->orders->where('status', '!=', OrderStatus::CANCELLED)->count();
         $this->received_orders_count = $this->orders->where('status', OrderStatus::RECEIVED)->count();
-    }
 
-    /**
-     * Calculate ticket status based on its tasks and orders.
-     */
-    public function calculateStatus(): void
-    {
-        $this->calculateTaskCounters();
-        $this->calculateOrderCounters();
-
-        $this->status = TicketStatus::fromModel($this);
+        return $this;
     }
 }

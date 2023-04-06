@@ -11,7 +11,7 @@ class TaskObserver
      */
     public function created(Task $task): void
     {
-        $task->ticket->updateAggregateFields();
+        $task->ticket->hydrateBalance()->hydrateTaskCounters()->save();
     }
 
     /**
@@ -19,10 +19,15 @@ class TaskObserver
      */
     public function updated(Task $task): void
     {
-        // update ticket's aggregate fields if applicable
-        if ($task->wasChanged(['cost', 'completed_at'])) {
-            $task->ticket->updateAggregateFields();
+        if ($task->wasChanged('cost')) {
+            $task->ticket->hydrateBalance();
         }
+
+        if ($task->wasChanged('completed_at')) {
+            $task->ticket->hydrateTaskCounters();
+        }
+
+        $task->ticket->isDirty() && $task->ticket->save();
     }
 
     /**
@@ -30,6 +35,6 @@ class TaskObserver
      */
     public function deleted(Task $task): void
     {
-        $task->ticket->updateAggregateFields();
+        $task->ticket->hydrateBalance()->hydrateTaskCounters()->save();
     }
 }
