@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\DeviceStatus;
-use App\Enums\DeviceType;
 use App\Enums\TicketStatus;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
@@ -101,6 +100,16 @@ class Device extends Model
     }
 
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Update aggregate fields.
+     */
+    public function updateAggregateFields(): void
+    {
+        $this->calculateTicketCounters();
+
+        $this->save();
+    }
 
     /**
      * Calculate total and closed ticket counters.

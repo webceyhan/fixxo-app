@@ -29,12 +29,7 @@ class TicketObserver
      */
     public function created(Ticket $ticket): void
     {
-        $device = $ticket->device;
-
-        // update device's ticket counters accordingly
-        $device->calculateTicketCounters();
-        $device->save();
-
+        $ticket->device->updateAggregateFields();
         $ticket->customer->updateAggregateFields();
     }
 
@@ -43,15 +38,7 @@ class TicketObserver
      */
     public function updated(Ticket $ticket): void
     {
-        $device = $ticket->device;
-
-        // update device's ticket counters if applicable
-        if ($ticket->wasChanged('status')) {
-            $device->calculateTicketCounters();
-        }
-
-        $device->isDirty() && $device->save();
-
+        $ticket->device->updateAggregateFields();
         $ticket->customer->updateAggregateFields();
     }
 
@@ -60,12 +47,7 @@ class TicketObserver
      */
     public function deleted(Ticket $ticket): void
     {
-        $device = $ticket->device;
-
-        // update device's ticket counters accordingly
-        $device->calculateTicketCounters();
-        $device->save();
-
+        $ticket->device->updateAggregateFields();
         $ticket->customer->updateAggregateFields();
     }
 }
