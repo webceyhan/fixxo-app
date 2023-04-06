@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TicketStatus;
 use App\Enums\UserStatus;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
@@ -68,5 +69,37 @@ class Customer extends Model
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class)->latest();
+    }
+
+    // HELPERS /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Calculate total balance of all tickets.
+     */
+    public function calculateBalance(): void
+    {
+        $this->balance = $this->tickets->sum('balance');
+    }
+
+    /**
+     * Calculate total and open ticket counters.
+     */
+    public function calculateTicketCounters(): void
+    {
+        $tickets = $this->tickets;
+
+        $this->total_tickets_count = $tickets->count();
+        $this->closed_tickets_count = $tickets->where('status', TicketStatus::CLOSED)->count();
+    }
+
+    /**
+     * Update aggregate fields.
+     */
+    public function updateAggregateFields(): void
+    {
+        $this->calculateBalance();
+        $this->calculateTicketCounters();
+
+        $this->save();
     }
 }

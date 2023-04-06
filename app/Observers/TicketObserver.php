@@ -33,8 +33,9 @@ class TicketObserver
 
         // update device's ticket counters accordingly
         $device->calculateTicketCounters();
-
         $device->save();
+
+        $ticket->customer->updateAggregateFields();
     }
 
     /**
@@ -50,6 +51,8 @@ class TicketObserver
         }
 
         $device->isDirty() && $device->save();
+
+        $ticket->customer->updateAggregateFields();
     }
 
     /**
@@ -61,7 +64,8 @@ class TicketObserver
 
         // update device's ticket counters accordingly
         $device->calculateTicketCounters();
-
         $device->save();
+
+        $ticket->customer->updateAggregateFields();
     }
 }
