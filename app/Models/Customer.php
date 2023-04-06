@@ -94,6 +94,17 @@ class Customer extends Model
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
+     * Update aggregate fields.
+     */
+    public function updateAggregateFields(): void
+    {
+        $this->calculateBalance();
+        $this->calculateTicketCounters();
+
+        $this->save();
+    }
+
+    /**
      * Calculate total balance of all tickets.
      */
     public function calculateBalance(): void
@@ -110,16 +121,5 @@ class Customer extends Model
 
         $this->total_tickets_count = $tickets->count();
         $this->closed_tickets_count = $tickets->where('status', TicketStatus::CLOSED)->count();
-    }
-
-    /**
-     * Update aggregate fields.
-     */
-    public function updateAggregateFields(): void
-    {
-        $this->calculateBalance();
-        $this->calculateTicketCounters();
-
-        $this->save();
     }
 }
