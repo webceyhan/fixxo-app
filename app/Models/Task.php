@@ -59,6 +59,13 @@ class Task extends Model
     {
         return Attribute::make(
             get: fn () => TaskStatus::fromModel($this),
+            // TODO: this should be a method on the enum
+            // cast doesn't work with 'status' because it's a virtual attribute
+            // instead of this setterm we use is_completed attribute
+            set: fn (mixed $value) => match ($value) {
+                TaskStatus::PENDING, 'pending' => ['completed_at' => null],
+                TaskStatus::COMPLETED, 'completed' => ['completed_at' => now()],
+            },
         );
     }
 
