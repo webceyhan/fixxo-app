@@ -117,9 +117,9 @@ class Customer extends Model
      */
     public function calculateTicketCounters(): void
     {
-        $tickets = $this->tickets;
-
-        $this->total_tickets_count = $tickets->count();
-        $this->closed_tickets_count = $tickets->where('status', TicketStatus::CLOSED)->count();
+        $this->total_tickets_count = $this->tickets->count();
+        // @see Ticket::calculateTaskCounters() for more info
+        // $this->open_tickets_count = $this->tickets()->closed()->count();
+        $this->closed_tickets_count = $this->tickets->where('status', TicketStatus::CLOSED)->count();
     }
 }

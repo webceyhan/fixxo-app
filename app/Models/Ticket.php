@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\OrderStatus;
 use App\Enums\TicketStatus;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
@@ -316,8 +317,14 @@ class Ticket extends Model
      */
     public function calculateTaskCounters(): void
     {
-        $this->total_tasks_count = $this->tasks()->count();
-        $this->completed_tasks_count = $this->tasks()->completed()->count();
+        // NOTE: we can't use $this->tasks->completed()->count() here because it's collection of tasks        
+        // but can't use $this->tasks()->completed()->count() which has no caching and very slow
+        // so we have to use where() instead on the cached collection to get the count
+        // $this->total_tasks_count = $this->tasks()->count();
+        // $this->completed_tasks_count = $this->tasks()->completed()->count();
+
+        $this->total_tasks_count = $this->tasks->count();
+        $this->completed_tasks_count = $this->tasks->where('completed_at', '!=', null)->count();
     }
 
     /**
@@ -325,8 +332,12 @@ class Ticket extends Model
      */
     public function calculateOrderCounters(): void
     {
-        $this->total_orders_count = $this->orders()->valid()->count();
-        $this->received_orders_count = $this->orders()->received()->count();
+        // @see calculateTaskCounters() for more info
+        // $this->total_orders_count = $this->orders()->valid()->count();
+        // $this->received_orders_count = $this->orders()->received()->count();
+
+        $this->total_orders_count = $this->orders->where('status', '!=', OrderStatus::CANCELLED)->count();
+        $this->received_orders_count = $this->orders->where('status', OrderStatus::RECEIVED)->count();
     }
 
     /**
