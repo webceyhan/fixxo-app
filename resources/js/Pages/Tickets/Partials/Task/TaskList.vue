@@ -13,8 +13,8 @@ defineProps({
 });
 
 const stateIcons = {
-  false: "clipboard",
-  true: "clipboard-check",
+  pending: "clipboard",
+  completed: "clipboard-check",
 };
 </script>
 
@@ -37,7 +37,7 @@ const stateIcons = {
             @click.stop
           >
             <Avatar
-              :icon="stateIcons[task.is_completed]"
+              :icon="stateIcons[task.status]"
               class="opacity-50 hover:opacity-100"
             />
           </Link>
@@ -63,7 +63,7 @@ const stateIcons = {
       </div>
 
       <template #badge>
-        <TaskBadge :completed="task.is_completed" compact-max="xl" />
+        <TaskBadge :status="task.status" compact-max="xl" />
       </template>
     </StackedListItem>
   </StackedList>

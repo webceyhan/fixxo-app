@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TaskStatus;
 use App\Models\Attributes\BooleanDateAttribute;
 use App\Models\Traits\HasSince;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,6 +39,7 @@ class Task extends Model
      */
     protected $appends = [
         'is_completed',
+        'status',
     ];
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +50,16 @@ class Task extends Model
     protected function isCompleted(): Attribute
     {
         return BooleanDateAttribute::for('completed_at');
+    }
+
+    /**
+     * Get the task's status.
+     */
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => TaskStatus::fromModel($this),
+        );
     }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
