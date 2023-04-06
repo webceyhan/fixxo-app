@@ -84,7 +84,10 @@ class Task extends Model
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to get tasks that are pending.
+     * Scope a query to only include pending tasks.
+     * 
+     * @see TaskStatus::PENDING
+     * @ignore This is a virtual status.
      */
     public function scopePending(Builder $query): void
     {
@@ -92,7 +95,10 @@ class Task extends Model
     }
 
     /**
-     * Scope a query to get tasks that are completed.
+     * Scope a query to only include completed tasks.
+     * 
+     * @see TaskStatus::COMPLETED
+     * @ignore This is a virtual status.
      */
     public function scopeCompleted(Builder $query): void
     {

@@ -301,10 +301,8 @@ class Ticket extends Model
      */
     public function calculateTaskCounters(): void
     {
-        $tasks = $this->tasks;
-
-        $this->total_tasks_count = $tasks->count();
-        $this->completed_tasks_count = $tasks->whereNotNull('completed_at')->count();
+        $this->total_tasks_count = $this->tasks()->count();
+        $this->completed_tasks_count = $this->tasks()->completed()->count();
     }
 
     /**
