@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\OrderStatus;
 use App\Enums\TicketStatus;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
@@ -75,13 +74,12 @@ class Ticket extends Model
     }
 
     /**
-     * Get total cost of all orders (excluding cancelled orders).
+     * Get total cost of all valid (non-cancelled) orders.
      */
     protected function ordersCost(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->orders->sum('cost')
-                - $this->orders->where('status', OrderStatus::CANCELLED)->sum('cost'),
+            get: fn () => $this->orders()->valid()->sum('cost')
         )->shouldCache();
     }
 
@@ -182,12 +180,12 @@ class Ticket extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function device(): belongsTo
+    public function device(): BelongsTo
     {
         return $this->belongsTo(Device::class);
     }
 
-    public function customer(): belongsTo
+    public function customer(): BelongsTo
     {
         return $this->belongsTo(Customer::class);
     }
@@ -211,6 +209,8 @@ class Ticket extends Model
 
     /**
      * Scope a query to only include new tickets.
+     * 
+     * @see TicketStatus::NEW
      */
     public function scopeNew(Builder $query): void
     {
@@ -219,6 +219,8 @@ class Ticket extends Model
 
     /**
      * Scope a query to only include in_progress tickets.
+     * 
+     * @see TicketStatus::IN_PROGRESS
      */
     public function scopeInProgress(Builder $query): void
     {
@@ -227,6 +229,8 @@ class Ticket extends Model
 
     /**
      * Scope a query to only include on-hold tickets.
+     * 
+     * @see TicketStatus::ON_HOLD
      */
     public function scopeOnHold(Builder $query): void
     {
@@ -235,6 +239,8 @@ class Ticket extends Model
 
     /**
      * Scope a query to only include resolved tickets.
+     * 
+     * @see TicketStatus::RESOLVED
      */
     public function scopeResolved(Builder $query): void
     {
@@ -243,6 +249,8 @@ class Ticket extends Model
 
     /**
      * Scope a query to only include closed tickets.
+     * 
+     * @see TicketStatus::CLOSED
      */
     public function scopeClosed(Builder $query): void
     {
@@ -251,7 +259,9 @@ class Ticket extends Model
 
     /**
      * Scope a query to only include open tickets
-     * which is a combination of new, in_progress, on_hold and resolved.
+     * which is all tickets except closed ones.
+     * 
+     * @ignore This is a virtual status.
      */
     public function scopeOpen(Builder $query): void
     {
@@ -260,6 +270,8 @@ class Ticket extends Model
 
     /**
      * Scope a query to only include tickets with outstanding balance.
+     * 
+     * @ignore This is a virtual status.
      */
     public function scopeOutstanding(Builder $query): Builder
     {
@@ -267,11 +279,14 @@ class Ticket extends Model
     }
 
     /**
-     * Scope a query to only include overdue tickets.
+     * Scope a query to only include tickets with overdue balance.
+     * This is a combination of closed tickets with outstanding balance.
+     * 
+     * @ignore This is a virtual status.
      */
     public function scopeOverdue(Builder $query): Builder
     {
-        return $query->outstanding()->closed();
+        return $query->closed()->outstanding();
     }
 
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
