@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\DeviceStatus;
-use App\Enums\TicketStatus;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -116,13 +115,11 @@ class Device extends Model
      */
     public function calculateTicketCounters(): void
     {
-        $tickets = $this->tickets;
-
-        $this->total_tickets_count = $tickets->count();
-        $this->inprogress_tickets_count = $tickets->where('status', TicketStatus::IN_PROGRESS)->count();
-        $this->onhold_tickets_count = $tickets->where('status', TicketStatus::ON_HOLD)->count();
-        $this->resolved_tickets_count = $tickets->where('status', TicketStatus::RESOLVED)->count();
-        $this->closed_tickets_count = $tickets->where('status', TicketStatus::CLOSED)->count();
+        $this->total_tickets_count = $this->tickets->count();
+        $this->inprogress_tickets_count = $this->tickets()->inProgress()->count();
+        $this->onhold_tickets_count = $this->tickets()->onHold()->count();
+        $this->resolved_tickets_count = $this->tickets()->resolved()->count();
+        $this->closed_tickets_count = $this->tickets()->closed()->count();
     }
 
     /**
