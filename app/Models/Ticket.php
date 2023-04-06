@@ -210,7 +210,7 @@ class Ticket extends Model
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to only include new Tickets.
+     * Scope a query to only include new tickets.
      */
     public function scopeNew(Builder $query): void
     {
@@ -218,7 +218,7 @@ class Ticket extends Model
     }
 
     /**
-     * Scope a query to only include in_progress Tickets.
+     * Scope a query to only include in_progress tickets.
      */
     public function scopeInProgress(Builder $query): void
     {
@@ -226,7 +226,7 @@ class Ticket extends Model
     }
 
     /**
-     * Scope a query to only include on-hold Tickets.
+     * Scope a query to only include on-hold tickets.
      */
     public function scopeOnHold(Builder $query): void
     {
@@ -234,7 +234,7 @@ class Ticket extends Model
     }
 
     /**
-     * Scope a query to only include resolved Tickets.
+     * Scope a query to only include resolved tickets.
      */
     public function scopeResolved(Builder $query): void
     {
@@ -242,11 +242,20 @@ class Ticket extends Model
     }
 
     /**
-     * Scope a query to only include closed Tickets.
+     * Scope a query to only include closed tickets.
      */
     public function scopeClosed(Builder $query): void
     {
         $query->where('status', TicketStatus::CLOSED);
+    }
+
+    /**
+     * Scope a query to only include open tickets
+     * which is a combination of new, in_progress, on_hold and resolved.
+     */
+    public function scopeOpen(Builder $query): void
+    {
+        $query->whereNot('status', TicketStatus::CLOSED);
     }
 
     /**
