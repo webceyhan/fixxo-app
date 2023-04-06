@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\TicketStatus;
 use App\Http\Requests\SaveTicketRequest;
+use App\Models\Device;
 use App\Models\Order;
 use App\Models\Transaction;
 use App\Models\Task;
@@ -30,9 +31,14 @@ class TicketController extends Controller
      */
     public function create()
     {
-        return $this->edit(new Ticket(
-            request()->only('device_id')
-        ));
+        // fetch device to fill in customer_id
+        $device = Device::findOrFail(request('device_id'));
+
+        return $this->edit(new Ticket([
+            'device_id' => $device->id,
+            'customer_id' => $device->customer_id,
+
+        ]));
     }
 
     /**
