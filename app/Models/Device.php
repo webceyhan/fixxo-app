@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\DeviceStatus;
 use App\Enums\TicketStatus;
+use App\Enums\WarrantyStatus;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -43,7 +44,9 @@ class Device extends Model
      *
      * @var array
      */
-    protected $appends = [];
+    protected $appends = [
+        'warranty_status',
+    ];
 
     /**
      * Searchable attributes.
@@ -63,6 +66,8 @@ class Device extends Model
      * @var array
      */
     protected $casts = [
+        'purchase_date' => 'date',
+        'warranty_expire_date' => 'date',
         'status' => DeviceStatus::class,
     ];
 
@@ -75,6 +80,16 @@ class Device extends Model
     {
         return Attribute::make(
             get: fn () => $this->total_tickets_count - $this->closed_tickets_count,
+        );
+    }
+
+    /**
+     * Get warranty status.
+     */
+    protected function warrantyStatus(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => WarrantyStatus::fromModel($this),
         );
     }
 
@@ -172,6 +187,28 @@ class Device extends Model
     public function scopePending(Builder $query): void
     {
         $query->where('status', '!=', DeviceStatus::CHECKED_OUT);
+    }
+
+    /**
+     * Scope a query to only include devices with valid warranty date.
+     * 
+     * @see WarrantyStatus::VALID
+     * @ignore This is a virtual status.
+     */
+    public function scopeWithWarranty(Builder $query): void
+    {
+        $query->where('warranty_expire_date', '>=', now());
+    }
+
+    /**
+     * Scope a query to only include devices with expired warranty date.
+     * 
+     * @see WarrantyStatus::EXPIRED
+     * @ignore This is a virtual status.
+     */
+    public function scopeWithoutWarranty(Builder $query): void
+    {
+        $query->where('warranty_expire_date', '<', now());
     }
 
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
