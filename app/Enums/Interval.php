@@ -3,6 +3,7 @@
 namespace App\Enums;
 
 use App\Enums\Traits\HasBase;
+use Carbon\Carbon;
 
 enum Interval: string
 {
@@ -14,27 +15,16 @@ enum Interval: string
     case YEAR = 'year';
 
     /**
-     * Convert given interval to date.
+     * Convert the interval to a Carbon date.
      */
-    public function toDate(): \Carbon\Carbon
+    public function toDate(): Carbon
     {
-        $date = \Carbon\Carbon::today();
-
-        switch ($this) {
-            case self::DAY:
-                return $date->subDay();
-
-            case self::WEEK:
-                return $date->subWeek();
-
-            case self::MONTH:
-                return $date->subMonth();
-
-            case self::YEAR:
-                return $date->subYear();
-
-            default:
-                return $date->subCentury();
-        }
+        return match ($this) {
+            self::DAY => Carbon::today()->subDay(),
+            self::WEEK => Carbon::today()->subWeek(),
+            self::MONTH => Carbon::today()->subMonth(),
+            self::YEAR => Carbon::today()->subYear(),
+            default => Carbon::today()->subCentury(),
+        };
     }
 }
