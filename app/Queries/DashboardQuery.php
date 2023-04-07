@@ -43,7 +43,7 @@ class DashboardQuery extends QueryBuilder
     public static function chartDataFor(Builder $query, bool $count = true): array
     {
         $result = (new self($query))
-            ->selectRaw(self::intervalFx() . '(created_at) AS label')
+            ->selectRaw(self::interval()->toSqlFunction() . '(created_at) AS label')
             ->when($count, fn ($q) => $q->selectRaw('COUNT(id) AS value'))
             ->groupBy('label')
             ->orderBy('label')
@@ -142,19 +142,6 @@ class DashboardQuery extends QueryBuilder
     private static function interval(): Interval
     {
         return Interval::tryFrom(request('interval')) ?? Interval::DAY;
-    }
-
-    /**
-     * Get the mysql function for the interval.
-     */
-    private static function intervalFx(): string
-    {
-        return [
-            Interval::DAY->value => 'hour',
-            Interval::WEEK->value => 'day',
-            Interval::MONTH->value => 'week',
-            Interval::YEAR->value => 'month',
-        ][static::interval()->value];
     }
 
     /**

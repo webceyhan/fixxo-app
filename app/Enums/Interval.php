@@ -27,4 +27,18 @@ enum Interval: string
             default => Carbon::today()->subCentury(),
         };
     }
+
+    /**
+     * Convert the interval to a SQL function.
+     */
+    public function toSqlFunction(): string
+    {
+        return match ($this) {
+            self::DAY => 'hour',
+            self::WEEK => 'day',
+            self::MONTH => 'week',
+            self::YEAR => 'month',
+            default => 'year',
+        };
+    }
 }
