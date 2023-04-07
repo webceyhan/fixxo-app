@@ -10,7 +10,7 @@ enum WarrantyStatus: string
     use HasBase;
 
         // The device has no purchase date or warranty expire date.
-    case NA = 'n/a';
+    case NA = 'na';
 
         // The device has a purchase date and warranty is still valid.
     case VALID = 'valid';

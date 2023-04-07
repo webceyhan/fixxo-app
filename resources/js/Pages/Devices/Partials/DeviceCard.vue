@@ -4,6 +4,7 @@ import Card from "@/Components/Card.vue";
 import DescriptionList from "@/Components/List/DescriptionList.vue";
 import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
 import DeviceBadge from "./DeviceBadge.vue";
+import WarrantyBadge from "./WarrantyBadge.vue";
 
 const props = defineProps({
   device: Object,
@@ -53,8 +54,11 @@ const props = defineProps({
         {{ formatDate(device.purchase_date) }}
       </DescriptionListItem>
 
-      <DescriptionListItem v-if="device.warranty_expire_date" label="Warranty Expire Date">
-        {{ formatDate(device.warranty_expire_date) }}
+      <DescriptionListItem label="Warranty Expire Date">
+        <div class="flex items-center gap-2">
+          {{ formatDate(device?.warranty_expire_date) }}
+          <WarrantyBadge :status="device.warranty_status" />
+        </div>
       </DescriptionListItem>
 
       <DescriptionListItem label="Created At" type="date" :value="device.created_at" />
