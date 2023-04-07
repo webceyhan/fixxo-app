@@ -9,7 +9,6 @@ use App\Models\Task;
 use App\Models\Ticket;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class DashboardQuery extends QueryBuilder
@@ -67,7 +66,7 @@ class DashboardQuery extends QueryBuilder
 
         return [
             ...$data,
-            'labels' => $data['labels']->map(self::intervalFormatter()),
+            'labels' => $data['labels']->map(self::interval()->toDateFormatter()),
         ];
     }
 
@@ -142,29 +141,6 @@ class DashboardQuery extends QueryBuilder
     private static function interval(): Interval
     {
         return Interval::tryFrom(request('interval')) ?? Interval::DAY;
-    }
-
-    /**
-     * Get the date formatter for the interval.
-     */
-    private static function intervalFormatter(): callable
-    {
-        switch (static::interval()) {
-            case Interval::DAY: // hour
-                return fn ($date) => Carbon::today()->setTime($date, 0, 0)->format('H:i');
-
-            case Interval::WEEK: // day
-                return fn ($date) => Carbon::today()->day($date)->format('D');
-
-            case Interval::MONTH: // week
-                return fn ($date) => Carbon::today()->week($date)->format('d M');
-
-            case Interval::YEAR: // month
-                return fn ($date) => Carbon::today()->month($date)->format('M');
-
-            default:
-                return fn ($date) => $date;
-        }
     }
 
     /**

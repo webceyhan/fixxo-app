@@ -29,6 +29,20 @@ enum Interval: string
     }
 
     /**
+     * Convert the interval to a Carbon date formatter.
+     */
+    public function toDateFormatter(): callable
+    {
+        return match ($this) {
+            self::DAY => fn ($date) => Carbon::today()->setTime($date, 0, 0)->format('H:i'),
+            self::WEEK => fn ($date) => Carbon::today()->day($date)->format('D'),
+            self::MONTH => fn ($date) => Carbon::today()->week($date)->format('d M'),
+            self::YEAR => fn ($date) => Carbon::today()->month($date)->format('M'),
+            default => fn ($date) => $date,
+        };
+    }
+
+    /**
      * Convert the interval to a SQL function.
      */
     public function toSqlFunction(): string
