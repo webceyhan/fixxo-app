@@ -55,4 +55,17 @@ enum Interval: string
             default => 'year',
         };
     }
+
+    /**
+     * Get interval options for the dashboard.
+     */
+    public static function options(): array
+    {
+        return [
+            self::DAY->value => 'Today',
+            self::WEEK->value => 'This Week',
+            self::MONTH->value => 'This Month',
+            self::YEAR->value => 'This Year',
+        ];
+    }
 }
