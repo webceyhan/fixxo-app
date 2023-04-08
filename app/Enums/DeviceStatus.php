@@ -37,6 +37,17 @@ enum DeviceStatus: string
         // The device has been returned to the customer.
     case CHECKED_OUT = 'checked_out';
 
+    /**
+     * Get the progress for the device status.
+     */
+    public function progress(): Progress
+    {
+        return match ($this) {
+            self::CHECKED_IN, self::ON_HOLD => Progress::PENDING,
+            self::IN_REPAIR => Progress::PROCESSING,
+            self::FIXED, self::DEFECT, self::CHECKED_OUT => Progress::COMPLETED,
+        };
+    }
 
     /**
      * Get the status for the given device.

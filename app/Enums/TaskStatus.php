@@ -13,6 +13,17 @@ enum TaskStatus: string
     case COMPLETED = 'completed';
 
     /**
+     * Get the progress for the task status.
+     */
+    public function progress(): Progress
+    {
+        return match ($this) {
+            self::PENDING => Progress::PENDING,
+            self::COMPLETED => Progress::COMPLETED,
+        };
+    }
+
+    /**
      * Get the status for the given task.
      */
     public static function fromModel(Task $task): self
