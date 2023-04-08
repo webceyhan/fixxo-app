@@ -11,7 +11,7 @@ class TaskObserver
      */
     public function created(Task $task): void
     {
-        $task->ticket->hydrateBalance()->hydrateTaskCounters()->save();
+        $task->ticket->setBalance()->setTaskCounters()->save();
     }
 
     /**
@@ -20,11 +20,11 @@ class TaskObserver
     public function updated(Task $task): void
     {
         if ($task->wasChanged('cost')) {
-            $task->ticket->hydrateBalance();
+            $task->ticket->setBalance();
         }
 
         if ($task->wasChanged('completed_at')) {
-            $task->ticket->hydrateTaskCounters();
+            $task->ticket->setTaskCounters();
         }
 
         $task->ticket->isDirty() && $task->ticket->save();
@@ -35,6 +35,6 @@ class TaskObserver
      */
     public function deleted(Task $task): void
     {
-        $task->ticket->hydrateBalance()->hydrateTaskCounters()->save();
+        $task->ticket->setBalance()->setTaskCounters()->save();
     }
 }

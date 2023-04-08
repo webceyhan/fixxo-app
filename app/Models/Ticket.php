@@ -293,12 +293,12 @@ class Ticket extends Model
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Hydrate ticket status based on its tasks and orders.
+     * Set ticket status based on counters.
      */
-    public function hydrateStatus(): self
+    public function setStatus(): self
     {
-        $this->hydrateTaskCounters();
-        $this->hydrateOrderCounters();
+        $this->setTaskCounters();
+        $this->setOrderCounters();
 
         $this->status = TicketStatus::fromModel($this);
 
@@ -306,9 +306,9 @@ class Ticket extends Model
     }
 
     /**
-     * Hydrate ticket balance with the sum of tasks and transactions.
+     * Set ticket balance.
      */
-    public function hydrateBalance(): self
+    public function setBalance(): self
     {
         $this->balance = $this->paid - $this->cost;
 
@@ -316,9 +316,9 @@ class Ticket extends Model
     }
 
     /**
-     * Hydrate ticket task counters.
+     * Set ticket's tasks counters.
      */
-    public function hydrateTaskCounters(): self
+    public function setTaskCounters(): self
     {
         // NOTE: we can't use $this->tasks->completed()->count() here because it's collection of tasks        
         // but can't use $this->tasks()->completed()->count() which has no caching and very slow
@@ -333,11 +333,11 @@ class Ticket extends Model
     }
 
     /**
-     * Hydrate ticket's orders counters.
+     * Set ticket's orders counters.
      */
-    public function hydrateOrderCounters(): self
+    public function setOrderCounters(): self
     {
-        // @see hydrateTaskCounters() for more info
+        // @see setTaskCounters() for more info
         // $this->total_orders_count = $this->orders()->valid()->count();
         // $this->received_orders_count = $this->orders()->received()->count();
 

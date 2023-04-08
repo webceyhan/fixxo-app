@@ -94,9 +94,9 @@ class Customer extends Model
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Hydrate total balance of all tickets.
+     * Set balance.
      */
-    public function hydrateBalance(): self
+    public function setBalance(): self
     {
         $this->balance = $this->tickets->sum('balance');
 
@@ -104,12 +104,12 @@ class Customer extends Model
     }
 
     /**
-     * Hydrate total and open ticket counters.
+     * Set ticket counters.
      */
-    public function hydrateTicketCounters(): self
+    public function setTicketCounters(): self
     {
         $this->total_tickets_count = $this->tickets->count();
-        // @see Ticket::hydrateTaskCounters() for more info
+        // @see Ticket::setTaskCounters() for more info
         // $this->open_tickets_count = $this->tickets()->closed()->count();
         $this->closed_tickets_count = $this->tickets->where('status', TicketStatus::CLOSED)->count();
 

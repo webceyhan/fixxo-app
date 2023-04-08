@@ -11,7 +11,7 @@ class OrderObserver
      */
     public function created(Order $order): void
     {
-        $order->ticket->hydrateBalance()->hydrateOrderCounters()->save();
+        $order->ticket->setBalance()->setOrderCounters()->save();
     }
 
     /**
@@ -20,11 +20,11 @@ class OrderObserver
     public function updated(Order $order): void
     {
         if ($order->wasChanged('cost')) {
-            $order->ticket->hydrateBalance();
+            $order->ticket->setBalance();
         }
 
         if ($order->wasChanged('status')) {
-            $order->ticket->hydrateOrderCounters();
+            $order->ticket->setOrderCounters();
         }
 
         $order->ticket->isDirty() && $order->ticket->save();
@@ -35,6 +35,6 @@ class OrderObserver
      */
     public function deleted(Order $order): void
     {
-        $order->ticket->hydrateBalance()->hydrateOrderCounters()->save();
+        $order->ticket->setBalance()->setOrderCounters()->save();
     }
 }

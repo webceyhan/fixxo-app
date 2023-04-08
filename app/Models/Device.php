@@ -214,11 +214,11 @@ class Device extends Model
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Hydrate device status based on its tickets.
+     * Set device's status.
      */
-    public function hydrateStatus(): self
+    public function setStatus(): self
     {
-        $this->hydrateTicketCounters();
+        $this->setTicketCounters();
 
         $this->status = DeviceStatus::fromModel($this);
 
@@ -226,12 +226,12 @@ class Device extends Model
     }
 
     /**
-     * Hydrate device's ticket counters.
+     * Set device's ticket counters.
      */
-    public function hydrateTicketCounters(): self
+    public function setTicketCounters(): self
     {
         $this->total_tickets_count = $this->tickets->count();
-        // @see Ticket::hydrateTaskCounters() for more info
+        // @see Ticket::setTaskCounters() for more info
         // $this->inprogress_tickets_count = $this->tickets()->inProgress()->count();
         // $this->onhold_tickets_count = $this->tickets()->onHold()->count();
         // $this->resolved_tickets_count = $this->tickets()->resolved()->count();

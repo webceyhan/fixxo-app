@@ -12,7 +12,7 @@ class TicketObserver
     public function saving(Ticket $ticket): void
     {
         // calculate ticket status if not manually set
-        $ticket->isDirty('status') || $ticket->hydrateStatus();
+        $ticket->isDirty('status') || $ticket->setStatus();
     }
 
     /**
@@ -29,8 +29,8 @@ class TicketObserver
      */
     public function created(Ticket $ticket): void
     {
-        $ticket->device->hydrateTicketCounters()->save();
-        $ticket->customer->hydrateBalance()->hydrateTicketCounters()->save();
+        $ticket->device->setTicketCounters()->save();
+        $ticket->customer->setBalance()->setTicketCounters()->save();
     }
 
     /**
@@ -38,8 +38,8 @@ class TicketObserver
      */
     public function updated(Ticket $ticket): void
     {
-        $ticket->device->hydrateTicketCounters()->save();
-        $ticket->customer->hydrateBalance()->hydrateTicketCounters()->save();
+        $ticket->device->setTicketCounters()->save();
+        $ticket->customer->setBalance()->setTicketCounters()->save();
     }
 
     /**
@@ -47,7 +47,7 @@ class TicketObserver
      */
     public function deleted(Ticket $ticket): void
     {
-        $ticket->device->hydrateTicketCounters()->save();
-        $ticket->customer->hydrateBalance()->hydrateTicketCounters()->save();
+        $ticket->device->setTicketCounters()->save();
+        $ticket->customer->setBalance()->setTicketCounters()->save();
     }
 }
