@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('quantity')->default(1);
             $table->decimal('cost')->default(0);
             $table->string('note')->nullable();
-            $table->enum('status', OrderStatus::values())->default(OrderStatus::NEW);
+            $table->enum('status', OrderStatus::values())->default(OrderStatus::NEW->value);
             $table->timestamps();
 
             // index definitions

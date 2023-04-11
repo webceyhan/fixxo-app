@@ -2,15 +2,19 @@
 
 namespace App\Enums;
 
-class DeviceType extends Enum
+use App\Enums\Traits\HasBase;
+
+enum DeviceType: string
 {
-    const DESKTOP = 'desktop';
-    const LAPTOP = 'laptop';
-    const TABLET = 'tablet';
-    const PHONE = 'phone';
-    const CONSOLE = 'console';
-    const PRINTER = 'printer';
-    const NAVIGATOR = 'navigator';
-    const PERIPHERAL = 'peripheral';
-    const OTHER = 'other';
+    use HasBase;
+
+    case DESKTOP = 'desktop';
+    case LAPTOP = 'laptop';
+    case TABLET = 'tablet';
+    case PHONE = 'phone';
+    case CONSOLE = 'console';
+    case PRINTER = 'printer';
+    case NAVIGATOR = 'navigator';
+    case PERIPHERAL = 'peripheral';
+    case OTHER = 'other';
 }

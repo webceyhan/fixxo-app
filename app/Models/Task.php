@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\TaskStatus;
 use App\Models\Attributes\BooleanDateAttribute;
 use App\Models\Traits\HasSince;
 use Illuminate\Database\Eloquent\Builder;
@@ -38,6 +39,7 @@ class Task extends Model
      */
     protected $appends = [
         'is_completed',
+        'status',
     ];
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +50,23 @@ class Task extends Model
     protected function isCompleted(): Attribute
     {
         return BooleanDateAttribute::for('completed_at');
+    }
+
+    /**
+     * Get the task's status.
+     */
+    protected function status(): Attribute
+    {
+        return Attribute::make(
+            get: fn () => TaskStatus::fromModel($this),
+            // TODO: this should be a method on the enum
+            // cast doesn't work with 'status' because it's a virtual attribute
+            // instead of this setterm we use is_completed attribute
+            set: fn (mixed $value) => match ($value) {
+                TaskStatus::PENDING, 'pending' => ['completed_at' => null],
+                TaskStatus::COMPLETED, 'completed' => ['completed_at' => now()],
+            },
+        );
     }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
@@ -65,7 +84,10 @@ class Task extends Model
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to get tasks that are pending.
+     * Scope a query to only include pending tasks.
+     * 
+     * @see TaskStatus::PENDING
+     * @ignore This is a virtual status.
      */
     public function scopePending(Builder $query): void
     {
@@ -73,7 +95,10 @@ class Task extends Model
     }
 
     /**
-     * Scope a query to get tasks that are completed.
+     * Scope a query to only include completed tasks.
+     * 
+     * @see TaskStatus::COMPLETED
+     * @ignore This is a virtual status.
      */
     public function scopeCompleted(Builder $query): void
     {

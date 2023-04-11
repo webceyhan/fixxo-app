@@ -33,6 +33,16 @@ class Transaction extends Model
         'note' => null,
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'type' => TransactionType::class,
+        'method' => TransactionMethod::class,
+    ];
+
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     public function user(): BelongsTo

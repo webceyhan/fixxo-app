@@ -55,7 +55,7 @@ class DeviceQuery extends QueryBuilder
         return [
             'status' => [
                 'options' => DeviceStatus::values(),
-                'default' => DeviceStatus::CHECKED_IN
+                'default' => DeviceStatus::CHECKED_IN,
             ],
             'type' => [
                 'options' => DeviceType::values(),

@@ -2,35 +2,70 @@
 
 namespace App\Enums;
 
-class Interval extends Enum
+use App\Enums\Traits\HasBase;
+use Carbon\Carbon;
+
+enum Interval: string
 {
-    const DAY = 'day';
-    const WEEK = 'week';
-    const MONTH = 'month';
-    const YEAR = 'year';
+    use HasBase;
+
+    case DAY = 'day';
+    case WEEK = 'week';
+    case MONTH = 'month';
+    case YEAR = 'year';
 
     /**
-     * Convert given interval to date.
+     * Convert the interval to a Carbon date.
      */
-    public static function toDate(string $value): \Carbon\Carbon
+    public function toDate(): Carbon
     {
-        $date = \Carbon\Carbon::today();
+        return match ($this) {
+            self::DAY => Carbon::today()->subDay(),
+            self::WEEK => Carbon::today()->subWeek(),
+            self::MONTH => Carbon::today()->subMonth(),
+            self::YEAR => Carbon::today()->subYear(),
+            default => Carbon::today()->subCentury(),
+        };
+    }
 
-        switch ($value) {
-            case self::DAY:
-                return $date->subDay();
+    /**
+     * Convert the interval to a Carbon date formatter.
+     */
+    public function toDateFormatter(): callable
+    {
+        return match ($this) {
+            self::DAY => fn ($date) => Carbon::today()->setTime($date, 0, 0)->format('H:i'),
+            self::WEEK => fn ($date) => Carbon::today()->day($date)->format('D'),
+            self::MONTH => fn ($date) => Carbon::today()->week($date)->format('d M'),
+            self::YEAR => fn ($date) => Carbon::today()->month($date)->format('M'),
+            default => fn ($date) => $date,
+        };
+    }
 
-            case self::WEEK:
-                return $date->subWeek();
+    /**
+     * Convert the interval to a SQL function.
+     */
+    public function toSqlFunction(): string
+    {
+        return match ($this) {
+            self::DAY => 'hour',
+            self::WEEK => 'day',
+            self::MONTH => 'week',
+            self::YEAR => 'month',
+            default => 'year',
+        };
+    }
 
-            case self::MONTH:
-                return $date->subMonth();
-
-            case self::YEAR:
-                return $date->subYear();
-
-            default:
-                return $date->subCentury();
-        }
+    /**
+     * Get interval options for the dashboard.
+     */
+    public static function options(): array
+    {
+        return [
+            self::DAY->value => 'Today',
+            self::WEEK->value => 'This Week',
+            self::MONTH->value => 'This Month',
+            self::YEAR->value => 'This Year',
+        ];
     }
 }

@@ -9,7 +9,6 @@ use App\Models\Task;
 use App\Models\Ticket;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class DashboardQuery extends QueryBuilder
@@ -43,7 +42,7 @@ class DashboardQuery extends QueryBuilder
     public static function chartDataFor(Builder $query, bool $count = true): array
     {
         $result = (new self($query))
-            ->selectRaw(self::intervalFx() . '(created_at) AS label')
+            ->selectRaw(self::interval()->toSqlFunction() . '(created_at) AS label')
             ->when($count, fn ($q) => $q->selectRaw('COUNT(id) AS value'))
             ->groupBy('label')
             ->orderBy('label')
@@ -67,7 +66,7 @@ class DashboardQuery extends QueryBuilder
 
         return [
             ...$data,
-            'labels' => $data['labels']->map(self::intervalFormatter()),
+            'labels' => $data['labels']->map(self::interval()->toDateFormatter()),
         ];
     }
 
@@ -91,8 +90,8 @@ class DashboardQuery extends QueryBuilder
         $query = Task::query()
             ->selectRaw(
                 'IF(completed_at IS NULL, "'
-                    . TaskStatus::PENDING . '", "'
-                    . TaskStatus::COMPLETED . '") AS label'
+                    . TaskStatus::PENDING->value . '", "'
+                    . TaskStatus::COMPLETED->value . '") AS label'
             );
 
         return self::statsFor($query);
@@ -124,14 +123,8 @@ class DashboardQuery extends QueryBuilder
     {
         return [
             'interval' => [
-                'options' => [
-                    Interval::DAY => 'Today',
-                    Interval::WEEK => 'This Week',
-                    Interval::MONTH => 'This Month',
-                    Interval::YEAR => 'This Year',
-                ],
                 'value' => static::interval(),
-                'default' => Interval::DAY,
+                'options' => Interval::options(),
             ]
         ];
     }
@@ -139,45 +132,9 @@ class DashboardQuery extends QueryBuilder
     /**
      * Get the requested interval.
      */
-    private static function interval(): string
+    private static function interval(): Interval
     {
-        return request('interval', Interval::DAY);
-    }
-
-    /**
-     * Get the mysql function for the interval.
-     */
-    private static function intervalFx(): string
-    {
-        return [
-            Interval::DAY => 'hour',
-            Interval::WEEK => 'day',
-            Interval::MONTH => 'week',
-            Interval::YEAR => 'month',
-        ][static::interval()];
-    }
-
-    /**
-     * Get the date formatter for the interval.
-     */
-    private static function intervalFormatter(): callable
-    {
-        switch (static::interval()) {
-            case Interval::DAY: // hour
-                return fn ($date) => Carbon::today()->setTime($date, 0, 0)->format('H:i');
-
-            case Interval::WEEK: // day
-                return fn ($date) => Carbon::today()->day($date)->format('D');
-
-            case Interval::MONTH: // week
-                return fn ($date) => Carbon::today()->week($date)->format('d M');
-
-            case Interval::YEAR: // month
-                return fn ($date) => Carbon::today()->month($date)->format('M');
-
-            default:
-                return fn ($date) => $date;
-        }
+        return Interval::tryFrom(request('interval')) ?? Interval::WEEK;
     }
 
     /**

@@ -12,7 +12,7 @@ class DeviceObserver
     public function saving(Device $device): void
     {
         // calculate device status if not manually set
-        $device->isDirty('status') || $device->calculateStatus();
+        $device->isDirty('status') || $device->setStatus();
     }
 
     /**

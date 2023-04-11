@@ -11,15 +11,7 @@ class TaskObserver
      */
     public function created(Task $task): void
     {
-        $ticket = $task->ticket;
-
-        // update ticket's balance
-        $ticket->calculateBalance();
-
-        // update ticket's task counters accordingly
-        $ticket->calculateTaskCounters();
-
-        $ticket->save();
+        $task->ticket->setBalance()->setTaskCounters()->save();
     }
 
     /**
@@ -27,19 +19,15 @@ class TaskObserver
      */
     public function updated(Task $task): void
     {
-        $ticket = $task->ticket;
-
-        // update ticket's balance if applicable
         if ($task->wasChanged('cost')) {
-            $ticket->calculateBalance();
+            $task->ticket->setBalance();
         }
 
-        // update ticket's task counters if applicable
         if ($task->wasChanged('completed_at')) {
-            $ticket->calculateTaskCounters();
+            $task->ticket->setTaskCounters();
         }
 
-        $ticket->isDirty() && $ticket->save();
+        $task->ticket->isDirty() && $task->ticket->save();
     }
 
     /**
@@ -47,14 +35,6 @@ class TaskObserver
      */
     public function deleted(Task $task): void
     {
-        $ticket = $task->ticket;
-
-        // update ticket's balance
-        $ticket->calculateBalance();
-
-        // update ticket's task counters accordingly
-        $ticket->calculateTaskCounters();
-
-        $ticket->save();
+        $task->ticket->setBalance()->setTaskCounters()->save();
     }
 }

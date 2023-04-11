@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Ticket extends Model
 {
@@ -54,6 +53,15 @@ class Ticket extends Model
         'description',
     ];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => TicketStatus::class,
+    ];
+
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -67,13 +75,12 @@ class Ticket extends Model
     }
 
     /**
-     * Get total cost of all orders (excluding cancelled orders).
+     * Get total cost of all valid (non-cancelled) orders.
      */
     protected function ordersCost(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->orders->sum('cost')
-                - $this->orders->where('status', OrderStatus::CANCELLED)->sum('cost'),
+            get: fn () => $this->orders()->valid()->sum('cost')
         )->shouldCache();
     }
 
@@ -174,21 +181,14 @@ class Ticket extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function device(): belongsTo
+    public function device(): BelongsTo
     {
         return $this->belongsTo(Device::class);
     }
 
-    public function customer(): HasOneThrough
+    public function customer(): BelongsTo
     {
-        return $this->hasOneThrough(
-            Customer::class,
-            Device::class,
-            'id', // Foreign key on the devices table...
-            'id', // Foreign key on the customers table...
-            'device_id', // Local key on the tickets table...
-            'customer_id' // Local key on the devices table...
-        );
+        return $this->belongsTo(Customer::class);
     }
 
     public function orders(): HasMany
@@ -209,7 +209,9 @@ class Ticket extends Model
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to only include new Tickets.
+     * Scope a query to only include new tickets.
+     * 
+     * @see TicketStatus::NEW
      */
     public function scopeNew(Builder $query): void
     {
@@ -217,7 +219,9 @@ class Ticket extends Model
     }
 
     /**
-     * Scope a query to only include in_progress Tickets.
+     * Scope a query to only include in_progress tickets.
+     * 
+     * @see TicketStatus::IN_PROGRESS
      */
     public function scopeInProgress(Builder $query): void
     {
@@ -225,7 +229,9 @@ class Ticket extends Model
     }
 
     /**
-     * Scope a query to only include on-hold Tickets.
+     * Scope a query to only include on-hold tickets.
+     * 
+     * @see TicketStatus::ON_HOLD
      */
     public function scopeOnHold(Builder $query): void
     {
@@ -233,7 +239,9 @@ class Ticket extends Model
     }
 
     /**
-     * Scope a query to only include resolved Tickets.
+     * Scope a query to only include resolved tickets.
+     * 
+     * @see TicketStatus::RESOLVED
      */
     public function scopeResolved(Builder $query): void
     {
@@ -241,7 +249,9 @@ class Ticket extends Model
     }
 
     /**
-     * Scope a query to only include closed Tickets.
+     * Scope a query to only include closed tickets.
+     * 
+     * @see TicketStatus::CLOSED
      */
     public function scopeClosed(Builder $query): void
     {
@@ -249,7 +259,20 @@ class Ticket extends Model
     }
 
     /**
+     * Scope a query to only include open tickets
+     * which is all tickets except closed ones.
+     * 
+     * @ignore This is a virtual status.
+     */
+    public function scopeOpen(Builder $query): void
+    {
+        $query->whereNot('status', TicketStatus::CLOSED);
+    }
+
+    /**
      * Scope a query to only include tickets with outstanding balance.
+     * 
+     * @ignore This is a virtual status.
      */
     public function scopeOutstanding(Builder $query): Builder
     {
@@ -257,106 +280,70 @@ class Ticket extends Model
     }
 
     /**
-     * Scope a query to only include overdue tickets.
+     * Scope a query to only include tickets with overdue balance.
+     * This is a combination of closed tickets with outstanding balance.
+     * 
+     * @ignore This is a virtual status.
      */
     public function scopeOverdue(Builder $query): Builder
     {
-        return $query->outstanding()->closed();
+        return $query->closed()->outstanding();
     }
 
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Calculate ticket's balance based on the sum of tasks and transactions.
+     * Set ticket status based on counters.
      */
-    public function calculateBalance(): void
+    public function setStatus(): self
+    {
+        $this->setTaskCounters();
+        $this->setOrderCounters();
+
+        $this->status = TicketStatus::fromModel($this);
+
+        return $this;
+    }
+
+    /**
+     * Set ticket balance.
+     */
+    public function setBalance(): self
     {
         $this->balance = $this->paid - $this->cost;
+
+        return $this;
     }
 
     /**
-     * Calculate total and completed tasks counters.
+     * Set ticket's tasks counters.
      */
-    public function calculateTaskCounters(): void
+    public function setTaskCounters(): self
     {
-        $tasks = $this->tasks;
+        // NOTE: we can't use $this->tasks->completed()->count() here because it's collection of tasks        
+        // but can't use $this->tasks()->completed()->count() which has no caching and very slow
+        // so we have to use where() instead on the cached collection to get the count
+        // $this->total_tasks_count = $this->tasks()->count();
+        // $this->completed_tasks_count = $this->tasks()->completed()->count();
 
-        $this->total_tasks_count = $tasks->count();
-        $this->completed_tasks_count = $tasks->whereNotNull('completed_at')->count();
+        $this->total_tasks_count = $this->tasks->count();
+        $this->completed_tasks_count = $this->tasks->where('completed_at', '!=', null)->count();
+
+        return $this;
     }
 
     /**
-     * Calculate total and received orders counters.
+     * Set ticket's orders counters.
      */
-    public function calculateOrderCounters(): void
+    public function setOrderCounters(): self
     {
-        $orders = $this->orders;
+        // @see setTaskCounters() for more info
+        // $this->total_orders_count = $this->orders()->valid()->count();
+        // $this->received_orders_count = $this->orders()->received()->count();
 
-        // we should deduct cancelled orders from the total count
-        $cancelled_orders_count = $orders->where('status', OrderStatus::CANCELLED)->count();
+        $this->total_orders_count = $this->orders->where('status', '!=', OrderStatus::CANCELLED)->count();
+        $this->received_orders_count = $this->orders->where('status', OrderStatus::RECEIVED)->count();
 
-        $this->received_orders_count = $orders->where('status', OrderStatus::RECEIVED)->count();
-        $this->total_orders_count = $orders->count() - $cancelled_orders_count;
-    }
-
-    /**
-     * Calculate ticket status based on its tasks.
-     */
-    public function calculateStatus(): void
-    {
-        $this->calculateTaskCounters();
-        $this->calculateOrderCounters();
-
-        // get the task related counters
-        $totalTasksCount = $this->total_tasks_count;
-        $completedTasksCount = $this->completed_tasks_count;
-        $pendingTasksCount = $totalTasksCount - $completedTasksCount;
-
-        // get the boolean flags
-        $hasTasks = $totalTasksCount > 0;
-        $hasPendingTasks = $pendingTasksCount > 0;
-        $hasPendingOrders = $this->pending_orders_count > 0;
-
-        switch ($this->status) {
-            case TicketStatus::NEW:
-            case TicketStatus::ON_HOLD:
-                // if the ticket has pending tasks, it is still in progress and needs further action
-                if ($hasPendingTasks && !$hasPendingOrders) {
-                    $this->status = TicketStatus::IN_PROGRESS;
-                }
-                // if the ticket has no pending tasks but still has tasks, it means that all tasks
-                // are completed, so the ticket is now resolved and no further action is needed
-                if ($hasTasks && !$hasPendingTasks && !$hasPendingOrders) {
-                    $this->status = TicketStatus::RESOLVED;
-                }
-                break;
-
-            case TicketStatus::IN_PROGRESS:
-                // if the ticket has no tasks, it means that there is nothing left 
-                // to do for now, so the ticket is put on hold
-                if (!$hasTasks || $hasPendingOrders) {
-                    $this->status = TicketStatus::ON_HOLD;
-                }
-                // if the ticket has tasks but no pending tasks, it means that all tasks are completed, 
-                // so the ticket is now resolved and no further action is needed
-                if ($hasTasks && !$hasPendingTasks && !$hasPendingOrders) {
-                    $this->status = TicketStatus::RESOLVED;
-                }
-                break;
-
-            case TicketStatus::RESOLVED:
-            case TicketStatus::CLOSED:
-                // if the ticket has no tasks, it means that there is nothing left 
-                // to do for now, so the ticket is put on hold
-                if (!$hasTasks || $hasPendingOrders) {
-                    $this->status = TicketStatus::ON_HOLD;
-                }
-                // if the ticket has pending tasks, it means that there are still tasks left to do, 
-                // so the ticket is still in progress and needs further action
-                if ($hasPendingTasks && !$hasPendingOrders) {
-                    $this->status = TicketStatus::IN_PROGRESS;
-                }
-                break;
-        }
+        return $this;
     }
 }

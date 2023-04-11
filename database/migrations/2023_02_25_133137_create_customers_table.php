@@ -23,8 +23,13 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->string('note')->nullable();
             // TODO: use soft deletes instead!
-            $table->enum('status', UserStatus::values())->default(UserStatus::ACTIVE);
+            $table->enum('status', UserStatus::values())->default(UserStatus::ACTIVE->value);
             $table->timestamps();
+
+            // aggregate fields
+            $table->decimal('balance')->default(0);
+            $table->integer('closed_tickets_count')->default(0);
+            $table->integer('total_tickets_count')->default(0);
 
             // index definitions
             $table->fullText(Customer::fullTextColumns());

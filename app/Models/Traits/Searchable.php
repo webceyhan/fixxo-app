@@ -19,35 +19,14 @@ trait Searchable
      */
     public function scopeSearch(Builder $query, ?string $keyword = null): void
     {
-        // skip if no keyword is given
+        // skip if keyword is empty
         if (empty($keyword)) return;
 
-        // issue: value is "Kelly Muller DVM", keyword 'dvm' is working but vm is not
-        // but if you begin with 'k', 'ke', 'kel', 'kell' or 'kelly' it works!
-
-        // @todo: minimum length of keyword (between ) must be 3 characters (mysql default)
-        // @see: mysql config "innodb_ft_min_token_size"
-        // @see: https://dev.mysql.com/doc/refman/8.0/en/innodb-parameters.html#sysvar_innodb_ft_min_token_size
-
-        // append * to each word to do wildcard search
+        // append * wildcard to each word to do fuzzy search
         $keyword = addslashes(implode('* ', explode(' ', $keyword)) . '*');
 
-        // create full-text statement in boolean mode
-        $statement = "MATCH({$this->index()}) AGAINST ('$keyword' IN BOOLEAN MODE)";
-
-        $query
-            ->select('*') // bugfix: must select all with selectRaw()
-            ->selectRaw("$statement AS score")
-            ->whereRaw("($statement)")
-            ->orderByDesc('score');
-    }
-
-    /**
-     * Get the full-text index using the searchable attributes.
-     */
-    private function index(): string
-    {
-        return  implode(',', $this->searchable ?? []);
+        // create full-text search in boolean mode for searchable columns
+        $query->whereFullText($this->searchable ?? [], $keyword, ['mode' => 'boolean']);
     }
 
     /**

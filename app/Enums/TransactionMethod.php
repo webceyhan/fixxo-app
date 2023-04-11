@@ -2,9 +2,13 @@
 
 namespace App\Enums;
 
-class TransactionMethod extends Enum
+use App\Enums\Traits\HasBase;
+
+enum TransactionMethod: string
 {
-    const CASH = 'cash';
-    const CARD = 'card';
-    const ONLINE = 'online';
+    use HasBase;
+
+    case CASH = 'cash';
+    case CARD = 'card';
+    case ONLINE = 'online';
 }

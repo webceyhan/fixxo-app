@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Enums\TicketStatus;
 use App\Enums\UserStatus;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Customer extends Model
 {
@@ -37,6 +38,15 @@ class Customer extends Model
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'status' => UserStatus::class,
+    ];
+
+    /**
      * Searchable attributes.
      *
      * @var array<int, string>
@@ -57,15 +67,52 @@ class Customer extends Model
         return $this->hasMany(Device::class)->latest();
     }
 
-    public function tickets(): HasManyThrough
+    public function tickets(): HasMany
     {
-        return $this->hasManyThrough(
-            Ticket::class,
-            Device::class,
-            'customer_id', // Foreign key on the devices table...
-            'device_id', // Foreign key on the customers table...
-            'id', // Local key on the customers table...
-            'id' // Local key on the devices table...
-        )->latest();
+        return $this->hasMany(Ticket::class)->latest();
+    }
+
+    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Scope a query to only include customers with outstanding (< 0) balance.
+     */
+    public function scopeWithOutstandingBalance(Builder $query): Builder
+    {
+        return $query->where('balance', '<', 0);
+    }
+
+    /**
+     * Scope a query to only include customers with open tickets.
+     */
+    public function scopeWithOpenTickets(Builder $query): void
+    {
+        $query->where('total_tickets_count', '>', 0)
+            ->where('closed_tickets_count', '<', $this->total_tickets_count);
+    }
+
+    // HELPERS /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Set balance.
+     */
+    public function setBalance(): self
+    {
+        $this->balance = $this->tickets->sum('balance');
+
+        return $this;
+    }
+
+    /**
+     * Set ticket counters.
+     */
+    public function setTicketCounters(): self
+    {
+        $this->total_tickets_count = $this->tickets->count();
+        // @see Ticket::setTaskCounters() for more info
+        // $this->open_tickets_count = $this->tickets()->closed()->count();
+        $this->closed_tickets_count = $this->tickets->where('status', TicketStatus::CLOSED)->count();
+
+        return $this;
     }
 }

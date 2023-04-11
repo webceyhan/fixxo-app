@@ -2,8 +2,12 @@
 
 namespace App\Enums;
 
-class UserRole extends Enum
+use App\Enums\Traits\HasBase;
+
+enum UserRole: string
 {
-    const EXPERT = 'expert';
-    const ADMIN = 'admin';
+    use HasBase;
+
+    case EXPERT = 'expert';
+    case ADMIN = 'admin';
 }

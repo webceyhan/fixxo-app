@@ -2,7 +2,6 @@
 
 namespace App\Observers;
 
-use App\Enums\OrderStatus;
 use App\Models\Order;
 
 class OrderObserver
@@ -12,15 +11,7 @@ class OrderObserver
      */
     public function created(Order $order): void
     {
-        $ticket = $order->ticket;
-
-        // update ticket's balance
-        $ticket->calculateBalance();
-
-        // update ticket's order counters accordingly
-        $ticket->calculateOrderCounters();
-
-        $ticket->save();
+        $order->ticket->setBalance()->setOrderCounters()->save();
     }
 
     /**
@@ -28,20 +19,15 @@ class OrderObserver
      */
     public function updated(Order $order): void
     {
-        $ticket = $order->ticket;
-
-        // update ticket's balance if applicable
         if ($order->wasChanged('cost')) {
-            $ticket->calculateBalance();
+            $order->ticket->setBalance();
         }
 
-        // update ticket's order counters if applicable
         if ($order->wasChanged('status')) {
-            $ticket->calculateOrderCounters();
-            $ticket->calculateBalance(); // in case if order was cancelled
+            $order->ticket->setOrderCounters();
         }
 
-        $ticket->isDirty() && $ticket->save();
+        $order->ticket->isDirty() && $order->ticket->save();
     }
 
     /**
@@ -49,16 +35,6 @@ class OrderObserver
      */
     public function deleted(Order $order): void
     {
-        $ticket = $order->ticket;
-
-        // update ticket's balance
-        $ticket->calculateBalance();
-
-        // update ticket's order counters accordingly
-        $ticket->calculateOrderCounters();
-
-        $ticket->save();
+        $order->ticket->setBalance()->setOrderCounters()->save();
     }
-
-
 }

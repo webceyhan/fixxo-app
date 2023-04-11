@@ -11,12 +11,7 @@ class TransactionObserver
      */
     public function created(Transaction $transaction): void
     {
-        $ticket = $transaction->ticket;
-
-        // update ticket's balance
-        $ticket->calculateBalance();
-
-        $ticket->save();
+        $transaction->ticket->setBalance()->save();
     }
 
     /**
@@ -24,14 +19,9 @@ class TransactionObserver
      */
     public function updated(Transaction $transaction): void
     {
-        $ticket = $transaction->ticket;
-
-        // update ticket's balance if transaction amount was changed
         if ($transaction->wasChanged('amount')) {
-            $ticket->calculateBalance();
+            $transaction->ticket->setBalance()->save();
         }
-
-        $ticket->isDirty() && $ticket->save();
     }
 
     /**
@@ -39,11 +29,6 @@ class TransactionObserver
      */
     public function deleted(Transaction $transaction): void
     {
-        $ticket = $transaction->ticket;
-
-        // update ticket's balance
-        $ticket->calculateBalance();
-
-        $ticket->save();
+        $transaction->ticket->setBalance()->save();
     }
 }

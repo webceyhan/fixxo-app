@@ -64,7 +64,29 @@ export function formatMoney(value) {
 
 const rtf = new Intl.RelativeTimeFormat("en", { style: "short" });
 
-export const formatDate = (timestamp, long = false) => {
+export const formatDate = (value, long = false) => {
+    // skip if empty or null
+    if (!value || value == "") return "";
+
+    const date = new Date(value);
+
+    const config = {
+        // year: "2-digit",
+        // month: "2-digit",
+        // day: "2-digit",
+
+        year: long ? "numeric" : "2-digit",
+        month: long ? "long" : "2-digit",
+        day: "2-digit",
+        hour: long ? "2-digit" : undefined,
+        minute: long ? "2-digit" : undefined,
+        second: long ? "2-digit" : undefined,
+    };
+
+    return Intl.DateTimeFormat("en-BE", config).format(date);
+};
+
+export const formatDatetime = (timestamp, long = false) => {
     // skip if empty or null
     if (!timestamp || timestamp == "") return "";
 
