@@ -28,7 +28,8 @@ enum OrderStatus: string
         return match ($this) {
             self::NEW => Progress::PENDING,
             self::SHIPPED => Progress::PROCESSING,
-            self::RECEIVED, self::CANCELLED => Progress::COMPLETED,
+            self::RECEIVED,
+            self::CANCELLED => Progress::COMPLETED,
         };
     }
 }

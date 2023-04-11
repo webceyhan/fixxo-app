@@ -30,9 +30,11 @@ enum TicketStatus: string
     public function progress(): Progress
     {
         return match ($this) {
-            self::NEW, self::ON_HOLD => Progress::PENDING,
+            self::NEW, 
+            self::ON_HOLD => Progress::PENDING,
             self::IN_PROGRESS => Progress::PROCESSING,
-            self::RESOLVED, self::CLOSED => Progress::COMPLETED,
+            self::RESOLVED, 
+            self::CLOSED => Progress::COMPLETED,
         };
     }
 

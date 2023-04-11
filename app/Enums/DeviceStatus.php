@@ -43,9 +43,12 @@ enum DeviceStatus: string
     public function progress(): Progress
     {
         return match ($this) {
-            self::CHECKED_IN, self::ON_HOLD => Progress::PENDING,
+            self::CHECKED_IN,
+            self::ON_HOLD => Progress::PENDING,
             self::IN_REPAIR => Progress::PROCESSING,
-            self::FIXED, self::DEFECT, self::CHECKED_OUT => Progress::COMPLETED,
+            self::FIXED,
+            self::DEFECT,
+            self::CHECKED_OUT => Progress::COMPLETED,
         };
     }
 
