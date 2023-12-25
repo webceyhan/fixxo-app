@@ -18,7 +18,7 @@ const currentTitle = computed(
 </script>
 
 <template>
-  <div class="flex h-screen bg-gray-200 dark:bg-gray-900">
+  <div class="flex h-screen">
     <Head :title="currentTitle" />
 
     <!-- Side Navigation -->
