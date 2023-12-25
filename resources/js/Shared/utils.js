@@ -190,11 +190,7 @@ export function useDarkTheme() {
         localStorage.theme = value ? "dark" : "light";
 
         // set the class on the html element
-        if (value) {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
-        }
+        document.documentElement.dataset.theme = localStorage.theme;
     };
 
     // toggle the value
