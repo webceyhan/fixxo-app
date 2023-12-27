@@ -14,11 +14,8 @@ function onClick(e) {
 </script>
 
 <template>
-  <tr
-    :class="{ 'hover:bg-gray-200 dark:hover:bg-gray-700/30 cursor-pointer': href }"
-    @click="onClick"
-  >
-    <TableData v-if="$slots.avatar" class="!pr-0 w-0">
+  <tr :class="['bg-base-300', { hover: href }]" @click="onClick">
+    <TableData v-if="$slots.avatar">
       <div class="relative">
         <slot name="avatar" />
 
@@ -30,7 +27,7 @@ function onClick(e) {
 
     <slot />
 
-    <TableData v-if="$slots.action || href" class="!pl-0 w-0">
+    <TableData v-if="$slots.action || href" class="text-end">
       <slot name="action">
         <Icon name="chevron-right" class="text-sm opacity-50" />
       </slot>
