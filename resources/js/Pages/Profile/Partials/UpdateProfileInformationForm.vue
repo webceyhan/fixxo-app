@@ -1,9 +1,7 @@
 <script setup>
 import { Link, useForm, usePage } from "@inertiajs/vue3";
-import InputError from "@/Components/Form/InputError.vue";
-import InputLabel from "@/Components/Form/InputLabel.vue";
-import TextInput from "@/Components/Form/TextInput.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
+import FormControl from "@/Components/Form/FormControl.vue";
 
 const props = defineProps({
   mustVerifyEmail: Boolean,
@@ -31,36 +29,26 @@ const form = useForm({
     </header>
 
     <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
-      <div>
-        <InputLabel for="name" value="Name" />
+      <FormControl
+        id="name"
+        type="text"
+        label="Name"
+        required
+        autofocus
+        autocomplete="name"
+        v-model="form.name"
+        :error="form.errors.name"
+      />
 
-        <TextInput
-          id="name"
-          type="text"
-          class="mt-1 block w-full"
-          v-model="form.name"
-          required
-          autofocus
-          autocomplete="name"
-        />
-
-        <InputError class="mt-2" :message="form.errors.name" />
-      </div>
-
-      <div>
-        <InputLabel for="email" value="Email" />
-
-        <TextInput
-          id="email"
-          type="email"
-          class="mt-1 block w-full"
-          v-model="form.email"
-          required
-          autocomplete="username"
-        />
-
-        <InputError class="mt-2" :message="form.errors.email" />
-      </div>
+      <FormControl
+        id="email"
+        type="email"
+        label="Email"
+        v-model="form.email"
+        :error="form.errors.email"
+        autocomplete="username"
+        required
+      />
 
       <div v-if="props.mustVerifyEmail && user.email_verified_at === null">
         <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">

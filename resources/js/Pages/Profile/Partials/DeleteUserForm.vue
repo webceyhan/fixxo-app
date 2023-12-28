@@ -2,9 +2,7 @@
 import { nextTick, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import Modal from "@/Components/Modal.vue";
-import InputError from "@/Components/Form/InputError.vue";
-import InputLabel from "@/Components/Form/InputLabel.vue";
-import TextInput from "@/Components/Form/TextInput.vue";
+import FormControl from "@/Components/Form/FormControl.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 
 const confirmationModal = ref(false);
@@ -59,21 +57,16 @@ const closeModal = () => {
         delete your account.
       </p>
 
-      <div class="w-full">
-        <InputLabel for="password" value="Password" class="sr-only" />
-
-        <TextInput
-          id="password"
-          ref="passwordInput"
-          v-model="form.password"
-          type="password"
-          class="mt-1 block w-full"
-          placeholder="Password"
-          @keyup.enter="deleteUser"
-        />
-
-        <InputError :message="form.errors.password" class="mt-2" />
-      </div>
+      <FormControl
+        id="password"
+        type="password"
+        ref="passwordInput"
+        label="Password"
+        placeholder="Password"
+        v-model="form.password"
+        :error="form.errors.password"
+        @keyup.enter="deleteUser"
+      />
 
       <template #actions>
         <DangerButton
