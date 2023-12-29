@@ -13,15 +13,16 @@ defineProps({
 <template>
   <component
     :is="$attrs.href ? Link : 'li'"
-    class="group relative flex justify-between items-center p-4 sm:px-6 space-x-4 sm:space-x-6"
-    :class="{
-      'hover:bg-gray-200 dark:hover:bg-gray-700 dark:hover:bg-opacity-30 sm:cursor-pointer':
-        clickable || $attrs.href,
-    }"
+    :class="[
+      'group relative card-body flex-row grow-0 justify-between items-center gap-6',
+      {
+        'hover:bg-base-200': clickable || $attrs.href,
+      },
+    ]"
   >
     <!-- avatar -->
     <slot name="avatar">
-      <Avatar v-if="icon" :icon="icon" class="flex-shrink-0 opacity-50" />
+      <Avatar v-if="icon" :icon="icon" class="flex-shrink-0" />
     </slot>
 
     <slot> {{ label }} </slot>
@@ -31,7 +32,7 @@ defineProps({
     and moved to the right end of the list item on larger screens -->
     <div
       v-if="$slots.badge"
-      class="absolute left-0 bottom-3 xl:relative xl:bottom-0 xl:w-2/12 text-center"
+      class="absolute left-8 bottom-6 xl:relative xl:bottom-0 xl:w-2/12 text-center"
     >
       <slot name="badge" />
     </div>

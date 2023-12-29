@@ -33,7 +33,7 @@ function getProgress(ticket) {
     >
       <template #avatar>
         <Avatar icon="ticket" class="flex-shrink-0 opacity-50" />
-        <div v-if="compact" class="absolute left-0 bottom-3 text-center">
+        <div v-if="compact" class="absolute left-8 bottom-6 text-center">
           <TicketBadge :status="ticket.status" compact />
         </div>
       </template>

@@ -12,13 +12,11 @@ defineProps({
 
 <template>
   <div class="flex flex-col overflow-hidden gap-1">
-    <dt
-      class="text-xs font-semibold tracking-widest text-gray-500 uppercase"
-    >
+    <dt class="text-xs font-semibold tracking-widest uppercase opacity-30">
       <slot name="label"> {{ label }} </slot>
     </dt>
 
-    <dd class="text-gray-900 dark:text-gray-100 truncate">
+    <dd class="truncate">
       <slot>
         <!-- format as date / datetime -->
         <span v-if="type === 'date'">
