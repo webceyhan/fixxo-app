@@ -65,7 +65,7 @@ const notifications = [
         <span class="text-sm">
           {{ notification.message }}
         </span>
-        <span class="text-xs text-gray-400">
+        <span class="text-xs opacity-50">
           {{ notification.time }}
         </span>
       </p>

@@ -39,13 +39,13 @@ const onSearch = ({ target }) => {
 <template>
   <div class="relative w-full max-w-lg">
     <span class="absolute inset-y-0 left-0 flex items-center pl-4">
-      <Icon class="text-xl text-gray-500" name="search" />
+      <Icon class="text-xl opacity-50" name="search" />
     </span>
 
     <input
       id="searchInput"
       type="search"
-      class="w-full pl-12 py-3 form-input dark:text-white bg-gray-100 dark:bg-gray-900 border-0 focus:ring-indigo-400 dark:focus:ring-indigo-700 rounded-md shadow-sm"
+      class="w-full input pl-12"
       placeholder="Search"
       :value="useSearchParams().search"
       @input="onSearch"

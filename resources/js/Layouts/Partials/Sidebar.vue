@@ -72,7 +72,7 @@ const proxyToggled = computed({
     :class="proxyToggled ? 'block' : 'hidden'"
     @click="proxyToggled = false"
     class="fixed inset-0 z-20 transition-opacity bg-black opacity-50 lg:hidden"
-  ></div>
+  />
 
   <Transition>
     <div

@@ -17,11 +17,11 @@ const { isDark, toggleDark } = useDarkTheme();
 
 <template>
   <nav
-    class="sticky top-0 border-b-4 border-indigo-500 dark:border-indigo-900 backdrop-blur-md backdrop-brightness-125 shadow-md z-50"
+    class="sticky top-0 border-b-4 border-primary/20 backdrop-blur-md backdrop-brightness-125 shadow-md z-50"
   >
     <div class="container mx-auto flex items-center gap-4 py-3 px-4 sm:px-6 lg:px-8">
       <!-- Hamburger -->
-      <button @click="$emit('toggle')" class="text-gray-500 focus:outline-none lg:hidden">
+      <button @click="$emit('toggle')" class="focus:outline-none lg:hidden">
         <Icon class="text-3xl" name="list" />
       </button>
 
