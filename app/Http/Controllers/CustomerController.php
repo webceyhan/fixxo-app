@@ -46,7 +46,7 @@ class CustomerController extends Controller
             'customer' => $customer,
             'devices' => $customer->devices()->get(),
             'tickets' => $customer->tickets()->get(),
-            'canDelete' => auth()->user()->can('delete', $customer),
+            'canDelete' => Gate::allows('delete', $customer),
         ]);
     }
 
