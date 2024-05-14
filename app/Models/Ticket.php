@@ -6,9 +6,11 @@ use App\Enums\OrderStatus;
 use App\Enums\TicketStatus;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
+use App\Observers\TicketObserver;
 use App\Services\QRService;
 use App\Services\SignatureService;
 use App\Services\UploadService;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,6 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[ObservedBy([TicketObserver::class])]
 class Ticket extends Model
 {
     use HasFactory, Searchable, HasSince;
