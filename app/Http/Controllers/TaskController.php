@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveTaskRequest;
 use App\Models\Task;
+use Illuminate\Support\Facades\Gate;
 
 class TaskController extends Controller
 {
@@ -37,8 +38,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        // TODO: use athorizeResource() here, see UserController::__construct()
-        $this->authorize('delete', $task);
+        Gate::authorize('delete', $task);
 
         $task->delete();
 

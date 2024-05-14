@@ -6,6 +6,7 @@ use App\Enums\UserStatus;
 use App\Http\Requests\SaveCustomerRequest;
 use App\Models\Customer;
 use App\Queries\CustomerQuery;
+use Illuminate\Support\Facades\Gate;
 
 class CustomerController extends Controller
 {
@@ -79,8 +80,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        // TODO: use athorizeResource() here, see UserController::__construct()
-        $this->authorize('delete', $customer);
+        Gate::authorize('delete', $customer);
 
         $customer->delete();
 

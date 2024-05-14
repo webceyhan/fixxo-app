@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SaveOrderRequest;
 use App\Models\Order;
 use App\Queries\OrderQuery;
+use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {
@@ -75,8 +76,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        // TODO: use athorizeResource() here, see UserController::__construct()
-        $this->authorize('delete', $order);
+        Gate::authorize('delete', $order);
 
         $order->delete();
 

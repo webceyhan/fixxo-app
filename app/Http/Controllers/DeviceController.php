@@ -7,6 +7,7 @@ use App\Enums\DeviceType;
 use App\Http\Requests\SaveDeviceRequest;
 use App\Models\Device;
 use App\Queries\DeviceQuery;
+use Illuminate\Support\Facades\Gate;
 
 class DeviceController extends Controller
 {
@@ -98,8 +99,7 @@ class DeviceController extends Controller
      */
     public function destroy(Device $device)
     {
-        // TODO: use athorizeResource() here, see UserController::__construct()
-        $this->authorize('delete', $device);
+        Gate::authorize('delete', $device);
 
         $device->delete();
 

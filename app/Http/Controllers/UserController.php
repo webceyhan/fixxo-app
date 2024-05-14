@@ -7,9 +7,13 @@ use App\Enums\UserStatus;
 use App\Http\Requests\SaveUserRequest;
 use App\Models\User;
 use App\Queries\UserQuery;
+use Illuminate\Routing\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class UserController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Create the controller instance.
      *
