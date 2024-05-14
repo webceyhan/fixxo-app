@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('description');
             $table->string('note')->nullable();
-            $table->enum('status', TicketStatus::values())->default(TicketStatus::NEW->value);
+            $table->enum('status', TicketStatus::values())->default(TicketStatus::NEW);
             $table->timestamps();
 
             // aggregate fields
