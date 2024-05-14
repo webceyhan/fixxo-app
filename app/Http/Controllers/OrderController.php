@@ -50,7 +50,7 @@ class OrderController extends Controller
                     'customer',
                     'user:id,name',
                 ]),
-            'canDelete' => auth()->user()->can('delete', $order),
+            'canDelete' => Gate::allows('delete', $order),
         ]);
     }
 

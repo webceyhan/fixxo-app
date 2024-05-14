@@ -58,7 +58,7 @@ class DeviceController extends Controller
 
         return inertia('Devices/Show', [
             'device' => $device,
-            'canDelete' => auth()->user()->can('delete', $device),
+            'canDelete' => Gate::allows('delete', $device),
         ]);
     }
 

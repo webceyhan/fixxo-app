@@ -80,14 +80,14 @@ class TicketController extends Controller
             'tasks' => $ticket->tasks()->with('user:id,name')->get(),
             'orders' => $ticket->orders()->with('user:id,name')->get(),
             'transactions' => $ticket->transactions()->with('user:id,name')->get(),
-            'canDelete' => auth()->user()->can('delete', $ticket),
+            'canDelete' => Gate::allows('delete', $ticket),
             // TODO: improve this!
             // we are checking for the ability to delete a task in the future
             // but at this point we don't have a task/transaction yet so as a workaround
             // we are using a dummy new Task/Transaction instance instead of Task::class
-            'canDeleteTask' => auth()->user()->can('delete', new Task),
-            'canDeleteOrder' => auth()->user()->can('delete', new Order),
-            'canDeleteTransaction' => auth()->user()->can('delete', new Transaction),
+            'canDeleteTask' => Gate::allows('delete', new Task),
+            'canDeleteOrder' => Gate::allows('delete', new Order),
+            'canDeleteTransaction' => Gate::allows('delete', new Transaction),
         ]);
     }
 
