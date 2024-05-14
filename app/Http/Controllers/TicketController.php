@@ -12,6 +12,7 @@ use App\Models\Ticket;
 use App\Queries\TicketQuery;
 use App\Services\NotificationService;
 use App\Services\SignatureService;
+use Illuminate\Support\Facades\Gate;
 
 class TicketController extends Controller
 {
@@ -142,8 +143,7 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        // TODO: use athorizeResource() here, see UserController::__construct()
-        $this->authorize('delete', $ticket);
+        Gate::authorize('delete', $ticket);
 
         $ticket->delete();
 
