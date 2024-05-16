@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\HasValues;
 
 enum UserStatus: string
 {
-    use HasBase;
+    use HasValues;
 
     case ACTIVE = 'active';
     case INACTIVE = 'inactive';

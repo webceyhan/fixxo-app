@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\HasValues;
 
 enum TransactionType: string
 {
-    use HasBase;
+    use HasValues;
 
     case PAYMENT = 'payment';
     case DISCOUNT = 'discount';

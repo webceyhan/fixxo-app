@@ -2,12 +2,12 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\HasValues;
 use App\Models\Ticket;
 
 enum TicketStatus: string
 {
-    use HasBase;
+    use HasValues;
 
         // The ticket has been created but has not yet been assigned to anyone for resolution.
     case NEW = 'new';

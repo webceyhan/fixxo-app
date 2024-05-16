@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\HasValues;
 
 enum UserRole: string
 {
-    use HasBase;
+    use HasValues;
 
     case EXPERT = 'expert';
     case ADMIN = 'admin';
