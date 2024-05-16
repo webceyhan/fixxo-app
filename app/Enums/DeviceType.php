@@ -8,13 +8,13 @@ enum DeviceType: string
 {
     use HasValues;
 
-    case DESKTOP = 'desktop';
-    case LAPTOP = 'laptop';
-    case TABLET = 'tablet';
-    case PHONE = 'phone';
-    case CONSOLE = 'console';
-    case PRINTER = 'printer';
-    case NAVIGATOR = 'navigator';
-    case PERIPHERAL = 'peripheral';
-    case OTHER = 'other';
+    case Desktop = 'desktop';
+    case Laptop = 'laptop';
+    case Tablet = 'tablet';
+    case Phone = 'phone';
+    case Console = 'console';
+    case Printer = 'printer';
+    case Navigator = 'navigator';
+    case Peripheral = 'peripheral';
+    case Other = 'other';
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Builder;
 /**
  * Extend Eloquent models with scopes to get records created since given interval.
  *
- * @static \Illuminate\Database\Eloquent\Builder since(Interval $unit = Interval::DAY)
+ * @static \Illuminate\Database\Eloquent\Builder since(Interval $unit = Interval::Day)
  * @static \Illuminate\Database\Eloquent\Builder sinceToday()
  * @static \Illuminate\Database\Eloquent\Builder sinceThisWeek()
  * @static \Illuminate\Database\Eloquent\Builder sinceThisMonth()
@@ -18,7 +18,7 @@ trait HasSince
     /**
      * Scope a query to get records created since given interval.
      */
-    public function scopeSince(Builder $query, Interval $unit = Interval::DAY): void
+    public function scopeSince(Builder $query, Interval $unit = Interval::Day): void
     {
         $query->where('created_at', '>=', $unit->toDate());
     }
@@ -28,7 +28,7 @@ trait HasSince
      */
     public function scopeSinceToday(Builder $query): void
     {
-        $query->since(Interval::DAY);
+        $query->since(Interval::Day);
     }
 
     /**
@@ -36,7 +36,7 @@ trait HasSince
      */
     public function scopeSinceThisWeek(Builder $query): void
     {
-        $query->since(Interval::WEEK);
+        $query->since(Interval::Week);
     }
 
     /**
@@ -44,6 +44,6 @@ trait HasSince
      */
     public function scopeSinceThisMonth(Builder $query): void
     {
-        $query->since(Interval::MONTH);
+        $query->since(Interval::Month);
     }
 }

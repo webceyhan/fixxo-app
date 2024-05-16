@@ -25,7 +25,7 @@ class CustomerQuery extends QueryBuilder
                 // 'name',
                 // 'email',
                 AllowedFilter::scope('search'),
-                AllowedFilter::exact('status')->default(UserStatus::ACTIVE)
+                AllowedFilter::exact('status')->default(UserStatus::Active)
             ])
             ->defaultSort('-created_at')
             ->withCount([
@@ -42,7 +42,7 @@ class CustomerQuery extends QueryBuilder
         return [
             'status' => [
                 'options' => UserStatus::values(),
-                'default' => UserStatus::ACTIVE,
+                'default' => UserStatus::Active,
             ]
         ];
     }

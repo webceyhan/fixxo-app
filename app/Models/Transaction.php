@@ -31,8 +31,8 @@ class Transaction extends Model
      */
     protected $attributes = [
         'amount' => 0,
-        'type' => TransactionType::PAYMENT,
-        'method' => TransactionMethod::CASH,
+        'type' => TransactionType::Payment,
+        'method' => TransactionMethod::Cash,
         'note' => null,
     ];
 
@@ -65,7 +65,7 @@ class Transaction extends Model
      */
     public function scopeAsPayment(Builder $query): Builder
     {
-        return $query->where('type', TransactionType::PAYMENT);
+        return $query->where('type', TransactionType::Payment);
     }
 
     /**
@@ -73,7 +73,7 @@ class Transaction extends Model
      */
     public function scopeAsDiscount(Builder $query): Builder
     {
-        return $query->where('type', TransactionType::DISCOUNT);
+        return $query->where('type', TransactionType::Discount);
     }
 
     /**
@@ -81,7 +81,7 @@ class Transaction extends Model
      */
     public function scopeAsWarranty(Builder $query): Builder
     {
-        return $query->where('type', TransactionType::WARRANTY);
+        return $query->where('type', TransactionType::Warranty);
     }
 
     /**
@@ -89,7 +89,7 @@ class Transaction extends Model
      */
     public function scopeAsRefund(Builder $query): Builder
     {
-        return $query->where('type', TransactionType::REFUND);
+        return $query->where('type', TransactionType::Refund);
     }
 
     /**
@@ -97,7 +97,7 @@ class Transaction extends Model
      */
     public function scopeByCash(Builder $query): Builder
     {
-        return $query->where('method', TransactionMethod::CASH);
+        return $query->where('method', TransactionMethod::Cash);
     }
 
     /**
@@ -105,7 +105,7 @@ class Transaction extends Model
      */
     public function scopeByCard(Builder $query): Builder
     {
-        return $query->where('method', TransactionMethod::CARD);
+        return $query->where('method', TransactionMethod::Card);
     }
 
     /**
@@ -113,6 +113,6 @@ class Transaction extends Model
      */
     public function scopeByOnline(Builder $query): Builder
     {
-        return $query->where('method', TransactionMethod::ONLINE);
+        return $query->where('method', TransactionMethod::Online);
     }
 }

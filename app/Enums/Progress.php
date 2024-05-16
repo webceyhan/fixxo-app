@@ -9,20 +9,20 @@ enum Progress: string
     use HasValues;
 
     // When an entity is created, or on-hold, or waiting for something.
-    case PENDING = 'pending';
+    case Pending = 'pending';
 
     // When an entity is in progress, or being processed.
-    case PROCESSING = 'processing';
+    case Processing = 'processing';
 
     // When an ongoing process is completed for an entity.
-    case COMPLETED = 'completed';
+    case Completed = 'completed';
 
     /**
      * Get the flag indicating if the progress is pending.
      */
     public function isPending(): bool
     {
-        return $this === self::PENDING;
+        return $this === self::Pending;
     }
 
     /**
@@ -30,7 +30,7 @@ enum Progress: string
      */
     public function isProcessing(): bool
     {
-        return $this === self::PROCESSING;
+        return $this === self::Processing;
     }
 
     /**
@@ -38,6 +38,6 @@ enum Progress: string
      */
     public function isCompleted(): bool
     {
-        return $this === self::COMPLETED;
+        return $this === self::Completed;
     }
 }

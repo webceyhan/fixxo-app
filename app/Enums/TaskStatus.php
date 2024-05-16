@@ -9,8 +9,8 @@ enum TaskStatus: string
 {
     use HasValues;
 
-    case PENDING = 'pending';
-    case COMPLETED = 'completed';
+    case Pending = 'pending';
+    case Completed = 'completed';
 
     /**
      * Get the progress for the task status.
@@ -18,8 +18,8 @@ enum TaskStatus: string
     public function progress(): Progress
     {
         return match ($this) {
-            self::PENDING => Progress::PENDING,
-            self::COMPLETED => Progress::COMPLETED,
+            self::Pending => Progress::Pending,
+            self::Completed => Progress::Completed,
         };
     }
 
@@ -28,6 +28,6 @@ enum TaskStatus: string
      */
     public static function fromModel(Task $task): self
     {
-        return $task->completed_at ? self::COMPLETED : self::PENDING;
+        return $task->completed_at ? self::Completed : self::Pending;
     }
 }

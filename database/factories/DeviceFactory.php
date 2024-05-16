@@ -13,28 +13,28 @@ class DeviceFactory extends Factory
 {
     const MODELS = [
         'Apple' => [
-            'iMac' => DeviceType::DESKTOP,
-            'MacBook' => DeviceType::LAPTOP,
-            'iPad' => DeviceType::TABLET,
-            'iPhone' => DeviceType::PHONE,
+            'iMac' => DeviceType::Desktop,
+            'MacBook' => DeviceType::Laptop,
+            'iPad' => DeviceType::Tablet,
+            'iPhone' => DeviceType::Phone,
         ],
         'Samsung' => [
-            'Galaxy' => DeviceType::PHONE,
-            'Galaxy Tab' => DeviceType::TABLET,
+            'Galaxy' => DeviceType::Phone,
+            'Galaxy Tab' => DeviceType::Tablet,
         ],
         'Sony' => [
-            'Vaio' => DeviceType::LAPTOP,
-            'PlayStation' => DeviceType::CONSOLE,
+            'Vaio' => DeviceType::Laptop,
+            'PlayStation' => DeviceType::Console,
         ],
         'Hp' => [
-            'Pavilion' => DeviceType::DESKTOP,
-            'Deskjet' => DeviceType::PRINTER,
+            'Pavilion' => DeviceType::Desktop,
+            'Deskjet' => DeviceType::Printer,
         ],
         'Lenovo' => [
-            'Thinkpad' => DeviceType::LAPTOP,
+            'Thinkpad' => DeviceType::Laptop,
         ],
         'TomTom' => [
-            'Go Comfort' => DeviceType::NAVIGATOR,
+            'Go Comfort' => DeviceType::Navigator,
         ],
     ];
 

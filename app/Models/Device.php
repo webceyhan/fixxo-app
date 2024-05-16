@@ -39,7 +39,7 @@ class Device extends Model
         'serial' => null,
         'purchase_date' => null,
         'warranty_expire_date' => null,
-        'status' => DeviceStatus::CHECKED_IN,
+        'status' => DeviceStatus::CheckedIn,
     ];
 
     /**
@@ -123,61 +123,61 @@ class Device extends Model
     /**
      * Scope a query to only include checked-in devices.
      * 
-     * @see DeviceStatus::CHECKED_IN
+     * @see DeviceStatus::CheckedIn
      */
     public function scopeCheckedIn(Builder $query): void
     {
-        $query->where('status', DeviceStatus::CHECKED_IN);
+        $query->where('status', DeviceStatus::CheckedIn);
     }
 
     /**
      * Scope a query to only include in-repair devices.
      * 
-     * @see DeviceStatus::IN_REPAIR
+     * @see DeviceStatus::InRepair
      */
     public function scopeInRepair(Builder $query): void
     {
-        $query->where('status', DeviceStatus::IN_REPAIR);
+        $query->where('status', DeviceStatus::InRepair);
     }
 
     /**
      * Scope a query to only include on-hold devices.
      * 
-     * @see DeviceStatus::ON_HOLD
+     * @see DeviceStatus::OnHold
      */
     public function scopeOnHold(Builder $query): void
     {
-        $query->where('status', DeviceStatus::ON_HOLD);
+        $query->where('status', DeviceStatus::OnHold);
     }
 
     /**
      * Scope a query to only include fixed devices.
      * 
-     * @see DeviceStatus::FIXED
+     * @see DeviceStatus::Fixed
      */
     public function scopeFixed(Builder $query): void
     {
-        $query->where('status', DeviceStatus::FIXED);
+        $query->where('status', DeviceStatus::Fixed);
     }
 
     /**
      * Scope a query to only include defect devices.
      * 
-     * @see DeviceStatus::DEFECT
+     * @see DeviceStatus::Defect
      */
     public function scopeDefect(Builder $query): void
     {
-        $query->where('status', DeviceStatus::DEFECT);
+        $query->where('status', DeviceStatus::Defect);
     }
 
     /**
      * Scope a query to only include checked-out devices.
      * 
-     * @see DeviceStatus::CHECKED_OUT
+     * @see DeviceStatus::CheckedOut
      */
     public function scopeCheckedOut(Builder $query): void
     {
-        $query->where('status', DeviceStatus::CHECKED_OUT);
+        $query->where('status', DeviceStatus::CheckedOut);
     }
 
     /**
@@ -189,13 +189,13 @@ class Device extends Model
      */
     public function scopePending(Builder $query): void
     {
-        $query->where('status', '!=', DeviceStatus::CHECKED_OUT);
+        $query->where('status', '!=', DeviceStatus::CheckedOut);
     }
 
     /**
      * Scope a query to only include devices with valid warranty date.
      * 
-     * @see WarrantyStatus::VALID
+     * @see WarrantyStatus::Valid
      * @ignore This is a virtual status.
      */
     public function scopeWithWarranty(Builder $query): void
@@ -206,7 +206,7 @@ class Device extends Model
     /**
      * Scope a query to only include devices with expired warranty date.
      * 
-     * @see WarrantyStatus::EXPIRED
+     * @see WarrantyStatus::Expired
      * @ignore This is a virtual status.
      */
     public function scopeWithoutWarranty(Builder $query): void
@@ -240,10 +240,10 @@ class Device extends Model
         // $this->resolved_tickets_count = $this->tickets()->resolved()->count();
         // $this->closed_tickets_count = $this->tickets()->closed()->count();
 
-        $this->inprogress_tickets_count = $this->tickets->where('status', TicketStatus::IN_PROGRESS)->count();
-        $this->onhold_tickets_count = $this->tickets->where('status', TicketStatus::ON_HOLD)->count();
-        $this->resolved_tickets_count = $this->tickets->where('status', TicketStatus::RESOLVED)->count();
-        $this->closed_tickets_count = $this->tickets->where('status', TicketStatus::CLOSED)->count();
+        $this->inprogress_tickets_count = $this->tickets->where('status', TicketStatus::InProgress)->count();
+        $this->onhold_tickets_count = $this->tickets->where('status', TicketStatus::OnHold)->count();
+        $this->resolved_tickets_count = $this->tickets->where('status', TicketStatus::Resolved)->count();
+        $this->closed_tickets_count = $this->tickets->where('status', TicketStatus::Closed)->count();
 
         return $this;
     }

@@ -8,8 +8,8 @@ enum TransactionType: string
 {
     use HasValues;
 
-    case PAYMENT = 'payment';
-    case DISCOUNT = 'discount';
-    case WARRANTY = 'warranty';
-    case REFUND = 'refund';
+    case Payment = 'payment';
+    case Discount = 'discount';
+    case Warranty = 'warranty';
+    case Refund = 'refund';
 }

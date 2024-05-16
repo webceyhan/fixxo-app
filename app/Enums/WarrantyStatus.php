@@ -13,16 +13,16 @@ enum WarrantyStatus: string
     case NA = 'na';
 
         // The device has a purchase date and warranty is still valid.
-    case VALID = 'valid';
+    case Valid = 'valid';
 
         // The device has a purchase date and warranty has expired.
-    case EXPIRED = 'expired';
+    case Expired = 'expired';
 
     public static function fromModel(Device $device): self
     {
         return match ($device->warranty_expire_date?->isPast()) {
-            true => self::EXPIRED,
-            false => self::VALID,
+            true => self::Expired,
+            false => self::Valid,
             default => self::NA,
         };
     }

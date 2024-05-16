@@ -8,7 +8,7 @@ enum TransactionMethod: string
 {
     use HasValues;
 
-    case CASH = 'cash';
-    case CARD = 'card';
-    case ONLINE = 'online';
+    case Cash = 'cash';
+    case Card = 'card';
+    case Online = 'online';
 }

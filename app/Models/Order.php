@@ -34,7 +34,7 @@ class Order extends Model
         'quantity' => 1,
         'cost' => 0,
         'note' => null,
-        'status' => OrderStatus::NEW,
+        'status' => OrderStatus::New,
     ];
 
     /**
@@ -74,42 +74,42 @@ class Order extends Model
     /**
      * Scope a query to only include new orders.
      * 
-     * @see OrderStatus::NEW
+     * @see OrderStatus::New
      */
     public function scopeNew(Builder $query): void
     {
-        $query->where('status', OrderStatus::NEW);
+        $query->where('status', OrderStatus::New);
     }
 
     /**
      * Scope a query to only include shipped orders.
      * 
-     * @see OrderStatus::SHIPPED
+     * @see OrderStatus::Shipped
      */
     public function scopeShipped(Builder $query): void
     {
-        $query->where('status', OrderStatus::SHIPPED);
+        $query->where('status', OrderStatus::Shipped);
     }
 
     /**
      * Scope a query to only include received orders.
      * This also indicates that the order process is complete.
      * 
-     * @see OrderStatus::RECEIVED
+     * @see OrderStatus::Received
      */
     public function scopeReceived(Builder $query): void
     {
-        $query->where('status', OrderStatus::RECEIVED);
+        $query->where('status', OrderStatus::Received);
     }
 
     /**
      * Scope a query to only include cancelled orders.
      * 
-     * @see OrderStatus::CANCELLED
+     * @see OrderStatus::Cancelled
      */
     public function scopeCancelled(Builder $query): void
     {
-        $query->where('status', OrderStatus::CANCELLED);
+        $query->where('status', OrderStatus::Cancelled);
     }
 
     /**
@@ -119,7 +119,7 @@ class Order extends Model
      */
     public function scopeValid(Builder $query): void
     {
-        $query->whereNot('status', OrderStatus::CANCELLED);
+        $query->whereNot('status', OrderStatus::Cancelled);
     }
 
     /**
@@ -129,6 +129,6 @@ class Order extends Model
      */
     public function scopePending(Builder $query): void
     {
-        $query->whereIn('status', [OrderStatus::NEW, OrderStatus::SHIPPED]);
+        $query->whereIn('status', [OrderStatus::New, OrderStatus::Shipped]);
     }
 }

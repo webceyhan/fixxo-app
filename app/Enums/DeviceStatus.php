@@ -10,7 +10,7 @@ enum DeviceStatus: string
     use HasValues;
 
         // The device has been brought in for repair and is waiting to be checked by a technician.
-    case CHECKED_IN = 'checked_in';
+    case CheckedIn = 'checked_in';
 
         // The technician is currently diagnosing the problem with the device.
         // case DIAGNOSING = 'diagnosing';
@@ -19,23 +19,23 @@ enum DeviceStatus: string
         // case REPAIRING = 'repairing';
 
         // The technician is currently diagnosing/repairing the device.
-    case IN_REPAIR = 'in_repair';
+    case InRepair = 'in_repair';
 
         // The technician has determined that parts are needed to repair the device and is waiting for them to arrive.
         // case PENDING_PARTS = 'pending_parts';
 
         // The technician has determined that parts are needed to repair the device and is waiting for them to arrive.
         // Or waiting for the customer to approve the repair.
-    case ON_HOLD = 'on_hold';
+    case OnHold = 'on_hold';
 
         // The repair work is complete and the device is ready to pick up.
-    case FIXED = 'fixed';
+    case Fixed = 'fixed';
 
         // The device cannot be repaired and will be returned to the customer.
-    case DEFECT = 'defect';
+    case Defect = 'defect';
 
         // The device has been returned to the customer.
-    case CHECKED_OUT = 'checked_out';
+    case CheckedOut = 'checked_out';
 
     /**
      * Get the progress for the device status.
@@ -43,12 +43,12 @@ enum DeviceStatus: string
     public function progress(): Progress
     {
         return match ($this) {
-            self::CHECKED_IN,
-            self::ON_HOLD => Progress::PENDING,
-            self::IN_REPAIR => Progress::PROCESSING,
-            self::FIXED,
-            self::DEFECT,
-            self::CHECKED_OUT => Progress::COMPLETED,
+            self::CheckedIn,
+            self::OnHold => Progress::Pending,
+            self::InRepair => Progress::Processing,
+            self::Fixed,
+            self::Defect,
+            self::CheckedOut => Progress::Completed,
         };
     }
 
@@ -95,44 +95,44 @@ enum DeviceStatus: string
         // Overall, the device state can only move to "on_hold" or "in_repair" when there is at least one pending ticket for the device.
 
         switch ($device->status) {
-            case self::CHECKED_IN:
-            case self::ON_HOLD:
+            case self::CheckedIn:
+            case self::OnHold:
                 // if the device has pending tickets, it is still in repair and needs further action
                 if ($hasPendingTickets) {
-                    return self::IN_REPAIR;
+                    return self::InRepair;
                 }
                 // if the device has tickets but no more pending tickets and no tickets in progress,
                 // it means that all tickets are completed (resolved / closed), so the device is now fixed
                 if ($hasTickets && !$hasPendingTickets && !$inProgressTicketsCount) {
-                    return self::FIXED;
+                    return self::Fixed;
                 }
                 break;
 
-            case self::IN_REPAIR:
+            case self::InRepair:
                 // if the device has no tickets or all tickets are on hold,
                 // it means that there is nothing left to do for now, so the device is put on hold
                 if (!$hasTickets || $hasPendingTickets && !$inProgressTicketsCount) {
-                    return self::ON_HOLD;
+                    return self::OnHold;
                 }
                 // if the device has tickets but no pending tickets or tickets on-hold,
                 // it means that all tickets are completed, so the device is now fixed
                 if ($hasTickets && !$hasPendingTickets && !$onHoldTicketsCount) {
-                    return self::FIXED;
+                    return self::Fixed;
                 }
                 break;
 
-            case self::FIXED:
-            case self::DEFECT:
-            case self::CHECKED_OUT:
+            case self::Fixed:
+            case self::Defect:
+            case self::CheckedOut:
                 // if the device has no tickets or all tickets are on-hold,
                 // it means that there is nothing left to do for now, so the device is put on hold
                 if (!$hasTickets || $hasPendingTickets && !$inProgressTicketsCount) {
-                    return self::ON_HOLD;
+                    return self::OnHold;
                 }
                 // if the device has pending tickets or tickets in progress, it means that there are still
                 // tickets left to do, so the device is still in progress and needs further action
                 if ($hasPendingTickets && $inProgressTicketsCount) {
-                    return self::IN_REPAIR;
+                    return self::InRepair;
                 }
                 break;
         }

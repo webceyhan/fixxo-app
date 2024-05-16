@@ -8,6 +8,6 @@ enum UserRole: string
 {
     use HasValues;
 
-    case EXPERT = 'expert';
-    case ADMIN = 'admin';
+    case Expert = 'expert';
+    case Admin = 'admin';
 }

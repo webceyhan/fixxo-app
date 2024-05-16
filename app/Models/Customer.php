@@ -34,7 +34,7 @@ class Customer extends Model
         'phone' => null,
         'email' => null,
         'note' => null,
-        'status' => UserStatus::ACTIVE,
+        'status' => UserStatus::Active,
     ];
 
     /**
@@ -111,7 +111,7 @@ class Customer extends Model
         $this->total_tickets_count = $this->tickets->count();
         // @see Ticket::setTaskCounters() for more info
         // $this->open_tickets_count = $this->tickets()->closed()->count();
-        $this->closed_tickets_count = $this->tickets->where('status', TicketStatus::CLOSED)->count();
+        $this->closed_tickets_count = $this->tickets->where('status', TicketStatus::Closed)->count();
 
         return $this;
     }
