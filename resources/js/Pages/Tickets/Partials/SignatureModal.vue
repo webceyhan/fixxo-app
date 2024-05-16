@@ -2,7 +2,6 @@
 import SignaturePad from "signature_pad";
 import { ref, onMounted, watch } from "vue";
 import { useForm } from "@inertiajs/vue3";
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/vue";
 import RadioGroup from "@/Components/Form/RadioGroup.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
@@ -84,20 +83,18 @@ defineExpose({
 </script>
 
 <template>
-  <Dialog :open="isOpen" @close="setIsOpen" class="relative z-50" :unmount="false">
+  <dialog :open="isOpen" @close="setIsOpen" class="relative z-50">
     <!-- The backdrop, rendered as a fixed sibling to the panel container -->
     <div class="fixed inset-0 bg-black/30" aria-hidden="true" />
 
     <!-- Full-screen container to center the panel -->
     <div class="fixed inset-0 flex items-center justify-center p-4">
-      <DialogPanel
+      <div
         class="w-full sm:max-w-2xl transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 shadow-xl dark:shadow-gray-700 transition-all p-6 space-y-6"
       >
-        <DialogTitle
-          class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100"
-        >
+        <div class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
           Sign for {{ form.type }}
-        </DialogTitle>
+        </div>
 
         <canvas
           ref="canvas"
@@ -112,7 +109,7 @@ defineExpose({
           <!-- <SecondaryButton label="Cancel" class="mr-auto" @click="setIsOpen(false)" /> -->
           <RadioGroup v-model="form.type" :options="typeOptions" />
         </div>
-      </DialogPanel>
+      </div>
     </div>
-  </Dialog>
+  </dialog>
 </template>
