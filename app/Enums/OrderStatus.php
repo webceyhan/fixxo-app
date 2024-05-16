@@ -9,16 +9,25 @@ enum OrderStatus: string
 {
     use HasValues, Completable;
 
-        // The order has been created and is awaiting processing.
+    /**
+     * Represents an order that has been created and is awaiting processing.
+     * @default
+     */
     case New = 'new';
 
-        // The order has been shipped to the customer.
+    /**
+     * Represents an order that has been shipped to the customer.
+     */
     case Shipped = 'shipped';
 
-        // The order has been received by the customer.
+    /**
+     * Represents an order that has been received by the customer.
+     */
     case Received = 'received';
 
-        // The order has been cancelled by the customer or by the system.
+    /**
+     * Represents an order that has been cancelled by the customer or by the system.
+     */
     case Cancelled = 'cancelled';
 
     // METHODS /////////////////////////////////////////////////////////////////////////////////////
