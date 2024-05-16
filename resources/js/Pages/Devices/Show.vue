@@ -41,14 +41,9 @@ const statusActions = [
     value: "on_hold",
   },
   {
-    label: "Mark as Fixed",
+    label: "Mark as Finished",
     icon: "check2-circle",
-    value: "fixed",
-  },
-  {
-    label: "Mark as Defect",
-    icon: "x-circle",
-    value: "defect",
+    value: "finished",
   },
   {
     label: "Check Out",
