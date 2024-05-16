@@ -4,14 +4,10 @@ const userRoles = {
 };
 
 const deviceTypes = {
-    desktop: "display",
-    laptop: "laptop",
-    tablet: "tablet",
     phone: "phone",
-    console: "controller",
-    printer: "printer",
-    navigator: "compass",
-    peripheral: "keyboard",
+    tablet: "tablet",
+    laptop: "laptop",
+    desktop: "display",
     other: "hdd",
 };
 
