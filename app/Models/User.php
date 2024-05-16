@@ -39,7 +39,7 @@ class User extends Authenticatable
      */
     protected $attributes = [
         'remember_token' => null,
-        'role' => UserRole::Expert,
+        'role' => UserRole::Technician,
         'status' => UserStatus::Active,
         'email_verified_at' => null,
     ];
@@ -82,11 +82,8 @@ class User extends Authenticatable
      */
     protected function isAdmin(): Attribute
     {
-        return Attribute::make(
-            get: fn () => $this->role === UserRole::Admin,
-        );
+        return Attribute::get(fn () => $this->role->isAdmin());
     }
-
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
@@ -111,10 +108,18 @@ class User extends Authenticatable
     }
 
     /**
-     * Scope a query to only include expert users.
+     * Scope a query to only include manager users.
      */
-    public function scopeExpert(Builder $query): void
+    public function scopeManager(Builder $query): void
     {
-        $query->where('role', UserRole::Expert);
+        $query->where('role', UserRole::Manager);
+    }
+
+    /**
+     * Scope a query to only include technician users.
+     */
+    public function scopeTechnician(Builder $query): void
+    {
+        $query->where('role', UserRole::Technician);
     }
 }
