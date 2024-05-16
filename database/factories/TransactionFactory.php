@@ -34,7 +34,7 @@ class TransactionFactory extends Factory
     public function discount(): static
     {
         return $this->state(fn (array $attributes) => [
-            'type' => TransactionType::DISCOUNT,
+            'type' => TransactionType::Discount,
         ]);
     }
 
@@ -46,7 +46,7 @@ class TransactionFactory extends Factory
     public function payment(): static
     {
         return $this->state(fn (array $attributes) => [
-            'type' => TransactionType::PAYMENT,
+            'type' => TransactionType::Payment,
         ]);
     }
 }

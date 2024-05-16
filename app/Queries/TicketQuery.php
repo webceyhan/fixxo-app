@@ -21,7 +21,7 @@ class TicketQuery extends QueryBuilder
             ])
             ->allowedFilters([
                 AllowedFilter::scope('search'),
-                AllowedFilter::exact('status')->default(TicketStatus::NEW),
+                AllowedFilter::exact('status')->default(TicketStatus::New),
                 AllowedFilter::scope('overdue'),
                 AllowedFilter::scope('outstanding'),
             ])
@@ -39,7 +39,7 @@ class TicketQuery extends QueryBuilder
         return [
             'status' => [
                 'options' => TicketStatus::values(),
-                'default' => TicketStatus::NEW
+                'default' => TicketStatus::New
             ]
         ];
     }

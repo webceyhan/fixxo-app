@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('serial')->nullable();
             $table->date('purchase_date')->nullable();
             $table->date('warranty_expire_date')->nullable();
-            $table->enum('status', DeviceStatus::values())->default(DeviceStatus::CHECKED_IN);
+            $table->enum('status', DeviceStatus::values())->default(DeviceStatus::CheckedIn);
             $table->timestamps();
 
             // aggregate fields

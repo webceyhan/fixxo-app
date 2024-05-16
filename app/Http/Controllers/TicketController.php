@@ -118,7 +118,7 @@ class TicketController extends Controller
         $ticket->fill($params)->save();
 
         // check if status is ready for pickup
-        if ($ticket->status == TicketStatus::RESOLVED) {
+        if ($ticket->status == TicketStatus::Resolved) {
 
             // send SMS to customer if phone number is provided
             if ($ticket->customer->phone !== null) {

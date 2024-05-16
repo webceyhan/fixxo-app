@@ -37,7 +37,7 @@ class Ticket extends Model
      */
     protected $attributes = [
         'note' => null,
-        'status' => TicketStatus::NEW,
+        'status' => TicketStatus::New,
     ];
 
     /**
@@ -214,51 +214,51 @@ class Ticket extends Model
     /**
      * Scope a query to only include new tickets.
      * 
-     * @see TicketStatus::NEW
+     * @see TicketStatus::New
      */
     public function scopeNew(Builder $query): void
     {
-        $query->where('status', TicketStatus::NEW);
+        $query->where('status', TicketStatus::New);
     }
 
     /**
      * Scope a query to only include in_progress tickets.
      * 
-     * @see TicketStatus::IN_PROGRESS
+     * @see TicketStatus::InProgress
      */
     public function scopeInProgress(Builder $query): void
     {
-        $query->where('status', TicketStatus::IN_PROGRESS);
+        $query->where('status', TicketStatus::InProgress);
     }
 
     /**
      * Scope a query to only include on-hold tickets.
      * 
-     * @see TicketStatus::ON_HOLD
+     * @see TicketStatus::OnHold
      */
     public function scopeOnHold(Builder $query): void
     {
-        $query->where('status', TicketStatus::ON_HOLD);
+        $query->where('status', TicketStatus::OnHold);
     }
 
     /**
      * Scope a query to only include resolved tickets.
      * 
-     * @see TicketStatus::RESOLVED
+     * @see TicketStatus::Resolved
      */
     public function scopeResolved(Builder $query): void
     {
-        $query->where('status', TicketStatus::RESOLVED);
+        $query->where('status', TicketStatus::Resolved);
     }
 
     /**
      * Scope a query to only include closed tickets.
      * 
-     * @see TicketStatus::CLOSED
+     * @see TicketStatus::Closed
      */
     public function scopeClosed(Builder $query): void
     {
-        $query->where('status', TicketStatus::CLOSED);
+        $query->where('status', TicketStatus::Closed);
     }
 
     /**
@@ -269,7 +269,7 @@ class Ticket extends Model
      */
     public function scopeOpen(Builder $query): void
     {
-        $query->whereNot('status', TicketStatus::CLOSED);
+        $query->whereNot('status', TicketStatus::Closed);
     }
 
     /**
@@ -344,8 +344,8 @@ class Ticket extends Model
         // $this->total_orders_count = $this->orders()->valid()->count();
         // $this->received_orders_count = $this->orders()->received()->count();
 
-        $this->total_orders_count = $this->orders->where('status', '!=', OrderStatus::CANCELLED)->count();
-        $this->received_orders_count = $this->orders->where('status', OrderStatus::RECEIVED)->count();
+        $this->total_orders_count = $this->orders->where('status', '!=', OrderStatus::Cancelled)->count();
+        $this->received_orders_count = $this->orders->where('status', OrderStatus::Received)->count();
 
         return $this;
     }

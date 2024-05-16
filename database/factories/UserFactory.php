@@ -50,7 +50,7 @@ class UserFactory extends Factory
     public function admin(): static
     {
         return $this->state(fn (array $attributes) => [
-            'role' => UserRole::ADMIN,
+            'role' => UserRole::Admin,
         ]);
     }
 
@@ -62,7 +62,7 @@ class UserFactory extends Factory
     public function active(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status' => UserStatus::ACTIVE,
+            'status' => UserStatus::Active,
         ]);
     }
 }

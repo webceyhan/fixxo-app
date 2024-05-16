@@ -66,8 +66,8 @@ class Task extends Model
             // cast doesn't work with 'status' because it's a virtual attribute
             // instead of this setterm we use is_completed attribute
             set: fn (mixed $value) => match ($value) {
-                TaskStatus::PENDING, 'pending' => ['completed_at' => null],
-                TaskStatus::COMPLETED, 'completed' => ['completed_at' => now()],
+                TaskStatus::Pending, 'pending' => ['completed_at' => null],
+                TaskStatus::Completed, 'completed' => ['completed_at' => now()],
             },
         );
     }
@@ -89,7 +89,7 @@ class Task extends Model
     /**
      * Scope a query to only include pending tasks.
      * 
-     * @see TaskStatus::PENDING
+     * @see TaskStatus::Pending
      * @ignore This is a virtual status.
      */
     public function scopePending(Builder $query): void
@@ -100,7 +100,7 @@ class Task extends Model
     /**
      * Scope a query to only include completed tasks.
      * 
-     * @see TaskStatus::COMPLETED
+     * @see TaskStatus::Completed
      * @ignore This is a virtual status.
      */
     public function scopeCompleted(Builder $query): void

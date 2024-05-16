@@ -8,6 +8,6 @@ enum UserStatus: string
 {
     use HasValues;
 
-    case ACTIVE = 'active';
-    case INACTIVE = 'inactive';
+    case Active = 'active';
+    case Inactive = 'inactive';
 }

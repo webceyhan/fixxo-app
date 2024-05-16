@@ -39,8 +39,8 @@ class User extends Authenticatable
      */
     protected $attributes = [
         'remember_token' => null,
-        'role' => UserRole::EXPERT,
-        'status' => UserStatus::ACTIVE,
+        'role' => UserRole::Expert,
+        'status' => UserStatus::Active,
         'email_verified_at' => null,
     ];
 
@@ -83,7 +83,7 @@ class User extends Authenticatable
     protected function isAdmin(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->role === UserRole::ADMIN,
+            get: fn () => $this->role === UserRole::Admin,
         );
     }
 
@@ -107,7 +107,7 @@ class User extends Authenticatable
      */
     public function scopeAdmin(Builder $query): void
     {
-        $query->where('role', UserRole::ADMIN);
+        $query->where('role', UserRole::Admin);
     }
 
     /**
@@ -115,6 +115,6 @@ class User extends Authenticatable
      */
     public function scopeExpert(Builder $query): void
     {
-        $query->where('role', UserRole::EXPERT);
+        $query->where('role', UserRole::Expert);
     }
 }

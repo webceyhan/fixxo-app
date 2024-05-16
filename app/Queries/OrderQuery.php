@@ -21,7 +21,7 @@ class OrderQuery extends QueryBuilder
             ])
             ->allowedFilters([
                 AllowedFilter::scope('search'),
-                AllowedFilter::exact('status')->default(OrderStatus::NEW),
+                AllowedFilter::exact('status')->default(OrderStatus::New),
             ])
             ->defaultSort('-created_at')
             ->with([
@@ -38,7 +38,7 @@ class OrderQuery extends QueryBuilder
         return [
             'status' => [
                 'options' => OrderStatus::values(),
-                'default' => OrderStatus::NEW
+                'default' => OrderStatus::New
             ]
         ];
     }

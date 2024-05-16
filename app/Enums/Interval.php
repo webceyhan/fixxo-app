@@ -9,10 +9,10 @@ enum Interval: string
 {
     use HasValues;
 
-    case DAY = 'day';
-    case WEEK = 'week';
-    case MONTH = 'month';
-    case YEAR = 'year';
+    case Day = 'day';
+    case Week = 'week';
+    case Month = 'month';
+    case Year = 'year';
 
     /**
      * Convert the interval to a Carbon date.
@@ -20,10 +20,10 @@ enum Interval: string
     public function toDate(): Carbon
     {
         return match ($this) {
-            self::DAY => Carbon::today()->subDay(),
-            self::WEEK => Carbon::today()->subWeek(),
-            self::MONTH => Carbon::today()->subMonth(),
-            self::YEAR => Carbon::today()->subYear(),
+            self::Day => Carbon::today()->subDay(),
+            self::Week => Carbon::today()->subWeek(),
+            self::Month => Carbon::today()->subMonth(),
+            self::Year => Carbon::today()->subYear(),
             default => Carbon::today()->subCentury(),
         };
     }
@@ -34,10 +34,10 @@ enum Interval: string
     public function toDateFormatter(): callable
     {
         return match ($this) {
-            self::DAY => fn ($date) => Carbon::today()->setTime($date, 0, 0)->format('H:i'),
-            self::WEEK => fn ($date) => Carbon::today()->day($date)->format('D'),
-            self::MONTH => fn ($date) => Carbon::today()->week($date)->format('d M'),
-            self::YEAR => fn ($date) => Carbon::today()->month($date)->format('M'),
+            self::Day => fn ($date) => Carbon::today()->setTime($date, 0, 0)->format('H:i'),
+            self::Week => fn ($date) => Carbon::today()->day($date)->format('D'),
+            self::Month => fn ($date) => Carbon::today()->week($date)->format('d M'),
+            self::Year => fn ($date) => Carbon::today()->month($date)->format('M'),
             default => fn ($date) => $date,
         };
     }
@@ -48,10 +48,10 @@ enum Interval: string
     public function toSqlFunction(): string
     {
         return match ($this) {
-            self::DAY => 'hour',
-            self::WEEK => 'day',
-            self::MONTH => 'week',
-            self::YEAR => 'month',
+            self::Day => 'hour',
+            self::Week => 'day',
+            self::Month => 'week',
+            self::Year => 'month',
             default => 'year',
         };
     }
@@ -62,10 +62,10 @@ enum Interval: string
     public static function options(): array
     {
         return [
-            self::DAY->value => 'Today',
-            self::WEEK->value => 'This Week',
-            self::MONTH->value => 'This Month',
-            self::YEAR->value => 'This Year',
+            self::Day->value => 'Today',
+            self::Week->value => 'This Week',
+            self::Month->value => 'This Month',
+            self::Year->value => 'This Year',
         ];
     }
 }
