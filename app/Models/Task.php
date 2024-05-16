@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TaskStatus;
+use App\Enums\TaskType;
 use App\Models\Traits\HasSince;
 use App\Observers\TaskObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -32,6 +33,7 @@ class Task extends Model
     protected $attributes = [
         'cost' => 0,
         'status' => TaskStatus::New,
+        'type' => TaskType::Repair,
     ];
 
     /**
@@ -49,6 +51,7 @@ class Task extends Model
      * @var array
      */
     protected $casts = [
+        'type' => TaskType::class,
         'status' => TaskStatus::class,
     ];
 
