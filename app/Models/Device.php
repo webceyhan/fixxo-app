@@ -151,23 +151,13 @@ class Device extends Model
     }
 
     /**
-     * Scope a query to only include fixed devices.
+     * Scope a query to only include finished devices.
      * 
-     * @see DeviceStatus::Fixed
+     * @see DeviceStatus::Finished
      */
     public function scopeFixed(Builder $query): void
     {
-        $query->where('status', DeviceStatus::Fixed);
-    }
-
-    /**
-     * Scope a query to only include defect devices.
-     * 
-     * @see DeviceStatus::Defect
-     */
-    public function scopeDefect(Builder $query): void
-    {
-        $query->where('status', DeviceStatus::Defect);
+        $query->where('status', DeviceStatus::Finished);
     }
 
     /**
