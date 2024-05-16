@@ -10,19 +10,30 @@ enum TicketStatus: string
 {
     use HasValues, Completable;
 
-        // The ticket has been created but has not yet been assigned to anyone for resolution.
+    /**
+     * The ticket is new and has not been assigned to anyone.
+     * @default
+     */
     case New = 'new';
 
-        // The ticket has been assigned to someone and work is underway to resolve the issue.
+    /**
+     * The ticket has been assigned to a technician and is in progress.
+     */
     case InProgress = 'in_progress';
 
-        // The ticket cannot be worked on at the moment, for example, if waiting on a response from the customer or another team.
+    /**
+     * The ticket is on hold and is not being worked on.
+     */
     case OnHold = 'on_hold';
 
-        // The issue has been resolved and the ticket is awaiting confirmation from the customer.
+    /**
+     * The ticket has been resolved and is awaiting verification.
+     */
     case Resolved = 'resolved';
 
-        // The ticket has been confirmed as resolved and is now closed.
+    /**
+     * The ticket has been closed and is no longer active.
+     */
     case Closed = 'closed';
 
     // METHODS /////////////////////////////////////////////////////////////////////////////////////
