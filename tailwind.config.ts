@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 import forms from "@tailwindcss/forms";
-import lineClamp from "@tailwindcss/line-clamp";
 
 export default {
     darkMode: "class",
@@ -21,5 +20,5 @@ export default {
         },
     },
 
-    plugins: [forms, lineClamp],
+    plugins: [forms],
 } satisfies Config;
