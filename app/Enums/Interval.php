@@ -2,12 +2,12 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\HasValues;
 use Carbon\Carbon;
 
 enum Interval: string
 {
-    use HasBase;
+    use HasValues;
 
     case DAY = 'day';
     case WEEK = 'week';

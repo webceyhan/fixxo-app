@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\HasValues;
 
 enum Progress: string
 {
-    use HasBase;
+    use HasValues;
 
     // When an entity is created, or on-hold, or waiting for something.
     case PENDING = 'pending';

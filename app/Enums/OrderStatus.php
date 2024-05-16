@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\HasValues;
 
 enum OrderStatus: string
 {
-    use HasBase;
+    use HasValues;
 
         // The order has been created and is awaiting processing.
     case NEW = 'new';

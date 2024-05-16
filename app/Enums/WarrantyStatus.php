@@ -2,12 +2,12 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\HasValues;
 use App\Models\Device;
 
 enum WarrantyStatus: string
 {
-    use HasBase;
+    use HasValues;
 
         // The device has no purchase date or warranty expire date.
     case NA = 'na';

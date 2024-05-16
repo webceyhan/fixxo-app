@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\HasValues;
 
 enum TransactionMethod: string
 {
-    use HasBase;
+    use HasValues;
 
     case CASH = 'cash';
     case CARD = 'card';

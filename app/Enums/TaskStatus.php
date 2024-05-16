@@ -2,12 +2,12 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\HasValues;
 use App\Models\Task;
 
 enum TaskStatus: string
 {
-    use HasBase;
+    use HasValues;
 
     case PENDING = 'pending';
     case COMPLETED = 'completed';

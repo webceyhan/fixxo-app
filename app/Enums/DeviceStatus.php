@@ -2,12 +2,12 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\HasValues;
 use App\Models\Device;
 
 enum DeviceStatus: string
 {
-    use HasBase;
+    use HasValues;
 
         // The device has been brought in for repair and is waiting to be checked by a technician.
     case CHECKED_IN = 'checked_in';
