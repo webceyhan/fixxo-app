@@ -24,17 +24,17 @@ class DeviceFactory extends Factory
         ],
         'Sony' => [
             'Vaio' => DeviceType::Laptop,
-            'PlayStation' => DeviceType::Console,
+            'PlayStation' => DeviceType::Other,
         ],
         'Hp' => [
             'Pavilion' => DeviceType::Desktop,
-            'Deskjet' => DeviceType::Printer,
+            'Deskjet' => DeviceType::Other,
         ],
         'Lenovo' => [
             'Thinkpad' => DeviceType::Laptop,
         ],
         'TomTom' => [
-            'Go Comfort' => DeviceType::Navigator,
+            'Go Comfort' => DeviceType::Other,
         ],
     ];
 

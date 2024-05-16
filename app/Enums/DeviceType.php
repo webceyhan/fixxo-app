@@ -8,13 +8,30 @@ enum DeviceType: string
 {
     use HasValues;
 
-    case Desktop = 'desktop';
-    case Laptop = 'laptop';
-    case Tablet = 'tablet';
+    /**
+     * Represents a mobile phone device.
+     */
     case Phone = 'phone';
-    case Console = 'console';
-    case Printer = 'printer';
-    case Navigator = 'navigator';
-    case Peripheral = 'peripheral';
+
+    /**
+     * Represents a tablet device.
+     */
+    case Tablet = 'tablet';
+
+    /**
+     * Represents a laptop device.
+     */
+    case Laptop = 'laptop';
+
+    /**
+     * Represents a desktop computer device.
+     */
+    case Desktop = 'desktop';
+
+    /**
+     * Represents any other device not listed such as a smartwatch or smart TV,
+     * navigation system, game console, peripheral devices, etc.
+     * @default
+     */
     case Other = 'other';
 }
