@@ -23,7 +23,7 @@ class TaskObserver
             $task->ticket->setBalance();
         }
 
-        if ($task->wasChanged('completed_at')) {
+        if ($task->wasChanged('status')) {
             $task->ticket->setTaskCounters();
         }
 

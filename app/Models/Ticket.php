@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use App\Enums\TaskStatus;
 use App\Enums\TicketStatus;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
@@ -329,8 +330,8 @@ class Ticket extends Model
         // $this->total_tasks_count = $this->tasks()->count();
         // $this->completed_tasks_count = $this->tasks()->completed()->count();
 
-        $this->total_tasks_count = $this->tasks->count();
-        $this->completed_tasks_count = $this->tasks->where('completed_at', '!=', null)->count();
+        $this->total_tasks_count = $this->tasks->where('status', '!=', TaskStatus::Cancelled)->count();
+        $this->completed_tasks_count = $this->tasks->where('status', TaskStatus::Completed)->count();
 
         return $this;
     }

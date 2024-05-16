@@ -13,8 +13,9 @@ defineProps({
 });
 
 const stateIcons = {
-  pending: "clipboard",
+  new: "clipboard",
   completed: "clipboard-check",
+  cancelled: "x-lg",
 };
 </script>
 

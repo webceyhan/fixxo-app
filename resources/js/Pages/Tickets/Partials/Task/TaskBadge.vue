@@ -6,13 +6,17 @@ defineProps({
 });
 
 const states = {
-  pending: {
-    label: "Pending",
-    theme: "warning",
+  new: {
+    label: "New",
+    theme: "secondary",
   },
   completed: {
     label: "Completed",
     theme: "success",
+  },
+  cancelled: {
+    label: "Cancelled",
+    theme: "danger",
   },
 };
 </script>

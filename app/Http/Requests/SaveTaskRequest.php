@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TaskStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -28,6 +29,7 @@ class SaveTaskRequest extends FormRequest
                 'description' => 'sometimes|required|string',
                 'cost' => 'sometimes|required|numeric',
                 'is_completed' => 'sometimes|required|boolean',
+                'status' => ['sometimes', 'nullable', Rule::in(TaskStatus::values())],
             ];
         }
 
@@ -37,6 +39,7 @@ class SaveTaskRequest extends FormRequest
             'description' => 'required|string',
             'cost' => 'required|numeric',
             'is_completed' => 'nullable|boolean',
+            'status' => ['sometimes', 'nullable', Rule::in(TaskStatus::values())],
         ];
     }
 }
