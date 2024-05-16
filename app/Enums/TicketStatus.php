@@ -2,12 +2,13 @@
 
 namespace App\Enums;
 
+use App\Enums\Concerns\Completable;
 use App\Enums\Concerns\HasValues;
 use App\Models\Ticket;
 
 enum TicketStatus: string
 {
-    use HasValues;
+    use HasValues, Completable;
 
         // The ticket has been created but has not yet been assigned to anyone for resolution.
     case New = 'new';
@@ -24,18 +25,17 @@ enum TicketStatus: string
         // The ticket has been confirmed as resolved and is now closed.
     case Closed = 'closed';
 
+    // METHODS /////////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * Get the progress for the ticket status.
+     * Get list of completed enum cases.
      */
-    public function progress(): Progress
+    public static function completedCases(): array
     {
-        return match ($this) {
-            self::New, 
-            self::OnHold => Progress::Pending,
-            self::InProgress => Progress::Processing,
-            self::Resolved, 
-            self::Closed => Progress::Completed,
-        };
+        return [
+            self::Resolved,
+            self::Closed,
+        ];
     }
 
     /**

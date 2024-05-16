@@ -2,25 +2,27 @@
 
 namespace App\Enums;
 
+use App\Enums\Concerns\Completable;
 use App\Enums\Concerns\HasValues;
 use App\Models\Task;
 
 enum TaskStatus: string
 {
-    use HasValues;
+    use HasValues, Completable;
 
     case Pending = 'pending';
     case Completed = 'completed';
 
+    // METHODS /////////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * Get the progress for the task status.
+     * Get list of completed enum cases.
      */
-    public function progress(): Progress
+    public static function completedCases(): array
     {
-        return match ($this) {
-            self::Pending => Progress::Pending,
-            self::Completed => Progress::Completed,
-        };
+        return [
+            self::Completed,
+        ];
     }
 
     /**

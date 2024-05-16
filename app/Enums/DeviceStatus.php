@@ -2,12 +2,13 @@
 
 namespace App\Enums;
 
+use App\Enums\Concerns\Completable;
 use App\Enums\Concerns\HasValues;
 use App\Models\Device;
 
 enum DeviceStatus: string
 {
-    use HasValues;
+    use HasValues, Completable;
 
         // The device has been brought in for repair and is waiting to be checked by a technician.
     case CheckedIn = 'checked_in';
@@ -37,19 +38,18 @@ enum DeviceStatus: string
         // The device has been returned to the customer.
     case CheckedOut = 'checked_out';
 
+    // METHODS /////////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * Get the progress for the device status.
+     * Get list of completed enum cases.
      */
-    public function progress(): Progress
+    public static function completedCases(): array
     {
-        return match ($this) {
-            self::CheckedIn,
-            self::OnHold => Progress::Pending,
-            self::InRepair => Progress::Processing,
+        return [
             self::Fixed,
             self::Defect,
-            self::CheckedOut => Progress::Completed,
-        };
+            self::CheckedOut,
+        ];
     }
 
     /**
