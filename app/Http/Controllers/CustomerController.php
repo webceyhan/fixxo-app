@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\UserStatus;
 use App\Http\Requests\SaveCustomerRequest;
 use App\Models\Customer;
 use App\Queries\CustomerQuery;
@@ -57,7 +56,6 @@ class CustomerController extends Controller
     {
         return inertia('Customers/Edit', [
             'customer' => $customer,
-            'statusOptions' => UserStatus::values(),
         ]);
     }
 

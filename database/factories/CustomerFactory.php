@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Enums\UserStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -23,7 +22,6 @@ class CustomerFactory extends Factory
             'phone' => fake()->e164PhoneNumber,
             'email' => fake()->optional()->safeEmail,
             'note' => fake()->optional(.2)->text,
-            'status' => fake()->randomElement(UserStatus::values()),
             'created_at' => fake()->dateTimeThisYear()
         ];
 

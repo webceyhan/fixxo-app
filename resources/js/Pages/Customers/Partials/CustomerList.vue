@@ -1,5 +1,4 @@
 <script setup>
-import CustomerBadge from "./CustomerBadge.vue";
 import StackedList from "@/Components/List/StackedList.vue";
 import StackedListItem from "@/Components/List/StackedListItem.vue";
 
@@ -31,10 +30,6 @@ defineProps({
       <div v-if="customer.tickets_count" class="hidden md:block w-2/12 text-gray-400">
         tickets {{ customer.tickets_count }}
       </div>
-
-      <template #badge>
-        <CustomerBadge :status="customer.status" />
-      </template>
     </StackedListItem>
   </StackedList>
 </template>

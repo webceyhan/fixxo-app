@@ -20,7 +20,6 @@ const form = useForm({
   phone: props.customer.phone,
   email: props.customer.email,
   note: props.customer.note,
-  status: props.customer.status,
 });
 </script>
 
@@ -70,7 +69,6 @@ const form = useForm({
               v-model="form.note"
               :error="form.errors.note"
             />
-            <FormControl label="Status" v-model="form.status" :options="statusOptions" />
           </Form>
         </section>
       </Card>

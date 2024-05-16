@@ -4,7 +4,6 @@ import Avatar from "@/Components/Avatar.vue";
 import Table from "@/Components/Table/Table.vue";
 import TableRow from "@/Components/Table/TableRow.vue";
 import TableData from "@/Components/Table/TableData.vue";
-import CustomerBadge from "./CustomerBadge.vue";
 
 defineProps({
   customers: Array,
@@ -20,10 +19,6 @@ defineProps({
     >
       <template #avatar>
         <Avatar icon="person" class="opacity-75" />
-      </template>
-
-      <template #badge>
-        <CustomerBadge :status="customer.status" compact />
       </template>
 
       <TableData :value="customer.name" :label="customer.email" label-class="xl:hidden" />
@@ -47,10 +42,6 @@ defineProps({
         class="max-xl:hidden text-end whitespace-nowrap"
         :value="formatMoney(customer.balance)"
       />
-
-      <TableData class="max-lg:hidden text-end">
-        <CustomerBadge :status="customer.status" />
-      </TableData>
 
       <TableData class="max-lg:hidden text-end">
         <template #label>
