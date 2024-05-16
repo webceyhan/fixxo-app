@@ -33,12 +33,12 @@ const props = defineProps({
         :value="user.status"
         :href="route('users.update', user.id)"
         :options="{
-          active: 'Unlock',
-          inactive: 'Lock',
+          active: 'Activate',
+          terminated: 'Terminate',
         }"
         :icons="{
           active: 'unlock',
-          inactive: 'lock',
+          terminated: 'lock',
         }"
         method="put"
       />
@@ -59,12 +59,12 @@ const props = defineProps({
           :value="user.status"
           :href="route('users.update', user.id)"
           :options="{
-            active: 'Unlock',
-            inactive: 'Lock',
+            active: 'Activate',
+            terminated: 'Terminate',
           }"
           :icons="{
             active: 'unlock',
-            inactive: 'lock',
+            terminated: 'lock',
           }"
           method="put"
         />
