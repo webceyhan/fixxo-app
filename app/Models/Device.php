@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\DeviceStatus;
 use App\Enums\TicketStatus;
-use App\Enums\WarrantyStatus;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
 use App\Observers\DeviceObserver;
@@ -43,15 +42,6 @@ class Device extends Model
     ];
 
     /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'warranty_status',
-    ];
-
-    /**
      * Searchable attributes.
      *
      * @var array<int, string>
@@ -83,16 +73,6 @@ class Device extends Model
     {
         return Attribute::make(
             get: fn () => $this->total_tickets_count - $this->closed_tickets_count,
-        );
-    }
-
-    /**
-     * Get warranty status.
-     */
-    protected function warrantyStatus(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => WarrantyStatus::fromModel($this),
         );
     }
 

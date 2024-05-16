@@ -64,6 +64,13 @@ export function formatMoney(value) {
 
 const rtf = new Intl.RelativeTimeFormat("en", { style: "short" });
 
+export function isPastDate(value) {
+    // skip if empty or null
+    if (!value || value == "") return false;
+
+    return new Date(value) < new Date();
+}
+
 export const formatDate = (value, long = false) => {
     // skip if empty or null
     if (!value || value == "") return "";
