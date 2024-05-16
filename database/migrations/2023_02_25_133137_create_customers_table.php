@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\UserStatus;
 use App\Models\Customer;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -22,9 +21,8 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('email')->nullable();
             $table->string('note')->nullable();
-            // TODO: use soft deletes instead!
-            $table->enum('status', UserStatus::values())->default(UserStatus::Active);
             $table->timestamps();
+            // TODO: use soft deletes later
 
             // aggregate fields
             $table->decimal('balance')->default(0);

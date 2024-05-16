@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\TicketStatus;
-use App\Enums\UserStatus;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -34,7 +33,6 @@ class Customer extends Model
         'phone' => null,
         'email' => null,
         'note' => null,
-        'status' => UserStatus::Active,
     ];
 
     /**
@@ -42,9 +40,7 @@ class Customer extends Model
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'status' => UserStatus::class,
-    ];
+    protected $casts = [];
 
     /**
      * Searchable attributes.

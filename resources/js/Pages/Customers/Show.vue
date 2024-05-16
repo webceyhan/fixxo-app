@@ -10,8 +10,6 @@ import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
-import ToggleButton from "@/Components/Button/ToggleButton.vue";
-import DropdownToggleItem from "@/Components/Menu/DropdownToggleItem.vue";
 import DeviceList from "@/Pages/Devices/Partials/DeviceList.vue";
 import TicketList from "@/Pages/Tickets/Partials/TicketList.vue";
 import CustomerCard from "./Partials/CustomerCard.vue";
@@ -54,21 +52,6 @@ const save = () => {
         :href="route('customers.destroy', customer.id)"
         class="mr-4"
       />
-      <ToggleButton
-        name="status"
-        :value="customer.status"
-        :href="route('customers.update', customer.id)"
-        :options="{
-          active: 'Unlock',
-          inactive: 'Lock',
-        }"
-        :icons="{
-          active: 'unlock',
-          inactive: 'lock',
-        }"
-        method="put"
-        class="mr-4"
-      />
 
       <PrimaryButton
         label="New Device"
@@ -100,20 +83,6 @@ const save = () => {
           method="delete"
           icon="delete"
           :href="route('customers.destroy', customer.id)"
-        />
-        <DropdownToggleItem
-          name="status"
-          :value="customer.status"
-          :href="route('customers.update', customer.id)"
-          :options="{
-            active: 'Unlock',
-            inactive: 'Lock',
-          }"
-          :icons="{
-            active: 'unlock',
-            inactive: 'lock',
-          }"
-          method="put"
         />
         <DropdownItem
           label="New Device"
