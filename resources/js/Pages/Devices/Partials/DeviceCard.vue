@@ -1,5 +1,6 @@
 <script setup>
-import { formatDate } from "@/Shared/utils";
+import { computed } from "vue";
+import { formatDate, isPastDate } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import DescriptionList from "@/Components/List/DescriptionList.vue";
 import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
@@ -8,6 +9,16 @@ import WarrantyBadge from "./WarrantyBadge.vue";
 
 const props = defineProps({
   device: Object,
+});
+
+const warrantyStatus = computed(() => {
+  const { warranty_expire_date } = props.device;
+
+  return warranty_expire_date
+    ? isPastDate(warranty_expire_date)
+      ? "expired"
+      : "valid"
+    : "na";
 });
 </script>
 
@@ -57,7 +68,7 @@ const props = defineProps({
       <DescriptionListItem label="Warranty Expire Date">
         <div class="flex items-center gap-2">
           {{ formatDate(device?.warranty_expire_date) }}
-          <WarrantyBadge :status="device.warranty_status" />
+          <WarrantyBadge :status="warrantyStatus" />
         </div>
       </DescriptionListItem>
 
