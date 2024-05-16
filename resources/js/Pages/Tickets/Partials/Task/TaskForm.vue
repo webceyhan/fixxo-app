@@ -1,6 +1,5 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
-import { formatDate } from "@/Shared/utils";
 import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 
@@ -8,12 +7,14 @@ const props = defineProps({
   task: Object,
 });
 
+const statusOptions = ["new", "completed", "cancelled"];
+
 const form = useForm({
   ...props.task,
   // TODO: see above
   description: props.task.description,
   cost: props.task.cost ?? 0,
-  is_completed: props.task.is_completed ?? false,
+  status: props.task.status ?? statusOptions[0],
 });
 </script>
 
@@ -38,10 +39,6 @@ const form = useForm({
       :error="form.errors.cost"
     />
 
-    <FormControl label="Completed" type="checkbox" v-model="form.is_completed">
-      <span v-if="form.is_completed" class="ml-auto text-sm text-gray-400">
-        <em>{{ formatDate(task.completed_at, true) }}</em>
-      </span>
-    </FormControl>
+    <FormControl label="Status" v-model="form.status" :options="statusOptions" fancy />
   </Form>
 </template>

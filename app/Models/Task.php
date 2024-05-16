@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Enums\TaskStatus;
-use App\Models\Attributes\BooleanDateAttribute;
 use App\Models\Traits\HasSince;
 use App\Observers\TaskObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -32,7 +31,7 @@ class Task extends Model
      */
     protected $attributes = [
         'cost' => 0,
-        'completed_at' => null,
+        'status' => TaskStatus::New,
     ];
 
     /**
@@ -42,7 +41,15 @@ class Task extends Model
      */
     protected $appends = [
         'is_completed',
-        'status',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => TaskStatus::class,
     ];
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
@@ -52,23 +59,9 @@ class Task extends Model
      */
     protected function isCompleted(): Attribute
     {
-        return BooleanDateAttribute::for('completed_at');
-    }
-
-    /**
-     * Get the task's status.
-     */
-    protected function status(): Attribute
-    {
         return Attribute::make(
-            get: fn () => TaskStatus::fromModel($this),
-            // TODO: this should be a method on the enum
-            // cast doesn't work with 'status' because it's a virtual attribute
-            // instead of this setterm we use is_completed attribute
-            set: fn (mixed $value) => match ($value) {
-                TaskStatus::Pending, 'pending' => ['completed_at' => null],
-                TaskStatus::Completed, 'completed' => ['completed_at' => now()],
-            },
+            get: fn () => in_array($this->status, TaskStatus::completedCases()),
+            set: fn (mixed $value) => ['status' => $value ? TaskStatus::Completed : TaskStatus::New]
         );
     }
 
@@ -87,24 +80,52 @@ class Task extends Model
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to only include pending tasks.
+     * Scope a query to only include new tasks.
      * 
-     * @see TaskStatus::Pending
-     * @ignore This is a virtual status.
+     * @see TaskStatus::New
      */
-    public function scopePending(Builder $query): void
+    public function scopeNew(Builder $query): void
     {
-        $query->whereNull('completed_at');
+        $query->where('status', TaskStatus::New);
     }
 
     /**
      * Scope a query to only include completed tasks.
      * 
      * @see TaskStatus::Completed
-     * @ignore This is a virtual status.
      */
     public function scopeCompleted(Builder $query): void
     {
-        $query->whereNotNull('completed_at');
+        $query->whereIn('status', TaskStatus::Completed);
+    }
+
+    /**
+     * Scope a query to only include cancelled tasks.
+     * 
+     * @see TaskStatus::Cancelled
+     */
+    public function scopeCancelled(Builder $query): void
+    {
+        $query->where('status', TaskStatus::Cancelled);
+    }
+
+    /**
+     * Scope a query to only include valid tasks which are not cancelled.
+     * 
+     * @ignore This is a virtual status.
+     */
+    public function scopeValid(Builder $query): void
+    {
+        $query->whereNot('status', TaskStatus::Cancelled);
+    }
+
+    /**
+     * Scope a query to only include pending tasks.
+     * 
+     * @ignore This is a virtual status.
+     */
+    public function scopePending(Builder $query): void
+    {
+        $query->where('status', TaskStatus::New);
     }
 }

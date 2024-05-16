@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\TaskStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class TaskFactory extends Factory
         return [
             'description' => fake()->text(100),
             'cost' => fake()->randomFloat(2, 0, 100),
+            'status' => fake()->randomElement(TaskStatus::values()),
         ];
         
         // TODO: add completed state

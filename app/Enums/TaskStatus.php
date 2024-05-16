@@ -4,14 +4,26 @@ namespace App\Enums;
 
 use App\Enums\Concerns\Completable;
 use App\Enums\Concerns\HasValues;
-use App\Models\Task;
 
 enum TaskStatus: string
 {
     use HasValues, Completable;
 
-    case Pending = 'pending';
+    /**
+     * Represents an task that has been created and is pending approval.
+     * @default
+     */
+    case New = 'new';
+
+    /**
+     * Represents an task that has been completed.
+     */
     case Completed = 'completed';
+
+    /**
+     * Represents an task that has been cancelled.
+     */
+    case Cancelled = 'cancelled';
 
     // METHODS /////////////////////////////////////////////////////////////////////////////////////
 
@@ -22,14 +34,7 @@ enum TaskStatus: string
     {
         return [
             self::Completed,
+            self::Cancelled,
         ];
-    }
-
-    /**
-     * Get the status for the given task.
-     */
-    public static function fromModel(Task $task): self
-    {
-        return $task->completed_at ? self::Completed : self::Pending;
     }
 }
