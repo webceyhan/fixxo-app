@@ -4,7 +4,6 @@ namespace App\Enums;
 
 use App\Enums\Concerns\Completable;
 use App\Enums\Concerns\HasValues;
-use App\Models\Ticket;
 
 enum TicketStatus: string
 {
@@ -47,65 +46,5 @@ enum TicketStatus: string
             self::Resolved,
             self::Closed,
         ];
-    }
-
-    /**
-     * Get the status for the given ticket.
-     */
-    public static function fromModel(Ticket $ticket): self
-    {
-        // get the task related counters
-        $totalTasksCount = $ticket->total_tasks_count;
-        $completedTasksCount = $ticket->completed_tasks_count;
-        $pendingTasksCount = $totalTasksCount - $completedTasksCount;
-
-        // get the boolean flags
-        $hasTasks = $totalTasksCount > 0;
-        $hasPendingTasks = $pendingTasksCount > 0;
-        $hasPendingOrders = $ticket->pending_orders_count > 0;
-
-        switch ($ticket->status) {
-            case self::New:
-            case self::OnHold:
-                // if the ticket has pending tasks, it is still in progress and needs further action
-                if ($hasPendingTasks && !$hasPendingOrders) {
-                    return self::InProgress;
-                }
-                // if the ticket has no pending tasks but still has tasks, it means that all tasks
-                // are completed, so the ticket is now resolved and no further action is needed
-                if ($hasTasks && !$hasPendingTasks && !$hasPendingOrders) {
-                    return self::Resolved;
-                }
-                break;
-
-            case self::InProgress:
-                // if the ticket has no tasks, it means that there is nothing left 
-                // to do for now, so the ticket is put on hold
-                if (!$hasTasks || $hasPendingOrders) {
-                    return self::OnHold;
-                }
-                // if the ticket has tasks but no pending tasks, it means that all tasks are completed, 
-                // so the ticket is now resolved and no further action is needed
-                if ($hasTasks && !$hasPendingTasks && !$hasPendingOrders) {
-                    return self::Resolved;
-                }
-                break;
-
-            case self::Resolved:
-            case self::Closed:
-                // if the ticket has no tasks, it means that there is nothing left 
-                // to do for now, so the ticket is put on hold
-                if (!$hasTasks || $hasPendingOrders) {
-                    return self::OnHold;
-                }
-                // if the ticket has pending tasks, it means that there are still tasks left to do, 
-                // so the ticket is still in progress and needs further action
-                if ($hasPendingTasks && !$hasPendingOrders) {
-                    return self::InProgress;
-                }
-                break;
-        }
-
-        return $ticket->status;
     }
 }
