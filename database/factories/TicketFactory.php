@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\Priority;
 use App\Enums\TicketStatus;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,6 +21,7 @@ class TicketFactory extends Factory
         return [
             'description' => fake()->text,
             'note' => fake()->optional(.2)->text,
+            'priority' => fake()->randomElement(Priority::values()),
             'status' => fake()->randomElement(TicketStatus::values()),
             'created_at' => fake()->dateTimeThisYear(),
         ];

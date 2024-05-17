@@ -5,6 +5,7 @@ import Table from "@/Components/Table/Table.vue";
 import TableRow from "@/Components/Table/TableRow.vue";
 import TableData from "@/Components/Table/TableData.vue";
 import TicketBadge from "./TicketBadge.vue";
+import PriorityBadge from "./PriorityBadge.vue";
 
 defineProps({
   tickets: Array,
@@ -32,6 +33,10 @@ defineProps({
         :label="ticket.description"
         :value="ticket.device.brand + ' ' + ticket.device.name"
       />
+
+      <TableData class="max-xl:hidden text-end">
+        <PriorityBadge :value="ticket.priority" />
+      </TableData>
 
       <TableData class="max-xl:hidden" label="Tasks">
         <template #value>

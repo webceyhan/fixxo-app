@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Priority;
 use App\Enums\TicketStatus;
 use App\Models\Ticket;
 use Illuminate\Database\Migrations\Migration;
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('description');
             $table->string('note')->nullable();
+            $table->enum('priority', Priority::values())->default(Priority::Normal);
             $table->enum('status', TicketStatus::values())->default(TicketStatus::New);
             $table->timestamps();
 

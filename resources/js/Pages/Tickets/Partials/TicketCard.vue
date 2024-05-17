@@ -4,6 +4,7 @@ import Card from "@/Components/Card.vue";
 import DescriptionList from "@/Components/List/DescriptionList.vue";
 import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
 import TicketBadge from "./TicketBadge.vue";
+import PriorityBadge from "./PriorityBadge.vue";
 
 const props = defineProps({
   ticket: Object,
@@ -49,6 +50,10 @@ const props = defineProps({
         :value="ticket.device.type"
         :href="route('tickets.index', { type: ticket.type })"
       />
+
+      <DescriptionListItem label="Priority">
+        <PriorityBadge :value="ticket.priority" />
+      </DescriptionListItem>
 
       <DescriptionListItem
         v-if="ticket.serial"
