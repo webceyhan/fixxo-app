@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use App\Enums\Priority;
 use App\Enums\TaskStatus;
 use App\Enums\TicketStatus;
 use App\Models\Traits\HasSince;
@@ -38,6 +39,7 @@ class Ticket extends Model
      */
     protected $attributes = [
         'note' => null,
+        'priority' => Priority::Normal,
         'status' => TicketStatus::New,
     ];
 
@@ -63,6 +65,7 @@ class Ticket extends Model
      * @var array
      */
     protected $casts = [
+        'priority' => Priority::class,
         'status' => TicketStatus::class,
     ];
 

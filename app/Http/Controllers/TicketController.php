@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Priority;
 use App\Enums\TicketStatus;
 use App\Http\Requests\SaveTicketRequest;
 use App\Models\Device;
@@ -101,6 +102,7 @@ class TicketController extends Controller
 
         return inertia('Tickets/Edit', [
             'ticket' => $ticket,
+            'priorityOptions' => Priority::values(),
             'statusOptions' => TicketStatus::values(),
         ]);
     }

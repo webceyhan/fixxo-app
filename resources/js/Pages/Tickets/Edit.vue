@@ -8,6 +8,7 @@ import CustomerCard from "../Customers/Partials/CustomerCard.vue";
 
 const props = defineProps({
   ticket: Object,
+  priorityOptions: Array,
   statusOptions: Array,
 });
 
@@ -15,6 +16,7 @@ const form = useForm({
   ...props.ticket,
   description: props.ticket.description,
   note: props.ticket.note,
+  priority: props.ticket.priority,
   status: props.ticket.status,
 });
 </script>
@@ -40,6 +42,11 @@ const form = useForm({
               rows="3"
               v-model="form.note"
               :error="form.errors.note"
+            />
+            <FormControl
+              label="Priority"
+              v-model="form.priority"
+              :options="priorityOptions"
             />
             <FormControl label="Status" v-model="form.status" :options="statusOptions" />
           </Form>
