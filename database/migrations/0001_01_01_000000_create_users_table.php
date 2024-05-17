@@ -18,13 +18,13 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('phone')->unique()->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->enum('role', UserRole::values())->default(UserRole::Technician);
-            // TODO: use soft deletes instead!
             $table->enum('status', UserStatus::values())->default(UserStatus::Active);
             $table->timestamps();
+            $table->timestamp('email_verified_at')->nullable();
 
             // index definitions
             $table->fullText(User::fullTextColumns());

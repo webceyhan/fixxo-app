@@ -47,6 +47,7 @@ class SaveUserRequest extends FormRequest
             return [
                 'name' => ['nullable', 'string'],
                 'email' => ['nullable', 'email'],
+                'phone' => ['nullable', 'string'],
                 // TODO: omit this, as it's only known by the user
                 // 'password' => ['nullable', Rules\Password::defaults()],
                 'role' => ['nullable', Rule::in(UserRole::values())],
@@ -58,6 +59,7 @@ class SaveUserRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
+            'phone' => ['nullable', 'string'],
             // TODO: auto-generate password and sent to the user
             'password' => ['required', Password::defaults()],
             'role' => ['nullable', Rule::in(UserRole::values())],

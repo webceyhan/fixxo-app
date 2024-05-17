@@ -27,6 +27,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
         'role',
         'status',
@@ -73,6 +74,7 @@ class User extends Authenticatable
     protected $searchable = [
         'name',
         'email',
+        'phone',
     ];
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
