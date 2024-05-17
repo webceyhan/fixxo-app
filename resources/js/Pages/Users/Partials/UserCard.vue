@@ -19,7 +19,12 @@ defineProps({
     <DescriptionList>
       <DescriptionListItem label="Name" :value="user.name" />
 
-      <!-- TODO: add phone number to db -->
+      <DescriptionListItem
+        v-if="user.phone"
+        label="Phone"
+        type="phone"
+        :value="user.phone"
+      />
 
       <DescriptionListItem label="Email" type="email" :value="user.email" />
 

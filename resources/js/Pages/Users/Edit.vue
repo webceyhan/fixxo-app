@@ -15,6 +15,7 @@ const props = defineProps({
 const form = useForm({
   ...props.user,
   name: props.user.name,
+  phone: props.user.phone,
   email: props.user.email,
   role: props.user.role,
   status: props.user.status,
@@ -37,6 +38,12 @@ const form = useForm({
               :error="form.errors.name"
               required
               autofocus
+            />
+            <FormControl
+              label="Phone"
+              type="tel"
+              v-model="form.phone"
+              :error="form.errors.phone"
             />
             <FormControl
               label="Email"

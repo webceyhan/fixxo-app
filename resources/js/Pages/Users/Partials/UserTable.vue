@@ -22,9 +22,9 @@ defineProps({
         <UserBadge :status="user.status" compact />
       </template>
 
-      <TableData :value="user.name" :label="user.email" />
+      <TableData :value="user.name" :label="user.role" />
 
-      <TableData class="max-md:hidden capitalize" :value="user.role" label="Role" />
+      <TableData class="max-2xl:hidden" :label="user.email" :value="user.phone" />
 
       <TableData
         class="max-xl:hidden text-end"
