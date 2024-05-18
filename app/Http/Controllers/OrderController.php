@@ -48,7 +48,7 @@ class OrderController extends Controller
                 ->load([
                     'device',
                     'customer',
-                    'user:id,name',
+                    'assignee:id,name',
                 ]),
             'canDelete' => Gate::allows('delete', $order),
         ]);
@@ -60,9 +60,6 @@ class OrderController extends Controller
     public function update(SaveOrderRequest $request, Order $order)
     {
         $params = $request->validated();
-
-        // TODO: improve this by using a custom request
-        $params['user_id'] = auth()->id();
 
         $order->fill($params)->save();
 
