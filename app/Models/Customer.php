@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Enums\TicketStatus;
-use App\Models\Traits\HasSince;
-use App\Models\Traits\Searchable;
+use App\Models\Concerns\HasSince;
+use App\Models\Concerns\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
