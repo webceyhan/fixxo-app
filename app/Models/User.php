@@ -10,11 +10,35 @@ use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string|null $phone
+ * @property string $password
+ * @property string $remember_token
+ * @property UserRole $role
+ * @property UserStatus $status
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon|null $email_verified_at
+ * 
+ * @property-read bool $is_admin
+ * 
+ * @property-read Collection<int, Ticket> $assignedTickets
+ *
+ * @method static UserFactory factory(int $count = null, array $state = [])
+ * @method static Builder|static admins()
+ * @method static Builder|static managers()
+ * @method static Builder|static technicians()
+ */
 class User extends Authenticatable
 {
     use  HasFactory, Notifiable, Searchable, HasSince;

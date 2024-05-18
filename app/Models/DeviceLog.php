@@ -2,10 +2,23 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\DeviceStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int $device_id
+ * @property int $user_id
+ * @property string $message
+ * @property DeviceStatus $status
+ * @property Carbon $created_at
+ * 
+ * @property-read Device $device
+ * @property-read User $user
+ */
 class DeviceLog extends Model
 {
     use HasFactory;

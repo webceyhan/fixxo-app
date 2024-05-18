@@ -5,11 +5,37 @@ namespace App\Models;
 use App\Enums\TicketStatus;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
+use Database\Factories\CustomerFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string|null $company
+ * @property string|null $vat_number
+ * @property string|null $email
+ * @property string|null $phone
+ * @property string|null $address
+ * @property string|null $note
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * 
+ * @property-read float $balance
+ * @property-read int $closed_tickets_count
+ * @property-read int $total_tickets_count
+ * 
+ * @property-read Collection<int, Device> $devices
+ * @property-read Collection<int, Ticket> $tickets
+ *
+ * @method static CustomerFactory factory(int $count = null, array $state = [])
+ * @method static Builder|static withOutstandingBalance()
+ * @method static Builder|static withOpenTickets()
+ */
 class Customer extends Model
 {
     use HasFactory, Searchable, HasSince;
