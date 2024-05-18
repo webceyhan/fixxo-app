@@ -78,7 +78,7 @@ class TicketController extends Controller
         return inertia('Tickets/Show', [
             'ticket' => $ticket,
             'customer' => $ticket->customer,
-            'tasks' => $ticket->tasks()->with('user:id,name')->get(),
+            'tasks' => $ticket->tasks()->get(),
             'orders' => $ticket->orders()->with('user:id,name')->get(),
             'transactions' => $ticket->transactions()->with('user:id,name')->get(),
             'canDelete' => Gate::allows('delete', $ticket),

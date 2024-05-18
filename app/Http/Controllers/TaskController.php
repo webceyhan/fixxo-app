@@ -23,9 +23,6 @@ class TaskController extends Controller
     {
         $params = $request->validated();
 
-        // TODO: improve this by using a custom request
-        $params['user_id'] = auth()->id();
-
         $task->fill($params)->save();
 
         return redirect()
