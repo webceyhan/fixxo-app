@@ -89,9 +89,9 @@ class User extends Authenticatable
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
-    public function tickets(): HasMany
+    public function assignedTickets(): HasMany
     {
-        return $this->hasMany(Ticket::class)->latest();
+        return $this->hasMany(Ticket::class, 'assignee_id');
     }
 
     public function tasks(): HasMany
