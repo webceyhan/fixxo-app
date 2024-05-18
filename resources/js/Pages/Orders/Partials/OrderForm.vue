@@ -16,7 +16,6 @@ const form = useForm({
   url: props.order.url,
   quantity: props.order.quantity ?? 1,
   cost: props.order.cost ?? 0,
-  note: props.order.note,
   status: props.order.status ?? statusOptions[0],
 });
 
@@ -59,8 +58,6 @@ defineExpose({
         :error="form.errors.cost"
       />
     </div>
-
-    <FormControl label="Note" rows="3" v-model="form.note" :error="form.errors.note" />
 
     <FormControl label="Status" v-model="form.status" :options="statusOptions" fancy />
   </Form>

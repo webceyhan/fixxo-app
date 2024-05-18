@@ -20,7 +20,6 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->integer('quantity')->default(1);
             $table->decimal('cost')->default(0);
-            $table->string('note')->nullable();
             $table->enum('status', OrderStatus::values())->default(OrderStatus::New);
             $table->timestamps();
 
