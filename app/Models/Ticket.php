@@ -12,14 +12,51 @@ use App\Observers\TicketObserver;
 use App\Services\QRService;
 use App\Services\SignatureService;
 use App\Services\UploadService;
+use Database\Factories\TicketFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int|null $assignee_id
+ * @property int $customer_id
+ * @property int $device_id
+ * @property string $description
+ * @property Priority $priority
+ * @property TicketStatus $status
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * 
+ * @property-read float $balance
+ * @property-read int $completed_tasks_count
+ * @property-read int $total_tasks_count
+ * @property-read int $received_orders_count
+ * @property-read int $total_orders_count
+ * 
+ * @property-read User|null $assignee
+ * @property-read Customer $customer
+ * @property-read Device $device
+ * @property-read Collection<int, Task> $tasks
+ * @property-read Collection<int, Order> $orders
+ * @property-read Collection<int, Transaction> $transactions
+ * 
+ * @method static TicketFactory factory(int $count = null, array $state = [])
+ * @method static Builder|static new()
+ * @method static Builder|static inProgress()
+ * @method static Builder|static onHold()
+ * @method static Builder|static resolved()
+ * @method static Builder|static closed()
+ * @method static Builder|static open()
+ * @method static Builder|static outstanding()
+ * @method static Builder|static overdue()
+ */
 #[ObservedBy([TicketObserver::class])]
 class Ticket extends Model
 {

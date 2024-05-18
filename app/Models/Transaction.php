@@ -6,12 +6,35 @@ use App\Enums\TransactionMethod;
 use App\Enums\TransactionType;
 use App\Models\Concerns\HasSince;
 use App\Observers\TransactionObserver;
+use Database\Factories\TransactionFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int $ticket_id
+ * @property float $amount
+ * @property string|null $note
+ * @property TransactionMethod $method
+ * @property TransactionType $type
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * 
+ * @property-read Ticket $ticket
+ * 
+ * @method static TransactionFactory factory(int $count = null, array $state = [])
+ * @method static Builder|static asPayment()
+ * @method static Builder|static asDiscount()
+ * @method static Builder|static asWarranty()
+ * @method static Builder|static asRefund()
+ * @method static Builder|static byCash()
+ * @method static Builder|static byCard()
+ * @method static Builder|static byOnline()
+ */
 #[ObservedBy([TransactionObserver::class])]
 class Transaction extends Model
 {
