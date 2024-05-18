@@ -26,7 +26,7 @@ class SaveDeviceRequest extends FormRequest
         // update
         if ($this->isMethod('put')) {
             return [
-                'name' => 'nullable|string',
+                'model' => 'nullable|string',
                 'brand' => 'nullable|string',
                 'type' => 'nullable|string',
                 'serial' => 'nullable|string',
@@ -39,7 +39,7 @@ class SaveDeviceRequest extends FormRequest
         // store
         return [
             'customer_id' => 'required_without:id',
-            'name' => 'required|string',
+            'model' => 'required|string',
             'brand' => 'nullable|string',
             'type' => 'nullable|string',
             'serial' => 'nullable|string',

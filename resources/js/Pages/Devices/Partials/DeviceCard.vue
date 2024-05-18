@@ -41,7 +41,7 @@ const warrantyStatus = computed(() => {
         :href="route('customers.show', device.customer.id)"
       />
 
-      <DescriptionListItem label="Name" :value="device.name" />
+      <DescriptionListItem label="Model" :value="device.model" />
 
       <DescriptionListItem
         label="Brand"

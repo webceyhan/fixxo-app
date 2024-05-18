@@ -17,7 +17,7 @@ class DeviceQuery extends QueryBuilder
 
         $this
             ->allowedSorts([
-                // 'name',
+                // 'model',
                 // 'brand',
                 // 'type',
                 // 'status',

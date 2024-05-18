@@ -29,7 +29,7 @@ defineProps({
 
       <TableData
         :label="device.customer.name"
-        :value="device.brand + ' ' + device.name"
+        :value="device.brand + ' ' + device.model"
       />
 
       <TableData class="max-md:hidden" label="Tickets">

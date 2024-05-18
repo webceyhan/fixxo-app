@@ -41,7 +41,7 @@ const props = defineProps({
 
       <DescriptionListItem
         label="Device"
-        :value="ticket.device.brand + ' ' + ticket.device.name"
+        :value="ticket.device.brand + ' ' + ticket.device.model"
         :href="route('devices.show', ticket.device.id)"
       />
 

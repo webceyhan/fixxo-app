@@ -31,7 +31,7 @@ defineProps({
       <TableData
         label-class="line-clamp-2"
         :label="ticket.description"
-        :value="ticket.device.brand + ' ' + ticket.device.name"
+        :value="ticket.device.brand + ' ' + ticket.device.model"
       />
 
       <TableData class="max-xl:hidden text-end">

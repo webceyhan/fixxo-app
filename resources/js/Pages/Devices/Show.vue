@@ -54,7 +54,7 @@ const statusActions = [
 </script>
 
 <template>
-  <PageLayout :title="device.name">
+  <PageLayout :title="device.model">
     <!-- desktop menu -->
     <template #desktop-menu>
       <SecondaryButton

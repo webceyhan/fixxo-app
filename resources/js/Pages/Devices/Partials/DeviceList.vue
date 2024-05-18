@@ -19,7 +19,7 @@ const props = defineProps({
       :href="route('devices.show', device.id)"
     >
       <div class="w-full">
-        <div>{{ device.brand }} {{ device.name }}</div>
+        <div>{{ device.brand }} {{ device.model }}</div>
 
         <div
           v-if="device.customer"

@@ -50,7 +50,7 @@ class DeviceFactory extends Factory
         $type = self::MODELS[$brand][$model];
 
         return [
-            'name' => $model,
+            'model' => $model,
             'brand' => $brand,
             'type' => $type,
             'serial' => fake()->uuid,
