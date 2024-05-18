@@ -20,7 +20,6 @@ return new class extends Migration
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->foreignId('assignee_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('description');
-            $table->string('note')->nullable();
             $table->enum('priority', Priority::values())->default(Priority::Normal);
             $table->enum('status', TicketStatus::values())->default(TicketStatus::New);
             $table->timestamps();

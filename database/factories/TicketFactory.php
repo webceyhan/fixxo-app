@@ -20,7 +20,6 @@ class TicketFactory extends Factory
     {
         return [
             'description' => fake()->text,
-            'note' => fake()->optional(.2)->text,
             'priority' => fake()->randomElement(Priority::values()),
             'status' => fake()->randomElement(TicketStatus::values()),
             'created_at' => fake()->dateTimeThisYear(),
