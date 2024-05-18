@@ -15,14 +15,13 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('company')->nullable();
-            $table->string('vat_number')->nullable();
+            $table->string('company')->unique()->nullable();
+            $table->string('vat_number')->unique()->nullable();
+            $table->string('email')->unique()->nullable();
+            $table->string('phone')->unique()->nullable();
             $table->string('address')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('email')->nullable();
             $table->string('note')->nullable();
             $table->timestamps();
-            // TODO: use soft deletes later
 
             // aggregate fields
             $table->decimal('balance')->default(0);
