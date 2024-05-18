@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('device_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('device_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('device_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('message')->nullable();
             $table->enum('status', DeviceStatus::values());
             $table->timestamp('created_at')->useCurrent();
