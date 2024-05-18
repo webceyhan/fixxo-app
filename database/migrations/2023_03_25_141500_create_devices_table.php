@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('model');
             $table->string('brand')->nullable();
             $table->string('type')->nullable();
-            $table->string('serial')->nullable();
+            $table->string('serial_number')->unique()->nullable();
             $table->date('purchase_date')->nullable();
             $table->date('warranty_expire_date')->nullable();
             $table->enum('status', DeviceStatus::values())->default(DeviceStatus::CheckedIn);

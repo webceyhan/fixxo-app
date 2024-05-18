@@ -56,9 +56,9 @@ const warrantyStatus = computed(() => {
       />
 
       <DescriptionListItem
-        v-if="device.serial"
+        v-if="device.serial_number"
         label="Serial Number"
-        :value="device.serial"
+        :value="device.serial_number"
       />
 
       <DescriptionListItem v-if="device.purchase_date" label="Purchase Date">

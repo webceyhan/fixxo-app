@@ -17,7 +17,7 @@ const form = useForm({
   model: props.device.model,
   brand: props.device.brand,
   type: props.device.type,
-  serial: props.device.serial,
+  serial_number: props.device.serial_number,
   purchase_date: props.device.purchase_date,
   warranty_expire_date: props.device.warranty_expire_date,
   status: props.device.status,
@@ -45,8 +45,8 @@ const form = useForm({
             <FormControl label="Type" v-model="form.type" :options="typeOptions" />
             <FormControl
               label="Serial"
-              v-model="form.serial"
-              :error="form.errors.serial"
+              v-model="form.serial_number"
+              :error="form.errors.serial_number"
             />
             <FormControl
               label="Purchase Date"

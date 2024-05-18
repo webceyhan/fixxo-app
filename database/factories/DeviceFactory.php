@@ -53,7 +53,7 @@ class DeviceFactory extends Factory
             'model' => $model,
             'brand' => $brand,
             'type' => $type,
-            'serial' => fake()->uuid,
+            'serial_number' => fake()->uuid,
             'purchase_date' => fake()->optional(.2)->date(),
             // TODO: add has_warranty accessor to model
             'warranty_expire_date' => fake()->optional(.2)->date(),
