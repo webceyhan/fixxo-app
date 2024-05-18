@@ -56,9 +56,9 @@ const props = defineProps({
       </DescriptionListItem>
 
       <DescriptionListItem
-        v-if="ticket.serial"
+        v-if="ticket.serial_number"
         label="Serial Number"
-        :value="ticket.serial"
+        :value="ticket.serial_number"
       />
 
       <DescriptionListItem v-if="ticket.purchase_date" label="Purchase Date">

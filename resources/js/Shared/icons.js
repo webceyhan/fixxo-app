@@ -72,7 +72,7 @@ const fields = {
 
     // OTHER
     role: "key",
-    serial: "upc",
+    serial_number: "upc",
     money: "cash-stack",
     attachment: "paperclip",
     file: "file-earmark",

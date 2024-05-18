@@ -35,7 +35,7 @@ class Device extends Model
     protected $attributes = [
         'brand' => null,
         'type' => null,
-        'serial' => null,
+        'serial_number' => null,
         'purchase_date' => null,
         'warranty_expire_date' => null,
         'status' => DeviceStatus::CheckedIn,
@@ -50,7 +50,7 @@ class Device extends Model
         'model',
         'brand',
         'type',
-        'serial',
+        'serial_number',
     ];
 
     /**
