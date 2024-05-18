@@ -28,7 +28,7 @@ class Customer extends Model
      */
     protected $attributes = [
         'company' => null,
-        'vat' => null,
+        'vat_number' => null,
         'address' => null,
         'phone' => null,
         'email' => null,
@@ -50,7 +50,7 @@ class Customer extends Model
     protected $searchable = [
         'name',
         'company',
-        'vat',
+        'vat_number',
         'address',
         'phone',
         'email',

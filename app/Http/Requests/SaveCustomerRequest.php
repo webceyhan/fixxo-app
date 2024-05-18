@@ -26,7 +26,7 @@ class SaveCustomerRequest extends FormRequest
             return [
                 'name' => 'nullable|string',
                 'company' => 'nullable|string',
-                'vat' => 'nullable|string',
+                'vat_number' => 'nullable|string',
                 'address' => 'nullable|string',
                 'phone' => 'nullable|string',
                 'email' => 'nullable|email',
@@ -38,7 +38,7 @@ class SaveCustomerRequest extends FormRequest
         return [
             'name' => 'required|string',
             'company' => 'nullable|string',
-            'vat' => 'nullable|string',
+            'vat_number' => 'nullable|string',
             'address' => 'nullable|string',
             'phone' => 'nullable|string',
             'email' => 'nullable|email',

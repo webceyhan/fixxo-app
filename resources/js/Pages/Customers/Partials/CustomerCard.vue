@@ -23,7 +23,11 @@ const props = defineProps({
         :value="customer.company"
       />
 
-      <DescriptionListItem v-if="customer.vat" label="VAT" :value="customer.vat" />
+      <DescriptionListItem
+        v-if="customer.vat_number"
+        label="VAT Number"
+        :value="customer.vat_number"
+      />
 
       <DescriptionListItem
         v-if="customer.phone"
