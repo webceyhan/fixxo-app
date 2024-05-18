@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
-use App\Models\Traits\HasSince;
-use App\Models\Traits\Searchable;
+use App\Models\Concerns\HasSince;
+use App\Models\Concerns\Searchable;
 use App\Observers\OrderObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;

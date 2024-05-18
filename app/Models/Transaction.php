@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Enums\TransactionMethod;
 use App\Enums\TransactionType;
-use App\Models\Traits\HasSince;
+use App\Models\Concerns\HasSince;
 use App\Observers\TransactionObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;

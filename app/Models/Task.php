@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Enums\TaskStatus;
 use App\Enums\TaskType;
-use App\Models\Traits\HasSince;
+use App\Models\Concerns\HasSince;
 use App\Observers\TaskObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
