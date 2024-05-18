@@ -15,7 +15,7 @@ const form = useForm({
   ...props.customer,
   name: props.customer.name,
   company: props.customer.company,
-  vat: props.customer.vat,
+  vat_number: props.customer.vat_number,
   address: props.customer.address,
   phone: props.customer.phone,
   email: props.customer.email,
@@ -45,7 +45,11 @@ const form = useForm({
               v-model="form.company"
               :error="form.errors.company"
             />
-            <FormControl label="VAT" v-model="form.vat" :error="form.errors.vat" />
+            <FormControl
+              label="VAT Number"
+              v-model="form.vat_number"
+              :error="form.errors.vat_number"
+            />
             <FormControl
               label="Address"
               v-model="form.address"
