@@ -15,7 +15,6 @@ const props = defineProps({
 const form = useForm({
   ...props.ticket,
   description: props.ticket.description,
-  note: props.ticket.note,
   priority: props.ticket.priority,
   status: props.ticket.status,
 });
@@ -36,12 +35,6 @@ const form = useForm({
               rows="3"
               v-model="form.description"
               :error="form.errors.description"
-            />
-            <FormControl
-              label="Note"
-              rows="3"
-              v-model="form.note"
-              :error="form.errors.note"
             />
             <FormControl
               label="Priority"

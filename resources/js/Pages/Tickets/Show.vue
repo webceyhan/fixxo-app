@@ -32,11 +32,9 @@ const props = defineProps({
 });
 
 const toggleDescriptionEdit = ref(false);
-const toggleNoteEdit = ref(false);
 
 const form = useForm({
   description: props.ticket.description,
-  note: props.ticket.note,
 });
 
 const save = () => {
@@ -181,32 +179,6 @@ const statusActions = [
 
     <template #aside>
       <TicketCard :ticket="ticket" />
-
-      <Card label="Note">
-        <div v-if="!toggleNoteEdit" class="relative group" @click="toggleNoteEdit = true">
-          <pre
-            class="whitespace-pre-wrap text-sm"
-            v-html="ticket.note ?? 'Add note...'"
-          />
-
-          <Icon name="edit" class="absolute top-0 right-0 hidden group-hover:block" />
-        </div>
-
-        <div v-if="toggleNoteEdit">
-          <Textarea
-            rows="5"
-            class="block w-full text-sm font-mono mb-4"
-            v-model="form.note"
-            autofocus
-          />
-          <PrimaryButton
-            label="Save"
-            class="mr-2"
-            @click="save() && (toggleNoteEdit = false)"
-          />
-          <SecondaryButton label="Cancel" @click="toggleNoteEdit = false" />
-        </div>
-      </Card>
 
       <TicketUploads :ticket="ticket" />
     </template>

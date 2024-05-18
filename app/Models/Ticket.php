@@ -38,7 +38,6 @@ class Ticket extends Model
      * @var array
      */
     protected $attributes = [
-        'note' => null,
         'priority' => Priority::Normal,
         'status' => TicketStatus::New,
     ];
