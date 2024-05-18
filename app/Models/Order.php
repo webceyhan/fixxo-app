@@ -59,11 +59,6 @@ class Order extends Model
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function ticket(): belongsTo
     {
         return $this->belongsTo(Ticket::class);
