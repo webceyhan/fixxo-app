@@ -60,7 +60,7 @@ class TicketController extends Controller
         $ticket->load([
             'device',
             'customer',
-            'user:id,name',
+            'assignee:id,name',
         ]);
 
         // append custom attributes
@@ -115,7 +115,7 @@ class TicketController extends Controller
         $params = $request->validated();
 
         // TODO: improve this by using a custom request
-        $params['user_id'] = auth()->id();
+        $params['assignee_id'] = auth()->id();
 
         $ticket->fill($params)->save();
 

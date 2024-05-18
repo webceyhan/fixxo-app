@@ -73,7 +73,7 @@ class UserController extends Controller
     {
         return inertia('Users/Show', [
             'user' => $user,
-            'recentTickets' => $user->tickets()->with('device')->take(5)->get(),
+            'recentTickets' => $user->assignedTickets()->with('device')->take(5)->get(),
         ]);
     }
 

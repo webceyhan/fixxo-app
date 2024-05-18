@@ -28,7 +28,7 @@ defineProps({
 
       <TableData
         class="max-xl:hidden text-end"
-        :value="user.tickets_count"
+        :value="user.assigned_tickets_count"
         label="Tickets"
       />
 

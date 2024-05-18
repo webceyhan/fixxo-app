@@ -32,7 +32,7 @@ class UserQuery extends QueryBuilder
             ])
             ->defaultSort('-created_at')
             ->withCount([
-                'tickets',
+                'assignedTickets',
             ]);
     }
 

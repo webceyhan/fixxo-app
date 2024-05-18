@@ -183,9 +183,9 @@ class Ticket extends Model
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
-    public function user(): BelongsTo
+    public function assignee(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'assignee_id');
     }
 
     public function device(): BelongsTo

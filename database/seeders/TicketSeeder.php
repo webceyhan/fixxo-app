@@ -24,7 +24,7 @@ class TicketSeeder extends Seeder
 
             Ticket::factory($amount)->create([
                 'device_id' => fn () => $device->id,
-                'user_id' => fn () => $users->random(1)->first(),
+                'assignee_id' => fn () => $users->random(1)->first(),
                 // create date must be later than device creation
                 'created_at' => fn () => fake()->dateTimeBetween($device->created_at),
             ]);

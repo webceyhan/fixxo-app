@@ -80,8 +80,8 @@ const props = defineProps({
 
       <DescriptionListItem label="Last Update" type="date" :value="ticket.updated_at" />
 
-      <DescriptionListItem label="Last update by">
-        {{ ticket.user.name }}
+      <DescriptionListItem label="Assignee">
+        {{ ticket.assignee.name }}
       </DescriptionListItem>
     </DescriptionList>
   </Card>
