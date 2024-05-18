@@ -23,9 +23,6 @@ class TransactionController extends Controller
     {
         $params = $request->validated();
 
-        // TODO: improve this by using a custom request
-        $params['user_id'] = auth()->id();
-
         $transaction->fill($params)->save();
 
         return redirect()
