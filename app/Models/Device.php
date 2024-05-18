@@ -47,7 +47,7 @@ class Device extends Model
      * @var array<int, string>
      */
     protected $searchable = [
-        'name',
+        'model',
         'brand',
         'type',
         'serial',

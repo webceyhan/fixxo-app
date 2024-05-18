@@ -66,7 +66,7 @@ const signatureUrl = computed(() => {
       <!-- device info -->
       <div>
         <h1 class="text-lg font-semibold">Device</h1>
-        <p>{{ ticket.device.brand }} {{ ticket.device.name }}</p>
+        <p>{{ ticket.device.brand }} {{ ticket.device.model }}</p>
       </div>
 
       <!-- customer info -->

@@ -14,7 +14,7 @@ const props = defineProps({
 
 const form = useForm({
   ...props.device,
-  name: props.device.name,
+  model: props.device.model,
   brand: props.device.brand,
   type: props.device.type,
   serial: props.device.serial,
@@ -25,7 +25,7 @@ const form = useForm({
 </script>
 
 <template>
-  <PageLayout :title="device.name" content-only-mobile>
+  <PageLayout :title="device.model" content-only-mobile>
     <template #aside>
       <CustomerCard :customer="device.customer" />
     </template>
@@ -35,9 +35,9 @@ const form = useForm({
         <section class="max-w-xl">
           <Form :form="form" resource="devices">
             <FormControl
-              label="Name"
-              v-model="form.name"
-              :error="form.errors.name"
+              label="Model"
+              v-model="form.model"
+              :error="form.errors.model"
               required
               autofocus
             />
