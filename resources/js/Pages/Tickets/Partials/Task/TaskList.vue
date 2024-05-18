@@ -54,7 +54,6 @@ const stateIcons = {
         </span>
 
         <div class="hidden md:block text-gray-400 text-sm mt-1">
-          <strong>{{ task.user.name }}</strong> -
           <em>{{ formatDate(task.created_at, true) }}</em>
         </div>
       </div>

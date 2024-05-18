@@ -94,11 +94,6 @@ class User extends Authenticatable
         return $this->hasMany(Ticket::class, 'assignee_id');
     }
 
-    public function tasks(): HasMany
-    {
-        return $this->hasMany(Task::class)->latest();
-    }
-
     // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
 
     /**
