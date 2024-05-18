@@ -75,10 +75,6 @@ const warrantyStatus = computed(() => {
       <DescriptionListItem label="Created At" type="date" :value="device.created_at" />
 
       <DescriptionListItem label="Last Update" type="date" :value="device.updated_at" />
-
-      <DescriptionListItem label="Last update by">
-        {{ device.user.name }}
-      </DescriptionListItem>
     </DescriptionList>
   </Card>
 </template>

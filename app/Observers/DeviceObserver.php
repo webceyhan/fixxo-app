@@ -20,7 +20,7 @@ class DeviceObserver
      */
     public function created(Device $device): void
     {
-        //
+        // TODO: add log when checking in a device
     }
 
     /**
@@ -31,8 +31,7 @@ class DeviceObserver
         // log if device status was changed
         if ($device->isDirty('status')) {
             $device->logs()->create([
-                // use device user if no auth user is available
-                'user_id' => auth()->id() ?? $device->user_id,
+                'user_id' => auth()->id(),
                 'status' => $device->status,
             ]);
         }

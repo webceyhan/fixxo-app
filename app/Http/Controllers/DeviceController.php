@@ -48,7 +48,6 @@ class DeviceController extends Controller
         // TODO: improve this! only needed for aside card representation
         $device->load([
             'tickets',
-            'user:id,name',
             'customer:id,name',
             'logs.user:id,name'
         ]);
@@ -83,9 +82,6 @@ class DeviceController extends Controller
     public function update(SaveDeviceRequest $request, Device $device)
     {
         $params = $request->validated();
-
-        // TODO: improve this by using a custom request
-        $params['user_id'] = auth()->id();
 
         $device->fill($params)->save();
 

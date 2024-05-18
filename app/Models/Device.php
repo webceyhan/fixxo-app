@@ -83,11 +83,6 @@ class Device extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);
