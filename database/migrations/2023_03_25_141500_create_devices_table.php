@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\DeviceStatus;
+use App\Enums\DeviceType;
 use App\Models\Device;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,10 +19,10 @@ return new class extends Migration
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->string('model');
             $table->string('brand')->nullable();
-            $table->string('type')->nullable();
             $table->string('serial_number')->unique()->nullable();
             $table->date('purchase_date')->nullable();
             $table->date('warranty_expire_date')->nullable();
+            $table->enum('type', DeviceType::values())->default(DeviceType::Other);
             $table->enum('status', DeviceStatus::values())->default(DeviceStatus::CheckedIn);
             $table->timestamps();
 

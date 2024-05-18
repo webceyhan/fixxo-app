@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\DeviceStatus;
+use App\Enums\DeviceType;
 use App\Enums\TicketStatus;
 use App\Models\Traits\HasSince;
 use App\Models\Traits\Searchable;
@@ -34,10 +35,10 @@ class Device extends Model
      */
     protected $attributes = [
         'brand' => null,
-        'type' => null,
         'serial_number' => null,
         'purchase_date' => null,
-        'warranty_expire_date' => null,
+        'warranty_expire_date' => null,        
+        'type' => DeviceType::Other,
         'status' => DeviceStatus::CheckedIn,
     ];
 
@@ -49,7 +50,6 @@ class Device extends Model
     protected $searchable = [
         'model',
         'brand',
-        'type',
         'serial_number',
     ];
 
@@ -61,6 +61,7 @@ class Device extends Model
     protected $casts = [
         'purchase_date' => 'date',
         'warranty_expire_date' => 'date',
+        'type' => DeviceType::class,
         'status' => DeviceStatus::class,
     ];
 
