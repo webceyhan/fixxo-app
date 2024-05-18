@@ -33,7 +33,6 @@ class Order extends Model
         'url' => null,
         'quantity' => 1,
         'cost' => 0,
-        'note' => null,
         'status' => OrderStatus::New,
     ];
 
@@ -45,7 +44,6 @@ class Order extends Model
     protected $searchable = [
         'name',
         'url',
-        'note',
     ];
 
     /**

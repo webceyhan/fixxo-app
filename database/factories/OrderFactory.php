@@ -24,7 +24,6 @@ class OrderFactory extends Factory
             'url' => fake()->url,
             'quantity' => rand(1, 2),
             'cost' => fake()->randomFloat(2, 0, 100),
-            'note' => fake()->optional(.2)->text,
             'status' => fake()->randomElement(OrderStatus::values()),
         ];
     }

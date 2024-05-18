@@ -30,7 +30,6 @@ class SaveOrderRequest extends FormRequest
                 'url' => 'sometimes|nullable|url',
                 'quantity' => 'sometimes|nullable|integer',
                 'cost' => 'sometimes|required|numeric',
-                'note' => 'sometimes|nullable|string',
                 'status' => ['sometimes', 'nullable', Rule::in(OrderStatus::values())],
             ];
         }
@@ -42,7 +41,6 @@ class SaveOrderRequest extends FormRequest
             'url' => 'nullable|url',
             'quantity' => 'nullable|integer',
             'cost' => 'required|numeric',
-            'note' => 'nullable|string',
             'status' => ['nullable', Rule::in(OrderStatus::values())],
         ];
     }
