@@ -16,15 +16,6 @@ it('has values', function () {
     ]);
 });
 
-it('can convert to date', function (Interval $case, Carbon $expected) {
-    expect($case->toDate()->toDateString())->toBe($expected->toDateString());
-})->with([
-    [Interval::Day, fn () => Carbon::today()->subDay()],
-    [Interval::Week, fn () => Carbon::today()->subWeek()],
-    [Interval::Month, fn () => Carbon::today()->subMonth()],
-    [Interval::Year, fn () => Carbon::today()->subYear()],
-]);
-
 it('can convert to date formatter', function (Interval $case, callable $expected) {
     expect($case->toDateFormatter()(12))->toBe($expected(12));
 })->with([

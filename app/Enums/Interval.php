@@ -15,20 +15,6 @@ enum Interval: string
     case Year = 'year';
 
     /**
-     * Convert the interval to a Carbon date.
-     */
-    public function toDate(): Carbon
-    {
-        return match ($this) {
-            self::Day => Carbon::today()->subDay(),
-            self::Week => Carbon::today()->subWeek(),
-            self::Month => Carbon::today()->subMonth(),
-            self::Year => Carbon::today()->subYear(),
-            default => Carbon::today()->subCentury(),
-        };
-    }
-
-    /**
      * Convert the interval to a Carbon date formatter.
      */
     public function toDateFormatter(): callable
