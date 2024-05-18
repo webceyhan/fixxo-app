@@ -16,10 +16,10 @@ return new class extends Migration
     {
         Schema::create('tickets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('device_id')->constrained()->onDelete('cascade');
-            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
-            $table->foreignId('assignee_id')->nullable()->constrained('users')->onDelete('cascade');
-            $table->string('description');
+            $table->foreignId('assignee_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('customer_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('device_id')->constrained()->cascadeOnDelete();
+            $table->text('description');
             $table->enum('priority', Priority::values())->default(Priority::Normal);
             $table->enum('status', TicketStatus::values())->default(TicketStatus::New);
             $table->timestamps();
