@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('devices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('customer_id')->constrained()->cascadeOnDelete();
             $table->string('model');
             $table->string('brand')->nullable();
             $table->string('serial_number')->unique()->nullable();
