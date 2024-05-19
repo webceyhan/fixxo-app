@@ -41,6 +41,16 @@ class Order extends Model
     use HasFactory, Searchable, HasSince;
 
     /**
+     * Searchable attributes.
+     *
+     * @var array<int, string>
+     */
+    protected $searchable = [
+        'name',
+        'url',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -63,16 +73,6 @@ class Order extends Model
         'quantity' => 1,
         'cost' => 0,
         'status' => OrderStatus::New,
-    ];
-
-    /**
-     * Searchable attributes.
-     *
-     * @var array<int, string>
-     */
-    protected $searchable = [
-        'name',
-        'url',
     ];
 
     /**

@@ -44,6 +44,17 @@ class User extends Authenticatable
     use  HasFactory, Notifiable, Searchable, HasSince;
 
     /**
+     * Searchable attributes.
+     *
+     * @var array<int, string>
+     */
+    protected $searchable = [
+        'name',
+        'email',
+        'phone',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -90,17 +101,6 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
         ];
     }
-
-    /**
-     * Searchable attributes.
-     *
-     * @var array<int, string>
-     */
-    protected $searchable = [
-        'name',
-        'email',
-        'phone',
-    ];
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 

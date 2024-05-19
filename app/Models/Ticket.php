@@ -63,6 +63,15 @@ class Ticket extends Model
     use HasFactory, Searchable, HasSince;
 
     /**
+     * Searchable attributes.
+     *
+     * @var array<int, string>
+     */
+    protected $searchable = [
+        'description',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -97,15 +106,6 @@ class Ticket extends Model
      * @var array
      */
     protected $appends = [];
-
-    /**
-     * Searchable attributes.
-     *
-     * @var array<int, string>
-     */
-    protected $searchable = [
-        'description',
-    ];
 
     /**
      * Get the attributes that should be cast.
