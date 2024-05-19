@@ -100,16 +100,19 @@ class Device extends Model
     ];
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array
+     * @return array<string, string>
      */
-    protected $casts = [
-        'purchase_date' => 'date',
-        'warranty_expire_date' => 'date',
-        'type' => DeviceType::class,
-        'status' => DeviceStatus::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            'purchase_date' => 'date',
+            'warranty_expire_date' => 'date',
+            'type' => DeviceType::class,
+            'status' => DeviceStatus::class,
+        ];
+    }
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
