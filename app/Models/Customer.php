@@ -103,14 +103,14 @@ class Customer extends Model
         return $this->hasMany(Ticket::class)->latest();
     }
 
-    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+    // SCOPES //////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to only include customers with outstanding (< 0) balance.
+     * Scope a query to only include customers with outstanding balance.
      */
-    public function scopeWithOutstandingBalance(Builder $query): Builder
+    public function scopeWithOutstandingBalance(Builder $query): void
     {
-        return $query->where('balance', '<', 0);
+        $query->where('balance', '<', 0);
     }
 
     /**
@@ -118,7 +118,8 @@ class Customer extends Model
      */
     public function scopeWithOpenTickets(Builder $query): void
     {
-        $query->where('total_tickets_count', '>', 0)
+        $query
+            ->where('total_tickets_count', '>', 0)
             ->where('closed_tickets_count', '<', $this->total_tickets_count);
     }
 
