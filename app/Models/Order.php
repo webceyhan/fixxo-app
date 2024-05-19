@@ -28,12 +28,12 @@ use Illuminate\Support\Carbon;
  * @property-read Ticket $ticket
  * 
  * @method static OrderFactory factory(int $count = null, array $state = [])
+ * @method static Builder|static ofStatus(OrderStatus $status)
  * @method static Builder|static new()
  * @method static Builder|static shipped()
  * @method static Builder|static received()
  * @method static Builder|static cancelled()
  * @method static Builder|static valid()
- * @method static Builder|static pending()
  */
 #[ObservedBy([OrderObserver::class])]
 class Order extends Model
@@ -94,47 +94,46 @@ class Order extends Model
         return $this->belongsTo(Ticket::class);
     }
 
-    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+    // SCOPES //////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Scope a query to only include tasks of a given status.
+     */
+    public function scopeOfStatus(Builder $query, OrderStatus $status): void
+    {
+        $query->where('status', $status->value);
+    }
 
     /**
      * Scope a query to only include new orders.
-     * 
-     * @see OrderStatus::New
      */
     public function scopeNew(Builder $query): void
     {
-        $query->where('status', OrderStatus::New);
+        $query->ofStatus(OrderStatus::New);
     }
 
     /**
      * Scope a query to only include shipped orders.
-     * 
-     * @see OrderStatus::Shipped
      */
     public function scopeShipped(Builder $query): void
     {
-        $query->where('status', OrderStatus::Shipped);
+        $query->ofStatus(OrderStatus::Shipped);
     }
 
     /**
      * Scope a query to only include received orders.
-     * This also indicates that the order process is complete.
-     * 
-     * @see OrderStatus::Received
      */
     public function scopeReceived(Builder $query): void
     {
-        $query->where('status', OrderStatus::Received);
+        $query->ofStatus(OrderStatus::Received);
     }
 
     /**
      * Scope a query to only include cancelled orders.
-     * 
-     * @see OrderStatus::Cancelled
      */
     public function scopeCancelled(Builder $query): void
     {
-        $query->where('status', OrderStatus::Cancelled);
+        $query->ofStatus(OrderStatus::Cancelled);
     }
 
     /**
@@ -144,16 +143,6 @@ class Order extends Model
      */
     public function scopeValid(Builder $query): void
     {
-        $query->whereNot('status', OrderStatus::Cancelled);
-    }
-
-    /**
-     * Scope a query to only include pending (new or shipped) orders.
-     * 
-     * @ignore This is a virtual status.
-     */
-    public function scopePending(Builder $query): void
-    {
-        $query->whereIn('status', [OrderStatus::New, OrderStatus::Shipped]);
+        $query->whereNot->cancelled();
     }
 }
