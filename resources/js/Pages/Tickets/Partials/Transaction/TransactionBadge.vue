@@ -9,22 +9,22 @@ const states = {
   payment: {
     label: "Payment",
     theme: "success",
-    icon: 'plus-lg'
-  },
-  refund: {
-    label: "Refund",
-    theme: "danger",
-    icon: 'dash-lg'
+    icon: "plus-lg",
   },
   discount: {
     label: "Discount",
     theme: "warning",
-    icon: 'percent'
+    icon: "percent",
   },
-  warranty: {
-    label: "Warranty",
+  claim: {
+    label: "Claim",
     theme: "primary",
-    icon: 'shield-check'
+    icon: "shield-check",
+  },
+  refund: {
+    label: "Refund",
+    theme: "danger",
+    icon: "dash-lg",
   },
 };
 </script>
