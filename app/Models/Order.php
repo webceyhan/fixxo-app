@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\OrderStatus;
 use App\Models\Concerns\Cancellable;
+use App\Models\Concerns\Completable;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
 use App\Observers\OrderObserver;
@@ -30,14 +31,11 @@ use Illuminate\Support\Carbon;
  * 
  * @method static OrderFactory factory(int $count = null, array $state = [])
  * @method static Builder|static ofStatus(OrderStatus $status)
- * @method static Builder|static new()
- * @method static Builder|static shipped()
- * @method static Builder|static received()
  */
 #[ObservedBy([OrderObserver::class])]
 class Order extends Model
 {
-    use HasFactory, Searchable, HasSince, Cancellable;
+    use HasFactory, Searchable, HasSince, Cancellable, Completable;
 
     /**
      * Searchable attributes.
@@ -101,29 +99,5 @@ class Order extends Model
     public function scopeOfStatus(Builder $query, OrderStatus $status): void
     {
         $query->where('status', $status->value);
-    }
-
-    /**
-     * Scope a query to only include new orders.
-     */
-    public function scopeNew(Builder $query): void
-    {
-        $query->ofStatus(OrderStatus::New);
-    }
-
-    /**
-     * Scope a query to only include shipped orders.
-     */
-    public function scopeShipped(Builder $query): void
-    {
-        $query->ofStatus(OrderStatus::Shipped);
-    }
-
-    /**
-     * Scope a query to only include received orders.
-     */
-    public function scopeReceived(Builder $query): void
-    {
-        $query->ofStatus(OrderStatus::Received);
     }
 }

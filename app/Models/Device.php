@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\DeviceStatus;
 use App\Enums\DeviceType;
 use App\Enums\TicketStatus;
+use App\Models\Concerns\Completable;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
 use App\Observers\DeviceObserver;
@@ -45,17 +46,12 @@ use Illuminate\Support\Carbon;
  * @method static DeviceFactory factory(int $count = null, array $state = [])
  * @method static Builder|static ofType(DeviceType $type)
  * @method static Builder|static ofStatus(DeviceStatus $status)
- * @method static Builder|static checkedIn()
- * @method static Builder|static inRepair()
- * @method static Builder|static onHold()
- * @method static Builder|static finished()
- * @method static Builder|static checkedOut()
  * @method static Builder|static withWarranty()
  */
 #[ObservedBy([DeviceObserver::class])]
 class Device extends Model
 {
-    use HasFactory, Searchable, HasSince;
+    use HasFactory, Searchable, HasSince, Completable;
 
     /**
      * Searchable attributes.
@@ -159,46 +155,6 @@ class Device extends Model
     public function scopeOfStatus(Builder $query, DeviceStatus $status): void
     {
         $query->where('status', $status->value);
-    }
-
-    /**
-     * Scope a query to only include checked-in devices.
-     */
-    public function scopeCheckedIn(Builder $query): void
-    {
-        $query->ofStatus(DeviceStatus::CheckedIn);
-    }
-
-    /**
-     * Scope a query to only include devices in repair.
-     */
-    public function scopeInRepair(Builder $query): void
-    {
-        $query->ofStatus(DeviceStatus::InRepair);
-    }
-
-    /**
-     * Scope a query to only include devices on hold.
-     */
-    public function scopeOnHold(Builder $query): void
-    {
-        $query->ofStatus(DeviceStatus::OnHold);
-    }
-
-    /**
-     * Scope a query to only include finished devices.
-     */
-    public function scopeFinished(Builder $query): void
-    {
-        $query->ofStatus(DeviceStatus::Finished);
-    }
-
-    /**
-     * Scope a query to only include checked-out devices.
-     */
-    public function scopeCheckedOut(Builder $query): void
-    {
-        $query->ofStatus(DeviceStatus::CheckedOut);
     }
 
     /**

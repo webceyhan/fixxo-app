@@ -25,8 +25,8 @@ const props = defineProps({
   taskStats: Array,
   earningStats: Array,
   //
-  ticketsInProgress: Array,
-  ticketsResolved: Array,
+  ticketsPending: Array,
+  ticketsCompleted: Array,
   ticketsOutstanding: Array,
   ticketsOverdue: Array,
 });
@@ -125,11 +125,11 @@ const onIntervalChange = (interval) => {
     </div>
 
     <div class="flex flex-col md:flex-row md:flex-wrap gap-6 lg:gap-8">
-      <Card class="lg:flex-1" label="Latest tickets in progress" flush>
-        <TicketList :tickets="ticketsInProgress" compact with-task-count />
+      <Card class="lg:flex-1" label="Latest pending tickets" flush>
+        <TicketList :tickets="ticketsPending" compact with-task-count />
 
         <!-- placeholder -->
-        <div v-if="ticketsInProgress.length === 0" class="text-center py-10">
+        <div v-if="ticketsPending.length === 0" class="text-center py-10">
           No tickets found.
         </div>
 
@@ -141,11 +141,11 @@ const onIntervalChange = (interval) => {
         </template>
       </Card>
 
-      <Card class="lg:flex-1" label="Latest resolved tickets" flush>
-        <TicketList :tickets="ticketsResolved" compact with-task-count />
+      <Card class="lg:flex-1" label="Latest completed tickets" flush>
+        <TicketList :tickets="ticketsCompleted" compact with-task-count />
 
         <!-- placeholder -->
-        <div v-if="ticketsResolved.length === 0" class="text-center py-10">
+        <div v-if="ticketsCompleted.length === 0" class="text-center py-10">
           No tickets found.
         </div>
 

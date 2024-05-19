@@ -32,8 +32,8 @@ class DashboardController extends Controller
             'earningStats' => DashboardQuery::earningStats(),
 
             // recent tickets by status
-            'ticketsInProgress' => DashboardQuery::recentTickets()->inProgress()->get(),
-            'ticketsResolved' => DashboardQuery::recentTickets()->resolved()->get(),
+            'ticketsPending' => DashboardQuery::recentTickets()->pending()->get(),
+            'ticketsCompleted' => DashboardQuery::recentTickets()->completed()->get(),
             'ticketsOutstanding' => DashboardQuery::recentTickets()->outstanding()->get(),
             'ticketsOverdue' => DashboardQuery::recentTickets()->overdue()->get(),
         ]);
