@@ -33,7 +33,7 @@ const stateIcons = {
             as="button"
             method="put"
             :href="route('tasks.update', task.id)"
-            :data="{ is_completed: !task.is_completed }"
+            :data="{ status: task.status === 'completed' ? 'new' : 'completed' }"
             preserve-scroll
             @click.stop
           >
@@ -48,7 +48,7 @@ const stateIcons = {
       <div class="w-full truncate">
         <span
           class="group-hover:no-underline"
-          :class="{ 'line-through': task.is_completed }"
+          :class="{ 'line-through': task.status === 'completed' }"
         >
           {{ task.description }}
         </span>
