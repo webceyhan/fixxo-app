@@ -41,6 +41,19 @@ class Customer extends Model
     use HasFactory, Searchable, HasSince;
 
     /**
+     * Searchable attributes.
+     *
+     * @var array<int, string>
+     */
+    protected $searchable = [
+        'name',
+        'company',
+        'phone',
+        'email',
+        'address',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -77,20 +90,6 @@ class Customer extends Model
             'balance' => 'float',
         ];
     }
-
-    /**
-     * Searchable attributes.
-     *
-     * @var array<int, string>
-     */
-    protected $searchable = [
-        'name',
-        'company',
-        'vat_number',
-        'address',
-        'phone',
-        'email',
-    ];
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 

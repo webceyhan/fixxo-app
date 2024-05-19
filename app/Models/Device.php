@@ -58,6 +58,17 @@ class Device extends Model
     use HasFactory, Searchable, HasSince;
 
     /**
+     * Searchable attributes.
+     *
+     * @var array<int, string>
+     */
+    protected $searchable = [
+        'model',
+        'brand',
+        'serial_number',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -86,17 +97,6 @@ class Device extends Model
         'resolved_tickets_count' => 0,
         'closed_tickets_count' => 0,
         'total_tickets_count' => 0,
-    ];
-
-    /**
-     * Searchable attributes.
-     *
-     * @var array<int, string>
-     */
-    protected $searchable = [
-        'model',
-        'brand',
-        'serial_number',
     ];
 
     /**
