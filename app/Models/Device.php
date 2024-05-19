@@ -58,11 +58,20 @@ class Device extends Model
     use HasFactory, Searchable, HasSince;
 
     /**
-     * The attributes that aren't mass assignable.
+     * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'customer_id', // TODO: remove later! It must be validated by the controller
+        'model',
+        'brand',
+        'serial_number',
+        'purchase_date',
+        'warranty_expire_date',
+        'type',
+        'status',
+    ];
 
     /**
      * The model's default values for attributes.

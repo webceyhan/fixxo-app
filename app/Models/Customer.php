@@ -41,11 +41,19 @@ class Customer extends Model
     use HasFactory, Searchable, HasSince;
 
     /**
-     * The attributes that aren't mass assignable.
+     * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'company',
+        'vat_number',
+        'email',
+        'phone',
+        'address',
+        'note',
+    ];
 
     /**
      * The model's default values for attributes.
