@@ -27,13 +27,12 @@ use Illuminate\Support\Carbon;
  * @property-read Ticket $ticket
  * 
  * @method static TransactionFactory factory(int $count = null, array $state = [])
- * @method static Builder|static asPayment()
- * @method static Builder|static asDiscount()
- * @method static Builder|static asWarranty()
- * @method static Builder|static asRefund()
- * @method static Builder|static byCash()
- * @method static Builder|static byCard()
- * @method static Builder|static byOnline()
+ * @method static Builder|static ofMethod(TransactionMethod $method)
+ * @method static Builder|static ofType(TransactionType $type)
+ * @method static Builder|static payments()
+ * @method static Builder|static discounts()
+ * @method static Builder|static claims()
+ * @method static Builder|static refunds()
  */
 #[ObservedBy([TransactionObserver::class])]
 class Transaction extends Model
@@ -84,61 +83,53 @@ class Transaction extends Model
         return $this->belongsTo(Ticket::class);
     }
 
-    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+    // SCOPES //////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to only include transactions as payment.
+     * Scope a query to only include transactions of a given method.
      */
-    public function scopeAsPayment(Builder $query): Builder
+    public function scopeOfMethod(Builder $query, TransactionMethod $method): void
     {
-        return $query->where('type', TransactionType::Payment);
+        $query->where('method', $method->value);
     }
 
     /**
-     * Scope a query to only include transactions as discount.
+     * Scope a query to only include transactions of a given type.
      */
-    public function scopeAsDiscount(Builder $query): Builder
+    public function scopeOfType(Builder $query, TransactionType $type): void
     {
-        return $query->where('type', TransactionType::Discount);
+        $query->where('type', $type->value);
     }
 
     /**
-     * Scope a query to only include transactions as warranty reimbursement.
+     * Scope a query to only include payments.
      */
-    public function scopeAsWarranty(Builder $query): Builder
+    public function scopePayments(Builder $query): void
     {
-        return $query->where('type', TransactionType::Warranty);
+        $query->ofType(TransactionType::Payment);
     }
 
     /**
-     * Scope a query to only include transactions as refund.
+     * Scope a query to only include discounts.
      */
-    public function scopeAsRefund(Builder $query): Builder
+    public function scopeDiscounts(Builder $query): void
     {
-        return $query->where('type', TransactionType::Refund);
+        $query->ofType(TransactionType::Discount);
     }
 
     /**
-     * Scope a query to only transactions by cash.
+     * Scope a query to only include claims.
      */
-    public function scopeByCash(Builder $query): Builder
+    public function scopeClaims(Builder $query): void
     {
-        return $query->where('method', TransactionMethod::Cash);
+        $query->ofType(TransactionType::Claim);
     }
 
     /**
-     * Scope a query to only transactions by card.
+     * Scope a query to only include refunds.
      */
-    public function scopeByCard(Builder $query): Builder
+    public function scopeRefunds(Builder $query): void
     {
-        return $query->where('method', TransactionMethod::Card);
-    }
-
-    /**
-     * Scope a query to only transactions by online.
-     */
-    public function scopeByOnline(Builder $query): Builder
-    {
-        return $query->where('method', TransactionMethod::Online);
+        $query->ofType(TransactionType::Refund);
     }
 }

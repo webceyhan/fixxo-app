@@ -14,7 +14,7 @@ const deviceTypes = {
 const transactionTypes = {
     payment: "plus-lg",    
     discount: "percent",
-    warranty: "shield-check",
+    claim: "shield-check",
     refund: "dash-lg",
 };
 

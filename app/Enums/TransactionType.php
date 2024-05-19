@@ -20,9 +20,9 @@ enum TransactionType: string
     case Discount = 'discount';
 
     /**
-     * Represents a warranty reimbursement transaction.
+     * Represents a claim transaction such as warranty, insurance, returns, and reimbursements.
      */
-    case Warranty = 'warranty';
+    case Claim = 'claim';
 
     /**
      * Represents a refund transaction.

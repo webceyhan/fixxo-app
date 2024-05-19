@@ -6,7 +6,7 @@ it('has values', function () {
     expect(TransactionType::values())->toBe([
         'payment',
         'discount',
-        'warranty',
+        'claim',
         'refund',
     ]);
 });
