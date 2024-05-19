@@ -32,7 +32,6 @@ use Illuminate\Support\Carbon;
  * @method static Builder|static completed()
  * @method static Builder|static cancelled()
  * @method static Builder|static valid()
- * @method static Builder|static pending()
  */
 #[ObservedBy([TaskObserver::class])]
 class Task extends Model
@@ -105,36 +104,46 @@ class Task extends Model
         return $this->belongsTo(Ticket::class);
     }
 
-    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+    // SCOPES //////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Scope a query to only include tasks of a given type.
+     */
+    public function scopeOfType(Builder $query, TaskType $type): void
+    {
+        $query->where('type', $type->value);
+    }
+
+    /**
+     * Scope a query to only include tasks of a given status.
+     */
+    public function scopeOfStatus(Builder $query, TaskStatus $status): void
+    {
+        $query->where('status', $status->value);
+    }
 
     /**
      * Scope a query to only include new tasks.
-     * 
-     * @see TaskStatus::New
      */
     public function scopeNew(Builder $query): void
     {
-        $query->where('status', TaskStatus::New);
+        $query->ofStatus(TaskStatus::New);
     }
 
     /**
      * Scope a query to only include completed tasks.
-     * 
-     * @see TaskStatus::Completed
      */
     public function scopeCompleted(Builder $query): void
     {
-        $query->whereIn('status', TaskStatus::Completed);
+        $query->ofStatus(TaskStatus::Completed);
     }
 
     /**
      * Scope a query to only include cancelled tasks.
-     * 
-     * @see TaskStatus::Cancelled
      */
     public function scopeCancelled(Builder $query): void
     {
-        $query->where('status', TaskStatus::Cancelled);
+        $query->ofStatus(TaskStatus::Cancelled);
     }
 
     /**
@@ -144,16 +153,6 @@ class Task extends Model
      */
     public function scopeValid(Builder $query): void
     {
-        $query->whereNot('status', TaskStatus::Cancelled);
-    }
-
-    /**
-     * Scope a query to only include pending tasks.
-     * 
-     * @ignore This is a virtual status.
-     */
-    public function scopePending(Builder $query): void
-    {
-        $query->where('status', TaskStatus::New);
+        $query->whereNot->cancelled();
     }
 }
