@@ -7,6 +7,7 @@ use App\Enums\DeviceType;
 use App\Enums\TicketStatus;
 use App\Models\Concerns\Completable;
 use App\Models\Concerns\HasSince;
+use App\Models\Concerns\HasWarranty;
 use App\Models\Concerns\Searchable;
 use App\Observers\DeviceObserver;
 use Database\Factories\DeviceFactory;
@@ -46,12 +47,11 @@ use Illuminate\Support\Carbon;
  * @method static DeviceFactory factory(int $count = null, array $state = [])
  * @method static Builder|static ofType(DeviceType $type)
  * @method static Builder|static ofStatus(DeviceStatus $status)
- * @method static Builder|static withWarranty()
  */
 #[ObservedBy([DeviceObserver::class])]
 class Device extends Model
 {
-    use HasFactory, Searchable, HasSince, Completable;
+    use HasFactory, Searchable, HasSince, Completable, HasWarranty;
 
     /**
      * Searchable attributes.
@@ -155,14 +155,6 @@ class Device extends Model
     public function scopeOfStatus(Builder $query, DeviceStatus $status): void
     {
         $query->where('status', $status->value);
-    }
-
-    /**
-     * Scope a query to only include devices with warranty.
-     */
-    public function scopeWithWarranty(Builder $query): void
-    {
-        $query->where('warranty_expire_date', '>=', now());
     }
 
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
