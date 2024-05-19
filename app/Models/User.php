@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
+use App\Models\Concerns\Contactable;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
 use Illuminate\Database\Eloquent\Builder;
@@ -43,7 +44,7 @@ use Illuminate\Support\Carbon;
  */
 class User extends Authenticatable
 {
-    use  HasFactory, Notifiable, Searchable, HasSince;
+    use  HasFactory, Notifiable, Searchable, HasSince, Contactable;
 
     /**
      * Searchable attributes.
