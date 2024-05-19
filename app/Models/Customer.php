@@ -61,12 +61,9 @@ class Customer extends Model
      * @var array
      */
     protected $attributes = [
-        'company' => null,
-        'vat_number' => null,
-        'address' => null,
-        'phone' => null,
-        'email' => null,
-        'note' => null,
+        'balance' => 0,
+        'total_tickets_count' => 0,
+        'closed_tickets_count' => 0,
     ];
 
     /**

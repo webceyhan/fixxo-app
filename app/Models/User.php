@@ -63,10 +63,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $attributes = [
-        'remember_token' => null,
         'role' => UserRole::Technician,
         'status' => UserStatus::Active,
-        'email_verified_at' => null,
     ];
 
     /**

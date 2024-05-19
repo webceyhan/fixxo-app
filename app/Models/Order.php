@@ -60,7 +60,6 @@ class Order extends Model
      * @var array
      */
     protected $attributes = [
-        'url' => null,
         'quantity' => 1,
         'cost' => 0,
         'status' => OrderStatus::New,

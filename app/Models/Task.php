@@ -59,8 +59,8 @@ class Task extends Model
      */
     protected $attributes = [
         'cost' => 0,
-        'status' => TaskStatus::New,
         'type' => TaskType::Repair,
+        'status' => TaskStatus::New,
     ];
 
     /**

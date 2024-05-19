@@ -84,6 +84,11 @@ class Ticket extends Model
     protected $attributes = [
         'priority' => Priority::Normal,
         'status' => TicketStatus::New,
+        'balance' => 0,
+        'completed_tasks_count' => 0,
+        'total_tasks_count' => 0,
+        'received_orders_count' => 0,
+        'total_orders_count' => 0,
     ];
 
     /**
