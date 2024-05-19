@@ -78,15 +78,18 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        'role' => UserRole::class,
-        'status' => UserStatus::class,
-        'email_verified_at' => 'datetime',
-    ];
+    protected function casts(): array
+    {
+        return [
+            'role' => UserRole::class,
+            'status' => UserStatus::class,
+            'email_verified_at' => 'datetime',
+        ];
+    }
 
     /**
      * Searchable attributes.

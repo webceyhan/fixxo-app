@@ -49,6 +49,18 @@ class DeviceLog extends Model
         'status' => DeviceStatus::CheckedIn,
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'status' => DeviceStatus::class,
+        ];
+    }
+
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     /**

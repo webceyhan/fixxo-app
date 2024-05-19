@@ -65,14 +65,17 @@ class Transaction extends Model
     ];
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array
+     * @return array<string, string>
      */
-    protected $casts = [
-        'type' => TransactionType::class,
-        'method' => TransactionMethod::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            'method' => TransactionMethod::class,
+            'type' => TransactionType::class,
+        ];
+    }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 

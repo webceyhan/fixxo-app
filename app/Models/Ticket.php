@@ -108,14 +108,17 @@ class Ticket extends Model
     ];
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array
+     * @return array<string, string>
      */
-    protected $casts = [
-        'priority' => Priority::class,
-        'status' => TicketStatus::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            'priority' => Priority::class,
+            'status' => TicketStatus::class,
+        ];
+    }
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 

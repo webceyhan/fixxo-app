@@ -73,14 +73,17 @@ class Task extends Model
     ];
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array
+     * @return array<string, string>
      */
-    protected $casts = [
-        'type' => TaskType::class,
-        'status' => TaskStatus::class,
-    ];
+    protected function casts(): array
+    {
+        return [
+            'type' => TaskType::class,
+            'status' => TaskStatus::class,
+        ];
+    }
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
