@@ -9,7 +9,6 @@ use App\Observers\TaskObserver;
 use Database\Factories\TaskFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -63,15 +62,6 @@ class Task extends Model
     ];
 
     /**
-     * The attributes that should be appended to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'is_completed',
-    ];
-
-    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -82,19 +72,6 @@ class Task extends Model
             'type' => TaskType::class,
             'status' => TaskStatus::class,
         ];
-    }
-
-    // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Get the task's status.
-     */
-    protected function isCompleted(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => in_array($this->status, TaskStatus::completedCases()),
-            set: fn (mixed $value) => ['status' => $value ? TaskStatus::Completed : TaskStatus::New]
-        );
     }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
