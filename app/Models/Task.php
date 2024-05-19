@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\TaskStatus;
 use App\Enums\TaskType;
 use App\Models\Concerns\Cancellable;
+use App\Models\Concerns\Completable;
 use App\Models\Concerns\HasSince;
 use App\Observers\TaskObserver;
 use Database\Factories\TaskFactory;
@@ -28,13 +29,11 @@ use Illuminate\Support\Carbon;
  * @property-read Ticket $ticket
  * 
  * @method static TaskFactory factory(int $count = null, array $state = [])
- * @method static Builder|static new()
- * @method static Builder|static completed()
  */
 #[ObservedBy([TaskObserver::class])]
 class Task extends Model
 {
-    use HasFactory, HasSince, Cancellable;
+    use HasFactory, HasSince, Cancellable, Completable;
 
     /**
      * The attributes that are mass assignable.
@@ -96,21 +95,5 @@ class Task extends Model
     public function scopeOfStatus(Builder $query, TaskStatus $status): void
     {
         $query->where('status', $status->value);
-    }
-
-    /**
-     * Scope a query to only include new tasks.
-     */
-    public function scopeNew(Builder $query): void
-    {
-        $query->ofStatus(TaskStatus::New);
-    }
-
-    /**
-     * Scope a query to only include completed tasks.
-     */
-    public function scopeCompleted(Builder $query): void
-    {
-        $query->ofStatus(TaskStatus::Completed);
     }
 }

@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use App\Enums\Priority;
 use App\Enums\TaskStatus;
 use App\Enums\TicketStatus;
+use App\Models\Concerns\Completable;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
 use App\Observers\TicketObserver;
@@ -49,18 +50,13 @@ use Illuminate\Support\Carbon;
  * 
  * @method static TicketFactory factory(int $count = null, array $state = [])
  * @method static Builder|static ofStatus(TicketStatus $status)
- * @method static Builder|static new()
- * @method static Builder|static inProgress()
- * @method static Builder|static onHold()
- * @method static Builder|static resolved()
- * @method static Builder|static closed()
  * @method static Builder|static outstanding()
  * @method static Builder|static overdue()
  */
 #[ObservedBy([TicketObserver::class])]
 class Ticket extends Model
 {
-    use HasFactory, Searchable, HasSince;
+    use HasFactory, Searchable, HasSince, Completable;
 
     /**
      * Searchable attributes.
@@ -268,46 +264,6 @@ class Ticket extends Model
     }
 
     /**
-     * Scope a query to only include new tickets.
-     */
-    public function scopeNew(Builder $query): void
-    {
-        $query->ofStatus(TicketStatus::New);
-    }
-
-    /**
-     * Scope a query to only include tickets in progress.
-     */
-    public function scopeInProgress(Builder $query): void
-    {
-        $query->ofStatus(TicketStatus::InProgress);
-    }
-
-    /**
-     * Scope a query to only include tickets on hold.
-     */
-    public function scopeOnHold(Builder $query): void
-    {
-        $query->ofStatus(TicketStatus::OnHold);
-    }
-
-    /**
-     * Scope a query to only include resolved tickets.
-     */
-    public function scopeResolved(Builder $query): void
-    {
-        $query->ofStatus(TicketStatus::Resolved);
-    }
-
-    /**
-     * Scope a query to only include closed tickets.
-     */
-    public function scopeClosed(Builder $query): void
-    {
-        $query->ofStatus(TicketStatus::Closed);
-    }
-
-    /**
      * Scope a query to only include tickets with outstanding balance.
      * 
      * @ignore This is a virtual status.
@@ -325,7 +281,7 @@ class Ticket extends Model
      */
     public function scopeOverdue(Builder $query): Builder
     {
-        return $query->closed()->outstanding();
+        return $query->ofStatus(TicketStatus::Closed)->outstanding();
     }
 
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////

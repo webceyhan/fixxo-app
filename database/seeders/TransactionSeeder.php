@@ -14,7 +14,7 @@ class TransactionSeeder extends Seeder
      */
     public function run(): void
     {
-        Ticket::resolved()->each(function ($ticket) {
+        Ticket::completed()->each(function ($ticket) {
             // total balance to pay
             $balance = abs($ticket->balance);
 
