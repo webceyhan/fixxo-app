@@ -41,11 +41,18 @@ class Order extends Model
     use HasFactory, Searchable, HasSince;
 
     /**
-     * The attributes that aren't mass assignable.
+     * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'ticket_id', // TODO: remove later! It must be validated by the controller
+        'name',
+        'url',
+        'quantity',
+        'cost',
+        'status',
+    ];
 
     /**
      * The model's default values for attributes.

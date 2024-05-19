@@ -29,9 +29,16 @@ class DeviceLog extends Model
     const UPDATED_AT = null;
 
     /**
-     * Enable mass assignment.
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'device_id', // TODO: remove later! It must be validated by the observer
+        'user_id', // TODO: remove later! It must be validated by the observer
+        'message',
+        'status',
+    ];
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 

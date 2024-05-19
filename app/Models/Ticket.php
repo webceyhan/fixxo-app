@@ -63,11 +63,18 @@ class Ticket extends Model
     use HasFactory, Searchable, HasSince;
 
     /**
-     * The attributes that aren't mass assignable.
+     * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<int, string>
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'assignee_id', // TODO: remove later! It must be validated by the controller
+        'customer_id', // TODO: remove later! It must be validated by the controller
+        'device_id', // TODO: remove later! It must be validated by the controller
+        'description',
+        'priority',
+        'status',
+    ];
 
     /**
      * The model's default values for attributes.
