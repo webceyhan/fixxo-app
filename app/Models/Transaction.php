@@ -60,9 +60,8 @@ class Transaction extends Model
      */
     protected $attributes = [
         'amount' => 0,
-        'type' => TransactionType::Payment,
         'method' => TransactionMethod::Cash,
-        'note' => null,
+        'type' => TransactionType::Payment,
     ];
 
     /**

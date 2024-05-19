@@ -40,6 +40,15 @@ class DeviceLog extends Model
         'status',
     ];
 
+    /**
+     * The model's default values for attributes.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'status' => DeviceStatus::CheckedIn,
+    ];
+
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     /**

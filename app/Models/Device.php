@@ -79,12 +79,13 @@ class Device extends Model
      * @var array
      */
     protected $attributes = [
-        'brand' => null,
-        'serial_number' => null,
-        'purchase_date' => null,
-        'warranty_expire_date' => null,        
         'type' => DeviceType::Other,
         'status' => DeviceStatus::CheckedIn,
+        'inprogress_tickets_count' => 0,
+        'onhold_tickets_count' => 0,
+        'resolved_tickets_count' => 0,
+        'closed_tickets_count' => 0,
+        'total_tickets_count' => 0,
     ];
 
     /**
