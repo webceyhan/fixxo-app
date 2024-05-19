@@ -43,14 +43,14 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, DeviceLog> $logs
  *
  * @method static DeviceFactory factory(int $count = null, array $state = [])
+ * @method static Builder|static ofType(DeviceType $type)
+ * @method static Builder|static ofStatus(DeviceStatus $status)
  * @method static Builder|static checkedIn()
  * @method static Builder|static inRepair()
  * @method static Builder|static onHold()
- * @method static Builder|static fixed()
+ * @method static Builder|static finished()
  * @method static Builder|static checkedOut()
- * @method static Builder|static pending()
  * @method static Builder|static withWarranty()
- * @method static Builder|static withoutWarranty()
  */
 #[ObservedBy([DeviceObserver::class])]
 class Device extends Model
@@ -143,90 +143,70 @@ class Device extends Model
         return $this->hasMany(DeviceLog::class);
     }
 
-    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+    // SCOPES //////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Scope a query to only include devices of a given type.
+     */
+    public function scopeOfType(Builder $query, DeviceType $type): void
+    {
+        $query->where('type', $type->value);
+    }
+
+    /**
+     * Scope a query to only include devices of a given status.
+     */
+    public function scopeOfStatus(Builder $query, DeviceStatus $status): void
+    {
+        $query->where('status', $status->value);
+    }
 
     /**
      * Scope a query to only include checked-in devices.
-     * 
-     * @see DeviceStatus::CheckedIn
      */
     public function scopeCheckedIn(Builder $query): void
     {
-        $query->where('status', DeviceStatus::CheckedIn);
+        $query->ofStatus(DeviceStatus::CheckedIn);
     }
 
     /**
-     * Scope a query to only include in-repair devices.
-     * 
-     * @see DeviceStatus::InRepair
+     * Scope a query to only include devices in repair.
      */
     public function scopeInRepair(Builder $query): void
     {
-        $query->where('status', DeviceStatus::InRepair);
+        $query->ofStatus(DeviceStatus::InRepair);
     }
 
     /**
-     * Scope a query to only include on-hold devices.
-     * 
-     * @see DeviceStatus::OnHold
+     * Scope a query to only include devices on hold.
      */
     public function scopeOnHold(Builder $query): void
     {
-        $query->where('status', DeviceStatus::OnHold);
+        $query->ofStatus(DeviceStatus::OnHold);
     }
 
     /**
      * Scope a query to only include finished devices.
-     * 
-     * @see DeviceStatus::Finished
      */
-    public function scopeFixed(Builder $query): void
+    public function scopeFinished(Builder $query): void
     {
-        $query->where('status', DeviceStatus::Finished);
+        $query->ofStatus(DeviceStatus::Finished);
     }
 
     /**
      * Scope a query to only include checked-out devices.
-     * 
-     * @see DeviceStatus::CheckedOut
      */
     public function scopeCheckedOut(Builder $query): void
     {
-        $query->where('status', DeviceStatus::CheckedOut);
+        $query->ofStatus(DeviceStatus::CheckedOut);
     }
 
     /**
-     * Scope a query to only include pending devices.
-     * Which is all devices except checked-out ones.
-     * 
-     * @see DeviceStatus
-     * @ignore This is a virtual status.
-     */
-    public function scopePending(Builder $query): void
-    {
-        $query->where('status', '!=', DeviceStatus::CheckedOut);
-    }
-
-    /**
-     * Scope a query to only include devices with valid warranty date.
-     * 
-     * @see WarrantyStatus::Valid
-     * @ignore This is a virtual status.
+     * Scope a query to only include devices with warranty.
      */
     public function scopeWithWarranty(Builder $query): void
     {
         $query->where('warranty_expire_date', '>=', now());
-    }
-
-    /**
-     * Scope a query to only include devices with expired warranty date.
-     * 
-     * @see WarrantyStatus::Expired
-     * @ignore This is a virtual status.
-     */
-    public function scopeWithoutWarranty(Builder $query): void
-    {
-        $query->where('warranty_expire_date', '<', now());
     }
 
     // HELPERS /////////////////////////////////////////////////////////////////////////////////////
