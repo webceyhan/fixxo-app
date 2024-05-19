@@ -48,12 +48,12 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Transaction> $transactions
  * 
  * @method static TicketFactory factory(int $count = null, array $state = [])
+ * @method static Builder|static ofStatus(TicketStatus $status)
  * @method static Builder|static new()
  * @method static Builder|static inProgress()
  * @method static Builder|static onHold()
  * @method static Builder|static resolved()
  * @method static Builder|static closed()
- * @method static Builder|static open()
  * @method static Builder|static outstanding()
  * @method static Builder|static overdue()
  */
@@ -257,67 +257,54 @@ class Ticket extends Model
         return $this->hasMany(Transaction::class)->latest();
     }
 
-    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+    // SCOPES //////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Scope a query to only include tickets of a given status.
+     */
+    public function scopeOfStatus(Builder $query, TicketStatus $status): void
+    {
+        $query->where('status', $status->value);
+    }
 
     /**
      * Scope a query to only include new tickets.
-     * 
-     * @see TicketStatus::New
      */
     public function scopeNew(Builder $query): void
     {
-        $query->where('status', TicketStatus::New);
+        $query->ofStatus(TicketStatus::New);
     }
 
     /**
-     * Scope a query to only include in_progress tickets.
-     * 
-     * @see TicketStatus::InProgress
+     * Scope a query to only include tickets in progress.
      */
     public function scopeInProgress(Builder $query): void
     {
-        $query->where('status', TicketStatus::InProgress);
+        $query->ofStatus(TicketStatus::InProgress);
     }
 
     /**
-     * Scope a query to only include on-hold tickets.
-     * 
-     * @see TicketStatus::OnHold
+     * Scope a query to only include tickets on hold.
      */
     public function scopeOnHold(Builder $query): void
     {
-        $query->where('status', TicketStatus::OnHold);
+        $query->ofStatus(TicketStatus::OnHold);
     }
 
     /**
      * Scope a query to only include resolved tickets.
-     * 
-     * @see TicketStatus::Resolved
      */
     public function scopeResolved(Builder $query): void
     {
-        $query->where('status', TicketStatus::Resolved);
+        $query->ofStatus(TicketStatus::Resolved);
     }
 
     /**
      * Scope a query to only include closed tickets.
-     * 
-     * @see TicketStatus::Closed
      */
     public function scopeClosed(Builder $query): void
     {
-        $query->where('status', TicketStatus::Closed);
-    }
-
-    /**
-     * Scope a query to only include open tickets
-     * which is all tickets except closed ones.
-     * 
-     * @ignore This is a virtual status.
-     */
-    public function scopeOpen(Builder $query): void
-    {
-        $query->whereNot('status', TicketStatus::Closed);
+        $query->ofStatus(TicketStatus::Closed);
     }
 
     /**
