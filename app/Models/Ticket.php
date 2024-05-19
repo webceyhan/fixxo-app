@@ -131,7 +131,7 @@ class Ticket extends Model
     protected function ordersCost(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->orders()->valid()->sum('cost')
+            get: fn () => $this->orders()->notCancelled()->sum('cost')
         )->shouldCache();
     }
 

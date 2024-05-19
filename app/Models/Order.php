@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use App\Models\Concerns\Cancellable;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
 use App\Observers\OrderObserver;
@@ -32,13 +33,11 @@ use Illuminate\Support\Carbon;
  * @method static Builder|static new()
  * @method static Builder|static shipped()
  * @method static Builder|static received()
- * @method static Builder|static cancelled()
- * @method static Builder|static valid()
  */
 #[ObservedBy([OrderObserver::class])]
 class Order extends Model
 {
-    use HasFactory, Searchable, HasSince;
+    use HasFactory, Searchable, HasSince, Cancellable;
 
     /**
      * Searchable attributes.
@@ -126,23 +125,5 @@ class Order extends Model
     public function scopeReceived(Builder $query): void
     {
         $query->ofStatus(OrderStatus::Received);
-    }
-
-    /**
-     * Scope a query to only include cancelled orders.
-     */
-    public function scopeCancelled(Builder $query): void
-    {
-        $query->ofStatus(OrderStatus::Cancelled);
-    }
-
-    /**
-     * Scope a query to only include valid orders which are not cancelled.
-     * 
-     * @ignore This is a virtual status.
-     */
-    public function scopeValid(Builder $query): void
-    {
-        $query->whereNot->cancelled();
     }
 }

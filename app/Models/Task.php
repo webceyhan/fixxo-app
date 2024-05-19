@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\TaskStatus;
 use App\Enums\TaskType;
+use App\Models\Concerns\Cancellable;
 use App\Models\Concerns\HasSince;
 use App\Observers\TaskObserver;
 use Database\Factories\TaskFactory;
@@ -29,13 +30,11 @@ use Illuminate\Support\Carbon;
  * @method static TaskFactory factory(int $count = null, array $state = [])
  * @method static Builder|static new()
  * @method static Builder|static completed()
- * @method static Builder|static cancelled()
- * @method static Builder|static valid()
  */
 #[ObservedBy([TaskObserver::class])]
 class Task extends Model
 {
-    use HasFactory, HasSince;
+    use HasFactory, HasSince, Cancellable;
 
     /**
      * The attributes that are mass assignable.
@@ -113,23 +112,5 @@ class Task extends Model
     public function scopeCompleted(Builder $query): void
     {
         $query->ofStatus(TaskStatus::Completed);
-    }
-
-    /**
-     * Scope a query to only include cancelled tasks.
-     */
-    public function scopeCancelled(Builder $query): void
-    {
-        $query->ofStatus(TaskStatus::Cancelled);
-    }
-
-    /**
-     * Scope a query to only include valid tasks which are not cancelled.
-     * 
-     * @ignore This is a virtual status.
-     */
-    public function scopeValid(Builder $query): void
-    {
-        $query->whereNot->cancelled();
     }
 }
