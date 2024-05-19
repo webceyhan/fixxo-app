@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\TicketStatus;
+use App\Models\Concerns\Contactable;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
 use Database\Factories\CustomerFactory;
@@ -38,7 +39,7 @@ use Illuminate\Support\Carbon;
  */
 class Customer extends Model
 {
-    use HasFactory, Searchable, HasSince;
+    use HasFactory, Searchable, HasSince, Contactable;
 
     /**
      * Searchable attributes.
