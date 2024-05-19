@@ -35,6 +35,8 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Ticket> $assignedTickets
  *
  * @method static UserFactory factory(int $count = null, array $state = [])
+ * @method static Builder|static ofRole(UserRole $role)
+ * @method static Builder|static ofStatus(UserStatus $status)
  * @method static Builder|static admins()
  * @method static Builder|static managers()
  * @method static Builder|static technicians()
@@ -119,29 +121,45 @@ class User extends Authenticatable
         return $this->hasMany(Ticket::class, 'assignee_id');
     }
 
-    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+    // SCOPES //////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to only include admin users.
+     * Scope a query to only include users with the specified role.
      */
-    public function scopeAdmin(Builder $query): void
+    public function scopeOfRole(Builder $query, UserRole $role): void
     {
-        $query->where('role', UserRole::Admin);
+        $query->where('role', $role->value);
     }
 
     /**
-     * Scope a query to only include manager users.
+     * Scope a query to only include users with the specified status.
      */
-    public function scopeManager(Builder $query): void
+    public function scopeOfStatus(Builder $query, UserStatus $status): void
     {
-        $query->where('role', UserRole::Manager);
+        $query->where('status', $status->value);
     }
 
     /**
-     * Scope a query to only include technician users.
+     * Scope a query to only include administrators.
      */
-    public function scopeTechnician(Builder $query): void
+    public function scopeAdmins(Builder $query): void
     {
-        $query->where('role', UserRole::Technician);
+        $query->ofRole(UserRole::Admin);
+    }
+
+    /**
+     * Scope a query to only include managers.
+     */
+    public function scopeManagers(Builder $query): void
+    {
+        $query->ofRole(UserRole::Manager);
+    }
+
+    /**
+     * Scope a query to only include technicians.
+     */
+    public function scopeTechnicians(Builder $query): void
+    {
+        $query->ofRole(UserRole::Technician);
     }
 }
