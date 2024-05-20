@@ -44,9 +44,9 @@ class UserFactory extends Factory
     /**
      * Indicate that the user has no phone number.
      */
-    public function withoutPhone(): static
+    public function withoutPhone(): self
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'phone' => null,
         ]);
     }
@@ -54,9 +54,9 @@ class UserFactory extends Factory
     /**
      * Indicate that the user has the specified role.
      */
-    public function ofRole(UserRole $role): static
+    public function ofRole(UserRole $role): self
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'role' => $role,
         ]);
     }
@@ -64,7 +64,7 @@ class UserFactory extends Factory
     /**
      * Indicate that the user is an administrator.
      */
-    public function asAdmin(): static
+    public function admin(): self
     {
         return $this->ofRole(UserRole::Admin);
     }
@@ -72,7 +72,7 @@ class UserFactory extends Factory
     /**
      * Indicate that the user is a manager.
      */
-    public function asManager(): static
+    public function manager(): self
     {
         return $this->ofRole(UserRole::Manager);
     }
@@ -80,19 +80,19 @@ class UserFactory extends Factory
     /**
      * Indicate that the user has the specified status.
      */
-    public function ofStatus(UserStatus $status): static
+    public function ofStatus(UserStatus $status): self
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => $status,
         ]);
     }
 
     /**
-     * Indicate that the model's email address should be unverified.
+     * Indicate that the user's email address is unverified.
      */
-    public function unverified(): static
+    public function unverified(): self
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
