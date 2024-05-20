@@ -21,7 +21,7 @@ defineProps({
         <Avatar icon="person" class="opacity-75" />
       </template>
 
-      <TableData :value="customer.name" :label="customer.email" label-class="xl:hidden" />
+      <TableData :value="customer.name" :label="customer.company" />
 
       <TableData class="max-2xl:hidden" :label="customer.email" :value="customer.phone" />
 
