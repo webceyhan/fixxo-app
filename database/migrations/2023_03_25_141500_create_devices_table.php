@@ -26,13 +26,6 @@ return new class extends Migration
             $table->enum('status', DeviceStatus::values())->default(DeviceStatus::CheckedIn);
             $table->timestamps();
 
-            // aggregate fields
-            $table->integer('inprogress_tickets_count')->default(0);
-            $table->integer('onhold_tickets_count')->default(0);
-            $table->integer('resolved_tickets_count')->default(0);
-            $table->integer('closed_tickets_count')->default(0);
-            $table->integer('total_tickets_count')->default(0);
-
             // index definitions
             $table->fullText(Device::fullTextColumns());
         });

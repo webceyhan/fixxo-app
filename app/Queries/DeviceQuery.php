@@ -32,6 +32,10 @@ class DeviceQuery extends QueryBuilder
             ->defaultSort('-created_at')
             ->with([
                 'customer:id,name'
+            ])
+            ->withCount([
+                'tickets',
+                'tickets as completed_tickets_count' => fn ($query) => $query->completed(),
             ]);
     }
 
