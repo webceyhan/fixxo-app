@@ -47,7 +47,7 @@ defineProps({
 
       <TableData class="max-xl:hidden" label="Orders">
         <template #value>
-          {{ ticket.received_orders_count }}/
+          {{ ticket.completed_orders_count }}/
           {{ ticket.total_orders_count }}
         </template>
       </TableData>
