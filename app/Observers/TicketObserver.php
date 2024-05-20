@@ -12,7 +12,7 @@ class TicketObserver
     public function saving(Ticket $ticket): void
     {
         // calculate ticket status if not manually set
-        $ticket->isDirty('status') || $ticket->setStatus();
+        $ticket->isDirty('status') || $ticket->fillStatus();
     }
 
     /**

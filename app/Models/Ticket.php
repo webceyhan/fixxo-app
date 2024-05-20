@@ -268,22 +268,19 @@ class Ticket extends Model
     // METHODS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Set ticket status based on counters.
+     * Fill the ticket's status automatically.
      */
-    public function setStatus(): self
+    public function fillStatus(): self
     {
-        $this->setTaskCounters();
-        $this->setOrderCounters();
-
         $this->status = $this->determineStatus();
 
         return $this;
     }
 
     /**
-     * Set ticket balance.
+     * Fill the ticket's balance automatically.
      */
-    public function setBalance(): self
+    public function fillBalance(): self
     {
         $this->balance = $this->total_cost - $this->total_paid;
 
@@ -291,9 +288,9 @@ class Ticket extends Model
     }
 
     /**
-     * Set ticket's tasks counters.
+     * Set ticket's task counters.
      */
-    public function setTaskCounters(): self
+    public function fillTaskCounters(): self
     {
         $this->total_tasks_count = $this->tasks()->count();
         $this->completed_tasks_count = $this->tasks()->completed()->count();
@@ -302,9 +299,9 @@ class Ticket extends Model
     }
 
     /**
-     * Set ticket's orders counters.
+     * Set ticket's order counters.
      */
-    public function setOrderCounters(): self
+    public function fillOrderCounters(): self
     {
         $this->total_orders_count = $this->orders()->count();
         $this->completed_orders_count = $this->orders()->completed()->count();
@@ -313,7 +310,7 @@ class Ticket extends Model
     }
 
     /**
-     * Determine the status of the ticket based on the current status and counters.
+     * Determine the status of the ticket based on its task and order counters.
      */
     private function determineStatus(): TicketStatus
     {
