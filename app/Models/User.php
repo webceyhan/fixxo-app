@@ -10,7 +10,6 @@ use App\Models\Concerns\Contactable;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -30,8 +29,6 @@ use Illuminate\Support\Carbon;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * @property Carbon|null $email_verified_at
- * 
- * @property-read bool $is_admin
  * 
  * @property-read Collection<int, Ticket> $assignedTickets
  *
@@ -105,16 +102,6 @@ class User extends Authenticatable
         ];
     }
 
-    // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Get the flag whether if user has admin role or not.
-     */
-    protected function isAdmin(): Attribute
-    {
-        return Attribute::get(fn () => $this->role->isAdmin());
-    }
-
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     public function assignedTickets(): HasMany
@@ -162,5 +149,23 @@ class User extends Authenticatable
     public function scopeTechnicians(Builder $query): void
     {
         $query->ofRole(UserRole::Technician);
+    }
+
+    // METHODS /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Determine if the user is an administrator.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role->isAdmin();
+    }
+
+    /**
+     * Determine if the user is active.
+     */
+    public function isActive(): bool
+    {
+        return $this->status->isActive();
     }
 }

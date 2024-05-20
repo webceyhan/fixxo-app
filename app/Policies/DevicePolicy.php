@@ -45,7 +45,7 @@ class DevicePolicy
      */
     public function delete(User $user, Device $device): bool
     {
-        return $user->isAdmin;
+        return $user->isAdmin();
     }
 
     /**
