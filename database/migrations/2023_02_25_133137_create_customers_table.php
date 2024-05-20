@@ -23,11 +23,6 @@ return new class extends Migration
             $table->string('note')->nullable();
             $table->timestamps();
 
-            // aggregate fields
-            $table->decimal('balance')->default(0);
-            $table->integer('closed_tickets_count')->default(0);
-            $table->integer('total_tickets_count')->default(0);
-
             // index definitions
             $table->fullText(Customer::fullTextColumns());
         });

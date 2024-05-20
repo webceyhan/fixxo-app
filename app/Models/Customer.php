@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use App\Enums\TicketStatus;
 use App\Models\Concerns\Contactable;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
 use Database\Factories\CustomerFactory;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -26,16 +24,10 @@ use Illuminate\Support\Carbon;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
- * @property-read float $balance
- * @property-read int $closed_tickets_count
- * @property-read int $total_tickets_count
- * 
  * @property-read Collection<int, Device> $devices
  * @property-read Collection<int, Ticket> $tickets
  *
  * @method static CustomerFactory factory(int $count = null, array $state = [])
- * @method static Builder|static withOutstandingBalance()
- * @method static Builder|static withOpenTickets()
  */
 class Customer extends Model
 {
@@ -69,29 +61,6 @@ class Customer extends Model
         'note',
     ];
 
-    /**
-     * The model's default values for attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [
-        'balance' => 0,
-        'total_tickets_count' => 0,
-        'closed_tickets_count' => 0,
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'balance' => 'float',
-        ];
-    }
-
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     public function devices(): HasMany
@@ -102,50 +71,5 @@ class Customer extends Model
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class)->latest();
-    }
-
-    // SCOPES //////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Scope a query to only include customers with outstanding balance.
-     */
-    public function scopeWithOutstandingBalance(Builder $query): void
-    {
-        $query->where('balance', '<', 0);
-    }
-
-    /**
-     * Scope a query to only include customers with open tickets.
-     */
-    public function scopeWithOpenTickets(Builder $query): void
-    {
-        $query
-            ->where('total_tickets_count', '>', 0)
-            ->where('closed_tickets_count', '<', $this->total_tickets_count);
-    }
-
-    // HELPERS /////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Set balance.
-     */
-    public function setBalance(): self
-    {
-        $this->balance = $this->tickets->sum('balance');
-
-        return $this;
-    }
-
-    /**
-     * Set ticket counters.
-     */
-    public function setTicketCounters(): self
-    {
-        $this->total_tickets_count = $this->tickets->count();
-        // @see Ticket::setTaskCounters() for more info
-        // $this->open_tickets_count = $this->tickets()->closed()->count();
-        $this->closed_tickets_count = $this->tickets->where('status', TicketStatus::Closed)->count();
-
-        return $this;
     }
 }
