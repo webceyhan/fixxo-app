@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Concerns\HasValues;
+use App\Enums\Concerns\Collectable;
 
 enum UserRole: string
 {
-    use HasValues;
+    use Collectable;
 
     /**
      * Represents the administrator with full access to the application.
