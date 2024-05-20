@@ -9,6 +9,7 @@ use App\Enums\UserStatus;
 use App\Models\Concerns\Contactable;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
