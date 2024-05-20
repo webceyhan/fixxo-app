@@ -31,11 +31,11 @@ class CustomerFactory extends Factory
     // STATES //////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Indicate that the customer has a company name and VAT number.
+     * Indicate that the customer has a company with a VAT number.
      */
-    public function withCompany(): static
+    public function withCompany(): self
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'company' => fake()->company(),
             'vat_number' => fake()->unique()->ean13(),
         ]);
@@ -44,9 +44,9 @@ class CustomerFactory extends Factory
     /**
      * Indicate that the customer has no email address.
      */
-    public function withoutEmail(): static
+    public function withoutEmail(): self
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email' => null,
         ]);
     }
@@ -54,26 +54,29 @@ class CustomerFactory extends Factory
     /**
      * Indicate that the customer has no phone number.
      */
-    public function withoutPhone(): static
+    public function withoutPhone(): self
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'phone' => null,
         ]);
     }
 
-    public function withoutAddress(): static
+    /**
+     * Indicate that the customer has no address.
+     */
+    public function withoutAddress(): self
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'address' => null,
         ]);
     }
 
     /**
-     * Indicate that the transaction has no note.
+     * Indicate that the customer has no note.
      */
-    public function withoutNote(): static
+    public function withoutNote(): self
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'note' => null,
         ]);
     }
