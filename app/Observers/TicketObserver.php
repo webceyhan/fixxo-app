@@ -29,7 +29,7 @@ class TicketObserver
      */
     public function created(Ticket $ticket): void
     {
-        $ticket->device->setTicketCounters()->save();
+        $ticket->device->fillStatus()->save();
     }
 
     /**
@@ -37,7 +37,9 @@ class TicketObserver
      */
     public function updated(Ticket $ticket): void
     {
-        $ticket->device->setTicketCounters()->save();
+        if ($ticket->wasChanged(['status'])) {
+            $ticket->device->fillStatus()->save();
+        }
     }
 
     /**
@@ -45,6 +47,6 @@ class TicketObserver
      */
     public function deleted(Ticket $ticket): void
     {
-        $ticket->device->setTicketCounters()->save();
+        $ticket->device->fillStatus()->save();
     }
 }

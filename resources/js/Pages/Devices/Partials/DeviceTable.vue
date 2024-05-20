@@ -34,8 +34,8 @@ defineProps({
 
       <TableData class="max-md:hidden" label="Tickets">
         <template #value>
-          {{ device.closed_tickets_count }}/
-          {{ device.total_tickets_count }}
+          {{ device.completed_tickets_count }}/
+          {{ device.tickets_count }}
         </template>
       </TableData>
 

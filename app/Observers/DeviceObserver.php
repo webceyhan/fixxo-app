@@ -7,15 +7,6 @@ use App\Models\Device;
 class DeviceObserver
 {
     /**
-     * Handle the Device "saving" event.
-     */
-    public function saving(Device $device): void
-    {
-        // calculate device status if not manually set
-        $device->isDirty('status') || $device->setStatus();
-    }
-
-    /**
      * Handle the Device "created" event.
      */
     public function created(Device $device): void
