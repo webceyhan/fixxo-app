@@ -11,7 +11,7 @@ class TransactionObserver
      */
     public function created(Transaction $transaction): void
     {
-        $transaction->ticket->setBalance()->save();
+        $transaction->ticket->fillBalance()->save();
     }
 
     /**
@@ -20,7 +20,7 @@ class TransactionObserver
     public function updated(Transaction $transaction): void
     {
         if ($transaction->wasChanged('amount')) {
-            $transaction->ticket->setBalance()->save();
+            $transaction->ticket->fillBalance()->save();
         }
     }
 
@@ -29,6 +29,6 @@ class TransactionObserver
      */
     public function deleted(Transaction $transaction): void
     {
-        $transaction->ticket->setBalance()->save();
+        $transaction->ticket->fillBalance()->save();
     }
 }
