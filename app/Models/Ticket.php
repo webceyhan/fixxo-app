@@ -314,59 +314,25 @@ class Ticket extends Model
      */
     private function determineStatus(): TicketStatus
     {
-        // get the task related counters
-        $totalTasksCount = $this->total_tasks_count;
-        $completedTasksCount = $this->completed_tasks_count;
-        $totalOrdersCount = $this->total_orders_count;
-        $completedOrdersCount = $this->completed_orders_count;
+        $pendingTasksCount = $this->total_tasks_count - $this->completed_tasks_count;
+        $pendingOrdersCount = $this->total_orders_count - $this->completed_orders_count;
 
-        // get the boolean flags
-        $hasTasks = $totalTasksCount > 0;
-        $hasPendingTasks = $totalTasksCount - $completedTasksCount > 0;
-        $hasPendingOrders = $totalOrdersCount - $completedOrdersCount > 0;
-
-        switch ($this->status) {
-            case TicketStatus::New:
-            case TicketStatus::OnHold:
-                // if the ticket has pending tasks, it is still in progress and needs further action
-                if ($hasPendingTasks && !$hasPendingOrders) {
-                    return TicketStatus::InProgress;
-                }
-                // if the ticket has no pending tasks but still has tasks, it means that all tasks
-                // are completed, so the ticket is now resolved and no further action is needed
-                if ($hasTasks && !$hasPendingTasks && !$hasPendingOrders) {
-                    return TicketStatus::Resolved;
-                }
-                break;
-
-            case TicketStatus::InProgress:
-                // if the ticket has no tasks, it means that there is nothing left 
-                // to do for now, so the ticket is put on hold
-                if (!$hasTasks || $hasPendingOrders) {
-                    return TicketStatus::OnHold;
-                }
-                // if the ticket has tasks but no pending tasks, it means that all tasks are completed, 
-                // so the ticket is now resolved and no further action is needed
-                if ($hasTasks && !$hasPendingTasks && !$hasPendingOrders) {
-                    return TicketStatus::Resolved;
-                }
-                break;
-
-            case TicketStatus::Resolved:
-            case TicketStatus::Closed:
-                // if the ticket has no tasks, it means that there is nothing left 
-                // to do for now, so the ticket is put on hold
-                if (!$hasTasks || $hasPendingOrders) {
-                    return TicketStatus::OnHold;
-                }
-                // if the ticket has pending tasks, it means that there are still tasks left to do, 
-                // so the ticket is still in progress and needs further action
-                if ($hasPendingTasks && !$hasPendingOrders) {
-                    return TicketStatus::InProgress;
-                }
-                break;
+        // Check if there are any pending orders.
+        if ($pendingOrdersCount > 0) {
+            return TicketStatus::OnHold;
         }
 
+        // Check if there are any pending tasks.
+        if ($pendingTasksCount > 0) {
+            return TicketStatus::InProgress;
+        }
+
+        // Check if there are any tasks.
+        if ($this->total_tasks_count > 0) {
+            return TicketStatus::Resolved;
+        }
+
+        // Default to the current status if no specific conditions are met.
         return $this->status;
     }
 }
