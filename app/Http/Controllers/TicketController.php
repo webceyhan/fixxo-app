@@ -67,8 +67,8 @@ class TicketController extends Controller
         $ticket->append([
             'tasks_cost',
             'orders_cost',
-            'cost',
-            'paid',
+            'total_cost',
+            'total_paid',
             'qr_url',
             'uploaded_urls',
             'intake_signature_url',

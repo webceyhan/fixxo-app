@@ -39,6 +39,10 @@ use Illuminate\Support\Carbon;
  * @property-read int $completed_tasks_count
  * @property-read int $total_orders_count
  * @property-read int $completed_orders_count
+ * @property-read float $tasks_cost
+ * @property-read float $orders_cost
+ * @property-read float $total_cost
+ * @property-read float $total_paid
  * 
  * @property-read User|null $assignee
  * @property-read Customer $customer
@@ -111,42 +115,40 @@ class Ticket extends Model
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Get total cost of all tasks.
+     * Get total cost of all non-cancelled tasks.
      */
     protected function tasksCost(): Attribute
     {
-        return Attribute::make(
-            get: fn () => $this->tasks->sum('cost')
+        return Attribute::get(
+            fn () => $this->tasks()->notCancelled()->sum('cost')
         )->shouldCache();
     }
 
     /**
-     * Get total cost of all valid (non-cancelled) orders.
+     * Get total cost of all non-cancelled orders.
      */
     protected function ordersCost(): Attribute
     {
-        return Attribute::make(
-            get: fn () => $this->orders()->notCancelled()->sum('cost')
+        return Attribute::get(
+            fn () => $this->orders()->notCancelled()->sum('cost')
         )->shouldCache();
     }
 
     /**
      * Get total cost of all tasks and orders.
      */
-    protected function cost(): Attribute
+    protected function totalCost(): Attribute
     {
-        return Attribute::make(
-            get: fn () => $this->tasks_cost + $this->orders_cost,
-        )->shouldCache();
+        return Attribute::get(fn () => $this->tasks_cost + $this->orders_cost);
     }
 
     /**
      * Get total amount of all transactions.
      */
-    protected function paid(): Attribute
+    protected function totalPaid(): Attribute
     {
-        return Attribute::make(
-            get: fn () => $this->transactions->sum('amount'),
+        return Attribute::get(
+            fn () => $this->transactions()->sum('amount')
         )->shouldCache();
     }
 
@@ -283,7 +285,7 @@ class Ticket extends Model
      */
     public function setBalance(): self
     {
-        $this->balance = $this->paid - $this->cost;
+        $this->balance = $this->total_cost - $this->total_paid;
 
         return $this;
     }
