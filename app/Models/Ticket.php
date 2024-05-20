@@ -43,6 +43,10 @@ use Illuminate\Support\Carbon;
  * @property-read float $orders_cost
  * @property-read float $total_cost
  * @property-read float $total_paid
+ * @property-read string $qr_url
+ * @property-read string $intake_signature_url
+ * @property-read string $delivery_signature_url
+ * @property-read array<string> $uploaded_urls
  * 
  * @property-read User|null $assignee
  * @property-read Customer $customer
@@ -159,12 +163,10 @@ class Ticket extends Model
      */
     protected function qrUrl(): Attribute
     {
-        return Attribute::make(
-            get: function () {
-                $linkData = route('tickets.show', $this);
-                return QRService::urlFor($this->id, $linkData);
-            }
-        );
+        return Attribute::get(function () {
+            $linkData = route('tickets.show', $this);
+            return QRService::urlFor($this->id, $linkData);
+        });
     }
 
     /**
@@ -172,12 +174,9 @@ class Ticket extends Model
      */
     protected function intakeSignatureUrl(): Attribute
     {
-        return Attribute::make(
-            get: fn () => SignatureService::url($this->id . '-intake'),
-            // TODO: find a way to make this work!
-            // Attribute::make() doesn't support setting value that doesn't exist in the model
-            // set: fn ($value) => SignatureService::put($this->id . '-intake', $value),
-        );
+        return Attribute::get(function () {
+            return SignatureService::url($this->id . '-intake');
+        });
     }
 
     /**
@@ -185,11 +184,9 @@ class Ticket extends Model
      */
     protected function deliverySignatureUrl(): Attribute
     {
-        return Attribute::make(
-            get: fn () => SignatureService::url($this->id . '-delivery'),
-            // TODO: see above!
-            // set: fn ($value) => SignatureService::put($this->id . '-delivery', $value),
-        );
+        return Attribute::get(function () {
+            return SignatureService::url($this->id . '-delivery');
+        });
     }
 
     /**
@@ -197,9 +194,9 @@ class Ticket extends Model
      */
     protected function uploadedUrls(): Attribute
     {
-        return Attribute::make(
-            get: fn () => UploadService::urls('tickets/' . $this->id)
-        );
+        return Attribute::get(function () {
+            return UploadService::urls('tickets/' . $this->id);
+        });
     }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
