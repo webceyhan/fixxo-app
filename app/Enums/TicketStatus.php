@@ -2,12 +2,12 @@
 
 namespace App\Enums;
 
+use App\Enums\Concerns\Collectable;
 use App\Enums\Concerns\Completable;
-use App\Enums\Concerns\HasValues;
 
 enum TicketStatus: string
 {
-    use HasValues, Completable;
+    use Collectable, Completable;
 
     /**
      * The ticket is new and has not been assigned to anyone.
