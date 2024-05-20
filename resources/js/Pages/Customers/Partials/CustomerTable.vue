@@ -1,5 +1,5 @@
 <script setup>
-import { formatDate, formatMoney } from "@/Shared/utils";
+import { formatDate } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
 import Table from "@/Components/Table/Table.vue";
 import TableRow from "@/Components/Table/TableRow.vue";
@@ -31,16 +31,10 @@ defineProps({
         :value="customer.devices_count"
       />
 
-      <TableData class="max-xl:hidden text-end" label="Tickets">
-        <template #value>
-          {{ customer.closed_tickets_count }}/{{ customer.total_tickets_count }}
-        </template>
-      </TableData>
-
       <TableData
-        label="Balance"
-        class="max-xl:hidden text-end whitespace-nowrap"
-        :value="formatMoney(customer.balance)"
+        class="max-xl:hidden text-end"
+        label="Tickets"
+        :value="customer.tickets_count"
       />
 
       <TableData class="max-lg:hidden text-end">

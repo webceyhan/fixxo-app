@@ -28,7 +28,7 @@ class CustomerQuery extends QueryBuilder
             ->defaultSort('-created_at')
             ->withCount([
                 'devices',
-                'tickets'
+                'tickets',
             ]);
     }
 
