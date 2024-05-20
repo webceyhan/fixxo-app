@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\OrderStatus;
 use App\Enums\Priority;
-use App\Enums\TaskStatus;
 use App\Enums\TicketStatus;
 use App\Models\Concerns\Completable;
 use App\Models\Concerns\HasPriority;
@@ -37,10 +35,10 @@ use Illuminate\Support\Carbon;
  * @property Carbon $updated_at
  * 
  * @property-read float $balance
- * @property-read int $completed_tasks_count
  * @property-read int $total_tasks_count
- * @property-read int $received_orders_count
+ * @property-read int $completed_tasks_count
  * @property-read int $total_orders_count
+ * @property-read int $completed_orders_count
  * 
  * @property-read User|null $assignee
  * @property-read Customer $customer
@@ -91,10 +89,10 @@ class Ticket extends Model
         'priority' => Priority::Normal,
         'status' => TicketStatus::New,
         'balance' => 0,
-        'completed_tasks_count' => 0,
         'total_tasks_count' => 0,
-        'received_orders_count' => 0,
+        'completed_tasks_count' => 0,
         'total_orders_count' => 0,
+        'completed_orders_count' => 0,
     ];
 
     /**
@@ -150,26 +148,6 @@ class Ticket extends Model
         return Attribute::make(
             get: fn () => $this->transactions->sum('amount'),
         )->shouldCache();
-    }
-
-    /**
-     * Get count of all pending (not-completed) tasks.
-     */
-    protected function pendingTasksCount(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->total_tasks_count - $this->completed_tasks_count,
-        );
-    }
-
-    /**
-     * Get count of all pending (not-received) orders.
-     */
-    protected function pendingOrdersCount(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->total_orders_count - $this->received_orders_count
-        );
     }
 
     /**
@@ -239,14 +217,14 @@ class Ticket extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function orders(): HasMany
-    {
-        return $this->hasMany(Order::class)->latest();
-    }
-
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class)->latest();
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class)->latest();
     }
 
     public function transactions(): HasMany
@@ -285,7 +263,7 @@ class Ticket extends Model
         return $query->ofStatus(TicketStatus::Closed)->outstanding();
     }
 
-    // HELPERS /////////////////////////////////////////////////////////////////////////////////////
+    // METHODS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Set ticket status based on counters.
@@ -315,14 +293,8 @@ class Ticket extends Model
      */
     public function setTaskCounters(): self
     {
-        // NOTE: we can't use $this->tasks->completed()->count() here because it's collection of tasks        
-        // but can't use $this->tasks()->completed()->count() which has no caching and very slow
-        // so we have to use where() instead on the cached collection to get the count
-        // $this->total_tasks_count = $this->tasks()->count();
-        // $this->completed_tasks_count = $this->tasks()->completed()->count();
-
-        $this->total_tasks_count = $this->tasks->where('status', '!=', TaskStatus::Cancelled)->count();
-        $this->completed_tasks_count = $this->tasks->where('status', TaskStatus::Completed)->count();
+        $this->total_tasks_count = $this->tasks()->count();
+        $this->completed_tasks_count = $this->tasks()->completed()->count();
 
         return $this;
     }
@@ -332,12 +304,8 @@ class Ticket extends Model
      */
     public function setOrderCounters(): self
     {
-        // @see setTaskCounters() for more info
-        // $this->total_orders_count = $this->orders()->valid()->count();
-        // $this->received_orders_count = $this->orders()->received()->count();
-
-        $this->total_orders_count = $this->orders->where('status', '!=', OrderStatus::Cancelled)->count();
-        $this->received_orders_count = $this->orders->where('status', OrderStatus::Received)->count();
+        $this->total_orders_count = $this->orders()->count();
+        $this->completed_orders_count = $this->orders()->completed()->count();
 
         return $this;
     }
@@ -350,12 +318,13 @@ class Ticket extends Model
         // get the task related counters
         $totalTasksCount = $this->total_tasks_count;
         $completedTasksCount = $this->completed_tasks_count;
-        $pendingTasksCount = $totalTasksCount - $completedTasksCount;
+        $totalOrdersCount = $this->total_orders_count;
+        $completedOrdersCount = $this->completed_orders_count;
 
         // get the boolean flags
         $hasTasks = $totalTasksCount > 0;
-        $hasPendingTasks = $pendingTasksCount > 0;
-        $hasPendingOrders = $this->pending_orders_count > 0;
+        $hasPendingTasks = $totalTasksCount - $completedTasksCount > 0;
+        $hasPendingOrders = $totalOrdersCount - $completedOrdersCount > 0;
 
         switch ($this->status) {
             case TicketStatus::New:

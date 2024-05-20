@@ -26,10 +26,10 @@ return new class extends Migration
 
             // aggregate fields
             $table->decimal('balance')->default(0);
-            $table->integer('completed_tasks_count')->default(0);
             $table->integer('total_tasks_count')->default(0);
-            $table->integer('received_orders_count')->default(0);
+            $table->integer('completed_tasks_count')->default(0);
             $table->integer('total_orders_count')->default(0);
+            $table->integer('completed_orders_count')->default(0);
 
             // index definitions
             $table->fullText(Ticket::fullTextColumns());
