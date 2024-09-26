@@ -15,19 +15,16 @@ class TicketSeeder extends Seeder
      */
     public function run(): void
     {
+        // create tickets for all devices
+        Device::all()->each(function (Device $device) {
+            Ticket::factory()->forDevice($device)->create();
+        });
+
         $users = User::all();
 
-        Device::all()->each(function ($device) use ($users) {
-
-            // create optional tickets
-            $amount = rand(0, 3);
-
-            Ticket::factory($amount)->create([
-                'device_id' => fn () => $device->id,
-                'assignee_id' => fn () => $users->random(1)->first(),
-                // create date must be later than device creation
-                'created_at' => fn () => fake()->dateTimeBetween($device->created_at),
-            ]);
+        // create and assign tickets to random users
+        Device::all()->random(10)->each(function (Device $device) use ($users) {
+            Ticket::factory()->forDevice($device)->forAssignee($users->random())->create();
         });
     }
 }
