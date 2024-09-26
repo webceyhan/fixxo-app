@@ -35,12 +35,8 @@ class OrderSeeder extends Seeder
      */
     public function run(): void
     {
-        Ticket::all()->each(function ($ticket) {
-
-            $amount = rand(0, 2);
-
-            Order::factory($amount)->create([
-                'ticket_id' => fn () => $ticket->id,
+        Ticket::all()->random(10)->each(function (Ticket $ticket) {
+            Order::factory()->forTicket($ticket)->create([
                 'name' => fake()->randomElement(self::PARTS),
             ]);
         });
