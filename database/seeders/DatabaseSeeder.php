@@ -16,10 +16,10 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CustomerSeeder::class,
             DeviceSeeder::class,
-            TicketSeeder::class,
-            TaskSeeder::class,
-            OrderSeeder::class,
-            TransactionSeeder::class,
+            // TicketSeeder::class,
+            // TaskSeeder::class,
+            // OrderSeeder::class,
+            // TransactionSeeder::class,
         ]);
     }
 }
