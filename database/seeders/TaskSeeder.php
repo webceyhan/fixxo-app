@@ -14,15 +14,11 @@ class TaskSeeder extends Seeder
      */
     public function run(): void
     {
-        Ticket::all()->each(function ($ticket) {
-            // create optional tasks
-            $amount = rand(0, 5);
+        Ticket::all()->each(function (Ticket $ticket) {
+            // Create a random number of tasks for each ticket.
+            $amount = rand(1, 2);
 
-            Task::factory($amount)->create([
-                'ticket_id' => fn () => $ticket->id,
-                // create date must be later than ticket creation
-                'created_at' => fn () => fake()->dateTimeBetween($ticket->created_at),
-            ]);
+            Task::factory($amount)->forTicket($ticket)->create();
         });
     }
 }
