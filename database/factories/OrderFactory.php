@@ -20,7 +20,7 @@ class OrderFactory extends Factory
     {
         return [
             'ticket_id' => Ticket::factory(),
-            'name' => fake()->name(),
+            'name' => fake()->sentence(),
             'url' => fake()->url(),
             'quantity' => rand(1, 2),
             'cost' => fake()->randomFloat(2, 10, 100),
@@ -30,10 +30,14 @@ class OrderFactory extends Factory
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
-    public function forTicket(Ticket $ticket): static
+    /**
+     * Indicate that the order belongs to the specified ticket.
+     */
+    public function forTicket(Ticket $ticket): self
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'ticket_id' => $ticket->id,
+            'created_at' => $ticket->created_at,
         ]);
     }
 
@@ -42,9 +46,9 @@ class OrderFactory extends Factory
     /**
      * Indicate that the order is of a specified status.
      */
-    public function ofStatus(OrderStatus $status): static
+    public function ofStatus(OrderStatus $status): self
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'status' => $status,
         ]);
     }
@@ -52,7 +56,7 @@ class OrderFactory extends Factory
     /**
      * Indicate that the order is shipped.
      */
-    public function shipped(): static
+    public function shipped(): self
     {
         return $this->ofStatus(OrderStatus::Shipped);
     }
@@ -60,7 +64,7 @@ class OrderFactory extends Factory
     /**
      * Indicate that the order is received.
      */
-    public function received(): static
+    public function received(): self
     {
         return $this->ofStatus(OrderStatus::Received);
     }
@@ -68,7 +72,7 @@ class OrderFactory extends Factory
     /**
      * Indicate that the order is cancelled.
      */
-    public function cancelled(): static
+    public function cancelled(): self
     {
         return $this->ofStatus(OrderStatus::Cancelled);
     }
