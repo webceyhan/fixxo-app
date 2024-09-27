@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\OrderStatus;
 use App\Models\Order;
 use App\Models\Ticket;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -35,10 +36,29 @@ class OrderSeeder extends Seeder
      */
     public function run(): void
     {
-        Ticket::all()->random(10)->each(function (Ticket $ticket) {
+        // create orders for random tickets
+        Ticket::all()->random(30)->each(function (Ticket $ticket) {
             Order::factory()->forTicket($ticket)->create([
                 'name' => fake()->randomElement(self::PARTS),
             ]);
+        });
+
+        // cancel some orders
+        Order::all()->random(5)->each(function (Order $order) {
+            $order->status = OrderStatus::Cancelled;
+            $order->save();
+        });
+
+        // ship some new orders
+        Order::ofStatus(OrderStatus::New)->get()->random(20)->each(function (Order $order) {
+            $order->status = OrderStatus::Shipped;
+            $order->save();
+        });
+
+        // receive some shipped orders
+        Order::ofStatus(OrderStatus::Shipped)->get()->random(10)->each(function (Order $order) {
+            $order->status = OrderStatus::Received;
+            $order->save();
         });
     }
 }

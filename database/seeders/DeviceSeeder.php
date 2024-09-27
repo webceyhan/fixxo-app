@@ -70,9 +70,11 @@ class DeviceSeeder extends Seeder
             // login as a random user
             auth()->login($users->random(1)->first());
 
+            // generate random device model
             $model = fake()->randomElement(array_keys(self::MODEL_BRANDS));
             $version = fake()->randomElement(self::MODEL_VERSIONS[$model]);
 
+            // create device
             Device::factory()->forCustomer($customer)->create([
                 'model' => "{$model} {$version}",
                 'brand' => self::MODEL_BRANDS[$model],
