@@ -14,30 +14,32 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // admin
+        // add active admin
         User::factory()->admin()->create([
             'name' => 'Admin John',
             'email' => 'admin@demo.com',
+            'created_at' => now()->subMonths(6),
         ]);
 
-        // manager
+        // add active manager
         User::factory()->manager()->create([
             'name' => 'Manager Jane',
             'email' => 'manager@demo.com',
+            'created_at' => now()->subMonths(5),
         ]);
 
-        // technician
+        // add active technician
         User::factory()->create([
             'name' => 'Technician Doe',
             'email' => 'technician@demo.com',
+            'created_at' => now()->subMonths(4)
         ]);
 
-        // technicians with different status
+        // create random technicians for each status
         UserStatus::all()->each(function (UserStatus $status) {
-            User::factory(3)->ofStatus($status)->create();
+            User::factory(5)->ofStatus($status)->create([
+                'created_at' => fn() => now()->subMonths(rand(1, 3)),
+            ]);
         });
-
-        // technician without phone
-        User::factory(2)->withoutPhone()->create();
     }
 }
