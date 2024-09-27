@@ -14,6 +14,54 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class DeviceFactory extends Factory
 {
+    const VERSIONS = [
+        'iMac' => ['21"', '27"'],
+        'Mac' => ['Mini', 'Pro', 'Studio'],
+        'MacBook' => ['Air', 'Pro'],
+        'iPad' => ['Mini', 'Air', 'Pro'],
+        'iPhone' => ['SE', 'X', 'Pro', 'Max', 'Pro Max'],
+        'Galaxy' => ['S10', 'S20', 'S21'],
+        'Galaxy Tab' => ['A', 'S', 'E'],
+        'Vaio' => ['Pro', 'Slim'],
+        'PlayStation' => ['4', '5'],
+        'Pavilion' => ['Gaming', 'Business'],
+        'Deskjet' => ['1000', '2000'],
+        'Thinkpad' => ['X1', 'T'],
+        'Go Comfort' => ['5"', '6"'],
+    ];
+
+    const BRANDS = [
+        'iMac' => 'Apple',
+        'Mac' => 'Apple',
+        'MacBook' => 'Apple',
+        'iPad' => 'Apple',
+        'iPhone' => 'Apple',
+        'Galaxy' => 'Samsung',
+        'Galaxy Tab' => 'Samsung',
+        'Vaio' => 'Sony',
+        'PlayStation' => 'Sony',
+        'Pavilion' => 'Hp',
+        'Deskjet' => 'Hp',
+        'Thinkpad' => 'Lenovo',
+        'Go Comfort' => 'TomTom',
+    ];
+
+    const TYPES = [
+        'iMac' => DeviceType::Desktop,
+        'Mac' => DeviceType::Desktop,
+        'MacBook' => DeviceType::Laptop,
+        'iPad' => DeviceType::Tablet,
+        'iPhone' => DeviceType::Phone,
+        'Galaxy' => DeviceType::Phone,
+        'Galaxy Tab' => DeviceType::Tablet,
+        'Vaio' => DeviceType::Laptop,
+        'PlayStation' => DeviceType::Other,
+        'Pavilion' => DeviceType::Desktop,
+        'Deskjet' => DeviceType::Other,
+        'Thinkpad' => DeviceType::Laptop,
+        'Go Comfort' => DeviceType::Other,
+    ];
+
     /**
      * Define the model's default state.
      *
@@ -21,12 +69,16 @@ class DeviceFactory extends Factory
      */
     public function definition(): array
     {
+        // generate random model name and version
+        $name = fake()->randomElement(array_keys(self::VERSIONS));
+        $version = fake()->randomElement(self::VERSIONS[$name]);
+
         return [
             'customer_id' => Customer::factory(),
-            'model' => fake()->word(),
-            'brand' => fake()->company(),
+            'model' => "{$name} {$version}",
+            'brand' => self::BRANDS[$name],
             'serial_number' => fake()->uuid(),
-            'type' => DeviceType::Other,
+            'type' => self::TYPES[$name],
             'status' => DeviceStatus::CheckedIn,
         ];
     }
