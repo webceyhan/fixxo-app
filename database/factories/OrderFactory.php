@@ -11,6 +11,27 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class OrderFactory extends Factory
 {
+    const PARTS = [
+        'Dell XPS 13 Battery',
+        'MacBook Pro Retina Screen',
+        'Lenovo ThinkPad Keyboard',
+        'HP Envy Touchpad',
+        'Intel Core i7-10700K CPU',
+        'ASUS ROG Strix Z490-E Motherboard',
+        'Corsair Vengeance 16GB DDR4 RAM',
+        'Western Digital 1TB SSD',
+        'EVGA 600W Power Supply',
+        'NVIDIA GeForce GTX 1660 Super Graphics Card',
+        'iPhone 12 Screen Replacement',
+        'Samsung Galaxy S20 Battery',
+        'iPhone XR Charging Port',
+        'Google Pixel 5 Camera',
+        'iPad Pro 11" Screen',
+        'Samsung Galaxy Tab S6 Battery',
+        'iPad Air Charging Port',
+        'Microsoft Surface Pro Camera',
+    ];
+
     /**
      * Define the model's default state.
      *
@@ -20,7 +41,7 @@ class OrderFactory extends Factory
     {
         return [
             'ticket_id' => Ticket::factory(),
-            'name' => fake()->sentence(),
+            'name' => fake()->randomElement(self::PARTS),
             'url' => fake()->url(),
             'quantity' => rand(1, 2),
             'cost' => fake()->randomFloat(2, 10, 100),
