@@ -11,6 +11,7 @@ class OrderObserver
      */
     public function created(Order $order): void
     {
+        $order->load('ticket');
         $order->ticket->fillBalance()->fillOrderCounters()->save();
     }
 
@@ -20,6 +21,7 @@ class OrderObserver
     public function updated(Order $order): void
     {
         if ($order->wasChanged(['cost', 'status'])) {
+            $order->load('ticket');
             $order->ticket->fillBalance()->fillOrderCounters()->save();
         }
     }
@@ -29,6 +31,7 @@ class OrderObserver
      */
     public function deleted(Order $order): void
     {
+        $order->load('ticket');
         $order->ticket->fillBalance()->fillOrderCounters()->save();
     }
 }
