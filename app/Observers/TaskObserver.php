@@ -11,6 +11,7 @@ class TaskObserver
      */
     public function created(Task $task): void
     {
+        $task->load('ticket');
         $task->ticket->fillBalance()->fillTaskCounters()->save();
     }
 
@@ -20,6 +21,7 @@ class TaskObserver
     public function updated(Task $task): void
     {
         if ($task->wasChanged(['cost', 'status'])) {
+            $task->load('ticket');
             $task->ticket->fillBalance()->fillTaskCounters()->save();
         }
     }
@@ -29,6 +31,7 @@ class TaskObserver
      */
     public function deleted(Task $task): void
     {
+        $task->load('ticket');
         $task->ticket->fillBalance()->fillTaskCounters()->save();
     }
 }
