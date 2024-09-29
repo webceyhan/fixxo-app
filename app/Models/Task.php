@@ -69,6 +69,7 @@ class Task extends Model
         return [
             'type' => TaskType::class,
             'status' => TaskStatus::class,
+            'cost' => 'float',
         ];
     }
 
