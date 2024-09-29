@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Priority;
 use App\Enums\TicketStatus;
+use App\Models\Concerns\Assignable;
 use App\Models\Concerns\Completable;
 use App\Models\Concerns\HasPriority;
 use App\Models\Concerns\HasSince;
@@ -63,7 +64,7 @@ use Illuminate\Support\Carbon;
 #[ObservedBy([TicketObserver::class])]
 class Ticket extends Model
 {
-    use HasFactory, Searchable, HasSince, Completable, HasPriority;
+    use HasFactory, Assignable, Searchable, HasSince, Completable, HasPriority;
 
     /**
      * Searchable attributes.
