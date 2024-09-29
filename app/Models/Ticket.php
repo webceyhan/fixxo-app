@@ -125,7 +125,7 @@ class Ticket extends Model
     protected function tasksCost(): Attribute
     {
         return Attribute::get(
-            fn () => $this->tasks()->notCancelled()->sum('cost')
+            fn() => (float) $this->tasks()->notCancelled()->sum('cost')
         )->shouldCache();
     }
 
@@ -135,7 +135,7 @@ class Ticket extends Model
     protected function ordersCost(): Attribute
     {
         return Attribute::get(
-            fn () => $this->orders()->notCancelled()->sum('cost')
+            fn() => (float) $this->orders()->notCancelled()->sum('cost')
         )->shouldCache();
     }
 
@@ -144,7 +144,7 @@ class Ticket extends Model
      */
     protected function totalCost(): Attribute
     {
-        return Attribute::get(fn () => $this->tasks_cost + $this->orders_cost);
+        return Attribute::get(fn() => $this->tasks_cost + $this->orders_cost);
     }
 
     /**
@@ -153,7 +153,7 @@ class Ticket extends Model
     protected function totalPaid(): Attribute
     {
         return Attribute::get(
-            fn () => $this->transactions()->sum('amount')
+            fn() => (float) $this->transactions()->sum('amount')
         )->shouldCache();
     }
 
