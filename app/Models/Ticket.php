@@ -113,6 +113,7 @@ class Ticket extends Model
         return [
             'priority' => Priority::class,
             'status' => TicketStatus::class,
+            'balance' => 'float',
         ];
     }
 
