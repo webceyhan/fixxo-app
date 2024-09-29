@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  * 
  * @method static hasTasks(int $count = 1, array $attributes = [])
  * @method static hasOrders(int $count = 1, array $attributes = [])
- * @method static hasInvoice(array $attributes = [])
+ * @method static hasTransactions(int $count = 1, array $attributes = [])
  */
 class TicketFactory extends Factory
 {
@@ -27,7 +27,13 @@ class TicketFactory extends Factory
     {
         return [
             'customer_id' => Customer::factory(),
-            'device_id' => Device::factory(),
+            'device_id' => function (array $attributes) {
+                // Workaround:
+                // due to nested customer factory used in DeviceFactory definition, 
+                // multiple customers are created for the same ticket which are not related to each other
+                // so we pass the customer_id manually instead of 'device_id' => Device::factory(),
+                return Device::factory()->state(['customer_id' => $attributes['customer_id']]);
+            },
             'description' => fake()->paragraph(),
             'priority' => Priority::Normal,
             'status' => TicketStatus::New,
