@@ -71,6 +71,7 @@ class Transaction extends Model
     protected function casts(): array
     {
         return [
+            'amount' => 'float',
             'method' => TransactionMethod::class,
             'type' => TransactionType::class,
         ];
