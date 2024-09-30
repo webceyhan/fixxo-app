@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveTransactionRequest;
 use App\Models\Transaction;
+use Illuminate\Support\Facades\Gate;
 
 class TransactionController extends Controller
 {
@@ -22,9 +23,6 @@ class TransactionController extends Controller
     {
         $params = $request->validated();
 
-        // TODO: improve this by using a custom request
-        $params['user_id'] = auth()->id();
-
         $transaction->fill($params)->save();
 
         return redirect()
@@ -37,8 +35,7 @@ class TransactionController extends Controller
      */
     public function destroy(Transaction $transaction)
     {
-        // TODO: use athorizeResource() here, see UserController::__construct()
-        $this->authorize('delete', $transaction);
+        Gate::authorize('delete', $transaction);
 
         $transaction->delete();
 

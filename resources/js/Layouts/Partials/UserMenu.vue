@@ -21,7 +21,7 @@ defineProps({
       >
         <div class="hidden sm:block" :class="right ? 'text-start order-2' : 'text-end'">
           <p class="leading-5 font-medium">{{ user?.name }}</p>
-          <p class="text-sm text-gray-500">{{ user?.role ?? "Expert" }}</p>
+          <p class="text-sm text-gray-500">{{ user?.role ?? "Technician" }}</p>
         </div>
 
         <Avatar

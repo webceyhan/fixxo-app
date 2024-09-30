@@ -18,13 +18,9 @@ const states = {
     label: "On Hold",
     theme: "warning",
   },
-  fixed: {
-    label: "Fixed",
+  finished: {
+    label: "Finished",
     theme: "success",
-  },
-  defect: {
-    label: "Defect",
-    theme: "danger",
   },
   checked_out: {
     label: "Checked Out",

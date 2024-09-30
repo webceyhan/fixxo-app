@@ -14,10 +14,10 @@ const props = defineProps({
 
 const form = useForm({
   ...props.device,
-  name: props.device.name,
+  model: props.device.model,
   brand: props.device.brand,
   type: props.device.type,
-  serial: props.device.serial,
+  serial_number: props.device.serial_number,
   purchase_date: props.device.purchase_date,
   warranty_expire_date: props.device.warranty_expire_date,
   status: props.device.status,
@@ -25,7 +25,7 @@ const form = useForm({
 </script>
 
 <template>
-  <PageLayout :title="device.name" content-only-mobile>
+  <PageLayout :title="device.model" content-only-mobile>
     <template #aside>
       <CustomerCard :customer="device.customer" />
     </template>
@@ -35,9 +35,9 @@ const form = useForm({
         <section class="max-w-xl">
           <Form :form="form" resource="devices">
             <FormControl
-              label="Name"
-              v-model="form.name"
-              :error="form.errors.name"
+              label="Model"
+              v-model="form.model"
+              :error="form.errors.model"
               required
               autofocus
             />
@@ -45,8 +45,8 @@ const form = useForm({
             <FormControl label="Type" v-model="form.type" :options="typeOptions" />
             <FormControl
               label="Serial"
-              v-model="form.serial"
-              :error="form.errors.serial"
+              v-model="form.serial_number"
+              :error="form.errors.serial_number"
             />
             <FormControl
               label="Purchase Date"

@@ -2,7 +2,6 @@
 import Card from "@/Components/Card.vue";
 import DescriptionList from "@/Components/List/DescriptionList.vue";
 import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
-import CustomerBadge from "./CustomerBadge.vue";
 
 const props = defineProps({
   customer: Object,
@@ -13,7 +12,6 @@ const props = defineProps({
   <Card>
     <template #header>
       <h5>Customer</h5>
-      <CustomerBadge :status="customer.status" />
     </template>
 
     <DescriptionList>
@@ -25,7 +23,11 @@ const props = defineProps({
         :value="customer.company"
       />
 
-      <DescriptionListItem v-if="customer.vat" label="VAT" :value="customer.vat" />
+      <DescriptionListItem
+        v-if="customer.vat_number"
+        label="VAT Number"
+        :value="customer.vat_number"
+      />
 
       <DescriptionListItem
         v-if="customer.phone"

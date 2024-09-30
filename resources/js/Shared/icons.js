@@ -4,21 +4,17 @@ const userRoles = {
 };
 
 const deviceTypes = {
-    desktop: "display",
-    laptop: "laptop",
-    tablet: "tablet",
     phone: "phone",
-    console: "controller",
-    printer: "printer",
-    navigator: "compass",
-    peripheral: "keyboard",
+    tablet: "tablet",
+    laptop: "laptop",
+    desktop: "display",
     other: "hdd",
 };
 
 const transactionTypes = {
     payment: "plus-lg",    
     discount: "percent",
-    warranty: "shield-check",
+    claim: "shield-check",
     refund: "dash-lg",
 };
 
@@ -76,7 +72,7 @@ const fields = {
 
     // OTHER
     role: "key",
-    serial: "upc",
+    serial_number: "upc",
     money: "cash-stack",
     attachment: "paperclip",
     file: "file-earmark",

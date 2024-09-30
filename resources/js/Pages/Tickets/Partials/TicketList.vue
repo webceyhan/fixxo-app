@@ -41,7 +41,7 @@ function getProgress(ticket) {
       <div class="w-full">
         <div v-if="ticket.device">
           {{ ticket.device.brand }}
-          {{ ticket.device.name }}
+          {{ ticket.device.model }}
         </div>
 
         <div

@@ -2,34 +2,44 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\Collectable;
+use App\Enums\Concerns\Completable;
 
 enum OrderStatus: string
 {
-    use HasBase;
-
-        // The order has been created and is awaiting processing.
-    case NEW = 'new';
-
-        // The order has been shipped to the customer.
-    case SHIPPED = 'shipped';
-
-        // The order has been received by the customer.
-    case RECEIVED = 'received';
-
-        // The order has been cancelled by the customer or by the system.
-    case CANCELLED = 'cancelled';
+    use Collectable, Completable;
 
     /**
-     * Get the progress for the order status.
+     * Represents an order that has been created and is awaiting processing.
+     * @default
      */
-    public function progress(): Progress
+    case New = 'new';
+
+    /**
+     * Represents an order that has been shipped to the customer.
+     */
+    case Shipped = 'shipped';
+
+    /**
+     * Represents an order that has been received by the customer.
+     */
+    case Received = 'received';
+
+    /**
+     * Represents an order that has been cancelled by the customer or by the system.
+     */
+    case Cancelled = 'cancelled';
+
+    // METHODS /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get list of completed enum cases.
+     */
+    public static function completedCases(): array
     {
-        return match ($this) {
-            self::NEW => Progress::PENDING,
-            self::SHIPPED => Progress::PROCESSING,
-            self::RECEIVED,
-            self::CANCELLED => Progress::COMPLETED,
-        };
+        return [
+            self::Received,
+            self::Cancelled,
+        ];
     }
 }

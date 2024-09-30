@@ -15,12 +15,11 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ticket_id')->constrained()->onDelete('cascade');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('ticket_id')->constrained()->cascadeOnDelete();
             $table->decimal('amount')->default(0);
-            $table->enum('type', TransactionType::values())->default(TransactionType::PAYMENT->value);
-            $table->enum('method', TransactionMethod::values())->default(TransactionMethod::CASH->value);
             $table->string('note')->nullable();
+            $table->enum('method', TransactionMethod::values())->default(TransactionMethod::Cash);
+            $table->enum('type', TransactionType::values())->default(TransactionType::Payment);
             $table->timestamps();
         });
     }

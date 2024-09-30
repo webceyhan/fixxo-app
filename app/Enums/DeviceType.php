@@ -2,19 +2,36 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\Collectable;
 
 enum DeviceType: string
 {
-    use HasBase;
+    use Collectable;
 
-    case DESKTOP = 'desktop';
-    case LAPTOP = 'laptop';
-    case TABLET = 'tablet';
-    case PHONE = 'phone';
-    case CONSOLE = 'console';
-    case PRINTER = 'printer';
-    case NAVIGATOR = 'navigator';
-    case PERIPHERAL = 'peripheral';
-    case OTHER = 'other';
+    /**
+     * Represents a mobile phone device.
+     */
+    case Phone = 'phone';
+
+    /**
+     * Represents a tablet device.
+     */
+    case Tablet = 'tablet';
+
+    /**
+     * Represents a laptop device.
+     */
+    case Laptop = 'laptop';
+
+    /**
+     * Represents a desktop computer device.
+     */
+    case Desktop = 'desktop';
+
+    /**
+     * Represents any other device not listed such as a smartwatch or smart TV,
+     * navigation system, game console, peripheral devices, etc.
+     * @default
+     */
+    case Other = 'other';
 }

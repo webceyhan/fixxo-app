@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\SaveOrderRequest;
 use App\Models\Order;
 use App\Queries\OrderQuery;
+use Illuminate\Support\Facades\Gate;
 
 class OrderController extends Controller
 {
@@ -47,9 +48,9 @@ class OrderController extends Controller
                 ->load([
                     'device',
                     'customer',
-                    'user:id,name',
+                    'assignee:id,name',
                 ]),
-            'canDelete' => auth()->user()->can('delete', $order),
+            'canDelete' => Gate::allows('delete', $order),
         ]);
     }
 
@@ -59,9 +60,6 @@ class OrderController extends Controller
     public function update(SaveOrderRequest $request, Order $order)
     {
         $params = $request->validated();
-
-        // TODO: improve this by using a custom request
-        $params['user_id'] = auth()->id();
 
         $order->fill($params)->save();
 
@@ -75,8 +73,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        // TODO: use athorizeResource() here, see UserController::__construct()
-        $this->authorize('delete', $order);
+        Gate::authorize('delete', $order);
 
         $order->delete();
 

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\UserStatus;
 use App\Models\Device;
 use App\Models\Ticket;
 use App\Models\User;
@@ -15,19 +16,17 @@ class TicketSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::all();
+        // create tickets for all devices
+        Device::all()->each(function (Device $device) {
+            Ticket::factory()->forDevice($device)->create();
+        });
 
-        Device::all()->each(function ($device) use ($users) {
+        // get all active users
+        $users = User::ofStatus(UserStatus::Active)->get();
 
-            // create optional tickets
-            $amount = rand(0, 3);
-
-            Ticket::factory($amount)->create([
-                'device_id' => fn () => $device->id,
-                'user_id' => fn () => $users->random(1)->first(),
-                // create date must be later than device creation
-                'created_at' => fn () => fake()->dateTimeBetween($device->created_at),
-            ]);
+        // create and assign tickets to random active users
+        Device::all()->random(10)->each(function (Device $device) use ($users) {
+            Ticket::factory()->forDevice($device)->forAssignee($users->random())->create();
         });
     }
 }

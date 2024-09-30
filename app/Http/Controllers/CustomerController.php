@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\UserStatus;
 use App\Http\Requests\SaveCustomerRequest;
 use App\Models\Customer;
 use App\Queries\CustomerQuery;
+use Illuminate\Support\Facades\Gate;
 
 class CustomerController extends Controller
 {
@@ -45,7 +45,7 @@ class CustomerController extends Controller
             'customer' => $customer,
             'devices' => $customer->devices()->get(),
             'tickets' => $customer->tickets()->get(),
-            'canDelete' => auth()->user()->can('delete', $customer),
+            'canDelete' => Gate::allows('delete', $customer),
         ]);
     }
 
@@ -56,7 +56,6 @@ class CustomerController extends Controller
     {
         return inertia('Customers/Edit', [
             'customer' => $customer,
-            'statusOptions' => UserStatus::values(),
         ]);
     }
 
@@ -79,8 +78,7 @@ class CustomerController extends Controller
      */
     public function destroy(Customer $customer)
     {
-        // TODO: use athorizeResource() here, see UserController::__construct()
-        $this->authorize('delete', $customer);
+        Gate::authorize('delete', $customer);
 
         $customer->delete();
 

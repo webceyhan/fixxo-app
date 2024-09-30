@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\Priority;
 use App\Enums\TicketStatus;
 use App\Http\Requests\SaveTicketRequest;
 use App\Models\Device;
@@ -12,6 +13,7 @@ use App\Models\Ticket;
 use App\Queries\TicketQuery;
 use App\Services\NotificationService;
 use App\Services\SignatureService;
+use Illuminate\Support\Facades\Gate;
 
 class TicketController extends Controller
 {
@@ -58,15 +60,15 @@ class TicketController extends Controller
         $ticket->load([
             'device',
             'customer',
-            'user:id,name',
+            'assignee:id,name',
         ]);
 
         // append custom attributes
         $ticket->append([
             'tasks_cost',
             'orders_cost',
-            'cost',
-            'paid',
+            'total_cost',
+            'total_paid',
             'qr_url',
             'uploaded_urls',
             'intake_signature_url',
@@ -76,17 +78,17 @@ class TicketController extends Controller
         return inertia('Tickets/Show', [
             'ticket' => $ticket,
             'customer' => $ticket->customer,
-            'tasks' => $ticket->tasks()->with('user:id,name')->get(),
-            'orders' => $ticket->orders()->with('user:id,name')->get(),
-            'transactions' => $ticket->transactions()->with('user:id,name')->get(),
-            'canDelete' => auth()->user()->can('delete', $ticket),
+            'tasks' => $ticket->tasks()->get(),
+            'orders' => $ticket->orders()->get(),
+            'transactions' => $ticket->transactions()->get(),
+            'canDelete' => Gate::allows('delete', $ticket),
             // TODO: improve this!
             // we are checking for the ability to delete a task in the future
             // but at this point we don't have a task/transaction yet so as a workaround
             // we are using a dummy new Task/Transaction instance instead of Task::class
-            'canDeleteTask' => auth()->user()->can('delete', new Task),
-            'canDeleteOrder' => auth()->user()->can('delete', new Order),
-            'canDeleteTransaction' => auth()->user()->can('delete', new Transaction),
+            'canDeleteTask' => Gate::allows('delete', new Task),
+            'canDeleteOrder' => Gate::allows('delete', new Order),
+            'canDeleteTransaction' => Gate::allows('delete', new Transaction),
         ]);
     }
 
@@ -100,6 +102,7 @@ class TicketController extends Controller
 
         return inertia('Tickets/Edit', [
             'ticket' => $ticket,
+            'priorityOptions' => Priority::values(),
             'statusOptions' => TicketStatus::values(),
         ]);
     }
@@ -112,12 +115,12 @@ class TicketController extends Controller
         $params = $request->validated();
 
         // TODO: improve this by using a custom request
-        $params['user_id'] = auth()->id();
+        $params['assignee_id'] = auth()->id();
 
         $ticket->fill($params)->save();
 
         // check if status is ready for pickup
-        if ($ticket->status == TicketStatus::RESOLVED) {
+        if ($ticket->status == TicketStatus::Resolved) {
 
             // send SMS to customer if phone number is provided
             if ($ticket->customer->phone !== null) {
@@ -142,8 +145,7 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        // TODO: use athorizeResource() here, see UserController::__construct()
-        $this->authorize('delete', $ticket);
+        Gate::authorize('delete', $ticket);
 
         $ticket->delete();
 

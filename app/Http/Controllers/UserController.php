@@ -7,9 +7,13 @@ use App\Enums\UserStatus;
 use App\Http\Requests\SaveUserRequest;
 use App\Models\User;
 use App\Queries\UserQuery;
+use Illuminate\Routing\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class UserController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Create the controller instance.
      *
@@ -69,7 +73,7 @@ class UserController extends Controller
     {
         return inertia('Users/Show', [
             'user' => $user,
-            'recentTickets' => $user->tickets()->with('device')->take(5)->get(),
+            'recentTickets' => $user->assignedTickets()->with('device')->take(5)->get(),
         ]);
     }
 

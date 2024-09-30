@@ -59,7 +59,7 @@ defineExpose({
         <div class="flex">
           <span class="w-full">Total Paid</span>
           <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
-            {{ formatMoney(ticket.paid) }}
+            {{ formatMoney(ticket.total_paid) }}
           </span>
         </div>
 

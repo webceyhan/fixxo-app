@@ -46,7 +46,7 @@ class TransactionPolicy
      */
     public function delete(User $user, Transaction $transaction): bool
     {
-        return $user->isAdmin;
+        return $user->isAdmin();
     }
 
     /**

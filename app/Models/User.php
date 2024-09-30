@@ -6,19 +6,54 @@ namespace App\Models;
 
 use App\Enums\UserRole;
 use App\Enums\UserStatus;
-use App\Models\Traits\HasSince;
-use App\Models\Traits\Searchable;
+use App\Models\Concerns\Contactable;
+use App\Models\Concerns\HasSince;
+use App\Models\Concerns\Searchable;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $email
+ * @property string|null $phone
+ * @property string $password
+ * @property string $remember_token
+ * @property UserRole $role
+ * @property UserStatus $status
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon|null $email_verified_at
+ * 
+ * @property-read Collection<int, Ticket> $assignedTickets
+ *
+ * @method static UserFactory factory(int $count = null, array $state = [])
+ * @method static Builder|static ofRole(UserRole $role)
+ * @method static Builder|static ofStatus(UserStatus $status)
+ * @method static Builder|static admins()
+ * @method static Builder|static managers()
+ * @method static Builder|static technicians()
+ */
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, Searchable, HasSince;
+    use  HasFactory, Notifiable, Searchable, HasSince, Contactable;
+
+    /**
+     * Searchable attributes.
+     *
+     * @var array<int, string>
+     */
+    protected $searchable = [
+        'name',
+        'email',
+        'phone',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -28,6 +63,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
         'role',
         'status',
@@ -39,10 +75,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $attributes = [
-        'remember_token' => null,
-        'role' => UserRole::EXPERT,
-        'status' => UserStatus::ACTIVE,
-        'email_verified_at' => null,
+        'role' => UserRole::Technician,
+        'status' => UserStatus::Active,
     ];
 
     /**
@@ -56,66 +90,83 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
+     * Get the attributes that should be cast.
      *
-     * @var array<string, string>
+     * @return array<string, string>
      */
-    protected $casts = [
-        'role' => UserRole::class,
-        'status' => UserStatus::class,
-        'email_verified_at' => 'datetime',
-    ];
-
-    /**
-     * Searchable attributes.
-     *
-     * @var array<int, string>
-     */
-    protected $searchable = [
-        'name',
-        'email',
-    ];
-
-    // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Get the flag whether if user has admin role or not.
-     */
-    protected function isAdmin(): Attribute
+    protected function casts(): array
     {
-        return Attribute::make(
-            get: fn () => $this->role === UserRole::ADMIN,
-        );
+        return [
+            'role' => UserRole::class,
+            'status' => UserStatus::class,
+            'email_verified_at' => 'datetime',
+        ];
     }
-
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
-    public function tickets(): HasMany
+    public function assignedTickets(): HasMany
     {
-        return $this->hasMany(Ticket::class)->latest();
+        return $this->hasMany(Ticket::class, 'assignee_id');
     }
 
-    public function tasks(): HasMany
-    {
-        return $this->hasMany(Task::class)->latest();
-    }
-
-    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+    // SCOPES //////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to only include admin users.
+     * Scope a query to only include users with the specified role.
      */
-    public function scopeAdmin(Builder $query): void
+    public function scopeOfRole(Builder $query, UserRole $role): void
     {
-        $query->where('role', UserRole::ADMIN);
+        $query->where('role', $role->value);
     }
 
     /**
-     * Scope a query to only include expert users.
+     * Scope a query to only include users with the specified status.
      */
-    public function scopeExpert(Builder $query): void
+    public function scopeOfStatus(Builder $query, UserStatus $status): void
     {
-        $query->where('role', UserRole::EXPERT);
+        $query->where('status', $status->value);
+    }
+
+    /**
+     * Scope a query to only include administrators.
+     */
+    public function scopeAdmins(Builder $query): void
+    {
+        $query->ofRole(UserRole::Admin);
+    }
+
+    /**
+     * Scope a query to only include managers.
+     */
+    public function scopeManagers(Builder $query): void
+    {
+        $query->ofRole(UserRole::Manager);
+    }
+
+    /**
+     * Scope a query to only include technicians.
+     */
+    public function scopeTechnicians(Builder $query): void
+    {
+        $query->ofRole(UserRole::Technician);
+    }
+
+    // METHODS /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Determine if the user is an administrator.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role->isAdmin();
+    }
+
+    /**
+     * Determine if the user is active.
+     */
+    public function isActive(): bool
+    {
+        return $this->status->isActive();
     }
 }

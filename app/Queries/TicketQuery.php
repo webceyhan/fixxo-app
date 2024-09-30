@@ -2,6 +2,7 @@
 
 namespace App\Queries;
 
+use App\Enums\Priority;
 use App\Enums\TicketStatus;
 use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Builder;
@@ -21,7 +22,8 @@ class TicketQuery extends QueryBuilder
             ])
             ->allowedFilters([
                 AllowedFilter::scope('search'),
-                AllowedFilter::exact('status')->default(TicketStatus::NEW),
+                AllowedFilter::exact('priority')->default(Priority::Normal),
+                AllowedFilter::exact('status')->default(TicketStatus::New),
                 AllowedFilter::scope('overdue'),
                 AllowedFilter::scope('outstanding'),
             ])
@@ -37,9 +39,13 @@ class TicketQuery extends QueryBuilder
     public static function filters(): array
     {
         return [
+            'priority' => [
+                'options' => Priority::values(),
+                'default' => Priority::Normal
+            ],
             'status' => [
                 'options' => TicketStatus::values(),
-                'default' => TicketStatus::NEW
+                'default' => TicketStatus::New
             ]
         ];
     }

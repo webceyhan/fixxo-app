@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Enums\TransactionType;
 use App\Enums\TransactionMethod;
+use App\Enums\TransactionType;
+use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,34 +20,72 @@ class TransactionFactory extends Factory
     public function definition(): array
     {
         return [
+            'ticket_id' => Ticket::factory(),
             'amount' => fake()->randomFloat(2, 10, 100),
-            'type' => fake()->randomElement(TransactionType::values()),
-            'method' => fake()->randomElement(TransactionMethod::values()),
-            'note' => fake()->optional(.2)->text,
+            'note' => fake()->sentence(),
+            'method' => TransactionMethod::Cash,
+            'type' => TransactionType::Payment,
         ];
     }
 
+    // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * Indicate that the model's type is discount.
-     *
-     * @return $this
+     * Indicate that the transaction belongs to the specified ticket.
      */
-    public function discount(): static
+    public function forTicket(Ticket $ticket): self
     {
-        return $this->state(fn (array $attributes) => [
-            'type' => TransactionType::DISCOUNT,
+        return $this->state(fn(array $attributes) => [
+            'ticket_id' => $ticket->id,
+            'created_at' => fake()->dateTimeBetween($ticket->created_at),
+        ]);
+    }
+
+    // STATES //////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Indicate that the transaction has no note.
+     */
+    public function withoutNote(): self
+    {
+        return $this->state(fn(array $attributes) => [
+            'note' => null,
         ]);
     }
 
     /**
-     * Indicate that the model's type is payment.
-     *
-     * @return $this
+     * Indicate that the transaction is of a specified method.
      */
-    public function payment(): static
+    public function ofMethod(TransactionMethod $method): self
     {
-        return $this->state(fn (array $attributes) => [
-            'type' => TransactionType::PAYMENT,
+        return $this->state(fn(array $attributes) => [
+            'method' => $method,
         ]);
+    }
+
+    /**
+     * Indicate that the transaction is of a specified type.
+     */
+    public function ofType(TransactionType $type): self
+    {
+        return $this->state(fn(array $attributes) => [
+            'type' => $type,
+        ]);
+    }
+
+    /**
+     * Indicate that the transaction is a discount.
+     */
+    public function discount(): self
+    {
+        return $this->ofType(TransactionType::Discount);
+    }
+
+    /**
+     * Indicate that the transaction is a refund.
+     */
+    public function refund(): self
+    {
+        return $this->ofType(TransactionType::Refund);
     }
 }

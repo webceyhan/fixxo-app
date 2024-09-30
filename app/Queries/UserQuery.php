@@ -28,11 +28,11 @@ class UserQuery extends QueryBuilder
                 // 'email',
                 AllowedFilter::scope('search'),
                 AllowedFilter::exact('role'),
-                AllowedFilter::exact('status')->default(UserStatus::ACTIVE)
+                AllowedFilter::exact('status')->default(UserStatus::Active)
             ])
             ->defaultSort('-created_at')
             ->withCount([
-                'tickets',
+                'assignedTickets',
             ]);
     }
 
@@ -44,7 +44,7 @@ class UserQuery extends QueryBuilder
         return [
             'status' => [
                 'options' => UserStatus::values(),
-                'default' => UserStatus::ACTIVE,
+                'default' => UserStatus::Active,
             ],
             'role' => [
                 'options' => UserRole::values(),

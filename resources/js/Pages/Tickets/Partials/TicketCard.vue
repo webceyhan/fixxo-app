@@ -4,6 +4,7 @@ import Card from "@/Components/Card.vue";
 import DescriptionList from "@/Components/List/DescriptionList.vue";
 import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
 import TicketBadge from "./TicketBadge.vue";
+import PriorityBadge from "./PriorityBadge.vue";
 
 const props = defineProps({
   ticket: Object,
@@ -40,7 +41,7 @@ const props = defineProps({
 
       <DescriptionListItem
         label="Device"
-        :value="ticket.device.brand + ' ' + ticket.device.name"
+        :value="ticket.device.brand + ' ' + ticket.device.model"
         :href="route('devices.show', ticket.device.id)"
       />
 
@@ -50,10 +51,14 @@ const props = defineProps({
         :href="route('tickets.index', { type: ticket.type })"
       />
 
+      <DescriptionListItem label="Priority">
+        <PriorityBadge :value="ticket.priority" />
+      </DescriptionListItem>
+
       <DescriptionListItem
-        v-if="ticket.serial"
+        v-if="ticket.serial_number"
         label="Serial Number"
-        :value="ticket.serial"
+        :value="ticket.serial_number"
       />
 
       <DescriptionListItem v-if="ticket.purchase_date" label="Purchase Date">
@@ -75,8 +80,8 @@ const props = defineProps({
 
       <DescriptionListItem label="Last Update" type="date" :value="ticket.updated_at" />
 
-      <DescriptionListItem label="Last update by">
-        {{ ticket.user.name }}
+      <DescriptionListItem v-if="ticket.assignee" label="Assignee">
+        {{ ticket.assignee?.name }}
       </DescriptionListItem>
     </DescriptionList>
   </Card>

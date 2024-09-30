@@ -2,9 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\UserStatus;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class SaveCustomerRequest extends FormRequest
 {
@@ -28,12 +26,11 @@ class SaveCustomerRequest extends FormRequest
             return [
                 'name' => 'nullable|string',
                 'company' => 'nullable|string',
-                'vat' => 'nullable|string',
+                'vat_number' => 'nullable|string',
                 'address' => 'nullable|string',
                 'phone' => 'nullable|string',
                 'email' => 'nullable|email',
                 'note' => 'nullable|string',
-                'status' => ['nullable', Rule::in(UserStatus::values())],
             ];
         }
 
@@ -41,12 +38,11 @@ class SaveCustomerRequest extends FormRequest
         return [
             'name' => 'required|string',
             'company' => 'nullable|string',
-            'vat' => 'nullable|string',
+            'vat_number' => 'nullable|string',
             'address' => 'nullable|string',
             'phone' => 'nullable|string',
             'email' => 'nullable|email',
             'note' => 'nullable|string',
-            'status' => ['nullable', Rule::in(UserStatus::values())],
         ];
     }
 }

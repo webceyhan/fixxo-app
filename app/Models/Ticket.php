@@ -2,47 +2,69 @@
 
 namespace App\Models;
 
-use App\Enums\OrderStatus;
+use App\Enums\Priority;
 use App\Enums\TicketStatus;
-use App\Models\Traits\HasSince;
-use App\Models\Traits\Searchable;
+use App\Models\Concerns\Assignable;
+use App\Models\Concerns\Completable;
+use App\Models\Concerns\HasPriority;
+use App\Models\Concerns\HasSince;
+use App\Models\Concerns\Searchable;
+use App\Observers\TicketObserver;
 use App\Services\QRService;
 use App\Services\SignatureService;
 use App\Services\UploadService;
+use Database\Factories\TicketFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int|null $assignee_id
+ * @property int $customer_id
+ * @property int $device_id
+ * @property string $description
+ * @property Priority $priority
+ * @property TicketStatus $status
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * 
+ * @property-read float $balance
+ * @property-read int $total_tasks_count
+ * @property-read int $completed_tasks_count
+ * @property-read int $total_orders_count
+ * @property-read int $completed_orders_count
+ * @property-read float $tasks_cost
+ * @property-read float $orders_cost
+ * @property-read float $total_cost
+ * @property-read float $total_paid
+ * @property-read string $qr_url
+ * @property-read string $intake_signature_url
+ * @property-read string $delivery_signature_url
+ * @property-read array<string> $uploaded_urls
+ * 
+ * @property-read User|null $assignee
+ * @property-read Customer $customer
+ * @property-read Device $device
+ * @property-read Collection<int, Task> $tasks
+ * @property-read Collection<int, Order> $orders
+ * @property-read Collection<int, Transaction> $transactions
+ * 
+ * @method static TicketFactory factory(int $count = null, array $state = [])
+ * @method static Builder|static ofStatus(TicketStatus $status)
+ * @method static Builder|static outstanding()
+ * @method static Builder|static overdue()
+ */
+#[ObservedBy([TicketObserver::class])]
 class Ticket extends Model
 {
-    use HasFactory, Searchable, HasSince;
-
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
-     * The model's default values for attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [
-        'note' => null,
-        'status' => TicketStatus::NEW,
-    ];
-
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [];
+    use HasFactory, Assignable, Searchable, HasSince, Completable, HasPriority;
 
     /**
      * Searchable attributes.
@@ -54,74 +76,86 @@ class Ticket extends Model
     ];
 
     /**
-     * The attributes that should be cast.
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'assignee_id', // TODO: remove later! It must be validated by the controller
+        'customer_id', // TODO: remove later! It must be validated by the controller
+        'device_id', // TODO: remove later! It must be validated by the controller
+        'description',
+        'priority',
+        'status',
+    ];
+
+    /**
+     * The model's default values for attributes.
      *
      * @var array
      */
-    protected $casts = [
-        'status' => TicketStatus::class,
+    protected $attributes = [
+        'priority' => Priority::Normal,
+        'status' => TicketStatus::New,
+        'balance' => 0,
+        'total_tasks_count' => 0,
+        'completed_tasks_count' => 0,
+        'total_orders_count' => 0,
+        'completed_orders_count' => 0,
     ];
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'priority' => Priority::class,
+            'status' => TicketStatus::class,
+            'balance' => 'float',
+        ];
+    }
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Get total cost of all tasks.
+     * Get total cost of all non-cancelled tasks.
      */
     protected function tasksCost(): Attribute
     {
-        return Attribute::make(
-            get: fn () => $this->tasks->sum('cost')
+        return Attribute::get(
+            fn() => (float) $this->tasks()->notCancelled()->sum('cost')
         )->shouldCache();
     }
 
     /**
-     * Get total cost of all valid (non-cancelled) orders.
+     * Get total cost of all non-cancelled orders.
      */
     protected function ordersCost(): Attribute
     {
-        return Attribute::make(
-            get: fn () => $this->orders()->valid()->sum('cost')
+        return Attribute::get(
+            fn() => (float) $this->orders()->notCancelled()->sum('cost')
         )->shouldCache();
     }
 
     /**
      * Get total cost of all tasks and orders.
      */
-    protected function cost(): Attribute
+    protected function totalCost(): Attribute
     {
-        return Attribute::make(
-            get: fn () => $this->tasks_cost + $this->orders_cost,
-        )->shouldCache();
+        return Attribute::get(fn() => $this->tasks_cost + $this->orders_cost);
     }
 
     /**
      * Get total amount of all transactions.
      */
-    protected function paid(): Attribute
+    protected function totalPaid(): Attribute
     {
-        return Attribute::make(
-            get: fn () => $this->transactions->sum('amount'),
+        return Attribute::get(
+            fn() => (float) $this->transactions()->sum('amount')
         )->shouldCache();
-    }
-
-    /**
-     * Get count of all pending (not-completed) tasks.
-     */
-    protected function pendingTasksCount(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->total_tasks_count - $this->completed_tasks_count,
-        );
-    }
-
-    /**
-     * Get count of all pending (not-received) orders.
-     */
-    protected function pendingOrdersCount(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->total_orders_count - $this->received_orders_count
-        );
     }
 
     /**
@@ -131,12 +165,10 @@ class Ticket extends Model
      */
     protected function qrUrl(): Attribute
     {
-        return Attribute::make(
-            get: function () {
-                $linkData = route('tickets.show', $this);
-                return QRService::urlFor($this->id, $linkData);
-            }
-        );
+        return Attribute::get(function () {
+            $linkData = route('tickets.show', $this);
+            return QRService::urlFor($this->id, $linkData);
+        });
     }
 
     /**
@@ -144,12 +176,9 @@ class Ticket extends Model
      */
     protected function intakeSignatureUrl(): Attribute
     {
-        return Attribute::make(
-            get: fn () => SignatureService::url($this->id . '-intake'),
-            // TODO: find a way to make this work!
-            // Attribute::make() doesn't support setting value that doesn't exist in the model
-            // set: fn ($value) => SignatureService::put($this->id . '-intake', $value),
-        );
+        return Attribute::get(function () {
+            return SignatureService::url($this->id . '-intake');
+        });
     }
 
     /**
@@ -157,11 +186,9 @@ class Ticket extends Model
      */
     protected function deliverySignatureUrl(): Attribute
     {
-        return Attribute::make(
-            get: fn () => SignatureService::url($this->id . '-delivery'),
-            // TODO: see above!
-            // set: fn ($value) => SignatureService::put($this->id . '-delivery', $value),
-        );
+        return Attribute::get(function () {
+            return SignatureService::url($this->id . '-delivery');
+        });
     }
 
     /**
@@ -169,16 +196,16 @@ class Ticket extends Model
      */
     protected function uploadedUrls(): Attribute
     {
-        return Attribute::make(
-            get: fn () => UploadService::urls('tickets/' . $this->id)
-        );
+        return Attribute::get(function () {
+            return UploadService::urls('tickets/' . $this->id);
+        });
     }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
-    public function user(): BelongsTo
+    public function assignee(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'assignee_id');
     }
 
     public function device(): BelongsTo
@@ -191,14 +218,14 @@ class Ticket extends Model
         return $this->belongsTo(Customer::class);
     }
 
-    public function orders(): HasMany
-    {
-        return $this->hasMany(Order::class)->latest();
-    }
-
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class)->latest();
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class)->latest();
     }
 
     public function transactions(): HasMany
@@ -206,67 +233,14 @@ class Ticket extends Model
         return $this->hasMany(Transaction::class)->latest();
     }
 
-    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+    // SCOPES //////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to only include new tickets.
-     * 
-     * @see TicketStatus::NEW
+     * Scope a query to only include tickets of a given status.
      */
-    public function scopeNew(Builder $query): void
+    public function scopeOfStatus(Builder $query, TicketStatus $status): void
     {
-        $query->where('status', TicketStatus::NEW);
-    }
-
-    /**
-     * Scope a query to only include in_progress tickets.
-     * 
-     * @see TicketStatus::IN_PROGRESS
-     */
-    public function scopeInProgress(Builder $query): void
-    {
-        $query->where('status', TicketStatus::IN_PROGRESS);
-    }
-
-    /**
-     * Scope a query to only include on-hold tickets.
-     * 
-     * @see TicketStatus::ON_HOLD
-     */
-    public function scopeOnHold(Builder $query): void
-    {
-        $query->where('status', TicketStatus::ON_HOLD);
-    }
-
-    /**
-     * Scope a query to only include resolved tickets.
-     * 
-     * @see TicketStatus::RESOLVED
-     */
-    public function scopeResolved(Builder $query): void
-    {
-        $query->where('status', TicketStatus::RESOLVED);
-    }
-
-    /**
-     * Scope a query to only include closed tickets.
-     * 
-     * @see TicketStatus::CLOSED
-     */
-    public function scopeClosed(Builder $query): void
-    {
-        $query->where('status', TicketStatus::CLOSED);
-    }
-
-    /**
-     * Scope a query to only include open tickets
-     * which is all tickets except closed ones.
-     * 
-     * @ignore This is a virtual status.
-     */
-    public function scopeOpen(Builder $query): void
-    {
-        $query->whereNot('status', TicketStatus::CLOSED);
+        $query->where('status', $status->value);
     }
 
     /**
@@ -287,63 +261,77 @@ class Ticket extends Model
      */
     public function scopeOverdue(Builder $query): Builder
     {
-        return $query->closed()->outstanding();
+        return $query->ofStatus(TicketStatus::Closed)->outstanding();
     }
 
-    // HELPERS /////////////////////////////////////////////////////////////////////////////////////
+    // METHODS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Set ticket status based on counters.
+     * Fill the ticket's status automatically.
      */
-    public function setStatus(): self
+    public function fillStatus(): self
     {
-        $this->setTaskCounters();
-        $this->setOrderCounters();
-
-        $this->status = TicketStatus::fromModel($this);
+        $this->status = $this->determineStatus();
 
         return $this;
     }
 
     /**
-     * Set ticket balance.
+     * Fill the ticket's balance automatically.
      */
-    public function setBalance(): self
+    public function fillBalance(): self
     {
-        $this->balance = $this->paid - $this->cost;
+        $this->balance = $this->total_cost - $this->total_paid;
 
         return $this;
     }
 
     /**
-     * Set ticket's tasks counters.
+     * Set ticket's task counters.
      */
-    public function setTaskCounters(): self
+    public function fillTaskCounters(): self
     {
-        // NOTE: we can't use $this->tasks->completed()->count() here because it's collection of tasks        
-        // but can't use $this->tasks()->completed()->count() which has no caching and very slow
-        // so we have to use where() instead on the cached collection to get the count
-        // $this->total_tasks_count = $this->tasks()->count();
-        // $this->completed_tasks_count = $this->tasks()->completed()->count();
-
-        $this->total_tasks_count = $this->tasks->count();
-        $this->completed_tasks_count = $this->tasks->where('completed_at', '!=', null)->count();
+        $this->total_tasks_count = $this->tasks()->count();
+        $this->completed_tasks_count = $this->tasks()->completed()->count();
 
         return $this;
     }
 
     /**
-     * Set ticket's orders counters.
+     * Set ticket's order counters.
      */
-    public function setOrderCounters(): self
+    public function fillOrderCounters(): self
     {
-        // @see setTaskCounters() for more info
-        // $this->total_orders_count = $this->orders()->valid()->count();
-        // $this->received_orders_count = $this->orders()->received()->count();
-
-        $this->total_orders_count = $this->orders->where('status', '!=', OrderStatus::CANCELLED)->count();
-        $this->received_orders_count = $this->orders->where('status', OrderStatus::RECEIVED)->count();
+        $this->total_orders_count = $this->orders()->count();
+        $this->completed_orders_count = $this->orders()->completed()->count();
 
         return $this;
+    }
+
+    /**
+     * Determine the status of the ticket based on its task and order counters.
+     */
+    private function determineStatus(): TicketStatus
+    {
+        $pendingTasksCount = $this->total_tasks_count - $this->completed_tasks_count;
+        $pendingOrdersCount = $this->total_orders_count - $this->completed_orders_count;
+
+        // Check if there are any pending orders.
+        if ($pendingOrdersCount > 0) {
+            return TicketStatus::OnHold;
+        }
+
+        // Check if there are any pending tasks.
+        if ($pendingTasksCount > 0) {
+            return TicketStatus::InProgress;
+        }
+
+        // Check if there are any tasks.
+        if ($this->total_tasks_count > 0) {
+            return TicketStatus::Resolved;
+        }
+
+        // Default to the current status if no specific conditions are met.
+        return $this->status;
     }
 }

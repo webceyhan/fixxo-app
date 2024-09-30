@@ -3,36 +3,39 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
-use App\Models\Traits\HasSince;
-use App\Models\Traits\Searchable;
+use App\Models\Concerns\Cancellable;
+use App\Models\Concerns\Completable;
+use App\Models\Concerns\HasSince;
+use App\Models\Concerns\Searchable;
+use App\Observers\OrderObserver;
+use Database\Factories\OrderFactory;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int $id
+ * @property int $ticket_id
+ * @property string $name
+ * @property string|null $url
+ * @property int $quantity
+ * @property float $cost
+ * @property OrderStatus $status
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * 
+ * @property-read Ticket $ticket
+ * 
+ * @method static OrderFactory factory(int $count = null, array $state = [])
+ * @method static Builder|static ofStatus(OrderStatus $status)
+ */
+#[ObservedBy([OrderObserver::class])]
 class Order extends Model
 {
-    use HasFactory, Searchable, HasSince;
-
-    /**
-     * The attributes that aren't mass assignable.
-     *
-     * @var array
-     */
-    protected $guarded = [];
-
-    /**
-     * The model's default values for attributes.
-     *
-     * @var array
-     */
-    protected $attributes = [
-        'url' => null,
-        'quantity' => 1,
-        'cost' => 0,
-        'note' => null,
-        'status' => OrderStatus::NEW,
-    ];
+    use HasFactory, Searchable, HasSince, Cancellable, Completable;
 
     /**
      * Searchable attributes.
@@ -42,90 +45,60 @@ class Order extends Model
     protected $searchable = [
         'name',
         'url',
-        'note',
     ];
 
     /**
-     * The attributes that should be cast.
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'ticket_id', // TODO: remove later! It must be validated by the controller
+        'name',
+        'url',
+        'quantity',
+        'cost',
+        'status',
+    ];
+
+    /**
+     * The model's default values for attributes.
      *
      * @var array
      */
-    protected $casts = [
-        'status' => OrderStatus::class,
+    protected $attributes = [
+        'quantity' => 1,
+        'cost' => 0,
+        'status' => OrderStatus::New,
     ];
 
-    // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
-
-    public function user(): BelongsTo
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
     {
-        return $this->belongsTo(User::class);
+        return [
+            'status' => OrderStatus::class,
+            'cost' => 'float',
+        ];
     }
+
+    // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     public function ticket(): belongsTo
     {
         return $this->belongsTo(Ticket::class);
     }
 
-    // LOCAL SCOPES ////////////////////////////////////////////////////////////////////////////////
+    // SCOPES //////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Scope a query to only include new orders.
-     * 
-     * @see OrderStatus::NEW
+     * Scope a query to only include tasks of a given status.
      */
-    public function scopeNew(Builder $query): void
+    public function scopeOfStatus(Builder $query, OrderStatus $status): void
     {
-        $query->where('status', OrderStatus::NEW);
-    }
-
-    /**
-     * Scope a query to only include shipped orders.
-     * 
-     * @see OrderStatus::SHIPPED
-     */
-    public function scopeShipped(Builder $query): void
-    {
-        $query->where('status', OrderStatus::SHIPPED);
-    }
-
-    /**
-     * Scope a query to only include received orders.
-     * This also indicates that the order process is complete.
-     * 
-     * @see OrderStatus::RECEIVED
-     */
-    public function scopeReceived(Builder $query): void
-    {
-        $query->where('status', OrderStatus::RECEIVED);
-    }
-
-    /**
-     * Scope a query to only include cancelled orders.
-     * 
-     * @see OrderStatus::CANCELLED
-     */
-    public function scopeCancelled(Builder $query): void
-    {
-        $query->where('status', OrderStatus::CANCELLED);
-    }
-
-    /**
-     * Scope a query to only include valid orders which are not cancelled.
-     * 
-     * @ignore This is a virtual status.
-     */
-    public function scopeValid(Builder $query): void
-    {
-        $query->whereNot('status', OrderStatus::CANCELLED);
-    }
-
-    /**
-     * Scope a query to only include pending (new or shipped) orders.
-     * 
-     * @ignore This is a virtual status.
-     */
-    public function scopePending(Builder $query): void
-    {
-        $query->whereIn('status', [OrderStatus::NEW, OrderStatus::SHIPPED]);
+        $query->where('status', $status->value);
     }
 }

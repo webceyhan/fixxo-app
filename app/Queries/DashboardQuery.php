@@ -77,7 +77,7 @@ class DashboardQuery extends QueryBuilder
     {
         $query = Ticket::query()
             ->selectRaw('COUNT(id) AS value, status AS label')
-            ->whereNot('status', TicketStatus::CLOSED);
+            ->whereNot('status', TicketStatus::Closed);
 
         return self::statsFor($query);
     }
@@ -88,11 +88,7 @@ class DashboardQuery extends QueryBuilder
     public static function taskStats(): array
     {
         $query = Task::query()
-            ->selectRaw(
-                'IF(completed_at IS NULL, "'
-                    . TaskStatus::PENDING->value . '", "'
-                    . TaskStatus::COMPLETED->value . '") AS label'
-            );
+            ->selectRaw('IF(status = "new", "pending", "completed") AS label');
 
         return self::statsFor($query);
     }
@@ -134,7 +130,7 @@ class DashboardQuery extends QueryBuilder
      */
     private static function interval(): Interval
     {
-        return Interval::tryFrom(request('interval')) ?? Interval::WEEK;
+        return Interval::tryFrom(request('interval')) ?? Interval::Week;
     }
 
     /**

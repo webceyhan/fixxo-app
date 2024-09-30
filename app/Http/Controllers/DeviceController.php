@@ -7,6 +7,7 @@ use App\Enums\DeviceType;
 use App\Http\Requests\SaveDeviceRequest;
 use App\Models\Device;
 use App\Queries\DeviceQuery;
+use Illuminate\Support\Facades\Gate;
 
 class DeviceController extends Controller
 {
@@ -47,7 +48,6 @@ class DeviceController extends Controller
         // TODO: improve this! only needed for aside card representation
         $device->load([
             'tickets',
-            'user:id,name',
             'customer:id,name',
             'logs.user:id,name'
         ]);
@@ -57,7 +57,7 @@ class DeviceController extends Controller
 
         return inertia('Devices/Show', [
             'device' => $device,
-            'canDelete' => auth()->user()->can('delete', $device),
+            'canDelete' => Gate::allows('delete', $device),
         ]);
     }
 
@@ -83,9 +83,6 @@ class DeviceController extends Controller
     {
         $params = $request->validated();
 
-        // TODO: improve this by using a custom request
-        $params['user_id'] = auth()->id();
-
         $device->fill($params)->save();
 
         return redirect()
@@ -98,8 +95,7 @@ class DeviceController extends Controller
      */
     public function destroy(Device $device)
     {
-        // TODO: use athorizeResource() here, see UserController::__construct()
-        $this->authorize('delete', $device);
+        Gate::authorize('delete', $device);
 
         $device->delete();
 

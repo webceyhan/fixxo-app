@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\Priority;
 use App\Enums\TicketStatus;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -27,7 +28,7 @@ class SaveTicketRequest extends FormRequest
         if ($this->isMethod('put')) {
             return [
                 'description' => 'nullable|string',
-                'note' => 'nullable|string',
+                'priority' => ['nullable', Rule::in(Priority::values())],
                 'status' => ['nullable', Rule::in(TicketStatus::values())],
             ];
         }
@@ -36,7 +37,7 @@ class SaveTicketRequest extends FormRequest
         return [
             'device_id' => 'required_without:id',
             'description' => 'required|string',
-            'note' => 'nullable|string',
+            'priority' => ['nullable', Rule::in(Priority::values())],
             'status' => ['nullable', Rule::in(TicketStatus::values())],
         ];
     }

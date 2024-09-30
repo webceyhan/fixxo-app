@@ -2,32 +2,39 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
-use App\Models\Task;
+use App\Enums\Concerns\Collectable;
+use App\Enums\Concerns\Completable;
 
 enum TaskStatus: string
 {
-    use HasBase;
-
-    case PENDING = 'pending';
-    case COMPLETED = 'completed';
+    use Collectable, Completable;
 
     /**
-     * Get the progress for the task status.
+     * Represents an task that has been created and is pending approval.
+     * @default
      */
-    public function progress(): Progress
-    {
-        return match ($this) {
-            self::PENDING => Progress::PENDING,
-            self::COMPLETED => Progress::COMPLETED,
-        };
-    }
+    case New = 'new';
 
     /**
-     * Get the status for the given task.
+     * Represents an task that has been completed.
      */
-    public static function fromModel(Task $task): self
+    case Completed = 'completed';
+
+    /**
+     * Represents an task that has been cancelled.
+     */
+    case Cancelled = 'cancelled';
+
+    // METHODS /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get list of completed enum cases.
+     */
+    public static function completedCases(): array
     {
-        return $task->completed_at ? self::COMPLETED : self::PENDING;
+        return [
+            self::Completed,
+            self::Cancelled,
+        ];
     }
 }

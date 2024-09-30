@@ -24,7 +24,6 @@ defineProps({
         {{ order.name }}
 
         <div class="hidden md:block text-gray-400 text-sm mt-1">
-          <strong>{{ order.user.name }}</strong> -
           <em>{{ formatDate(order.created_at, true) }}</em>
         </div>
       </div>

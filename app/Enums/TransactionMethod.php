@@ -2,13 +2,25 @@
 
 namespace App\Enums;
 
-use App\Enums\Traits\HasBase;
+use App\Enums\Concerns\Collectable;
 
 enum TransactionMethod: string
 {
-    use HasBase;
+    use Collectable;
 
-    case CASH = 'cash';
-    case CARD = 'card';
-    case ONLINE = 'online';
+    /**
+     * Represents transactions via cash.
+     * @default
+     */
+    case Cash = 'cash';
+
+    /**
+     * Represents transactions via credit or debit cards.
+     */
+    case Card = 'card';
+
+    /**
+     * Represents transaction via online payment systems.
+     */
+    case Online = 'online';
 }

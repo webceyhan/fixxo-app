@@ -17,7 +17,7 @@ class DeviceQuery extends QueryBuilder
 
         $this
             ->allowedSorts([
-                // 'name',
+                // 'model',
                 // 'brand',
                 // 'type',
                 // 'status',
@@ -27,11 +27,15 @@ class DeviceQuery extends QueryBuilder
                 AllowedFilter::scope('search'),
                 AllowedFilter::exact('brand'),
                 AllowedFilter::exact('type'),
-                AllowedFilter::exact('status')->default(DeviceStatus::CHECKED_IN)
+                AllowedFilter::exact('status')->default(DeviceStatus::CheckedIn)
             ])
             ->defaultSort('-created_at')
             ->with([
                 'customer:id,name'
+            ])
+            ->withCount([
+                'tickets',
+                'tickets as completed_tickets_count' => fn ($query) => $query->completed(),
             ]);
     }
 
@@ -55,7 +59,7 @@ class DeviceQuery extends QueryBuilder
         return [
             'status' => [
                 'options' => DeviceStatus::values(),
-                'default' => DeviceStatus::CHECKED_IN,
+                'default' => DeviceStatus::CheckedIn,
             ],
             'type' => [
                 'options' => DeviceType::values(),

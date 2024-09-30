@@ -15,14 +15,12 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ticket_id')->constrained();
-            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('ticket_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->string('url')->nullable();
             $table->integer('quantity')->default(1);
             $table->decimal('cost')->default(0);
-            $table->string('note')->nullable();
-            $table->enum('status', OrderStatus::values())->default(OrderStatus::NEW->value);
+            $table->enum('status', OrderStatus::values())->default(OrderStatus::New);
             $table->timestamps();
 
             // index definitions

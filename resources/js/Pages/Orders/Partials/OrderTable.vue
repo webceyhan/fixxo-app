@@ -29,7 +29,7 @@ defineProps({
       <TableData :value="order.name">
         <template #label>
           for {{ order.ticket.device.brand }}
-          {{ order.ticket.device.name }}
+          {{ order.ticket.device.model }}
           - {{ order.ticket.customer.name }}
         </template>
       </TableData>

@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enums\TaskStatus;
 use App\Models\Task;
 use App\Models\Ticket;
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,20 +15,23 @@ class TaskSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::all();
+        // Create a random number of tasks for each ticket.
+        Ticket::all()->each(function (Ticket $ticket) {
+            $amount = rand(0, 2);
 
-        Ticket::all()->each(function ($ticket) use ($users) {
+            Task::factory($amount)->forTicket($ticket)->create();
+        });
 
-            // create optional tasks
-            $amount = rand(0, 5);
+        // cancel some tasks
+        Task::all()->random(5)->each(function (Task $task) {
+            $task->status = TaskStatus::Cancelled;
+            $task->save();
+        });
 
-            Task::factory($amount)->create([
-                'ticket_id' => fn () => $ticket->id,
-                'user_id' => fn () => $users->random(1)->first(),
-                // create date must be later than ticket creation
-                'created_at' => fn () => fake()->dateTimeBetween($ticket->created_at),
-                'completed_at' => fn () => fake()->optional()->dateTimeBetween($ticket->created_at),
-            ]);
+        // complete some new tasks
+        Task::ofStatus(TaskStatus::New)->get()->random(20)->each(function (Task $task) {
+            $task->status = TaskStatus::Completed;
+            $task->save();
         });
     }
 }

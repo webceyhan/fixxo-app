@@ -26,7 +26,6 @@ defineProps({
         </span>
 
         <div class="hidden md:block text-gray-400 text-sm mt-1">
-          <strong>{{ transaction.user.name }}</strong> -
           <em>{{ formatDate(transaction.created_at, true) }}</em>
         </div>
       </div>

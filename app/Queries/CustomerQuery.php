@@ -2,7 +2,6 @@
 
 namespace App\Queries;
 
-use App\Enums\UserStatus;
 use App\Models\Customer;
 use Illuminate\Database\Eloquent\Builder;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -25,12 +24,11 @@ class CustomerQuery extends QueryBuilder
                 // 'name',
                 // 'email',
                 AllowedFilter::scope('search'),
-                AllowedFilter::exact('status')->default(UserStatus::ACTIVE)
             ])
             ->defaultSort('-created_at')
             ->withCount([
                 'devices',
-                'tickets'
+                'tickets',
             ]);
     }
 
@@ -39,11 +37,6 @@ class CustomerQuery extends QueryBuilder
      */
     public static function filters(): array
     {
-        return [
-            'status' => [
-                'options' => UserStatus::values(),
-                'default' => UserStatus::ACTIVE,
-            ]
-        ];
+        return [];
     }
 }

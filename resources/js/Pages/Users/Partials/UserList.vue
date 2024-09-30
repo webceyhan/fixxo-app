@@ -24,6 +24,10 @@ defineProps({
         </div>
       </div>
 
+      <div v-if="user.phone" class="hidden md:block w-3/12 text-gray-400">
+        {{ user.phone }}
+      </div>
+
       <div class="hidden md:block w-2/12 text-gray-400">
         {{ user.role }}
       </div>

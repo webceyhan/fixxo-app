@@ -10,8 +10,16 @@ const states = {
     label: "Active",
     theme: "primary",
   },
-  inactive: {
-    label: "Inactive",
+  on_leave: {
+    label: "On Leave",
+    theme: "warning",
+  },
+  suspended: {
+    label: "Suspended",
+    theme: "danger",
+  },
+  terminated: {
+    label: "Terminated",
     theme: "secondary",
   },
 };

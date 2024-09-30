@@ -3,13 +3,12 @@
 namespace App\Providers;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\MigrationsEnded;
 use Illuminate\Database\Events\MigrationsStarted;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use Symfony\Component\Console\Input\Input;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,6 +37,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Model::shouldBeStrict();
+        
         // TODO: bugfix for issue that paginator creating http links 
         // over https on DigitalOcean server
         if (config('app.env') === 'production') {
