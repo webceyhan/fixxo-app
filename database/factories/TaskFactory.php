@@ -23,6 +23,7 @@ class TaskFactory extends Factory
             'ticket_id' => Ticket::factory(),
             'description' => fake()->sentence(),
             'cost' => fake()->randomFloat(2, 10, 100),
+            'is_billable' => true,
             'type' => TaskType::Repair,
             'status' => TaskStatus::New,
         ];
@@ -42,6 +43,16 @@ class TaskFactory extends Factory
     }
 
     // STATES //////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Indicate that the task is free of charge.
+     */
+    public function free(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'is_billable' => false,
+        ]);
+    }
 
     /**
      * Indicate that the task has the specified type.

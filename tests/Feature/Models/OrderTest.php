@@ -19,6 +19,7 @@ it('can initialize order', function () {
     expect($order->url)->toBeNull();
     expect($order->quantity)->toBe(1);
     expect($order->cost)->toBe(0.0);
+    expect($order->is_billable)->toBeTrue();
     expect($order->status)->toBe(OrderStatus::New);
     expect($order->created_at)->toBeNull();
     expect($order->updated_at)->toBeNull();
@@ -33,9 +34,16 @@ it('can create order', function () {
     expect($order->url)->toBeString();
     expect($order->quantity)->toBeInt();
     expect($order->cost)->toBeFloat();
+    expect($order->is_billable)->toBeTrue();
     expect($order->status)->toBe(OrderStatus::New);
     expect($order->created_at)->toBeInstanceOf(Carbon::class);
     expect($order->updated_at)->toBeInstanceOf(Carbon::class);
+});
+
+it('can create order as free', function () {
+    $order = Order::factory()->free()->create();
+
+    expect($order->is_billable)->toBeFalse();
 });
 
 it('can create order of status', function (OrderStatus $status) {
@@ -52,6 +60,7 @@ it('can update order', function () {
         'url' => 'https://www.corsair.com',
         'quantity' => 2,
         'cost' => 200,
+        'is_billable' => false,
         'status' => OrderStatus::Received,
     ]);
 
@@ -59,6 +68,7 @@ it('can update order', function () {
     expect($order->url)->toBe('https://www.corsair.com');
     expect($order->quantity)->toBe(2);
     expect($order->cost)->toBe(200.0);
+    expect($order->is_billable)->toBeFalse();
     expect($order->status)->toBe(OrderStatus::Received);
 });
 

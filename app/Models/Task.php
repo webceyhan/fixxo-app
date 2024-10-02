@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\TaskStatus;
 use App\Enums\TaskType;
+use App\Models\Concerns\Billable;
 use App\Models\Concerns\Cancellable;
 use App\Models\Concerns\Completable;
 use App\Models\Concerns\HasSince;
@@ -21,6 +22,7 @@ use Illuminate\Support\Carbon;
  * @property int $ticket_id
  * @property string $description
  * @property float $cost
+ * @property bool $is_billable
  * @property TaskType $type
  * @property TaskStatus $status
  * @property Carbon $created_at
@@ -34,7 +36,7 @@ use Illuminate\Support\Carbon;
 #[ObservedBy([TaskObserver::class])]
 class Task extends Model
 {
-    use HasFactory, HasSince, Cancellable, Completable;
+    use HasFactory, HasSince, Billable, Cancellable, Completable;
 
     /**
      * The attributes that are mass assignable.
@@ -45,6 +47,7 @@ class Task extends Model
         'ticket_id', // TODO: remove later! It must be validated by the controller
         'description',
         'cost',
+        'is_billable',
         'type',
         'status',
         'approved_at',

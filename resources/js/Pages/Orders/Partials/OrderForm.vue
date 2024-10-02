@@ -16,6 +16,7 @@ const form = useForm({
   url: props.order.url,
   quantity: props.order.quantity ?? 1,
   cost: props.order.cost ?? 0,
+  is_billable: props.order.is_billable ?? false,
   status: props.order.status ?? statusOptions[0],
 });
 
@@ -58,6 +59,8 @@ defineExpose({
         :error="form.errors.cost"
       />
     </div>
+
+    <FormControl label="Billable" type="checkbox" v-model="form.is_billable" />
 
     <FormControl label="Status" v-model="form.status" :options="statusOptions" fancy />
   </Form>

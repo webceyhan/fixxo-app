@@ -126,7 +126,7 @@ class Ticket extends Model
     protected function tasksCost(): Attribute
     {
         return Attribute::get(
-            fn() => (float) $this->tasks()->notCancelled()->sum('cost')
+            fn() => (float) $this->tasks()->billable()->sum('cost')
         )->shouldCache();
     }
 
@@ -136,7 +136,7 @@ class Ticket extends Model
     protected function ordersCost(): Attribute
     {
         return Attribute::get(
-            fn() => (float) $this->orders()->notCancelled()->sum('cost')
+            fn() => (float) $this->orders()->billable()->sum('cost')
         )->shouldCache();
     }
 

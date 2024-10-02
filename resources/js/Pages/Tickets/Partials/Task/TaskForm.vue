@@ -25,6 +25,7 @@ const form = useForm({
   // TODO: see above
   description: props.task.description,
   cost: props.task.cost ?? 0,
+  is_billable: props.task.is_billable ?? false,
   type: props.task.type ?? typeOptions[0],
   status: props.task.status ?? statusOptions[0],
   approved_at: mysqlToDatetimeLocal(props.task.approved_at),
@@ -55,6 +56,8 @@ const form = useForm({
         :error="form.errors.cost"
       />
     </div>
+
+    <FormControl label="Billable" type="checkbox" v-model="form.is_billable" />
 
     <div class="flex justify-between gap-2">
       <FormControl label="Status" v-model="form.status" :options="statusOptions" fancy />

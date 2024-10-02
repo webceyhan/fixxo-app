@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use App\Models\Concerns\Billable;
 use App\Models\Concerns\Cancellable;
 use App\Models\Concerns\Completable;
 use App\Models\Concerns\HasSince;
@@ -23,6 +24,7 @@ use Illuminate\Support\Carbon;
  * @property string|null $url
  * @property int $quantity
  * @property float $cost
+ * @property bool $is_billable
  * @property OrderStatus $status
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -35,7 +37,7 @@ use Illuminate\Support\Carbon;
 #[ObservedBy([OrderObserver::class])]
 class Order extends Model
 {
-    use HasFactory, Searchable, HasSince, Cancellable, Completable;
+    use HasFactory, Searchable, HasSince, Billable, Cancellable, Completable;
 
     /**
      * Searchable attributes.
@@ -58,6 +60,7 @@ class Order extends Model
         'url',
         'quantity',
         'cost',
+        'is_billable',
         'status',
     ];
 
