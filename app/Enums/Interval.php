@@ -2,12 +2,12 @@
 
 namespace App\Enums;
 
-use App\Enums\Concerns\Collectable;
+use App\Enums\Concerns\HasValues;
 use Carbon\Carbon;
 
 enum Interval: string
 {
-    use Collectable;
+    use HasValues;
 
     case Day = 'day';
     case Week = 'week';

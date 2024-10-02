@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Concerns\Collectable;
+use App\Enums\Concerns\HasValues;
 
 enum UserStatus: string
 {
-    use Collectable;
+    use HasValues;
 
     /**
      * Represents that the user account is currently active and accessible.

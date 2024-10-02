@@ -2,12 +2,12 @@
 
 namespace App\Enums;
 
-use App\Enums\Concerns\Collectable;
+use App\Enums\Concerns\HasValues;
 use App\Enums\Concerns\Completable;
 
 enum TaskStatus: string
 {
-    use Collectable, Completable;
+    use HasValues, Completable;
 
     /**
      * Represents an task that has been created and is pending approval.

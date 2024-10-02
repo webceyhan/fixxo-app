@@ -2,12 +2,12 @@
 
 namespace App\Enums;
 
-use App\Enums\Concerns\Collectable;
+use App\Enums\Concerns\HasValues;
 use App\Enums\Concerns\Completable;
 
 enum DeviceStatus: string
 {
-    use Collectable, Completable;
+    use HasValues, Completable;
 
     /**
      * Represents a device that has been checked in and is awaiting repair.

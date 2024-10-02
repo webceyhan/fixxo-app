@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Concerns\Collectable;
+use App\Enums\Concerns\HasValues;
 
 enum Priority: string
 {
-    use Collectable;
+    use HasValues;
 
     /**
      * The model has a low priority and can be addressed later.

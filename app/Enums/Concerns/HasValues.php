@@ -4,7 +4,7 @@ namespace App\Enums\Concerns;
 
 use Illuminate\Support\Collection;
 
-trait Collectable
+trait HasValues
 {
     /**
      * Get all enum cases as a collection.
