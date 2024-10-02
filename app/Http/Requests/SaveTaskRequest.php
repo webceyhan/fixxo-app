@@ -31,6 +31,7 @@ class SaveTaskRequest extends FormRequest
                 'cost' => 'sometimes|required|numeric',
                 'type' => ['sometimes', 'nullable', Rule::in(TaskType::values())],
                 'status' => ['sometimes', 'nullable', Rule::in(TaskStatus::values())],
+                'approved_at' => 'sometimes|nullable|date',
             ];
         }
 
@@ -41,6 +42,7 @@ class SaveTaskRequest extends FormRequest
             'cost' => 'required|numeric',
             'type' => ['sometimes', 'nullable', Rule::in(TaskType::values())],
             'status' => ['sometimes', 'nullable', Rule::in(TaskStatus::values())],
+            'approved_at' => 'sometimes|nullable|date',
         ];
     }
 }

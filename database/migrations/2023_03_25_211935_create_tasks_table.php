@@ -21,6 +21,7 @@ return new class extends Migration
             $table->enum('type', TaskType::values())->default(TaskType::Repair);
             $table->enum('status', TaskStatus::values())->default(TaskStatus::New);
             $table->timestamps();
+            $table->timestamp('approved_at')->nullable();
         });
     }
 

@@ -22,6 +22,7 @@ it('can initialize task', function () {
     expect($task->status)->toBe(TaskStatus::New);
     expect($task->created_at)->toBeNull();
     expect($task->updated_at)->toBeNull();
+    expect($task->approved_at)->toBeNull();
 });
 
 it('can create task', function () {
@@ -35,6 +36,13 @@ it('can create task', function () {
     expect($task->status)->toBe(TaskStatus::New);
     expect($task->created_at)->toBeInstanceOf(Carbon::class);
     expect($task->updated_at)->toBeInstanceOf(Carbon::class);
+    expect($task->approved_at)->toBeNull();
+});
+
+it('can create a pre-approved task', function () {
+    $task = Task::factory()->approved()->create();
+
+    expect($task->approved_at)->toBeInstanceOf(Carbon::class);
 });
 
 it('can create task of type', function (TaskType $type) {
@@ -57,12 +65,14 @@ it('can update task', function () {
         'cost' => 100,
         'type' => TaskType::Maintenance,
         'status' => TaskStatus::Completed,
+        'approved_at' => now(),
     ]);
 
     expect($task->description)->toBe('Replace the battery');
     expect($task->cost)->toBe(100.0);
     expect($task->type)->toBe(TaskType::Maintenance);
     expect($task->status)->toBe(TaskStatus::Completed);
+    expect($task->approved_at)->toBeInstanceOf(Carbon::class);
 });
 
 it('can delete task', function () {
@@ -100,3 +110,13 @@ it('can filter tasks by status scope', function (TaskStatus $status) {
     expect(Task::ofStatus($status)->count())->toBe(1);
     expect(Task::ofStatus($status)->first()->status)->toBe($status);
 })->with(TaskStatus::cases());
+
+// Approved ////////////////////////////////////////////////////////////////////////////////////////
+
+it('can filter tasks by approved scope', function () {
+    Task::factory()->create();
+    Task::factory()->approved()->create();
+
+    expect(Task::approved()->count())->toBe(1);
+    expect(Task::approved()->first()->approved_at)->toBeInstanceOf(Carbon::class);
+});

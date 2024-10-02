@@ -127,6 +127,18 @@ export const formatDatetime = (timestamp, long = false) => {
     return Intl.DateTimeFormat("en-BE", config).format(date);
 };
 
+export const mysqlToDatetimeLocal = (timestamp) => {
+    // Convert the MySQL datetime to a suitable format for datetime-local input
+    // Example MySQL datetime in ISO 8601 format: "2024-10-02T21:57:00.000000Z";
+    if (!timestamp || timestamp == "") return "";
+
+    // Create a new Date object from the MySQL datetime string
+    const date = new Date(timestamp);
+
+    // Get the date and time parts in the correct format (YYYY-MM-DDTHH:MM)
+    return date.toISOString().slice(0, 16);
+};
+
 export function formatPhone(value, defaultCountryCode = "32") {
     // skip if empty or null
     if (!value || value == "") return "";

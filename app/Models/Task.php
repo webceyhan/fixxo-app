@@ -25,6 +25,7 @@ use Illuminate\Support\Carbon;
  * @property TaskStatus $status
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * @property Carbon|null $approved_at
  * 
  * @property-read Ticket $ticket
  * 
@@ -46,6 +47,7 @@ class Task extends Model
         'cost',
         'type',
         'status',
+        'approved_at',
     ];
 
     /**
@@ -70,6 +72,7 @@ class Task extends Model
             'type' => TaskType::class,
             'status' => TaskStatus::class,
             'cost' => 'float',
+            'approved_at' => 'datetime',
         ];
     }
 
@@ -96,5 +99,13 @@ class Task extends Model
     public function scopeOfStatus(Builder $query, TaskStatus $status): void
     {
         $query->where('status', $status->value);
+    }
+
+    /**
+     * Scope a query to only include tasks that are approved.
+     */
+    public function scopeApproved(Builder $query): void
+    {
+        $query->whereNotNull('approved_at');
     }
 }

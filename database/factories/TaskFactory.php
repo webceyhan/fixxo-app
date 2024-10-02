@@ -70,4 +70,14 @@ class TaskFactory extends Factory
     {
         return $this->ofStatus(TaskStatus::Cancelled);
     }
+
+    /**
+     * Indicate that the task is approved.
+     */
+    public function approved(): self
+    {
+        return $this->state(fn(array $attributes) => [
+            'approved_at' => now(),
+        ]);
+    }
 }

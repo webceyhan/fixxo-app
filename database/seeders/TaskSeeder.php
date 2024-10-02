@@ -17,9 +17,12 @@ class TaskSeeder extends Seeder
     {
         // Create a random number of tasks for each ticket.
         Ticket::all()->each(function (Ticket $ticket) {
-            $amount = rand(0, 2);
+            
+            // create normal task
+            Task::factory()->forTicket($ticket)->create();
 
-            Task::factory($amount)->forTicket($ticket)->create();
+            // create pre-approved task
+            Task::factory()->forTicket($ticket)->approved()->create();
         });
 
         // cancel some tasks
