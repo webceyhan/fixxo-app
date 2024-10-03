@@ -71,7 +71,6 @@ class Order extends Model
      */
     protected $attributes = [
         'quantity' => 1,
-        'cost' => 0,
         'status' => OrderStatus::New,
     ];
 
@@ -84,7 +83,6 @@ class Order extends Model
     {
         return [
             'status' => OrderStatus::class,
-            'cost' => 'float',
         ];
     }
 

@@ -59,7 +59,6 @@ class Task extends Model
      * @var array
      */
     protected $attributes = [
-        'cost' => 0,
         'type' => TaskType::Repair,
         'status' => TaskStatus::New,
     ];
@@ -74,7 +73,6 @@ class Task extends Model
         return [
             'type' => TaskType::class,
             'status' => TaskStatus::class,
-            'cost' => 'float',
             'approved_at' => 'datetime',
         ];
     }

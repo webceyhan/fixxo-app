@@ -5,6 +5,7 @@ namespace App\Models\Concerns;
 use Illuminate\Database\Eloquent\Builder;
 
 /**
+ * @property float $cost
  * @property bool $is_billable
  * 
  * @method static Builder|static billable()
@@ -12,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
  */
 trait Billable
 {
+    private const COST = 'cost';
     private const IS_BILLABLE = 'is_billable';
 
     /**
@@ -19,8 +21,10 @@ trait Billable
      */
     public function initializeBillable(): void
     {
+        $this->casts[static::COST] = 'float';
         $this->casts[static::IS_BILLABLE] = 'boolean';
 
+        $this->attributes[static::COST] = 0;
         $this->attributes[static::IS_BILLABLE] = true;
     }
 
