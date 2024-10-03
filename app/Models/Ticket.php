@@ -95,7 +95,6 @@ class Ticket extends Model
      * @var array
      */
     protected $attributes = [
-        'priority' => Priority::Normal,
         'status' => TicketStatus::New,
         'balance' => 0,
         'total_tasks_count' => 0,
@@ -112,7 +111,6 @@ class Ticket extends Model
     protected function casts(): array
     {
         return [
-            'priority' => Priority::class,
             'status' => TicketStatus::class,
             'balance' => 'float',
         ];
