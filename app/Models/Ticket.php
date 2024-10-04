@@ -6,6 +6,7 @@ use App\Enums\Priority;
 use App\Enums\TicketStatus;
 use App\Models\Concerns\Assignable;
 use App\Models\Concerns\Completable;
+use App\Models\Concerns\HasDueDate;
 use App\Models\Concerns\HasPriority;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
@@ -32,6 +33,7 @@ use Illuminate\Support\Carbon;
  * @property string $description
  * @property Priority $priority
  * @property TicketStatus $status
+ * @property Carbon $due_date
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
@@ -59,12 +61,11 @@ use Illuminate\Support\Carbon;
  * @method static TicketFactory factory(int $count = null, array $state = [])
  * @method static Builder|static ofStatus(TicketStatus $status)
  * @method static Builder|static outstanding()
- * @method static Builder|static overdue()
  */
 #[ObservedBy([TicketObserver::class])]
 class Ticket extends Model
 {
-    use HasFactory, Assignable, Searchable, HasSince, Completable, HasPriority;
+    use HasFactory, Assignable, Searchable, HasSince, Completable, HasPriority, HasDueDate;
 
     /**
      * Searchable attributes.
@@ -87,6 +88,7 @@ class Ticket extends Model
         'description',
         'priority',
         'status',
+        'due_date',
     ];
 
     /**
@@ -251,17 +253,6 @@ class Ticket extends Model
         return $query->where('balance', '<', 0);
     }
 
-    /**
-     * Scope a query to only include tickets with overdue balance.
-     * This is a combination of closed tickets with outstanding balance.
-     * 
-     * @ignore This is a virtual status.
-     */
-    public function scopeOverdue(Builder $query): Builder
-    {
-        return $query->ofStatus(TicketStatus::Closed)->outstanding();
-    }
-
     // METHODS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -331,5 +322,15 @@ class Ticket extends Model
 
         // Default to the current status if no specific conditions are met.
         return $this->status;
+    }
+
+    protected function overdueCondition(): bool
+    {
+        return !$this->isCompleted();
+    }
+
+    protected function overdueConditionQuery(Builder $query): void
+    {
+        $query->pending();
     }
 }

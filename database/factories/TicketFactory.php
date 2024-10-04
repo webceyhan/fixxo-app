@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Device;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Carbon;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Ticket>
@@ -37,6 +38,7 @@ class TicketFactory extends Factory
             'description' => fake()->paragraph(),
             'priority' => Priority::Normal,
             'status' => TicketStatus::New,
+            'due_date' => now()->addWeek(),
             'balance' => 0,
         ];
     }
@@ -72,6 +74,8 @@ class TicketFactory extends Factory
             'device_id' => $device->id,
             'customer_id' => $device->customer_id,
             'created_at' => fake()->dateTimeBetween($device->created_at),
+        ])->state(fn(array $attributes) => [
+            'due_date' => Carbon::parse($attributes['created_at'])->addWeek(),
         ]);
     }
 
@@ -102,6 +106,16 @@ class TicketFactory extends Factory
     {
         return $this->state(fn(array $attributes) => [
             'status' => $status,
+        ]);
+    }
+
+    /**
+     * Indicate that the ticket is overdue.
+     */
+    public function overdue(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'due_date' => Carbon::parse($attributes['created_at'] ?? now())->subWeek(),
         ]);
     }
 }

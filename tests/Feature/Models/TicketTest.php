@@ -24,6 +24,7 @@ it('can initialize ticket', function () {
     expect($ticket->description)->toBeNull();
     expect($ticket->priority)->toBe(Priority::Normal);
     expect($ticket->status)->toBe(TicketStatus::New);
+    expect($ticket->due_date)->toBeNull();
     expect($ticket->created_at)->toBeNull();
     expect($ticket->updated_at)->toBeNull();
     expect($ticket->balance)->toBe(0.0);
@@ -42,6 +43,7 @@ it('can create ticket', function () {
     expect($ticket->description)->toBeString();
     expect($ticket->priority)->toBe(Priority::Normal);
     expect($ticket->status)->toBe(TicketStatus::New);
+    expect($ticket->due_date)->toBeInstanceOf(Carbon::class);
     expect($ticket->created_at)->toBeInstanceOf(Carbon::class);
     expect($ticket->updated_at)->toBeInstanceOf(Carbon::class);
     expect($ticket->balance)->toBe(0.0);
@@ -69,6 +71,13 @@ it('can create ticket of status', function () {
     expect($ticket->status)->toBe(TicketStatus::Closed);
 });
 
+it('can create an overdue ticket', function () {
+    $ticket = Ticket::factory()->overdue()->create();
+
+    expect($ticket->due_date)->toBeInstanceOf(Carbon::class);
+    expect($ticket->due_date->isPast())->toBeTrue();
+});
+
 it('can update ticket', function () {
     $ticket = Ticket::factory()->create();
 
@@ -76,11 +85,13 @@ it('can update ticket', function () {
         'description' => 'Repair iPhone 13 Pro',
         'priority' => Priority::High,
         'status' => TicketStatus::InProgress,
+        'due_date' => now()->addMonth(),
     ]);
 
     expect($ticket->description)->toBe('Repair iPhone 13 Pro');
     expect($ticket->priority)->toBe(Priority::High);
     expect($ticket->status)->toBe(TicketStatus::InProgress);
+    expect($ticket->due_date->isFuture())->toBeTrue();
 });
 
 it('can delete ticket', function () {

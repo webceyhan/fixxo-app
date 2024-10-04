@@ -30,6 +30,7 @@ class SaveTicketRequest extends FormRequest
                 'description' => 'nullable|string',
                 'priority' => ['nullable', Rule::in(Priority::values())],
                 'status' => ['nullable', Rule::in(TicketStatus::values())],
+                'due_date' => 'nullable|date',
             ];
         }
 
@@ -39,6 +40,7 @@ class SaveTicketRequest extends FormRequest
             'description' => 'required|string',
             'priority' => ['nullable', Rule::in(Priority::values())],
             'status' => ['nullable', Rule::in(TicketStatus::values())],
+            'due_date' => 'date',
         ];
     }
 }
