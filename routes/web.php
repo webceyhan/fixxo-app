@@ -3,6 +3,7 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DeviceController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
@@ -51,6 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('customers', CustomerController::class);
     Route::resource('devices', DeviceController::class);
     Route::resource('tickets', TicketController::class);
+    Route::resource('invoices', InvoiceController::class);
     Route::resource('orders', OrderController::class);
     Route::resource('tasks', TaskController::class)->only(['store', 'update', 'destroy']);
     Route::resource('transactions', TransactionController::class)->only(['store', 'update', 'destroy']);
