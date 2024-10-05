@@ -45,21 +45,21 @@ defineExpose({
         <div class="flex">
           <span class="w-full">Total Task Cost</span>
           <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
-            {{ formatMoney(ticket.tasks_cost) }}
+            {{ formatMoney(ticket.invoice.tasks_cost) }}
           </span>
         </div>
 
-        <div v-if="ticket.orders_cost" class="flex">
+        <div v-if="ticket.invoice.orders_cost" class="flex">
           <span class="w-full">Total Orders Cost</span>
           <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
-            {{ formatMoney(ticket.orders_cost) }}
+            {{ formatMoney(ticket.invoice.orders_cost) }}
           </span>
         </div>
 
         <div class="flex">
           <span class="w-full">Total Paid</span>
           <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
-            {{ formatMoney(ticket.total_paid) }}
+            {{ formatMoney(ticket.invoice.total_paid) }}
           </span>
         </div>
 

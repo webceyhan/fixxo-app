@@ -61,18 +61,22 @@ class TicketController extends Controller
             'device',
             'customer',
             'assignee:id,name',
+            'invoice',
         ]);
 
         // append custom attributes
         $ticket->append([
-            'tasks_cost',
-            'orders_cost',
-            'total_cost',
-            'total_paid',
             'qr_url',
             'uploaded_urls',
             'intake_signature_url',
             'delivery_signature_url',
+        ]);
+
+        $ticket->invoice->append([
+            'tasks_cost',
+            'orders_cost',
+            'total_cost',
+            'total_paid',
         ]);
 
         return inertia('Tickets/Show', [

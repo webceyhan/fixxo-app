@@ -6,6 +6,7 @@ use App\Models\Concerns\HasDueDate;
 use App\Models\Concerns\HasSince;
 use Database\Factories\InvoiceFactory;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -21,6 +22,12 @@ use Illuminate\Support\Carbon;
  * @property Carbon $due_date
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ * 
+ * @property-read float $tasks_cost
+ * @property-read float $orders_cost
+ * @property-read float $total_cost
+ * @property-read float $total_paid
+ * @property-read float $balance
  * 
  * @property-read Ticket $ticket
  * @property-read Collection<int, Transaction> $transactions
@@ -65,6 +72,54 @@ class Invoice extends Model
             'is_paid' => 'boolean',
             'due_date' => 'date',
         ];
+    }
+
+    // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Get total cost of billable tasks.
+     */
+    protected function tasksCost(): Attribute
+    {
+        return Attribute::get(
+            fn() => (float) $this->ticket->tasks()->billable()->sum('cost')
+        );
+    }
+
+    /**
+     * Get total cost of billable orders.
+     */
+    protected function ordersCost(): Attribute
+    {
+        return Attribute::get(
+            fn() => (float) $this->ticket->orders()->billable()->sum('cost')
+        );
+    }
+
+    /**
+     * Get total cost of both tasks and orders.
+     */
+    protected function totalCost(): Attribute
+    {
+        return Attribute::get(fn() => $this->tasks_cost + $this->orders_cost);
+    }
+
+    /**
+     * Get total amount paid.
+     */
+    protected function totalPaid(): Attribute
+    {
+        return Attribute::get(
+            fn() => (float) $this->ticket->transactions()->sum('amount')
+        );
+    }
+
+    /**
+     * Get the balance (difference between total cost and total paid).
+     */
+    protected function balance(): Attribute
+    {
+        return Attribute::get(fn() => $this->total_cost - $this->total_paid);
     }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////

@@ -43,10 +43,6 @@ use Illuminate\Support\Carbon;
  * @property-read int $completed_tasks_count
  * @property-read int $total_orders_count
  * @property-read int $completed_orders_count
- * @property-read float $tasks_cost
- * @property-read float $orders_cost
- * @property-read float $total_cost
- * @property-read float $total_paid
  * @property-read string $qr_url
  * @property-read string $intake_signature_url
  * @property-read string $delivery_signature_url
@@ -121,44 +117,6 @@ class Ticket extends Model
     }
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Get total cost of all non-cancelled tasks.
-     */
-    protected function tasksCost(): Attribute
-    {
-        return Attribute::get(
-            fn() => (float) $this->tasks()->billable()->sum('cost')
-        )->shouldCache();
-    }
-
-    /**
-     * Get total cost of all non-cancelled orders.
-     */
-    protected function ordersCost(): Attribute
-    {
-        return Attribute::get(
-            fn() => (float) $this->orders()->billable()->sum('cost')
-        )->shouldCache();
-    }
-
-    /**
-     * Get total cost of all tasks and orders.
-     */
-    protected function totalCost(): Attribute
-    {
-        return Attribute::get(fn() => $this->tasks_cost + $this->orders_cost);
-    }
-
-    /**
-     * Get total amount of all transactions.
-     */
-    protected function totalPaid(): Attribute
-    {
-        return Attribute::get(
-            fn() => (float) $this->transactions()->sum('amount')
-        )->shouldCache();
-    }
 
     /**
      * Get URL to qr code or generate if not exists.
@@ -277,7 +235,7 @@ class Ticket extends Model
      */
     public function fillBalance(): self
     {
-        $this->balance = $this->total_cost - $this->total_paid;
+        $this->balance = $this->invoice?->balance ?? 0;
 
         return $this;
     }
