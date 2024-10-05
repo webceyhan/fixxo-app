@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -57,6 +58,7 @@ use Illuminate\Support\Carbon;
  * @property-read Collection<int, Task> $tasks
  * @property-read Collection<int, Order> $orders
  * @property-read Collection<int, Transaction> $transactions
+ * @property-read Invoice|null $invoice
  * 
  * @method static TicketFactory factory(int $count = null, array $state = [])
  * @method static Builder|static ofStatus(TicketStatus $status)
@@ -231,6 +233,11 @@ class Ticket extends Model
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class)->latest();
+    }
+
+    public function invoice(): HasOne
+    {
+        return $this->hasOne(Invoice::class);
     }
 
     // SCOPES //////////////////////////////////////////////////////////////////////////////////////
