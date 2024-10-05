@@ -156,23 +156,6 @@ it('can delete ticket with orders', function () {
     expect(Order::count())->toBe(0);
 });
 
-// Transaction /////////////////////////////////////////////////////////////////////////////////////
-
-it('can have many transactions', function () {
-    $ticket = Ticket::factory()->hasTransactions(2)->create();
-
-    expect($ticket->transactions)->toHaveCount(2);
-});
-
-it('can delete ticket with transactions', function () {
-    $ticket = Ticket::factory()->hasTransactions(2)->create();
-
-    $ticket->delete();
-
-    expect(Ticket::find($ticket->id))->toBeNull();
-    expect(Transaction::count())->toBe(0);
-});
-
 // Status ////////////////////////////////////////////////////////////////////////////////////////
 
 it('can filter tickets by status scope', function (TicketStatus $status) {
@@ -195,7 +178,7 @@ it('can update ticket balance automatically', function () {
 
     $ticket->refresh();
 
-    expect($ticket->balance)->toBe(round($task->cost + $order->cost, 2));
+    expect($ticket->balance)->toBe(-round($task->cost + $order->cost, 2));
 });
 
 // Task Counters ///////////////////////////////////////////////////////////////////////////////////

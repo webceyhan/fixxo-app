@@ -1,46 +1,46 @@
 <?php
 
-use App\Models\Ticket;
+use App\Models\Invoice;
 use App\Models\Transaction;
 
-it('can update ticket total_paid on all events as payment', function () {
-    $ticket = Ticket::factory()->hasInvoice()->create();
-    $transaction = Transaction::factory()->forTicket($ticket)->create();
+it('can update invoice total_paid on all events as payment', function () {
+    $invoice = Invoice::factory()->create();
+    $transaction = Transaction::factory()->forInvoice($invoice)->create();
 
-    $ticket->refresh();
+    $invoice->refresh();
 
-    expect($ticket->invoice->total_paid)->toBe($transaction->amount);
+    expect($invoice->total_paid)->toBe($transaction->amount);
 
     // update transaction amount
     $transaction->update(['amount' => 100.0]);
-    $ticket->refresh();
+    $invoice->refresh();
 
-    expect($ticket->invoice->total_paid)->toBe(100.0);
+    expect($invoice->total_paid)->toBe(100.0);
 
     // delete transaction
     $transaction->delete();
-    $ticket->refresh();
+    $invoice->refresh();
 
-    expect($ticket->invoice->total_paid)->toBe(0.0);
+    expect($invoice->total_paid)->toBe(0.0);
 });
 
-it('can update ticket total_paid on all events as refund', function () {
-    $ticket = Ticket::factory()->hasInvoice()->create();
-    $transaction = Transaction::factory()->forTicket($ticket)->refund()->create();
+it('can update invoice total_paid on all events as refund', function () {
+    $invoice = Invoice::factory()->create();
+    $transaction = Transaction::factory()->forInvoice($invoice)->refund()->create();
 
-    $ticket->refresh();
+    $invoice->refresh();
 
-    expect($ticket->invoice->total_paid)->toBe($transaction->amount);
+    expect($invoice->total_paid)->toBe($transaction->amount);
 
     // update transaction amount
     $transaction->update(['amount' => 100.0]);
-    $ticket->refresh();
+    $invoice->refresh();
 
-    expect($ticket->invoice->total_paid)->toBe(100.0);
+    expect($invoice->total_paid)->toBe(100.0);
 
     // delete transaction
     $transaction->delete();
-    $ticket->refresh();
+    $invoice->refresh();
 
-    expect($ticket->invoice->total_paid)->toBe(0.0);
+    expect($invoice->total_paid)->toBe(0.0);
 });

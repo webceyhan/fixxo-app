@@ -48,6 +48,7 @@ class Invoice extends Model
         'total',
         'is_paid',
         'due_date',
+        'balance',
     ];
 
     /**
@@ -57,6 +58,7 @@ class Invoice extends Model
      */
     protected $attributes = [
         'total' => 0,
+        'balance' => 0,
         'is_paid' => false,
     ];
 
@@ -71,6 +73,7 @@ class Invoice extends Model
             'total' => 'float',
             'is_paid' => 'boolean',
             'due_date' => 'date',
+            'balance' => 'float',
         ];
     }
 
@@ -101,7 +104,9 @@ class Invoice extends Model
      */
     protected function totalCost(): Attribute
     {
-        return Attribute::get(fn() => $this->tasks_cost + $this->orders_cost);
+        return Attribute::get(
+            fn() => (float) $this->tasks_cost + $this->orders_cost
+        );
     }
 
     /**
@@ -110,16 +115,8 @@ class Invoice extends Model
     protected function totalPaid(): Attribute
     {
         return Attribute::get(
-            fn() => (float) $this->ticket->transactions()->sum('amount')
+            fn() => (float) $this->transactions()->sum('amount')
         );
-    }
-
-    /**
-     * Get the balance (difference between total cost and total paid).
-     */
-    protected function balance(): Attribute
-    {
-        return Attribute::get(fn() => $this->total_cost - $this->total_paid);
     }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
@@ -135,6 +132,16 @@ class Invoice extends Model
     }
 
     // METHODS /////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Fill the invoice's balance automatically.
+     */
+    public function fillBalance(): self
+    {
+        $this->balance = $this->total_paid - $this->total_cost;
+
+        return $this;
+    }
 
     protected function overdueCondition(): bool
     {

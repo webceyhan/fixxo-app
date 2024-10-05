@@ -84,7 +84,7 @@ class TicketController extends Controller
             'customer' => $ticket->customer,
             'tasks' => $ticket->tasks()->get(),
             'orders' => $ticket->orders()->get(),
-            'transactions' => $ticket->transactions()->get(),
+            'transactions' => $ticket->invoice->transactions()->get(),
             'canDelete' => Gate::allows('delete', $ticket),
             // TODO: improve this!
             // we are checking for the ability to delete a task in the future

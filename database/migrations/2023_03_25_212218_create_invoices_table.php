@@ -18,6 +18,9 @@ return new class extends Migration
             $table->boolean('is_paid')->default(false);
             $table->date('due_date');
             $table->timestamps();
+
+            // aggregate fields
+            $table->decimal('balance')->default(0);
         });
     }
 

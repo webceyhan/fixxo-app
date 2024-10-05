@@ -30,13 +30,13 @@ it('can update ticket balance on all events', function () {
 
     $ticket->refresh();
 
-    expect($ticket->balance)->toBe($order->cost);
+    expect($ticket->balance)->toBe(-$order->cost);
 
     // update order cost
     $order->update(['cost' => 100.0]);
     $ticket->refresh();
 
-    expect($ticket->balance)->toBe(100.0);
+    expect($ticket->balance)->toBe(-100.0);
 
     // delete order
     $order->delete();

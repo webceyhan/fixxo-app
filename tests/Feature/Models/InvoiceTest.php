@@ -74,6 +74,23 @@ it('belongs to a ticket', function () {
     expect($invoice->ticket->id)->toBe($ticket->id);
 });
 
+// Transactions ////////////////////////////////////////////////////////////////////////////////////
+
+it('can have many transactions', function () {
+    $invoice = Invoice::factory()->hasTransactions(2)->create();
+
+    expect($invoice->transactions)->toHaveCount(2);
+});
+
+it('can delete invoice with transactions', function () {
+    $invoice = Invoice::factory()->hasTransactions(2)->create();
+
+    $invoice->delete();
+
+    expect(Invoice::find($invoice->id))->toBeNull();
+    expect(Transaction::count())->toBe(0);
+});
+
 // Unpaid //////////////////////////////////////////////////////////////////////////////////////////
 
 it('can filter invoices by unpaid scope', function () {

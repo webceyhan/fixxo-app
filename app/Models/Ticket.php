@@ -53,7 +53,6 @@ use Illuminate\Support\Carbon;
  * @property-read Device $device
  * @property-read Collection<int, Task> $tasks
  * @property-read Collection<int, Order> $orders
- * @property-read Collection<int, Transaction> $transactions
  * @property-read Invoice|null $invoice
  * 
  * @method static TicketFactory factory(int $count = null, array $state = [])
@@ -188,11 +187,6 @@ class Ticket extends Model
         return $this->hasMany(Order::class)->latest();
     }
 
-    public function transactions(): HasMany
-    {
-        return $this->hasMany(Transaction::class)->latest();
-    }
-
     public function invoice(): HasOne
     {
         return $this->hasOne(Invoice::class);
@@ -235,6 +229,9 @@ class Ticket extends Model
      */
     public function fillBalance(): self
     {
+        // force re-calculation of the invoice balance
+        $this->invoice?->fillBalance()->save();
+
         $this->balance = $this->invoice?->balance ?? 0;
 
         return $this;

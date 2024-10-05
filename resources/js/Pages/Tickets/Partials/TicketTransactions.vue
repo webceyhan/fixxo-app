@@ -7,7 +7,7 @@ import TransactionList from "./Transaction/TransactionList.vue";
 import TransactionModal from "./Transaction/TransactionModal.vue";
 
 const props = defineProps({
-  ticket: Object,
+  invoice: Object,
   transactions: Array,
   canDelete: Boolean,
 });
@@ -17,7 +17,7 @@ const modal = ref(null);
 const editing = ref(null);
 
 const create = () => {
-  edit({ ticket_id: props.ticket.id });
+  edit({ invoice_id: props.invoice.id });
 };
 
 const edit = (transaction) => {
@@ -45,30 +45,30 @@ defineExpose({
         <div class="flex">
           <span class="w-full">Total Task Cost</span>
           <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
-            {{ formatMoney(ticket.invoice.tasks_cost) }}
+            {{ formatMoney(invoice.tasks_cost) }}
           </span>
         </div>
 
-        <div v-if="ticket.invoice.orders_cost" class="flex">
+        <div v-if="invoice.orders_cost" class="flex">
           <span class="w-full">Total Orders Cost</span>
           <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
-            {{ formatMoney(ticket.invoice.orders_cost) }}
+            {{ formatMoney(invoice.orders_cost) }}
           </span>
         </div>
 
         <div class="flex">
           <span class="w-full">Total Paid</span>
           <span class="w-2/3 mr-7 sm:mr-9 border-b border-gray-700 border-dashed">
-            {{ formatMoney(ticket.invoice.total_paid) }}
+            {{ formatMoney(invoice.total_paid) }}
           </span>
         </div>
 
         <div class="flex">
           <span
             class="w-full mr-7 sm:mr-9 text-xl mt-1 text-white/50"
-            :class="{ '!text-red-500': ticket.balance < 0 }"
+            :class="{ '!text-red-500': invoice.balance < 0 }"
           >
-            {{ formatMoney(ticket.balance) }}
+            {{ formatMoney(invoice.balance) }}
           </span>
         </div>
       </div>
