@@ -17,7 +17,6 @@ class DatabaseSeeder extends Seeder
             CustomerSeeder::class,
             DeviceSeeder::class,
             TicketSeeder::class,
-            InvoiceSeeder::class,
             TaskSeeder::class,
             OrderSeeder::class,
             TransactionSeeder::class,

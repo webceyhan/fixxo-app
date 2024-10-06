@@ -20,6 +20,9 @@ return new class extends Migration
 
             // aggregate fields
             $table->decimal('balance')->default(0);
+
+            // index definitions
+            $table->unique('ticket_id');
         });
     }
 

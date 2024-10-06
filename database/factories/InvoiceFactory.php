@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Invoice;
 use App\Models\Ticket;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Carbon;
@@ -27,6 +28,21 @@ class InvoiceFactory extends Factory
             'balance' => -fake()->randomFloat(2, 0, 50),
         ];
     }
+
+        /**
+     * Configure the model factory.
+     */
+    public function configure(): static
+    {
+        return $this->afterMaking(function (Invoice $invoice) {
+            // workaround for testing purposes!
+            // remove auto-generated invoice using ticket observer
+            // to avoid duplicate invoices for the same ticket
+            // TODO: find a better solution
+            Ticket::find($invoice->ticket_id)->invoice()->delete();
+        });
+    }
+
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
