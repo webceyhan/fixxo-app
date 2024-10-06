@@ -23,6 +23,7 @@ it('can initialize order', function () {
     expect($order->status)->toBe(OrderStatus::New);
     expect($order->created_at)->toBeNull();
     expect($order->updated_at)->toBeNull();
+    expect($order->approved_at)->toBeNull();
 });
 
 it('can create order', function () {
@@ -38,6 +39,7 @@ it('can create order', function () {
     expect($order->status)->toBe(OrderStatus::New);
     expect($order->created_at)->toBeInstanceOf(Carbon::class);
     expect($order->updated_at)->toBeInstanceOf(Carbon::class);
+    expect($order->approved_at)->toBeNull();
 });
 
 it('can create order as free', function () {
@@ -52,6 +54,13 @@ it('can create order of status', function (OrderStatus $status) {
     expect($order->status)->toBe($status);
 })->with(OrderStatus::cases());
 
+
+it('can create a pre-approved order', function () {
+    $order = Order::factory()->approved()->create();
+
+    expect($order->approved_at)->toBeInstanceOf(Carbon::class);
+});
+
 it('can update order', function () {
     $order = Order::factory()->create();
 
@@ -62,6 +71,7 @@ it('can update order', function () {
         'cost' => 200,
         'is_billable' => false,
         'status' => OrderStatus::Received,
+        'approved_at' => now(),
     ]);
 
     expect($order->name)->toBe('Corsair Vengeance 16GB');
@@ -70,6 +80,7 @@ it('can update order', function () {
     expect($order->cost)->toBe(200.0);
     expect($order->is_billable)->toBeFalse();
     expect($order->status)->toBe(OrderStatus::Received);
+    expect($order->approved_at)->toBeInstanceOf(Carbon::class);
 });
 
 it('can delete order', function () {
@@ -98,3 +109,13 @@ it('can filter orders by status scope', function (OrderStatus $status) {
     expect(Order::ofStatus($status)->count())->toBe(1);
     expect(Order::ofStatus($status)->first()->status)->toBe($status);
 })->with(OrderStatus::cases());
+
+// Approved ////////////////////////////////////////////////////////////////////////////////////////
+
+it('can filter tasks by approved scope', function () {
+    Order::factory()->create();
+    Order::factory()->approved()->create();
+
+    expect(Order::approved()->count())->toBe(1);
+    expect(Order::approved()->first()->approved_at)->toBeInstanceOf(Carbon::class);
+});

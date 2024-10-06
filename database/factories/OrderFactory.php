@@ -108,4 +108,14 @@ class OrderFactory extends Factory
     {
         return $this->ofStatus(OrderStatus::Cancelled);
     }
+
+    /**
+     * Indicate that the order is approved.
+     */
+    public function approved(): self
+    {
+        return $this->state(fn(array $attributes) => [
+            'approved_at' => now(),
+        ]);
+    }
 }

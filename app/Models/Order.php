@@ -43,6 +43,7 @@ class Order extends Model
         'cost',
         'is_billable',
         'status',
+        'approved_at',
     ];
 
     /**
@@ -64,6 +65,7 @@ class Order extends Model
     {
         return [
             'status' => OrderStatus::class,
+            'approved_at' => 'datetime',
         ];
     }
 
@@ -82,5 +84,13 @@ class Order extends Model
     public function scopeOfStatus(Builder $query, OrderStatus $status): void
     {
         $query->where('status', $status->value);
+    }
+
+    /**
+     * Scope a query to only include orders that are approved.
+     */
+    public function scopeApproved(Builder $query): void
+    {
+        $query->whereNotNull('approved_at');
     }
 }

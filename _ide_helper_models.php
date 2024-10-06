@@ -182,7 +182,9 @@ namespace App\Models{
  * @property \App\Enums\OrderStatus $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $approved_at
  * @property-read \App\Models\Ticket $ticket
+ * @method static \Illuminate\Database\Eloquent\Builder|Order approved()
  * @method static \Illuminate\Database\Eloquent\Builder|Order billable()
  * @method static \Illuminate\Database\Eloquent\Builder|Order cancelled()
  * @method static \Illuminate\Database\Eloquent\Builder|Order completed()
@@ -199,6 +201,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Order sinceThisMonth()
  * @method static \Illuminate\Database\Eloquent\Builder|Order sinceThisWeek()
  * @method static \Illuminate\Database\Eloquent\Builder|Order sinceToday()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereApprovedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereCost($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereId($value)

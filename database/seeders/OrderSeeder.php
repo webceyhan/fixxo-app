@@ -17,7 +17,11 @@ class OrderSeeder extends Seeder
     {
         // create orders for random tickets
         Ticket::all()->random(30)->each(function (Ticket $ticket) {
+            // create normal order
             Order::factory()->forTicket($ticket)->create();
+
+            // create pre-approved order
+            Order::factory()->forTicket($ticket)->approved()->create();
         });
 
         // cancel some orders
