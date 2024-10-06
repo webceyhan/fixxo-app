@@ -4,6 +4,7 @@ import { useForm } from "@inertiajs/vue3";
 import { statusOptions } from "./shared";
 import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
+import { mysqlToDatetimeLocal } from "@/Shared/utils";
 
 const props = defineProps({
   order: Object,
@@ -18,6 +19,7 @@ const form = useForm({
   cost: props.order.cost ?? 0,
   is_billable: props.order.is_billable ?? false,
   status: props.order.status ?? statusOptions[0],
+  approved_at: mysqlToDatetimeLocal(props.order.approved_at),
 });
 
 const formEl = ref(null);
@@ -63,5 +65,12 @@ defineExpose({
     <FormControl label="Billable" type="checkbox" v-model="form.is_billable" />
 
     <FormControl label="Status" v-model="form.status" :options="statusOptions" fancy />
+
+    <FormControl
+      label="Approved at"
+      type="datetime-local"
+      v-model="form.approved_at"
+      :error="form.errors.approved_at"
+    />
   </Form>
 </template>

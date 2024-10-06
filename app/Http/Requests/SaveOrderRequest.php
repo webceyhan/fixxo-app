@@ -32,6 +32,7 @@ class SaveOrderRequest extends FormRequest
                 'cost' => 'sometimes|required|numeric',
                 'is_billable' => 'sometimes|nullable|boolean',
                 'status' => ['sometimes', 'nullable', Rule::in(OrderStatus::values())],
+                'approved_at' => 'sometimes|nullable|date',
             ];
         }
 
@@ -44,6 +45,7 @@ class SaveOrderRequest extends FormRequest
             'cost' => 'required|numeric',
             'is_billable' => 'nullable|boolean',
             'status' => ['nullable', Rule::in(OrderStatus::values())],
+            'approved_at' => 'sometimes|nullable|date',
         ];
     }
 }
