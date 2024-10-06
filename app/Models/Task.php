@@ -9,33 +9,12 @@ use App\Models\Concerns\Cancellable;
 use App\Models\Concerns\Completable;
 use App\Models\Concerns\HasSince;
 use App\Observers\TaskObserver;
-use Database\Factories\TaskFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
 
-/**
- * @property int $id
- * @property int $ticket_id
- * @property string $description
- * @property float $cost
- * @property bool $is_billable
- * @property TaskType $type
- * @property TaskStatus $status
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * @property Carbon|null $approved_at
- * 
- * @property-read Ticket $ticket
- * 
- * @method static TaskFactory factory(int $count = null, array $state = [])
- * @method static Builder|static ofType(TaskType $type)
- * @method static Builder|static ofStatus(TaskStatus $status)
- * @method static Builder|static approved()
- */
 #[ObservedBy([TaskObserver::class])]
 class Task extends Model
 {

@@ -10,37 +10,13 @@ use App\Models\Concerns\HasSince;
 use App\Models\Concerns\HasWarranty;
 use App\Models\Concerns\Searchable;
 use App\Observers\DeviceObserver;
-use Database\Factories\DeviceFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Carbon;
 
-/**
- * @property int $id
- * @property int $customer_id
- * @property string $model
- * @property string|null $brand
- * @property string|null $serial_number
- * @property Carbon|null $purchase_date
- * @property Carbon|null $warranty_expire_date
- * @property DeviceType $type
- * @property DeviceStatus $status
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * 
- * @property-read Customer $customer
- * @property-read Collection<int, Ticket> $tickets
- * @property-read Collection<int, DeviceLog> $logs
- *
- * @method static DeviceFactory factory(int $count = null, array $state = [])
- * @method static Builder|static ofType(DeviceType $type)
- * @method static Builder|static ofStatus(DeviceStatus $status)
- */
 #[ObservedBy([DeviceObserver::class])]
 class Device extends Model
 {
