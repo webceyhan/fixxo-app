@@ -75,7 +75,6 @@ class TicketController extends Controller
         $ticket->invoice->append([
             'tasks_cost',
             'orders_cost',
-            'total_cost',
             'total_paid',
         ]);
 

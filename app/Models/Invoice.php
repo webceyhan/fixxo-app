@@ -25,7 +25,6 @@ use Illuminate\Support\Carbon;
  * 
  * @property-read float $tasks_cost
  * @property-read float $orders_cost
- * @property-read float $total_cost
  * @property-read float $total_paid
  * @property-read float $balance
  * 
@@ -100,16 +99,6 @@ class Invoice extends Model
     }
 
     /**
-     * Get total cost of both tasks and orders.
-     */
-    protected function totalCost(): Attribute
-    {
-        return Attribute::get(
-            fn() => (float) $this->tasks_cost + $this->orders_cost
-        );
-    }
-
-    /**
      * Get total amount paid.
      */
     protected function totalPaid(): Attribute
@@ -138,7 +127,11 @@ class Invoice extends Model
      */
     public function fillBalance(): self
     {
-        $this->balance = $this->total_paid - $this->total_cost;
+        // fill total cost of billable tasks and orders
+        $this->total = $this->tasks_cost + $this->orders_cost;
+
+        // fill remaining balance
+        $this->balance = $this->total_paid - $this->total;
 
         return $this;
     }
