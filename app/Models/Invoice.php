@@ -18,7 +18,6 @@ use Illuminate\Support\Carbon;
  * @property int $id
  * @property int $ticket_id
  * @property float $total
- * @property bool $is_paid
  * @property Carbon $due_date
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -27,6 +26,7 @@ use Illuminate\Support\Carbon;
  * @property-read float $orders_cost
  * @property-read float $total_paid
  * @property-read float $balance
+ * @property-read bool $is_paid
  * 
  * @property-read Ticket $ticket
  * @property-read Collection<int, Transaction> $transactions
@@ -45,7 +45,6 @@ class Invoice extends Model
      */
     protected $fillable = [
         'total',
-        'is_paid',
         'due_date',
         'balance',
     ];
@@ -58,7 +57,6 @@ class Invoice extends Model
     protected $attributes = [
         'total' => 0,
         'balance' => 0,
-        'is_paid' => false,
     ];
 
     /**
@@ -70,7 +68,6 @@ class Invoice extends Model
     {
         return [
             'total' => 'float',
-            'is_paid' => 'boolean',
             'due_date' => 'date',
             'balance' => 'float',
         ];
@@ -106,6 +103,14 @@ class Invoice extends Model
         return Attribute::get(
             fn() => (float) $this->transactions()->sum('amount')
         );
+    }
+
+    /**
+     * Get whether the invoice is paid.
+     */
+    protected function isPaid(): Attribute
+    {
+        return Attribute::get(fn() => $this->balance >= 0);
     }
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
@@ -153,6 +158,6 @@ class Invoice extends Model
      */
     public function scopeUnpaid(Builder $query): void
     {
-        $query->where('is_paid', false);
+        $query->where('balance', '<', 0);
     }
 }

@@ -23,9 +23,8 @@ class InvoiceFactory extends Factory
         return [
             'ticket_id' => Ticket::factory(),
             'total' => fake()->randomFloat(2, 10, 100),
-            'is_paid' => false,
             'due_date' => now()->addWeek(),
-            'balance' => 0,
+            'balance' => -fake()->randomFloat(2, 0, 50),
         ];
     }
 
@@ -52,7 +51,7 @@ class InvoiceFactory extends Factory
     public function paid(): static
     {
         return $this->state(fn(array $attributes) => [
-            'is_paid' => true,
+            'balance' => 0, // TODO: ensure total and total_paid are equal instead of setting balance to 0
         ]);
     }
 

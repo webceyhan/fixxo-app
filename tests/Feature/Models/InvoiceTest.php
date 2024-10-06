@@ -11,7 +11,6 @@ it('can initialize invoice', function () {
     expect($invoice->id)->toBeNull();
     expect($invoice->ticket_id)->toBeNull();
     expect($invoice->total)->toBe(0.0);
-    expect($invoice->is_paid)->toBeFalse();
     expect($invoice->due_date)->toBeNull();
     expect($invoice->created_at)->toBeNull();
     expect($invoice->updated_at)->toBeNull();
@@ -23,7 +22,6 @@ it('can create invoice', function () {
     expect($invoice->id)->toBeInt();
     expect($invoice->ticket_id)->toBeInt();
     expect($invoice->total)->toBeFloat();
-    expect($invoice->is_paid)->toBeFalse();
     expect($invoice->due_date)->toBeInstanceOf(Carbon::class);
     expect($invoice->created_at)->toBeInstanceOf(Carbon::class);
     expect($invoice->updated_at)->toBeInstanceOf(Carbon::class);
@@ -33,6 +31,7 @@ it('can create invoice as paid', function () {
     $invoice = Invoice::factory()->paid()->create();
 
     expect($invoice->is_paid)->toBeTrue();
+    expect($invoice->balance)->toBe(0.0);
 });
 
 it('can create invoice as overdue', function () {
@@ -47,12 +46,10 @@ it('can update invoice', function () {
 
     $invoice->update([
         'total' => 100,
-        'is_paid' => true,
         'due_date' => '2024-01-01',
     ]);
 
     expect($invoice->total)->toBe(100.0);
-    expect($invoice->is_paid)->toBeTrue();
     expect($invoice->due_date->format('Y-m-d'))->toBe('2024-01-01');
 });
 

@@ -18,7 +18,7 @@ export const invoiceStatus = {
 export const statusOptions = Object.keys(invoiceStatus);
 
 export const makeStatus = (invoice) => {
-    if (invoice.is_paid) {
+    if (invoice.balance >= 0) {
         return "paid";
     }
 

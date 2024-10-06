@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('ticket_id')->constrained()->cascadeOnDelete();
             $table->decimal('total')->default(0);
-            $table->boolean('is_paid')->default(false);
             $table->date('due_date');
             $table->timestamps();
 
