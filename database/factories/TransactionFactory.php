@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use App\Enums\TransactionMethod;
 use App\Enums\TransactionType;
-use App\Models\Ticket;
+use App\Models\Invoice;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,7 +20,7 @@ class TransactionFactory extends Factory
     public function definition(): array
     {
         return [
-            'ticket_id' => Ticket::factory(),
+            'invoice_id' => Invoice::factory(),
             'amount' => fake()->randomFloat(2, 10, 100),
             'note' => fake()->sentence(),
             'method' => TransactionMethod::Cash,
@@ -31,13 +31,13 @@ class TransactionFactory extends Factory
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * Indicate that the transaction belongs to the specified ticket.
+     * Indicate that the transaction belongs to the specified invoice.
      */
-    public function forTicket(Ticket $ticket): self
+    public function forInvoice(Invoice $invoice): self
     {
         return $this->state(fn(array $attributes) => [
-            'ticket_id' => $ticket->id,
-            'created_at' => fake()->dateTimeBetween($ticket->created_at),
+            'invoice_id' => $invoice->id,
+            'created_at' => fake()->dateTimeBetween($invoice->created_at),
         ]);
     }
 

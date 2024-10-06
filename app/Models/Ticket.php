@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 
 /**
@@ -42,10 +43,6 @@ use Illuminate\Support\Carbon;
  * @property-read int $completed_tasks_count
  * @property-read int $total_orders_count
  * @property-read int $completed_orders_count
- * @property-read float $tasks_cost
- * @property-read float $orders_cost
- * @property-read float $total_cost
- * @property-read float $total_paid
  * @property-read string $qr_url
  * @property-read string $intake_signature_url
  * @property-read string $delivery_signature_url
@@ -56,7 +53,7 @@ use Illuminate\Support\Carbon;
  * @property-read Device $device
  * @property-read Collection<int, Task> $tasks
  * @property-read Collection<int, Order> $orders
- * @property-read Collection<int, Transaction> $transactions
+ * @property-read Invoice $invoice
  * 
  * @method static TicketFactory factory(int $count = null, array $state = [])
  * @method static Builder|static ofStatus(TicketStatus $status)
@@ -119,44 +116,6 @@ class Ticket extends Model
     }
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Get total cost of all non-cancelled tasks.
-     */
-    protected function tasksCost(): Attribute
-    {
-        return Attribute::get(
-            fn() => (float) $this->tasks()->billable()->sum('cost')
-        )->shouldCache();
-    }
-
-    /**
-     * Get total cost of all non-cancelled orders.
-     */
-    protected function ordersCost(): Attribute
-    {
-        return Attribute::get(
-            fn() => (float) $this->orders()->billable()->sum('cost')
-        )->shouldCache();
-    }
-
-    /**
-     * Get total cost of all tasks and orders.
-     */
-    protected function totalCost(): Attribute
-    {
-        return Attribute::get(fn() => $this->tasks_cost + $this->orders_cost);
-    }
-
-    /**
-     * Get total amount of all transactions.
-     */
-    protected function totalPaid(): Attribute
-    {
-        return Attribute::get(
-            fn() => (float) $this->transactions()->sum('amount')
-        )->shouldCache();
-    }
 
     /**
      * Get URL to qr code or generate if not exists.
@@ -228,9 +187,9 @@ class Ticket extends Model
         return $this->hasMany(Order::class)->latest();
     }
 
-    public function transactions(): HasMany
+    public function invoice(): HasOne
     {
-        return $this->hasMany(Transaction::class)->latest();
+        return $this->hasOne(Invoice::class);
     }
 
     // SCOPES //////////////////////////////////////////////////////////////////////////////////////
@@ -270,7 +229,10 @@ class Ticket extends Model
      */
     public function fillBalance(): self
     {
-        $this->balance = $this->total_cost - $this->total_paid;
+        // force re-calculation of the invoice balance
+        $this->invoice->fillBalance()->save();
+
+        $this->balance = $this->invoice->balance;
 
         return $this;
     }

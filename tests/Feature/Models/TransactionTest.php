@@ -2,6 +2,7 @@
 
 use App\Enums\TransactionMethod;
 use App\Enums\TransactionType;
+use App\Models\Invoice;
 use App\Models\Ticket;
 use App\Models\Transaction;
 use Illuminate\Support\Carbon;
@@ -10,7 +11,7 @@ it('can initialize transaction', function () {
     $transaction = new Transaction();
 
     expect($transaction->id)->toBeNull();
-    expect($transaction->ticket_id)->toBeNull();
+    expect($transaction->invoice_id)->toBeNull();
     expect($transaction->amount)->toBe(0.0);
     expect($transaction->note)->toBeNull();
     expect($transaction->method)->toBe(TransactionMethod::Cash);
@@ -23,7 +24,7 @@ it('can create transaction', function () {
     $transaction = Transaction::factory()->create();
 
     expect($transaction->id)->toBeInt();
-    expect($transaction->ticket_id)->toBeInt();
+    expect($transaction->invoice_id)->toBeInt();
     expect($transaction->amount)->toBeFloat();
     expect($transaction->note)->toBeString();
     expect($transaction->method)->toBe(TransactionMethod::Cash);
@@ -76,12 +77,11 @@ it('can delete transaction', function () {
 
 // Invoice /////////////////////////////////////////////////////////////////////////////////////////
 
-it('belongs to a ticket', function () {
-    $ticket = Ticket::factory()->create();
-    $transaction = Transaction::factory()->forTicket($ticket)->create();
+it('belongs to an invoice', function () {
+    $transaction = Transaction::factory()->create();
 
-    expect($transaction->ticket)->toBeInstanceOf(Ticket::class);
-    expect($transaction->ticket->id)->toBe($ticket->id);
+    expect($transaction->invoice)->toBeInstanceOf(Invoice::class);
+    expect($transaction->invoice->id)->toBe($transaction->invoice_id);
 });
 
 // Method //////////////////////////////////////////////////////////////////////////////////////////

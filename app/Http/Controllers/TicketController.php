@@ -61,18 +61,21 @@ class TicketController extends Controller
             'device',
             'customer',
             'assignee:id,name',
+            'invoice',
         ]);
 
         // append custom attributes
         $ticket->append([
-            'tasks_cost',
-            'orders_cost',
-            'total_cost',
-            'total_paid',
             'qr_url',
             'uploaded_urls',
             'intake_signature_url',
             'delivery_signature_url',
+        ]);
+
+        $ticket->invoice->append([
+            'tasks_cost',
+            'orders_cost',
+            'total_paid',
         ]);
 
         return inertia('Tickets/Show', [
@@ -80,7 +83,7 @@ class TicketController extends Controller
             'customer' => $ticket->customer,
             'tasks' => $ticket->tasks()->get(),
             'orders' => $ticket->orders()->get(),
-            'transactions' => $ticket->transactions()->get(),
+            'transactions' => $ticket->invoice->transactions()->get(),
             'canDelete' => Gate::allows('delete', $ticket),
             // TODO: improve this!
             // we are checking for the ability to delete a task in the future

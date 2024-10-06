@@ -16,7 +16,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property int $ticket_id
+ * @property int $invoice_id
  * @property float $amount
  * @property string|null $note
  * @property TransactionMethod $method
@@ -24,7 +24,7 @@ use Illuminate\Support\Carbon;
  * @property Carbon $created_at
  * @property Carbon $updated_at
  * 
- * @property-read Ticket $ticket
+ * @property-read Invoice $invoice
  * 
  * @method static TransactionFactory factory(int $count = null, array $state = [])
  * @method static Builder|static ofMethod(TransactionMethod $method)
@@ -45,7 +45,6 @@ class Transaction extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ticket_id', // TODO: remove later! It must be validated by the controller
         'amount',
         'note',
         'method',
@@ -79,9 +78,9 @@ class Transaction extends Model
 
     // RELATIONS ///////////////////////////////////////////////////////////////////////////////////
 
-    public function ticket(): BelongsTo
+    public function invoice(): BelongsTo
     {
-        return $this->belongsTo(Ticket::class);
+        return $this->belongsTo(Invoice::class);
     }
 
     // SCOPES //////////////////////////////////////////////////////////////////////////////////////

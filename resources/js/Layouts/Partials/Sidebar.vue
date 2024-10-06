@@ -34,6 +34,11 @@ const links = [
     to: "tickets.index",
   },
   {
+    label: "Invoices",
+    icon: "invoice",
+    to: "invoices.index",
+  },
+  {
     label: "Devices",
     icon: "device",
     to: "devices.index",

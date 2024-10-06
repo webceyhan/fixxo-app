@@ -15,7 +15,7 @@ use Illuminate\Support\Carbon;
  * 
  * @method static hasTasks(int $count = 1, array $attributes = [])
  * @method static hasOrders(int $count = 1, array $attributes = [])
- * @method static hasTransactions(int $count = 1, array $attributes = [])
+ * @method static hasInvoice(array $attributes = [])
  */
 class TicketFactory extends Factory
 {

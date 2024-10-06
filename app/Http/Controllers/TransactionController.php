@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SaveTransactionRequest;
 use App\Models\Transaction;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 
 class TransactionController extends Controller
@@ -23,10 +24,13 @@ class TransactionController extends Controller
     {
         $params = $request->validated();
 
+        // associate invoice_id if not already set
+        $transaction->invoice_id ??= Arr::pull($params, 'invoice_id');
+        
         $transaction->fill($params)->save();
 
         return redirect()
-            ->route('tickets.show', $transaction->ticket_id)
+            ->route('tickets.show', $transaction->invoice->ticket_id)
             ->with('status', __('record saved'));
     }
 
