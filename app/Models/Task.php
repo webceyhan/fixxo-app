@@ -32,6 +32,9 @@ use Illuminate\Support\Carbon;
  * @property-read Ticket $ticket
  * 
  * @method static TaskFactory factory(int $count = null, array $state = [])
+ * @method static Builder|static ofType(TaskType $type)
+ * @method static Builder|static ofStatus(TaskStatus $status)
+ * @method static Builder|static approved()
  */
 #[ObservedBy([TaskObserver::class])]
 class Task extends Model
