@@ -29,6 +29,10 @@ class TicketObserver
      */
     public function created(Ticket $ticket): void
     {
+        $ticket->invoice()->create([
+            'due_date' => $ticket->created_at->addWeek(),
+        ]);
+
         $ticket->device->fillStatus()->save();
     }
 

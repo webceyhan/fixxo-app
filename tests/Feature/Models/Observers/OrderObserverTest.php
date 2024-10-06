@@ -21,7 +21,7 @@ it('can save cancelled order as non-billable', function () {
 });
 
 it('can update ticket balance on all events', function () {
-    $ticket = Ticket::factory()->hasInvoice()->create();
+    $ticket = Ticket::factory()->create();
     $order = Order::factory()->forTicket($ticket)->create();
 
     // ignore cancelled, non-billable orders
@@ -46,7 +46,7 @@ it('can update ticket balance on all events', function () {
 });
 
 it('can update ticket order counters on all events', function () {
-    $ticket = Ticket::factory()->hasInvoice()->create();
+    $ticket = Ticket::factory()->create();
     $order = Order::factory()->forTicket($ticket)->create();
     Order::factory()->forTicket($ticket)->cancelled()->create();
 

@@ -21,7 +21,7 @@ it('can save cancelled task as non-billable', function () {
 });
 
 it('can update ticket balance on all events', function () {
-    $ticket = Ticket::factory()->hasInvoice()->create();
+    $ticket = Ticket::factory()->create();
     $task = Task::factory()->forTicket($ticket)->create();
 
     // ignore cancelled, non-billable tasks

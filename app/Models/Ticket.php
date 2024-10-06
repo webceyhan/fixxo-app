@@ -53,7 +53,7 @@ use Illuminate\Support\Carbon;
  * @property-read Device $device
  * @property-read Collection<int, Task> $tasks
  * @property-read Collection<int, Order> $orders
- * @property-read Invoice|null $invoice
+ * @property-read Invoice $invoice
  * 
  * @method static TicketFactory factory(int $count = null, array $state = [])
  * @method static Builder|static ofStatus(TicketStatus $status)
@@ -230,9 +230,9 @@ class Ticket extends Model
     public function fillBalance(): self
     {
         // force re-calculation of the invoice balance
-        $this->invoice?->fillBalance()->save();
+        $this->invoice->fillBalance()->save();
 
-        $this->balance = $this->invoice?->balance ?? 0;
+        $this->balance = $this->invoice->balance;
 
         return $this;
     }

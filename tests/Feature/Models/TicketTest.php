@@ -168,7 +168,7 @@ it('can filter tickets by status scope', function (TicketStatus $status) {
 // Total Cost //////////////////////////////////////////////////////////////////////////////////////
 
 it('can update ticket balance automatically', function () {
-    $ticket = Ticket::factory()->hasInvoice()->create();
+    $ticket = Ticket::factory()->create();
     $task = Task::factory()->forTicket($ticket)->create();
     $order = Order::factory()->forTicket($ticket)->create();
 
