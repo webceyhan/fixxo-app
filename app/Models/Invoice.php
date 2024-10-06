@@ -4,36 +4,13 @@ namespace App\Models;
 
 use App\Models\Concerns\HasDueDate;
 use App\Models\Concerns\HasSince;
-use Database\Factories\InvoiceFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Carbon;
 
-/**
- * @property int $id
- * @property int $ticket_id
- * @property float $total
- * @property Carbon $due_date
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * 
- * @property-read float $tasks_cost
- * @property-read float $orders_cost
- * @property-read float $total_paid
- * @property-read float $balance
- * @property-read bool $is_paid
- * 
- * @property-read Ticket $ticket
- * @property-read Collection<int, Transaction> $transactions
- * 
- * @method static InvoiceFactory factory(int $count = null, array $state = [])
- * @method static Builder|static unpaid()
- */
 class Invoice extends Model
 {
     use HasFactory, HasSince, HasDueDate;

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\Priority;
 use App\Enums\TicketStatus;
 use App\Models\Concerns\Assignable;
 use App\Models\Concerns\Completable;
@@ -14,51 +13,15 @@ use App\Observers\TicketObserver;
 use App\Services\QRService;
 use App\Services\SignatureService;
 use App\Services\UploadService;
-use Database\Factories\TicketFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Support\Carbon;
 
-/**
- * @property int $id
- * @property int|null $assignee_id
- * @property int $customer_id
- * @property int $device_id
- * @property string $description
- * @property Priority $priority
- * @property TicketStatus $status
- * @property Carbon $due_date
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * 
- * @property-read float $balance
- * @property-read int $total_tasks_count
- * @property-read int $completed_tasks_count
- * @property-read int $total_orders_count
- * @property-read int $completed_orders_count
- * @property-read string $qr_url
- * @property-read string $intake_signature_url
- * @property-read string $delivery_signature_url
- * @property-read array<string> $uploaded_urls
- * 
- * @property-read User|null $assignee
- * @property-read Customer $customer
- * @property-read Device $device
- * @property-read Collection<int, Task> $tasks
- * @property-read Collection<int, Order> $orders
- * @property-read Invoice $invoice
- * 
- * @method static TicketFactory factory(int $count = null, array $state = [])
- * @method static Builder|static ofStatus(TicketStatus $status)
- * @method static Builder|static outstanding()
- */
 #[ObservedBy([TicketObserver::class])]
 class Ticket extends Model
 {
