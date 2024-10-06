@@ -4,10 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Events\MigrationsEnded;
-use Illuminate\Database\Events\MigrationsStarted;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,19 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // TODO: bugfix for DigitalOcean Mysql Server issue
-        Event::listen(MigrationsStarted::class, function () {
-            if (env('ALLOW_DISABLED_PK')) {
-                DB::statement('SET SESSION sql_require_primary_key=0');
-            }
-        });
-
-        // TODO: bugfix for DigitalOcean Mysql Server issue
-        Event::listen(MigrationsEnded::class, function () {
-            if (env('ALLOW_DISABLED_PK')) {
-                DB::statement('SET SESSION sql_require_primary_key=1');
-            }
-        });
+        //
     }
 
     /**
@@ -38,13 +22,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Model::shouldBeStrict();
-        
-        // TODO: bugfix for issue that paginator creating http links 
-        // over https on DigitalOcean server
-        if (config('app.env') === 'production') {
-            // URL::forceScheme('https'); // this doesn't work!
-            $this->app['request']->server->set('HTTPS', true);
-        }
 
         // add query string to paginator globally
         $this->app->resolving(LengthAwarePaginator::class, function ($paginator) {

@@ -1,5 +1,6 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
+import { mysqlToDatetimeLocal } from "@/Shared/utils";
 import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 
@@ -24,8 +25,10 @@ const form = useForm({
   // TODO: see above
   description: props.task.description,
   cost: props.task.cost ?? 0,
+  is_billable: props.task.is_billable ?? false,
   type: props.task.type ?? typeOptions[0],
   status: props.task.status ?? statusOptions[0],
+  approved_at: mysqlToDatetimeLocal(props.task.approved_at),
 });
 </script>
 
@@ -54,6 +57,17 @@ const form = useForm({
       />
     </div>
 
-    <FormControl label="Status" v-model="form.status" :options="statusOptions" fancy />
+    <FormControl label="Billable" type="checkbox" v-model="form.is_billable" />
+
+    <div class="flex justify-between gap-2">
+      <FormControl label="Status" v-model="form.status" :options="statusOptions" fancy />
+
+      <FormControl
+        label="Approved at"
+        type="datetime-local"
+        v-model="form.approved_at"
+        :error="form.errors.approved_at"
+      />
+    </div>
   </Form>
 </template>

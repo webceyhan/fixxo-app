@@ -52,7 +52,7 @@ defineExpose({
     <template #footer>
       <span class="w-full text-right">Total Cost</span>
       <span class="w-2/3 mr-7 sm:mr-9 text-right">
-        {{ formatMoney(ticket.tasks_cost) }}
+        {{ formatMoney(ticket.invoice.tasks_cost) }}
       </span>
     </template>
   </Card>

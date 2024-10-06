@@ -20,7 +20,7 @@ class OrderObserver
      */
     public function updated(Order $order): void
     {
-        if ($order->wasChanged(['cost', 'status'])) {
+        if ($order->wasChanged(['cost', 'is_billable', 'status'])) {
             $order->load('ticket');
             $order->ticket->fillBalance()->fillOrderCounters()->save();
         }
@@ -33,5 +33,15 @@ class OrderObserver
     {
         $order->load('ticket');
         $order->ticket->fillBalance()->fillOrderCounters()->save();
+    }
+
+    /**
+     * Handle the Order "saving" event.
+     */
+    public function saving(Order $order): void
+    {
+        if ($order->isCancelled()) {
+            $order->is_billable = false;
+        }
     }
 }

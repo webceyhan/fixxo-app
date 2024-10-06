@@ -18,10 +18,12 @@ it('can initialize task', function () {
     expect($task->ticket_id)->toBeNull();
     expect($task->description)->toBeNull();
     expect($task->cost)->toBe(0.0);
+    expect($task->is_billable)->toBeTrue();
     expect($task->type)->toBe(TaskType::Repair);
     expect($task->status)->toBe(TaskStatus::New);
     expect($task->created_at)->toBeNull();
     expect($task->updated_at)->toBeNull();
+    expect($task->approved_at)->toBeNull();
 });
 
 it('can create task', function () {
@@ -31,10 +33,24 @@ it('can create task', function () {
     expect($task->ticket_id)->toBeInt();
     expect($task->description)->toBeString();
     expect($task->cost)->toBeFloat();
+    expect($task->is_billable)->toBeTrue();
     expect($task->type)->toBe(TaskType::Repair);
     expect($task->status)->toBe(TaskStatus::New);
     expect($task->created_at)->toBeInstanceOf(Carbon::class);
     expect($task->updated_at)->toBeInstanceOf(Carbon::class);
+    expect($task->approved_at)->toBeNull();
+});
+
+it('can create task as free', function () {
+    $task = Task::factory()->free()->create();
+
+    expect($task->is_billable)->toBeFalse();
+});
+
+it('can create a pre-approved task', function () {
+    $task = Task::factory()->approved()->create();
+
+    expect($task->approved_at)->toBeInstanceOf(Carbon::class);
 });
 
 it('can create task of type', function (TaskType $type) {
@@ -55,14 +71,18 @@ it('can update task', function () {
     $task->update([
         'description' => 'Replace the battery',
         'cost' => 100,
+        'is_billable' => false,
         'type' => TaskType::Maintenance,
         'status' => TaskStatus::Completed,
+        'approved_at' => now(),
     ]);
 
     expect($task->description)->toBe('Replace the battery');
     expect($task->cost)->toBe(100.0);
+    expect($task->is_billable)->toBeFalse();
     expect($task->type)->toBe(TaskType::Maintenance);
     expect($task->status)->toBe(TaskStatus::Completed);
+    expect($task->approved_at)->toBeInstanceOf(Carbon::class);
 });
 
 it('can delete task', function () {

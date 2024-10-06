@@ -92,6 +92,7 @@ export default {
     task: "clipboard",
     order: "bag",
 
+    invoice: "receipt",
     transaction: "credit-card",
     ...transactionTypes,
     ...transactionMethods,

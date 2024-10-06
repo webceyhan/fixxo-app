@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('ticket_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('invoice_id')->constrained()->cascadeOnDelete();
             $table->decimal('amount')->default(0);
             $table->string('note')->nullable();
             $table->enum('method', TransactionMethod::values())->default(TransactionMethod::Cash);

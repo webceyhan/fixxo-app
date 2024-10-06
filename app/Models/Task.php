@@ -4,36 +4,22 @@ namespace App\Models;
 
 use App\Enums\TaskStatus;
 use App\Enums\TaskType;
+use App\Models\Concerns\Billable;
 use App\Models\Concerns\Cancellable;
 use App\Models\Concerns\Completable;
+use App\Models\Concerns\HasApproval;
 use App\Models\Concerns\HasSince;
 use App\Observers\TaskObserver;
-use Database\Factories\TaskFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
 
-/**
- * @property int $id
- * @property int $ticket_id
- * @property string $description
- * @property float $cost
- * @property TaskType $type
- * @property TaskStatus $status
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * 
- * @property-read Ticket $ticket
- * 
- * @method static TaskFactory factory(int $count = null, array $state = [])
- */
 #[ObservedBy([TaskObserver::class])]
 class Task extends Model
 {
-    use HasFactory, HasSince, Cancellable, Completable;
+    use HasFactory, HasSince, Billable, Cancellable, Completable, HasApproval;
 
     /**
      * The attributes that are mass assignable.
@@ -44,8 +30,10 @@ class Task extends Model
         'ticket_id', // TODO: remove later! It must be validated by the controller
         'description',
         'cost',
+        'is_billable',
         'type',
         'status',
+        'approved_at',
     ];
 
     /**
@@ -54,7 +42,6 @@ class Task extends Model
      * @var array
      */
     protected $attributes = [
-        'cost' => 0,
         'type' => TaskType::Repair,
         'status' => TaskStatus::New,
     ];
@@ -69,7 +56,6 @@ class Task extends Model
         return [
             'type' => TaskType::class,
             'status' => TaskStatus::class,
-            'cost' => 'float',
         ];
     }
 

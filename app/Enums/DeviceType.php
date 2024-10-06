@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Concerns\Collectable;
+use App\Enums\Concerns\HasValues;
 
 enum DeviceType: string
 {
-    use Collectable;
+    use HasValues;
 
     /**
      * Represents a mobile phone device.

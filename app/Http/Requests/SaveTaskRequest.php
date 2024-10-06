@@ -29,8 +29,10 @@ class SaveTaskRequest extends FormRequest
             return [
                 'description' => 'sometimes|required|string',
                 'cost' => 'sometimes|required|numeric',
+                'is_billable' => 'sometimes|nullable|boolean',
                 'type' => ['sometimes', 'nullable', Rule::in(TaskType::values())],
                 'status' => ['sometimes', 'nullable', Rule::in(TaskStatus::values())],
+                'approved_at' => 'sometimes|nullable|date',
             ];
         }
 
@@ -39,8 +41,10 @@ class SaveTaskRequest extends FormRequest
             'ticket_id' => 'required_without:id',
             'description' => 'required|string',
             'cost' => 'required|numeric',
+            'is_billable' => 'nullable|boolean',
             'type' => ['sometimes', 'nullable', Rule::in(TaskType::values())],
             'status' => ['sometimes', 'nullable', Rule::in(TaskStatus::values())],
+            'approved_at' => 'sometimes|nullable|date',
         ];
     }
 }

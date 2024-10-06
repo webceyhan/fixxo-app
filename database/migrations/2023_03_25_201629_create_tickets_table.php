@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('description');
             $table->enum('priority', Priority::values())->default(Priority::Normal);
             $table->enum('status', TicketStatus::values())->default(TicketStatus::New);
+            $table->date('due_date');
             $table->timestamps();
 
             // aggregate fields

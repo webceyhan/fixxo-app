@@ -9,22 +9,34 @@ beforeEach(function () {
     $this->actingAs(User::factory()->create());
 });
 
+it('can save cancelled order as non-billable', function () {
+    $order = Order::factory()->create();
+
+    expect($order->is_billable)->toBeTrue();
+
+    $order->cancel();
+    $order->refresh();
+
+    expect($order->is_billable)->toBeFalse();
+});
+
 it('can update ticket balance on all events', function () {
     $ticket = Ticket::factory()->create();
     $order = Order::factory()->forTicket($ticket)->create();
 
-    // ignore cancelled orders
+    // ignore cancelled, non-billable orders
     Order::factory()->forTicket($ticket)->cancelled()->create();
+    Order::factory()->forTicket($ticket)->free()->create();
 
     $ticket->refresh();
 
-    expect($ticket->balance)->toBe($order->cost);
+    expect($ticket->balance)->toBe(-$order->cost);
 
     // update order cost
     $order->update(['cost' => 100.0]);
     $ticket->refresh();
 
-    expect($ticket->balance)->toBe(100.0);
+    expect($ticket->balance)->toBe(-100.0);
 
     // delete order
     $order->delete();

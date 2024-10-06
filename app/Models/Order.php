@@ -3,39 +3,23 @@
 namespace App\Models;
 
 use App\Enums\OrderStatus;
+use App\Models\Concerns\Billable;
 use App\Models\Concerns\Cancellable;
 use App\Models\Concerns\Completable;
+use App\Models\Concerns\HasApproval;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
 use App\Observers\OrderObserver;
-use Database\Factories\OrderFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
 
-/**
- * @property int $id
- * @property int $ticket_id
- * @property string $name
- * @property string|null $url
- * @property int $quantity
- * @property float $cost
- * @property OrderStatus $status
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * 
- * @property-read Ticket $ticket
- * 
- * @method static OrderFactory factory(int $count = null, array $state = [])
- * @method static Builder|static ofStatus(OrderStatus $status)
- */
 #[ObservedBy([OrderObserver::class])]
 class Order extends Model
 {
-    use HasFactory, Searchable, HasSince, Cancellable, Completable;
+    use HasFactory, Searchable, HasSince, Billable, Cancellable, Completable, HasApproval;
 
     /**
      * Searchable attributes.
@@ -58,7 +42,9 @@ class Order extends Model
         'url',
         'quantity',
         'cost',
+        'is_billable',
         'status',
+        'approved_at',
     ];
 
     /**
@@ -68,7 +54,6 @@ class Order extends Model
      */
     protected $attributes = [
         'quantity' => 1,
-        'cost' => 0,
         'status' => OrderStatus::New,
     ];
 
@@ -81,7 +66,6 @@ class Order extends Model
     {
         return [
             'status' => OrderStatus::class,
-            'cost' => 'float',
         ];
     }
 

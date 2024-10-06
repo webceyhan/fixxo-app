@@ -78,5 +78,7 @@ Breadcrumbs::resource('users', 'Users');
 Breadcrumbs::resource('customers', 'Customers');
 Breadcrumbs::resource('devices', 'Devices', 'customer');
 Breadcrumbs::resource('tickets', 'Tickets', 'device');
+Breadcrumbs::resource('invoices', 'Invoices', 'ticket');
 Breadcrumbs::resource('tasks', 'Tasks', 'ticket');
+Breadcrumbs::resource('orders', 'Orders', 'ticket');
 Breadcrumbs::resource('transactions', 'Transactions', 'ticket');

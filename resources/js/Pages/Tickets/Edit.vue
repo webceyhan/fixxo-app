@@ -1,5 +1,6 @@
 <script setup>
 import { useForm } from "@inertiajs/vue3";
+import { mysqlToDate } from "@/Shared/utils";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Form from "@/Components/Form/Form.vue";
 import Card from "@/Components/Card.vue";
@@ -17,6 +18,7 @@ const form = useForm({
   description: props.ticket.description,
   priority: props.ticket.priority,
   status: props.ticket.status,
+  due_date: mysqlToDate(props.ticket.due_date),
 });
 </script>
 
@@ -42,6 +44,8 @@ const form = useForm({
               :options="priorityOptions"
             />
             <FormControl label="Status" v-model="form.status" :options="statusOptions" />
+
+            <FormControl label="Due Date" v-model="form.due_date" type="date" />
           </Form>
         </section>
       </Card>

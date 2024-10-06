@@ -45,6 +45,7 @@ class OrderFactory extends Factory
             'url' => fake()->url(),
             'quantity' => rand(1, 2),
             'cost' => fake()->randomFloat(2, 10, 100),
+            'is_billable' => true,
             'status' => OrderStatus::New,
         ];
     }
@@ -63,6 +64,16 @@ class OrderFactory extends Factory
     }
 
     // STATES //////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Indicate that the task is free of charge.
+     */
+    public function free(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'is_billable' => false,
+        ]);
+    }
 
     /**
      * Indicate that the order is of a specified status.
@@ -96,5 +107,15 @@ class OrderFactory extends Factory
     public function cancelled(): self
     {
         return $this->ofStatus(OrderStatus::Cancelled);
+    }
+
+    /**
+     * Indicate that the order is approved.
+     */
+    public function approved(): self
+    {
+        return $this->state(fn(array $attributes) => [
+            'approved_at' => now(),
+        ]);
     }
 }

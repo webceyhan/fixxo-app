@@ -2,11 +2,11 @@
 
 namespace App\Enums;
 
-use App\Enums\Concerns\Collectable;
+use App\Enums\Concerns\HasValues;
 
 enum TaskType: string
 {
-    use Collectable;
+    use HasValues;
 
     /**
      * Represents a task involving the repair of a device.

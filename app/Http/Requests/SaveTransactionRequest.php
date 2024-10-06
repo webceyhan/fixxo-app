@@ -36,7 +36,7 @@ class SaveTransactionRequest extends FormRequest
 
         // store
         return [
-            'ticket_id' => 'required_without:id',
+            'invoice_id' => 'required_without:id',
             'amount' => 'nullable|numeric',
             'note' => 'nullable|string',
             'type' => ['nullable', Rule::in(TransactionType::values())],

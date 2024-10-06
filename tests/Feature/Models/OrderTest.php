@@ -19,9 +19,11 @@ it('can initialize order', function () {
     expect($order->url)->toBeNull();
     expect($order->quantity)->toBe(1);
     expect($order->cost)->toBe(0.0);
+    expect($order->is_billable)->toBeTrue();
     expect($order->status)->toBe(OrderStatus::New);
     expect($order->created_at)->toBeNull();
     expect($order->updated_at)->toBeNull();
+    expect($order->approved_at)->toBeNull();
 });
 
 it('can create order', function () {
@@ -33,9 +35,17 @@ it('can create order', function () {
     expect($order->url)->toBeString();
     expect($order->quantity)->toBeInt();
     expect($order->cost)->toBeFloat();
+    expect($order->is_billable)->toBeTrue();
     expect($order->status)->toBe(OrderStatus::New);
     expect($order->created_at)->toBeInstanceOf(Carbon::class);
     expect($order->updated_at)->toBeInstanceOf(Carbon::class);
+    expect($order->approved_at)->toBeNull();
+});
+
+it('can create order as free', function () {
+    $order = Order::factory()->free()->create();
+
+    expect($order->is_billable)->toBeFalse();
 });
 
 it('can create order of status', function (OrderStatus $status) {
@@ -43,6 +53,13 @@ it('can create order of status', function (OrderStatus $status) {
 
     expect($order->status)->toBe($status);
 })->with(OrderStatus::cases());
+
+
+it('can create a pre-approved order', function () {
+    $order = Order::factory()->approved()->create();
+
+    expect($order->approved_at)->toBeInstanceOf(Carbon::class);
+});
 
 it('can update order', function () {
     $order = Order::factory()->create();
@@ -52,14 +69,18 @@ it('can update order', function () {
         'url' => 'https://www.corsair.com',
         'quantity' => 2,
         'cost' => 200,
+        'is_billable' => false,
         'status' => OrderStatus::Received,
+        'approved_at' => now(),
     ]);
 
     expect($order->name)->toBe('Corsair Vengeance 16GB');
     expect($order->url)->toBe('https://www.corsair.com');
     expect($order->quantity)->toBe(2);
     expect($order->cost)->toBe(200.0);
+    expect($order->is_billable)->toBeFalse();
     expect($order->status)->toBe(OrderStatus::Received);
+    expect($order->approved_at)->toBeInstanceOf(Carbon::class);
 });
 
 it('can delete order', function () {

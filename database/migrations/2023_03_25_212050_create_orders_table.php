@@ -20,8 +20,10 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->integer('quantity')->default(1);
             $table->decimal('cost')->default(0);
+            $table->boolean('is_billable')->default(true);
             $table->enum('status', OrderStatus::values())->default(OrderStatus::New);
             $table->timestamps();
+            $table->timestamp('approved_at')->nullable();
 
             // index definitions
             $table->fullText(Order::fullTextColumns());

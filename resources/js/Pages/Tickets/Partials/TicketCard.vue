@@ -69,6 +69,8 @@ const props = defineProps({
         {{ formatDate(ticket.warranty_date) }}
       </DescriptionListItem>
 
+      <DescriptionListItem label="Due Date" type="date" :value="ticket.due_date" />
+
       <DescriptionListItem label="Created At" type="date" :value="ticket.created_at" />
 
       <DescriptionListItem

@@ -228,7 +228,7 @@ const statusActions = [
 
       <TicketTransactions
         ref="ticketTransactions"
-        v-bind="{ ticket, transactions }"
+        v-bind="{ invoice:ticket.invoice, transactions }"
         :can-delete="canDeleteTransaction"
       />
 

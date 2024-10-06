@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Ticket;
+use App\Models\Invoice;
 use App\Models\Transaction;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -14,13 +14,13 @@ class TransactionSeeder extends Seeder
      */
     public function run(): void
     {
-        Ticket::completed()->each(function ($ticket) {
+        Invoice::all()->random(20)->each(function ($invoice) {
             // total balance to pay
-            $balance = abs($ticket->balance);
+            $balance = abs($invoice->balance);
 
             // make 10% discount if balance is more than $100
             if ($balance >= 100) {
-                Transaction::factory()->forTicket($ticket)->discount()->create([
+                Transaction::factory()->forInvoice($invoice)->discount()->create([
                     'amount' => $balance * 0.1,
                 ]);
 
@@ -30,7 +30,7 @@ class TransactionSeeder extends Seeder
 
             // pay the rest if balance is more than $0
             if ($balance > 0) {
-                Transaction::factory()->forTicket($ticket)->create([
+                Transaction::factory()->forInvoice($invoice)->create([
                     'amount' => $balance,
                 ]);
             }

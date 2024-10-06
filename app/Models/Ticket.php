@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Enums\Priority;
 use App\Enums\TicketStatus;
 use App\Models\Concerns\Assignable;
 use App\Models\Concerns\Completable;
+use App\Models\Concerns\HasDueDate;
 use App\Models\Concerns\HasPriority;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
@@ -13,58 +13,19 @@ use App\Observers\TicketObserver;
 use App\Services\QRService;
 use App\Services\SignatureService;
 use App\Services\UploadService;
-use Database\Factories\TicketFactory;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Carbon;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-/**
- * @property int $id
- * @property int|null $assignee_id
- * @property int $customer_id
- * @property int $device_id
- * @property string $description
- * @property Priority $priority
- * @property TicketStatus $status
- * @property Carbon $created_at
- * @property Carbon $updated_at
- * 
- * @property-read float $balance
- * @property-read int $total_tasks_count
- * @property-read int $completed_tasks_count
- * @property-read int $total_orders_count
- * @property-read int $completed_orders_count
- * @property-read float $tasks_cost
- * @property-read float $orders_cost
- * @property-read float $total_cost
- * @property-read float $total_paid
- * @property-read string $qr_url
- * @property-read string $intake_signature_url
- * @property-read string $delivery_signature_url
- * @property-read array<string> $uploaded_urls
- * 
- * @property-read User|null $assignee
- * @property-read Customer $customer
- * @property-read Device $device
- * @property-read Collection<int, Task> $tasks
- * @property-read Collection<int, Order> $orders
- * @property-read Collection<int, Transaction> $transactions
- * 
- * @method static TicketFactory factory(int $count = null, array $state = [])
- * @method static Builder|static ofStatus(TicketStatus $status)
- * @method static Builder|static outstanding()
- * @method static Builder|static overdue()
- */
 #[ObservedBy([TicketObserver::class])]
 class Ticket extends Model
 {
-    use HasFactory, Assignable, Searchable, HasSince, Completable, HasPriority;
+    use HasFactory, Assignable, Searchable, HasSince, Completable, HasPriority, HasDueDate;
 
     /**
      * Searchable attributes.
@@ -87,6 +48,7 @@ class Ticket extends Model
         'description',
         'priority',
         'status',
+        'due_date',
     ];
 
     /**
@@ -95,7 +57,6 @@ class Ticket extends Model
      * @var array
      */
     protected $attributes = [
-        'priority' => Priority::Normal,
         'status' => TicketStatus::New,
         'balance' => 0,
         'total_tasks_count' => 0,
@@ -112,51 +73,12 @@ class Ticket extends Model
     protected function casts(): array
     {
         return [
-            'priority' => Priority::class,
             'status' => TicketStatus::class,
             'balance' => 'float',
         ];
     }
 
     // ACCESSORS ///////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Get total cost of all non-cancelled tasks.
-     */
-    protected function tasksCost(): Attribute
-    {
-        return Attribute::get(
-            fn() => (float) $this->tasks()->notCancelled()->sum('cost')
-        )->shouldCache();
-    }
-
-    /**
-     * Get total cost of all non-cancelled orders.
-     */
-    protected function ordersCost(): Attribute
-    {
-        return Attribute::get(
-            fn() => (float) $this->orders()->notCancelled()->sum('cost')
-        )->shouldCache();
-    }
-
-    /**
-     * Get total cost of all tasks and orders.
-     */
-    protected function totalCost(): Attribute
-    {
-        return Attribute::get(fn() => $this->tasks_cost + $this->orders_cost);
-    }
-
-    /**
-     * Get total amount of all transactions.
-     */
-    protected function totalPaid(): Attribute
-    {
-        return Attribute::get(
-            fn() => (float) $this->transactions()->sum('amount')
-        )->shouldCache();
-    }
 
     /**
      * Get URL to qr code or generate if not exists.
@@ -228,9 +150,9 @@ class Ticket extends Model
         return $this->hasMany(Order::class)->latest();
     }
 
-    public function transactions(): HasMany
+    public function invoice(): HasOne
     {
-        return $this->hasMany(Transaction::class)->latest();
+        return $this->hasOne(Invoice::class);
     }
 
     // SCOPES //////////////////////////////////////////////////////////////////////////////////////
@@ -253,17 +175,6 @@ class Ticket extends Model
         return $query->where('balance', '<', 0);
     }
 
-    /**
-     * Scope a query to only include tickets with overdue balance.
-     * This is a combination of closed tickets with outstanding balance.
-     * 
-     * @ignore This is a virtual status.
-     */
-    public function scopeOverdue(Builder $query): Builder
-    {
-        return $query->ofStatus(TicketStatus::Closed)->outstanding();
-    }
-
     // METHODS /////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -281,7 +192,10 @@ class Ticket extends Model
      */
     public function fillBalance(): self
     {
-        $this->balance = $this->total_cost - $this->total_paid;
+        // force re-calculation of the invoice balance
+        $this->invoice->fillBalance()->save();
+
+        $this->balance = $this->invoice->balance;
 
         return $this;
     }
@@ -333,5 +247,15 @@ class Ticket extends Model
 
         // Default to the current status if no specific conditions are met.
         return $this->status;
+    }
+
+    protected function overdueCondition(): bool
+    {
+        return !$this->isCompleted();
+    }
+
+    protected function overdueConditionQuery(Builder $query): void
+    {
+        $query->pending();
     }
 }

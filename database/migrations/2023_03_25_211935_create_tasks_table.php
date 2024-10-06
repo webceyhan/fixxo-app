@@ -18,9 +18,11 @@ return new class extends Migration
             $table->foreignId('ticket_id')->constrained()->cascadeOnDelete();
             $table->string('description');
             $table->decimal('cost')->default(0);
+            $table->boolean('is_billable')->default(true);
             $table->enum('type', TaskType::values())->default(TaskType::Repair);
             $table->enum('status', TaskStatus::values())->default(TaskStatus::New);
             $table->timestamps();
+            $table->timestamp('approved_at')->nullable();
         });
     }
 
