@@ -120,13 +120,3 @@ it('can filter tasks by status scope', function (TaskStatus $status) {
     expect(Task::ofStatus($status)->count())->toBe(1);
     expect(Task::ofStatus($status)->first()->status)->toBe($status);
 })->with(TaskStatus::cases());
-
-// Approved ////////////////////////////////////////////////////////////////////////////////////////
-
-it('can filter tasks by approved scope', function () {
-    Task::factory()->create();
-    Task::factory()->approved()->create();
-
-    expect(Task::approved()->count())->toBe(1);
-    expect(Task::approved()->first()->approved_at)->toBeInstanceOf(Carbon::class);
-});

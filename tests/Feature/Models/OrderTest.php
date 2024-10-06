@@ -109,13 +109,3 @@ it('can filter orders by status scope', function (OrderStatus $status) {
     expect(Order::ofStatus($status)->count())->toBe(1);
     expect(Order::ofStatus($status)->first()->status)->toBe($status);
 })->with(OrderStatus::cases());
-
-// Approved ////////////////////////////////////////////////////////////////////////////////////////
-
-it('can filter tasks by approved scope', function () {
-    Order::factory()->create();
-    Order::factory()->approved()->create();
-
-    expect(Order::approved()->count())->toBe(1);
-    expect(Order::approved()->first()->approved_at)->toBeInstanceOf(Carbon::class);
-});

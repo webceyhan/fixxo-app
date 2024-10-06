@@ -7,6 +7,7 @@ use App\Enums\TaskType;
 use App\Models\Concerns\Billable;
 use App\Models\Concerns\Cancellable;
 use App\Models\Concerns\Completable;
+use App\Models\Concerns\HasApproval;
 use App\Models\Concerns\HasSince;
 use App\Observers\TaskObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[ObservedBy([TaskObserver::class])]
 class Task extends Model
 {
-    use HasFactory, HasSince, Billable, Cancellable, Completable;
+    use HasFactory, HasSince, Billable, Cancellable, Completable, HasApproval;
 
     /**
      * The attributes that are mass assignable.
@@ -55,7 +56,6 @@ class Task extends Model
         return [
             'type' => TaskType::class,
             'status' => TaskStatus::class,
-            'approved_at' => 'datetime',
         ];
     }
 
@@ -82,13 +82,5 @@ class Task extends Model
     public function scopeOfStatus(Builder $query, TaskStatus $status): void
     {
         $query->where('status', $status->value);
-    }
-
-    /**
-     * Scope a query to only include tasks that are approved.
-     */
-    public function scopeApproved(Builder $query): void
-    {
-        $query->whereNotNull('approved_at');
     }
 }

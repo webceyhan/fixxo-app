@@ -6,6 +6,7 @@ use App\Enums\OrderStatus;
 use App\Models\Concerns\Billable;
 use App\Models\Concerns\Cancellable;
 use App\Models\Concerns\Completable;
+use App\Models\Concerns\HasApproval;
 use App\Models\Concerns\HasSince;
 use App\Models\Concerns\Searchable;
 use App\Observers\OrderObserver;
@@ -18,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[ObservedBy([OrderObserver::class])]
 class Order extends Model
 {
-    use HasFactory, Searchable, HasSince, Billable, Cancellable, Completable;
+    use HasFactory, Searchable, HasSince, Billable, Cancellable, Completable, HasApproval;
 
     /**
      * Searchable attributes.
@@ -65,7 +66,6 @@ class Order extends Model
     {
         return [
             'status' => OrderStatus::class,
-            'approved_at' => 'datetime',
         ];
     }
 
@@ -84,13 +84,5 @@ class Order extends Model
     public function scopeOfStatus(Builder $query, OrderStatus $status): void
     {
         $query->where('status', $status->value);
-    }
-
-    /**
-     * Scope a query to only include orders that are approved.
-     */
-    public function scopeApproved(Builder $query): void
-    {
-        $query->whereNotNull('approved_at');
     }
 }
