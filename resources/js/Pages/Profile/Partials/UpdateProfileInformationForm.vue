@@ -72,7 +72,12 @@ const form = useForm({
       </div>
 
       <div class="flex items-center gap-4">
-        <PrimaryButton label="Save" icon="save" :disabled="form.processing" />
+        <PrimaryButton
+          type="submit"
+          label="Save"
+          icon="save"
+          :disabled="form.processing"
+        />
 
         <Transition
           enter-from-class="opacity-0"

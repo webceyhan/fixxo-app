@@ -68,7 +68,7 @@ const submit = () => {
           small
         />
 
-        <PrimaryButton label="Log in" :disabled="form.processing" />
+        <PrimaryButton type="submit" label="Log in" :disabled="form.processing" />
       </div>
     </form>
   </GuestLayout>

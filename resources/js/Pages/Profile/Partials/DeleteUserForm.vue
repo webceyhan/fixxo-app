@@ -72,7 +72,6 @@ const closeModal = () => {
         <DangerButton
           label="Delete Account"
           icon="delete"
-          :class="{ 'opacity-25': form.processing }"
           :disabled="form.processing"
           @click="deleteUser"
         />

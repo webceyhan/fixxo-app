@@ -69,7 +69,7 @@ const submit = () => {
       <div class="flex items-center justify-end space-x-4">
         <Link label="Already registered?" :href="route('login')" small />
 
-        <PrimaryButton label="Register" :disabled="form.processing" />
+        <PrimaryButton type="submit" label="Register" :disabled="form.processing" />
       </div>
     </form>
   </GuestLayout>

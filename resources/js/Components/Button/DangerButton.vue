@@ -3,7 +3,7 @@ import BaseButton from "./BaseButton.vue";
 </script>
 
 <template>
-  <BaseButton type="submit" class="btn-error">
+  <BaseButton class="btn-error">
     <slot />
   </BaseButton>
 </template>

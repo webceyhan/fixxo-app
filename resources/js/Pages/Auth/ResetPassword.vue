@@ -60,10 +60,7 @@ const submit = () => {
       />
 
       <div class="flex items-center justify-end">
-        <PrimaryButton
-          :class="{ 'opacity-25': form.processing }"
-          :disabled="form.processing"
-        >
+        <PrimaryButton type="submit" :disabled="form.processing">
           Reset Password
         </PrimaryButton>
       </div>
