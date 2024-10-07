@@ -1,8 +1,9 @@
 <script setup>
 import { Head, useForm } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
+import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
+import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
 defineProps({
   status: String,
@@ -21,19 +22,16 @@ const submit = () => {
   <GuestLayout>
     <Head title="Forgot Password" />
 
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-      Forgot your password? No problem. Just let us know your email address and we will
-      email you a password reset link that will allow you to choose a new one.
-    </div>
+    <Form @submit="submit">
+      <template #description>
+        Forgot your password? No problem. Just let us know your email address and we will
+        email you a password reset link that will allow you to choose a new one.
+      </template>
 
-    <div
-      v-if="status"
-      class="mb-4 font-medium text-sm text-green-600 dark:text-green-400"
-    >
-      {{ status }}
-    </div>
+      <div v-if="status" class="mb-4 font-medium text-sm text-success">
+        {{ status }}
+      </div>
 
-    <form @submit.prevent="submit" class="space-y-6">
       <FormControl
         id="email"
         type="email"
@@ -45,11 +43,11 @@ const submit = () => {
         autofocus
       />
 
-      <div class="flex items-center justify-end">
-        <PrimaryButton type="submit" :disabled="form.processing">
+      <template #actions>
+        <PrimaryButton class="ml-auto" type="submit" :disabled="form.processing">
           Email Password Reset Link
         </PrimaryButton>
-      </div>
-    </form>
+      </template>
+    </Form>
   </GuestLayout>
 </template>

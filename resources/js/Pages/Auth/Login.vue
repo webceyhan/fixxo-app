@@ -2,8 +2,9 @@
 import { Head, useForm } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import Link from "@/Components/Link.vue";
-import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
+import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
+import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
 defineProps({
   canResetPassword: Boolean,
@@ -27,11 +28,11 @@ const submit = () => {
   <GuestLayout>
     <Head title="Log in" />
 
-    <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-      {{ status }}
-    </div>
+    <Form @submit="submit">
+      <div v-if="status" class="mb-4 font-medium text-sm text-success">
+        {{ status }}
+      </div>
 
-    <form @submit.prevent="submit" class="space-y-6">
       <FormControl
         id="email"
         type="email"
@@ -60,16 +61,17 @@ const submit = () => {
         v-model="form.remember"
       />
 
-      <div class="flex items-center justify-end space-x-4">
+      <template #actions>
         <Link
           v-if="canResetPassword"
+          class="ml-auto"
           label="Forgot your password?"
           :href="route('password.request')"
           small
         />
 
         <PrimaryButton type="submit" label="Log in" :disabled="form.processing" />
-      </div>
-    </form>
+      </template>
+    </Form>
   </GuestLayout>
 </template>

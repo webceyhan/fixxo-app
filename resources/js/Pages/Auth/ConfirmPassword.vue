@@ -1,8 +1,9 @@
 <script setup>
 import { Head, useForm } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
-import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
+import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
+import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
 const form = useForm({
   password: "",
@@ -19,12 +20,12 @@ const submit = () => {
   <GuestLayout>
     <Head title="Confirm Password" />
 
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-      This is a secure area of the application. Please confirm your password before
-      continuing.
-    </div>
+    <Form @submit="submit">
+      <template #description>
+        This is a secure area of the application. Please confirm your password before
+        continuing.
+      </template>
 
-    <form @submit.prevent="submit" class="space-y-6">
       <FormControl
         id="password"
         type="password"
@@ -36,11 +37,9 @@ const submit = () => {
         required
       />
 
-      <div class="flex justify-end">
-        <PrimaryButton class="ml-4" type="submit" :disabled="form.processing">
-          Confirm
-        </PrimaryButton>
-      </div>
-    </form>
+      <template #actions>
+        <PrimaryButton type="submit" :disabled="form.processing"> Confirm </PrimaryButton>
+      </template>
+    </Form>
   </GuestLayout>
 </template>

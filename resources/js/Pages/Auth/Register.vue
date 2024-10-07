@@ -2,8 +2,9 @@
 import { Head, useForm } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import Link from "@/Components/Link.vue";
-import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
+import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
+import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
 const form = useForm({
   name: "",
@@ -24,7 +25,7 @@ const submit = () => {
   <GuestLayout>
     <Head title="Register" />
 
-    <form @submit.prevent="submit" class="space-y-6">
+    <Form @submit="submit">
       <FormControl
         id="name"
         type="text"
@@ -66,11 +67,11 @@ const submit = () => {
         required
       />
 
-      <div class="flex items-center justify-end space-x-4">
-        <Link label="Already registered?" :href="route('login')" small />
+      <template #actions>
+        <Link class="ml-auto" label="Already registered?" :href="route('login')" small />
 
         <PrimaryButton type="submit" label="Register" :disabled="form.processing" />
-      </div>
-    </form>
+      </template>
+    </Form>
   </GuestLayout>
 </template>
