@@ -25,7 +25,8 @@ const warrantyStatus = computed(() => {
 <template>
   <Card>
     <template #header>
-      <h5>Device</h5>
+      Device
+
       <DeviceBadge :status="device.status" />
     </template>
 

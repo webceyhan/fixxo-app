@@ -125,7 +125,7 @@ const onIntervalChange = (interval) => {
     </div>
 
     <div class="flex flex-col md:flex-row md:flex-wrap gap-6 lg:gap-8">
-      <Card class="lg:flex-1" label="Latest pending tickets" flush>
+      <Card class="lg:flex-1" title="Latest pending tickets" flush>
         <TicketList :tickets="ticketsPending" compact with-task-count />
 
         <!-- placeholder -->
@@ -141,7 +141,7 @@ const onIntervalChange = (interval) => {
         </template>
       </Card>
 
-      <Card class="lg:flex-1" label="Latest completed tickets" flush>
+      <Card class="lg:flex-1" title="Latest completed tickets" flush>
         <TicketList :tickets="ticketsCompleted" compact with-task-count />
 
         <!-- placeholder -->
@@ -155,7 +155,7 @@ const onIntervalChange = (interval) => {
       </Card>
     </div>
     <div class="flex flex-col md:flex-row md:flex-wrap gap-6 lg:gap-8">
-      <Card class="lg:flex-1" label="Outstanding tickets" flush>
+      <Card class="lg:flex-1" title="Outstanding tickets" flush>
         <TicketList :tickets="ticketsOutstanding" compact with-balance />
 
         <!-- placeholder -->
@@ -171,7 +171,7 @@ const onIntervalChange = (interval) => {
         </template>
       </Card>
 
-      <Card class="lg:flex-1" label="Overdue tickets" flush>
+      <Card class="lg:flex-1" title="Overdue tickets" flush>
         <TicketList :tickets="ticketsOverdue" compact with-balance />
 
         <!-- placeholder -->

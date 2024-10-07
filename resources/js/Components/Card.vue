@@ -1,24 +1,20 @@
 <script setup>
-import Icon from "./Icon.vue";
-
 defineProps({
-  label: String,
-  icon: String,
+  title: String,
   flush: Boolean,
 });
 </script>
 
 <template>
-  <div class="card bg-base-300 divide-y-2 divide-base-100 overflow-hidden shadow-xl">
+  <div
+    class="card bg-base-300 divide-y-2 divide-base-100 ring-1 ring-primary/10 overflow-hidden shadow-xl"
+  >
     <!-- header -->
-    <div v-if="$slots.header || label" class="card-body grow-0">
+    <div v-if="$slots.header || title" class="card-body grow-0">
       <header class="card-title justify-between gap-2">
         <slot name="header">
-          <Icon v-if="icon" :name="icon" />
-          <h5 class="w-full mr-auto">{{ label }}</h5>
+          {{ title }}
         </slot>
-
-        <slot name="header-action" />
       </header>
     </div>
 
@@ -29,7 +25,7 @@ defineProps({
 
     <!-- footer -->
     <div v-if="$slots.footer" class="card-body grow-0">
-      <footer class="flex justify-end">
+      <footer class="card-actions justify-end">
         <slot name="footer" />
       </footer>
     </div>

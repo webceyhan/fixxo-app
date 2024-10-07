@@ -83,7 +83,7 @@ function updateIndex() {
 </script>
 
 <template>
-  <Card label="Uploads" flush>
+  <Card title="Uploads" flush>
     <!-- carousel -->
     <div class="relative backdrop-blur-md" :class="{ '!fixed inset-0 z-50': fullScreen }">
       <!-- Carousel wrapper -->

@@ -76,7 +76,7 @@ const props = defineProps({
     </template>
 
     <template #content>
-      <Card label="Recent tickets.." flush>
+      <Card title="Recent tickets.." flush>
         <TicketList :tickets="recentTickets" />
       </Card>
     </template>

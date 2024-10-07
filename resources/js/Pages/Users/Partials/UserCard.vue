@@ -12,7 +12,8 @@ defineProps({
 <template>
   <Card>
     <template #header>
-      <h5>User</h5>
+      User
+
       <UserBadge :status="user.status" />
     </template>
 

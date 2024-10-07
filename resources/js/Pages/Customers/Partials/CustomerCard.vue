@@ -10,9 +10,7 @@ const props = defineProps({
 
 <template>
   <Card>
-    <template #header>
-      <h5>Customer</h5>
-    </template>
+    <template #header> Customer </template>
 
     <DescriptionList>
       <DescriptionListItem label="Name" :value="customer.name" />

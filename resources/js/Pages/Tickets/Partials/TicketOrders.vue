@@ -34,15 +34,12 @@ defineExpose({
 <template>
   <Card flush>
     <template #header>
-      <h5>
-        Orders
-        <span class="ml-1 opacity-50">
-          {{ ticket.completed_orders_count }}/{{ ticket.total_orders_count }}
-        </span>
-      </h5>
-    </template>
+      Orders
 
-    <template #header-action>
+      <span class="mr-auto opacity-50">
+        {{ ticket.completed_orders_count }}/{{ ticket.total_orders_count }}
+      </span>
+
       <SecondaryButton label="New Order" icon="create" @click="create" small />
     </template>
 
@@ -50,8 +47,8 @@ defineExpose({
     <OrderModal ref="modal" :order="editing" :can-delete="canDelete" />
 
     <template #footer>
-      <span class="w-full text-right">Total Cost</span>
-      <span class="w-2/3 mr-8 text-right">
+      <span class="w-1/4"> Total Cost </span>
+      <span class="mr-8">
         {{ formatMoney(ticket.invoice.orders_cost) }}
       </span>
     </template>

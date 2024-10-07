@@ -184,7 +184,7 @@ const statusActions = [
     </template>
 
     <template #content>
-      <Card label="Description">
+      <Card title="Description">
         <div
           v-if="!toggleDescriptionEdit"
           class="relative group"

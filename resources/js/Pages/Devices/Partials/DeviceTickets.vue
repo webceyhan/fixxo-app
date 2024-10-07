@@ -11,12 +11,11 @@ const props = defineProps({
 <template>
   <Card flush>
     <template #header>
-      <h5>
-        Tickets
-        <span class="ml-1 opacity-50">
-          {{ device.closed_tickets_count }}/{{ device.total_tickets_count }}
-        </span>
-      </h5>
+      Tickets
+
+      <span class="mr-auto opacity-50">
+        {{ device.closed_tickets_count }}/{{ device.total_tickets_count }}
+      </span>
     </template>
 
     <TicketList :tickets="device.tickets" />

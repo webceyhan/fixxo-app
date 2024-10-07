@@ -103,7 +103,7 @@ const save = () => {
     <template #aside>
       <CustomerCard :customer="customer" />
 
-      <Card label="Note">
+      <Card title="Note">
         <div
           v-if="!toggleNoteEdit"
           class="relative group"
@@ -135,11 +135,11 @@ const save = () => {
     </template>
 
     <template #content>
-      <Card label="Devices" flush>
+      <Card title="Devices" flush>
         <DeviceList :devices="devices" />
       </Card>
 
-      <Card label="Tickets" flush>
+      <Card title="Tickets" flush>
         <TicketList :tickets="tickets" />
       </Card>
     </template>
