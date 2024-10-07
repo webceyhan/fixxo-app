@@ -13,41 +13,36 @@ defineProps({
 
 <template>
   <Table>
-    <TableRow
-      v-for="order in orders"
-      :key="order.id"
-      :href="route('orders.show', order.id)"
-    >
-      <template #avatar>
-        <Avatar icon="order" class="opacity-75" />
-      </template>
-
-      <template #badge>
-        <OrderBadge :status="order.status" compact />
-      </template>
-
-      <TableData :value="order.name">
-        <template #label>
-          for {{ order.ticket.device.brand }}
-          {{ order.ticket.device.model }}
-          - {{ order.ticket.customer.name }}
-        </template>
+    <TableRow v-for="order in orders" :href="route('orders.show', order.id)">
+      <TableData class="w-8 pe-0 align-top">
+        <Avatar class="max-sm:hidden opacity-75" icon="order" />
+        <OrderBadge class="sm:hidden" :status="order.status" compact />
       </TableData>
 
-      <TableData
-        class="max-xl:hidden text-end"
-        :label="`x ${order.quantity}`"
-        :value="formatMoney(order.cost)"
-      />
+      <TableData>
+        <p class="text-lead">{{ order.name }}</p>
+        <p class="text-alt">
+          for {{ order.ticket.device.brand }} {{ order.ticket.device.model }} -
+          {{ order.ticket.customer.name }}
+        </p>
+      </TableData>
 
-      <TableData class="max-lg:hidden text-end">
+      <TableData class="max-xl:hidden">
+        <p>{{ formatMoney(order.cost) }}</p>
+        <p class="text-alt">x {{ order.quantity }}</p>
+      </TableData>
+
+      <TableData class="max-lg:hidden">
+        <p>{{ formatMoney(order.cost * order.quantity) }}</p>
+        <p class="text-alt">Total</p>
+      </TableData>
+
+      <TableData class="max-lg:hidden">
         <OrderBadge :status="order.status" />
       </TableData>
 
       <TableData class="max-lg:hidden text-end">
-        <template #label>
-          {{ formatDate(order.created_at) }}
-        </template>
+        <p class="text-alt">{{ formatDate(order.created_at) }}</p>
       </TableData>
     </TableRow>
   </Table>

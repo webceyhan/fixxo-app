@@ -1,9 +1,11 @@
 <script setup>
 import { computed } from "vue";
-import { formatDate, isPastDate } from "@/Shared/utils";
+import { isPastDate } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
-import DescriptionList from "@/Components/List/DescriptionList.vue";
-import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
+import Field from "@/Components/Field/Field.vue";
+import FieldGroup from "@/Components/Field/FieldGroup.vue";
+import LinkField from "@/Components/Field/LinkField.vue";
+import DateField from "@/Components/Field/DateField.vue";
 import DeviceBadge from "./DeviceBadge.vue";
 import WarrantyBadge from "./WarrantyBadge.vue";
 
@@ -30,52 +32,51 @@ const warrantyStatus = computed(() => {
       <DeviceBadge :status="device.status" />
     </template>
 
-    <DescriptionList>
+    <FieldGroup>
       <!-- TODO: Add the following fields as link -->
       <!-- customer_id: Owner -->
       <!-- user_id: Receiver -->
 
-      <DescriptionListItem
-        label="Customer"
+      <LinkField
         v-if="device.customer"
-        :value="device.customer.name"
+        label="Customer"
         :href="route('customers.show', device.customer.id)"
+        :value="device.customer.name"
       />
 
-      <DescriptionListItem label="Model" :value="device.model" />
+      <Field label="Model" :value="device.model" />
 
-      <DescriptionListItem
+      <LinkField
         label="Brand"
-        :value="device.brand"
         :href="route('devices.index', { brand: device.brand })"
+        :value="device.brand"
       />
 
-      <DescriptionListItem
+      <LinkField
         label="Type"
-        :value="device.type"
         :href="route('devices.index', { type: device.type })"
+        :value="device.type"
       />
 
-      <DescriptionListItem
+      <Field
         v-if="device.serial_number"
         label="Serial Number"
         :value="device.serial_number"
       />
 
-      <DescriptionListItem v-if="device.purchase_date" label="Purchase Date">
-        {{ formatDate(device.purchase_date) }}
-      </DescriptionListItem>
+      <DateField
+        v-if="device.purchase_date"
+        label="Purchase Date"
+        :value="device.purchase_date"
+      />
 
-      <DescriptionListItem label="Warranty Expire Date">
-        <div class="flex items-center gap-2">
-          {{ formatDate(device?.warranty_expire_date) }}
-          <WarrantyBadge :status="warrantyStatus" />
-        </div>
-      </DescriptionListItem>
+      <DateField label="Warranty Expire Date" :value="device.warranty_expire_date" short>
+        <WarrantyBadge :status="warrantyStatus" />
+      </DateField>
 
-      <DescriptionListItem label="Created At" type="date" :value="device.created_at" />
+      <DateField label="Created At" :value="device.created_at" />
 
-      <DescriptionListItem label="Last Update" type="date" :value="device.updated_at" />
-    </DescriptionList>
+      <DateField label="Last Update" :value="device.updated_at" />
+    </FieldGroup>
   </Card>
 </template>

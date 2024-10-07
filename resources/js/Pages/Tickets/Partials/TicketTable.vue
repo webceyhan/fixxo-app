@@ -14,59 +14,42 @@ defineProps({
 
 <template>
   <Table>
-    <TableRow
-      v-for="ticket in tickets"
-      :key="ticket.id"
-      :href="route('tickets.show', ticket.id)"
-      badge-class="lg:!block xl:!hidden"
-    >
-      <template #avatar>
-        <Avatar icon="ticket" class="opacity-75" />
-      </template>
+    <TableRow v-for="ticket in tickets" :href="route('tickets.show', ticket.id)">
+      <TableData class="w-8 pe-0 align-top">
+        <Avatar class="max-sm:hidden opacity-75" icon="ticket" />
+        <TicketBadge class="sm:hidden" :status="ticket.status" compact />
+      </TableData>
 
-      <template #badge>
-        <TicketBadge :status="ticket.status" compact />
-      </template>
-
-      <TableData
-        label-class="line-clamp-2"
-        :label="ticket.description"
-        :value="ticket.device.brand + ' ' + ticket.device.model"
-      />
+      <TableData>
+        <p class="text-lead">{{ ticket.device.brand }} {{ ticket.device.model }}</p>
+        <p class="text-alt text-wrap line-clamp-2">{{ ticket.description }}</p>
+      </TableData>
 
       <TableData class="max-xl:hidden text-end">
         <PriorityBadge :value="ticket.priority" />
       </TableData>
 
-      <TableData class="max-xl:hidden" label="Tasks">
-        <template #value>
-          {{ ticket.completed_tasks_count }}/
-          {{ ticket.total_tasks_count }}
-        </template>
+      <TableData class="max-xl:hidden">
+        <p>{{ ticket.completed_tasks_count }}/{{ ticket.total_tasks_count }}</p>
+        <p class="text-alt">Tasks</p>
       </TableData>
 
-      <TableData class="max-xl:hidden" label="Orders">
-        <template #value>
-          {{ ticket.completed_orders_count }}/
-          {{ ticket.total_orders_count }}
-        </template>
+      <TableData class="max-xl:hidden">
+        <p>{{ ticket.completed_orders_count }}/{{ ticket.total_orders_count }}</p>
+        <p class="text-alt">Orders</p>
       </TableData>
 
-      <TableData
-        label="Balance"
-        class="max-lg:hidden text-end whitespace-nowrap"
-        :value="formatMoney(ticket.balance)"
-      />
+      <TableData class="max-lg:hidden text-end">
+        <p>{{ formatMoney(ticket.balance) }}</p>
+        <p class="text-alt">Balance</p>
+      </TableData>
 
       <TableData class="max-xl:hidden text-end">
         <TicketBadge :status="ticket.status" />
       </TableData>
 
       <TableData class="max-sm:hidden text-end">
-        <template #label>
-          <span class="2xl:hidden">{{ formatDate(ticket.created_at) }}</span>
-          <span class="max-2xl:hidden">{{ formatDate(ticket.created_at, true) }}</span>
-        </template>
+        <p class="text-alt">{{ formatDate(ticket.created_at) }}</p>
       </TableData>
     </TableRow>
   </Table>

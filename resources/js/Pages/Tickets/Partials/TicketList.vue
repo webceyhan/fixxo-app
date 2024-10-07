@@ -2,8 +2,8 @@
 import { formatDate, formatMoney } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
 import Progress from "@/Components/Progress.vue";
-import StackedList from "@/Components/List/StackedList.vue";
-import StackedListItem from "@/Components/List/StackedListItem.vue";
+import List from "@/Components/List/List.vue";
+import ListItem from "@/Components/List/ListItem.vue";
 import TicketBadge from "./TicketBadge.vue";
 
 const props = defineProps({
@@ -12,69 +12,71 @@ const props = defineProps({
   withBalance: Boolean,
   withTaskCount: Boolean,
 });
-
-function getProgress(ticket) {
-  const { completed_tasks_count, total_tasks_count } = ticket;
-
-  if (completed_tasks_count == 0) return 0;
-
-  if (completed_tasks_count == total_tasks_count) return 100;
-
-  return Math.round((completed_tasks_count / total_tasks_count) * 100);
-}
 </script>
 
 <template>
-  <StackedList>
-    <StackedListItem
-      v-for="ticket in tickets"
-      :key="ticket.id"
-      :href="route('tickets.show', ticket.id)"
-    >
-      <template #avatar>
-        <Avatar icon="ticket" class="flex-shrink-0 opacity-50" />
-        <div v-if="compact" class="absolute left-8 bottom-6 text-center">
+  <List>
+    <ListItem v-for="ticket in tickets" :href="route('tickets.show', ticket.id)">
+      <!-- COMPACT VIEW //////////////////////////////////////////////////////////////////////// -->
+      <template v-if="compact">
+        <div class="max-xl:hidden">
+          <Avatar icon="ticket" />
+        </div>
+
+        <div class="w-full space-y-1">
+          <!-- header -->
+          <div class="flex items-center gap-4">
+            <span class="text-lead">
+              {{ ticket.device.brand }} {{ ticket.device.model }}
+            </span>
+
+            <TicketBadge :status="ticket.status" compact />
+
+            <p class="text-alt text-end">{{ formatDate(ticket.created_at) }}</p>
+          </div>
+
+          <!-- footer -->
+          <div class="flex items-center gap-4 text-alt">
+            <p class="line-clamp-1">{{ ticket.description }}</p>
+
+            <Progress
+              v-if="withTaskCount"
+              class="h-1 w-14 shrink-0"
+              :value="ticket.completed_tasks_count"
+              :max="ticket.total_tasks_count"
+            />
+
+            <p v-if="withBalance" class="text-nowrap text-end">
+              {{ formatMoney(ticket.balance) }}
+            </p>
+          </div>
+        </div>
+      </template>
+
+      <!-- NORMAL VIEW ///////////////////////////////////////////////////////////////////////// -->
+      <template v-else>
+        <div class="max-xl:hidden">
+          <Avatar icon="ticket" />
+        </div>
+
+        <div class="xl:hidden -me-2">
           <TicketBadge :status="ticket.status" compact />
         </div>
-      </template>
 
-      <div class="w-full">
-        <div v-if="ticket.device">
-          {{ ticket.device.brand }}
-          {{ ticket.device.model }}
+        <div class="w-full space-y-1">
+          <!-- header -->
+          <p class="line-clamp-1">{{ ticket.description }}</p>
+
+          <!-- footer -->
+          <p class="max-sm:hidden text-alt">
+            Created on {{ formatDate(ticket.created_at, true) }}
+          </p>
         </div>
 
-        <div
-          class="text-sm text-gray-400"
-          :class="{
-            'line-clamp-2': !compact,
-            'line-clamp-1': compact,
-          }"
-          v-html="ticket.description"
-        />
-      </div>
-
-      <div v-if="withTaskCount" class="w-2/12 text-gray-400 text-sm text-end">
-        <p class="-mb-2 mt-2">
-          {{ ticket.completed_tasks_count }}/{{ ticket.total_tasks_count }}
-        </p>
-
-        <Progress class="h-1" :value="getProgress(ticket)" />
-      </div>
-
-      <div v-if="withBalance" class="w-2/12 text-gray-400 whitespace-nowrap text-end">
-        {{ formatMoney(ticket.balance) }}
-      </div>
-
-      <template v-if="!compact" #badge>
-        <TicketBadge :status="ticket.status" compact-max="xl" />
-      </template>
-
-      <template #timestamp>
-        <div v-if="!compact" class="max-md:hidden whitespace-nowrap text-gray-400">
-          {{ formatDate(ticket.created_at) }}
+        <div class="max-xl:hidden">
+          <TicketBadge :status="ticket.status" />
         </div>
       </template>
-    </StackedListItem>
-  </StackedList>
+    </ListItem>
+  </List>
 </template>

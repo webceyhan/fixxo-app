@@ -3,7 +3,7 @@ import Icon from "@/Components/Icon.vue";
 import Avatar from "@/Components/Avatar.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import MenuLink from "@/Components/Menu/MenuLink.vue";
-import Field from "@/Components/Field.vue";
+import Field from "@/Components/Field/Field.vue";
 
 const notifications = [
   {
@@ -52,12 +52,9 @@ const notifications = [
     <MenuLink v-for="notification in notifications" :href="route('dashboard')">
       <Avatar :src="notification.avatarUrl" />
 
-      <div>
-        <Field :text="notification.user" lead />
-        <Field :text="notification.message" alt />
-      </div>
+      <Field :value="notification.user" :description="notification.message" />
 
-      <Field :text="notification.time" alt />
+      <Field :description="notification.time" />
     </MenuLink>
   </Dropdown>
 </template>

@@ -1,8 +1,8 @@
 <script setup>
 import Avatar from "@/Components/Avatar.vue";
+import Field from "@/Components/Field/Field.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import MenuLink from "@/Components/Menu/MenuLink.vue";
-import Field from "@/Components/Field.vue";
 
 defineProps({
   user: Object,
@@ -13,10 +13,11 @@ defineProps({
   <Dropdown align-end>
     <template #trigger>
       <button class="btn btn-ghost h-auto pe-0 rounded-badge">
-        <div class="max-md:hidden text-end">
-          <Field :text="user.name" lead />
-          <Field :text="user.role" alt />
-        </div>
+        <Field
+          class="max-md:hidden text-end"
+          :value="user.name"
+          :description="user.role"
+        />
 
         <Avatar
           class="ring-2"
