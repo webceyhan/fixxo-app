@@ -1,9 +1,9 @@
 <script setup>
 import { formatDate, formatMoney } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
+import Progress from "@/Components/Progress.vue";
 import StackedList from "@/Components/List/StackedList.vue";
 import StackedListItem from "@/Components/List/StackedListItem.vue";
-import ProgressBar from "@/Components/ProgressBar.vue";
 import TicketBadge from "./TicketBadge.vue";
 
 const props = defineProps({
@@ -54,12 +54,12 @@ function getProgress(ticket) {
         />
       </div>
 
-      <div
-        v-if="withTaskCount"
-        class="w-2/12 text-gray-400 whitespace-nowrap text-sm text-end"
-      >
-        {{ ticket.completed_tasks_count }}/{{ ticket.total_tasks_count }}
-        <ProgressBar :value="getProgress(ticket)" class="mt-1" />
+      <div v-if="withTaskCount" class="w-2/12 text-gray-400 text-sm text-end">
+        <p class="-mb-2 mt-2">
+          {{ ticket.completed_tasks_count }}/{{ ticket.total_tasks_count }}
+        </p>
+
+        <Progress class="h-1" :value="getProgress(ticket)" />
       </div>
 
       <div v-if="withBalance" class="w-2/12 text-gray-400 whitespace-nowrap text-end">
