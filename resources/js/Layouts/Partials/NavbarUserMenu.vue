@@ -2,6 +2,7 @@
 import Avatar from "@/Components/Avatar.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import MenuLink from "@/Components/Menu/MenuLink.vue";
+import Field from "@/Components/Field.vue";
 
 defineProps({
   user: Object,
@@ -11,10 +12,10 @@ defineProps({
 <template>
   <Dropdown align-end>
     <template #trigger>
-      <button class="inline-flex items-center gap-3">
-        <div class="hidden sm:block text-end">
-          <p class="leading-5 font-medium">{{ user?.name }}</p>
-          <p class="text-sm text-gray-500">{{ user?.role ?? "Technician" }}</p>
+      <button class="btn btn-ghost h-auto pe-0 rounded-badge">
+        <div class="max-md:hidden text-end">
+          <Field :text="user.name" lead />
+          <Field :text="user.role" alt />
         </div>
 
         <Avatar

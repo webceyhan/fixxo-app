@@ -1,5 +1,6 @@
 <script setup>
 import { Link } from "@inertiajs/vue3";
+import Card from "@/Components/Card.vue";
 import Logo from "./Partials/Logo.vue";
 </script>
 
@@ -11,10 +12,8 @@ import Logo from "./Partials/Logo.vue";
       </Link>
     </div>
 
-    <div class="card bg-neutral w-full sm:max-w-md mt-6 shadow-md">
-      <div class="card-body">
-        <slot />
-      </div>
-    </div>
+    <Card class="w-full sm:max-w-md mt-6">
+      <slot />
+    </Card>
   </div>
 </template>

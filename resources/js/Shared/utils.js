@@ -1,5 +1,3 @@
-import { ref } from "vue";
-
 export function delay(ms, fn = () => {}) {
     return new Promise(() => setTimeout(fn, ms));
 }
@@ -167,39 +165,4 @@ export function formatPhone(value, defaultCountryCode = "32") {
     value = value.replace(/^0/, defaultCountryCode);
 
     return `+${value}`;
-}
-
-// MISC ////////////////////////////////////////////////////////////////////////////////////////////
-
-export function useDarkTheme() {
-    // read storage and OS preference
-    const storedTheme = localStorage.theme;
-    const isPrefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-    ).matches;
-
-    // determine the initial value
-    const isDark = ref(
-        storedTheme === "dark" || (!storedTheme && isPrefersDark)
-    );
-
-    // set dark mode
-    const setDark = (value) => {
-        // set the value
-        isDark.value = value;
-
-        // save the value in local storage
-        localStorage.theme = value ? "dark" : "light";
-
-        // set the class on the html element
-        document.documentElement.dataset.theme = localStorage.theme;
-    };
-
-    // toggle the value
-    const toggleDark = () => setDark(!isDark.value);
-
-    // initialize the value
-    setDark(isDark.value);
-
-    return { isDark, setDark, toggleDark };
 }
