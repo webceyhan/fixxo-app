@@ -66,60 +66,55 @@ const onIntervalChange = (interval) => {
       />
     </div>
 
-    <StatCard :label="`${labelMap[intervalFilter.value]} Income`">
-      <IncomeChart v-bind="incomeChartData" color-class="bg-blue-500/75" />
+    <StatCard class="border-error/25" :label="`${labelMap[intervalFilter.value]} Income`">
+      <IncomeChart v-bind="incomeChartData" color="error" />
     </StatCard>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
       <SingleStatCard
         label="New Customers"
         icon="people"
-        icon-bg-color="bg-indigo-600/50"
+        color="info"
         v-bind="customerChartData"
       />
 
       <SingleStatCard
         label="New Tickets"
         icon="ticket"
-        icon-bg-color="bg-pink-600/50"
+        color="success"
         v-bind="ticketChartData"
       />
 
       <SingleStatCard
         label="New Tasks"
         icon="task"
-        icon-bg-color="bg-green-600/50"
+        color="warning"
         v-bind="taskChartData"
       />
 
       <SingleStatCard
         label="New Transactions"
         icon="transaction"
-        icon-bg-color="bg-orange-600/50"
+        color="error"
         v-bind="transactionChartData"
       />
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
       <StatCard
+        class="border-success/25"
         label="Tickets"
         icon="ticket"
         :items="ticketStats"
-        class="!border-blue-500/25"
       />
 
-      <StatCard
-        label="Tasks"
-        icon="task"
-        :items="taskStats"
-        class="!border-green-500/25"
-      />
+      <StatCard class="border-warning/25" label="Tasks" icon="task" :items="taskStats" />
 
       <StatCard
+        class="border-error/25"
         label="Earnings"
         icon="money"
         :items="earningStats"
-        class="!border-yellow-500/25"
         format-as-money
       />
     </div>

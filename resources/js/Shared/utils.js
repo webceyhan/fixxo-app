@@ -45,6 +45,8 @@ export function formatMoney(value) {
     return new Intl.NumberFormat("en-BE", {
         style: "currency",
         currency: "EUR",
+        notation: "compact",
+        compactDisplay: "short",
     }).format(value);
 }
 
