@@ -1,8 +1,7 @@
 <script setup>
-import Icon from "@/Components/Icon.vue";
 import Avatar from "@/Components/Avatar.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
-import DropdownItem from "@/Components/Menu/DropdownItem.vue";
+import MenuLink from "@/Components/Menu/MenuLink.vue";
 
 const notifications = [
   {
@@ -45,12 +44,14 @@ const notifications = [
 </script>
 
 <template>
-  <Dropdown wide>
+  <Dropdown align-end wide>
     <template #trigger>
-      <Avatar icon="bell" />
+      <button>
+        <Avatar icon="bell" />
+      </button>
     </template>
 
-    <DropdownItem
+    <MenuLink
       v-for="(notification, i) in notifications"
       :key="i"
       :href="route('dashboard')"
@@ -69,6 +70,6 @@ const notifications = [
           {{ notification.time }}
         </span>
       </p>
-    </DropdownItem>
+    </MenuLink>
   </Dropdown>
 </template>

@@ -1,12 +1,12 @@
 <script setup>
 import { ref } from "vue";
 import PageLayout from "@/Layouts/PageLayout.vue";
+import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
-import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
+import MenuLink from "@/Components/Menu/MenuLink.vue";
 import TicketCard from "@/Pages/Tickets/Partials/TicketCard.vue";
 import OrderForm from "./Partials/OrderForm.vue";
-import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
 const props = defineProps({
   ticket: Object,
@@ -35,9 +35,9 @@ const orderForm = ref(null);
 
     <!-- mobile menu -->
     <template #mobile-menu>
-      <Dropdown>
-        <DropdownItem label="Save" icon="save" @click="orderForm.save()" />
-        <DropdownItem
+      <Dropdown align-end>
+        <MenuLink label="Save" icon="save" @click="orderForm.save()" />
+        <MenuLink
           v-if="canDelete"
           label="Delete"
           method="delete"
