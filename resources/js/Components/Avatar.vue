@@ -8,12 +8,12 @@ defineProps({
 </script>
 
 <template>
-  <div
-    class="flex items-center justify-center w-12 h-12 bg-gray-200 dark:bg-gray-900 rounded-full overflow-hidden"
-  >
-    <slot>
-      <img v-if="src" :src="src" class="object-cover w-full h-full" />
-      <Icon v-if="!src" :name="icon" class="text-2xl" />
-    </slot>
+  <div class="avatar placeholder rounded-full size-12">
+    <div class="bg-neutral text-neutral-content size-full rounded-full">
+      <slot>
+        <img v-if="src" :src="src" />
+        <Icon v-if="!src" :name="icon" class="text-2xl" />
+      </slot>
+    </div>
   </div>
 </template>

@@ -30,10 +30,7 @@ const { isDark, toggleDark } = useDarkTheme();
 
       <!-- Theme Toggle -->
       <button @click="toggleDark()" class="max-md:hidden">
-        <Avatar
-          :icon="isDark ? 'moon' : 'sun'"
-          class="dark:text-white/50 dark:hover:text-white"
-        />
+        <Avatar :icon="isDark ? 'moon' : 'sun'" />
       </button>
 
       <!-- Notification Menu -->

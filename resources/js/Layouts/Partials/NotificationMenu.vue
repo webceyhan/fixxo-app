@@ -47,7 +47,7 @@ const notifications = [
 <template>
   <Dropdown wide>
     <template #trigger>
-    <Avatar icon="bell" class="dark:text-white/50 dark:hover:text-white" />
+      <Avatar icon="bell" />
     </template>
 
     <DropdownItem
@@ -56,7 +56,7 @@ const notifications = [
       :href="route('dashboard')"
       class="text-left"
     >
-      <Avatar :src="notification.user.avatar" class="flex-shrink-0 !w-10 !h-10" />
+      <Avatar :src="notification.user.avatar" class="flex-shrink-0 !size-10" />
 
       <p class="w-full text-sm space-x-2">
         <span class="font-semibold">
