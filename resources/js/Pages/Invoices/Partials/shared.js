@@ -3,15 +3,18 @@ import { isPastDate } from "@/Shared/utils";
 export const invoiceStatus = {
     pending: {
         label: "Pending",
-        theme: "secondary",
+        icon: "clock-fill",
+        color: "neutral",
     },
     paid: {
         label: "Paid",
-        theme: "success",
+        icon: "check-circle-fill",
+        color: "success",
     },
     overdue: {
         label: "Overdue",
-        theme: "danger",
+        icon: "exclamation-circle-fill",
+        color: "error",
     },
 };
 

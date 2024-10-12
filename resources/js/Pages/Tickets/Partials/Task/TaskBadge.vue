@@ -8,15 +8,18 @@ defineProps({
 const states = {
   new: {
     label: "New",
-    theme: "secondary",
+    icon: "clock-fill",
+    color: "neutral",
   },
   completed: {
     label: "Completed",
-    theme: "success",
+    icon: "check-circle-fill",
+    color: "success",
   },
   cancelled: {
     label: "Cancelled",
-    theme: "danger",
+    icon: "x-circle-fill",
+    color: "error",
   },
 };
 </script>
