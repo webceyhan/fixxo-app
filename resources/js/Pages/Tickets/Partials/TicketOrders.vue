@@ -13,8 +13,8 @@ const props = defineProps({
 });
 
 // Order Modal
-const modal = ref(null);
 const editing = ref(null);
+const modalOpen = ref(false);
 
 const create = () => {
   edit({ ticket_id: props.ticket.id });
@@ -22,7 +22,7 @@ const create = () => {
 
 const edit = (order) => {
   editing.value = order;
-  modal.value.open();
+  modalOpen.value = true;
 };
 
 defineExpose({
@@ -44,7 +44,7 @@ defineExpose({
     </template>
 
     <OrderList :orders="orders" @select="edit" />
-    <OrderModal ref="modal" :order="editing" :can-delete="canDelete" />
+    <OrderModal v-model:open="modalOpen" :order="editing" :can-delete="canDelete" />
 
     <template #footer>
       <span class="w-1/4"> Total Cost </span>

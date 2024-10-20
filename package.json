@@ -6,7 +6,6 @@
         "build": "vue-tsc && vite build"
     },
     "devDependencies": {
-        "@headlessui/vue": "^1.7.22",
         "@inertiajs/vue3": "^1.0.0",
         "@vitejs/plugin-vue": "^5.0.0",
         "autoprefixer": "^10.4.16",

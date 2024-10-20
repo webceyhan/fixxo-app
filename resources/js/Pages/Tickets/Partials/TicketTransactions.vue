@@ -13,8 +13,8 @@ const props = defineProps({
 });
 
 // Transaction Modal
-const modal = ref(null);
 const editing = ref(null);
+const modalOpen = ref(false);
 
 const create = () => {
   edit({ invoice_id: props.invoice.id });
@@ -22,7 +22,7 @@ const create = () => {
 
 const edit = (transaction) => {
   editing.value = transaction;
-  modal.value.open();
+  modalOpen.value = true;
 };
 
 defineExpose({
@@ -40,7 +40,11 @@ defineExpose({
     </template>
 
     <TransactionList :transactions="transactions" @select="edit" />
-    <TransactionModal ref="modal" :transaction="editing" :can-delete="canDelete" />
+    <TransactionModal
+      v-model:open="modalOpen"
+      :transaction="editing"
+      :can-delete="canDelete"
+    />
 
     <template #footer>
       <div class="w-full text-right space-y-1 mr-8">

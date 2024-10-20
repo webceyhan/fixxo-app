@@ -6,15 +6,15 @@ import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 
-const confirmationModal = ref(false);
 const passwordInput = ref(null);
+const modalOpen = ref(false);
 
 const form = useForm({
   password: "",
 });
 
 const confirmUserDeletion = () => {
-  confirmationModal.value.open();
+  modalOpen.value = true;
 
   nextTick(() => passwordInput.value.focus());
 };
@@ -29,8 +29,7 @@ const deleteUser = () => {
 };
 
 const closeModal = () => {
-  confirmationModal.value.close();
-
+  modalOpen.value = false;
   form.reset();
 };
 </script>
@@ -47,7 +46,7 @@ const closeModal = () => {
 
     <DangerButton @click="confirmUserDeletion" label="Delete Account" icon="delete" />
 
-    <Modal ref="confirmationModal" cancellable>
+    <Modal v-model:open="modalOpen">
       <template #title> Are you sure you want to delete your account? </template>
 
       <p class="text-sm">

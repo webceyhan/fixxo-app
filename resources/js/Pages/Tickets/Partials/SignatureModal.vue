@@ -1,7 +1,8 @@
 <script setup>
-import SignaturePad from "signature_pad";
 import { ref, onMounted, watch } from "vue";
 import { useForm } from "@inertiajs/vue3";
+import SignaturePad from "signature_pad";
+import Modal from "@/Components/Modal.vue";
 import RadioGroup from "@/Components/Form/RadioGroup.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
@@ -21,8 +22,6 @@ const form = useForm({
   blob: null,
 });
 
-const setIsOpen = (value) => (isOpen.value = value);
-
 const save = () => {
   // append signature blob to form
   form.blob = pad.value.toDataURL("image/svg+xml");
@@ -30,7 +29,7 @@ const save = () => {
   // submit form
   form.post(route("tickets.sign", props.ticket.id), {
     preserveScroll: true,
-    onSuccess: () => setIsOpen(false),
+    onSuccess: () => (isOpen.value = false),
   });
 };
 
@@ -77,39 +76,26 @@ onMounted(() => {
 });
 
 defineExpose({
-  open: () => setIsOpen(true),
-  close: () => setIsOpen(false),
+  open: () => (isOpen.value = true),
+  close: () => (isOpen.value = false),
 });
 </script>
 
 <template>
-  <dialog :open="isOpen" @close="setIsOpen" class="relative z-50">
-    <!-- The backdrop, rendered as a fixed sibling to the panel container -->
-    <div class="fixed inset-0 bg-black/30" aria-hidden="true" />
+  <Modal v-model:open="isOpen">
+    <template #title> Sign for {{ form.type }} </template>
 
-    <!-- Full-screen container to center the panel -->
-    <div class="fixed inset-0 flex items-center justify-center p-4">
-      <div
-        class="w-full sm:max-w-2xl transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 shadow-xl dark:shadow-gray-700 transition-all p-6 space-y-6"
-      >
-        <div class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100">
-          Sign for {{ form.type }}
-        </div>
+    <canvas
+      ref="canvas"
+      class="block w-full h-auto min-h-max bg-white"
+      width="600"
+      height="300"
+    />
 
-        <canvas
-          ref="canvas"
-          class="block w-full h-auto min-h-max bg-white"
-          width="600"
-          height="300"
-        />
-
-        <div class="flex justify-between items-center gap-2">
-          <PrimaryButton label="Save" @click="save()" />
-          <DangerButton label="Clear" class="mr-auto" @click="clear()" />
-          <!-- <SecondaryButton label="Cancel" class="mr-auto" @click="setIsOpen(false)" /> -->
-          <RadioGroup v-model="form.type" :options="typeOptions" />
-        </div>
-      </div>
-    </div>
-  </dialog>
+    <template #actions>
+      <RadioGroup v-model="form.type" :options="typeOptions" class="mr-auto" />
+      <DangerButton label="Clear" @click="clear" />
+      <PrimaryButton label="Save" @click="save" />
+    </template>
+  </Modal>
 </template>
