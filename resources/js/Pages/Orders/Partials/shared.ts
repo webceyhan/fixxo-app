@@ -1,5 +1,5 @@
-// TODO: convert this file to typescript
 
+// TODO: move to a shared location
 export const orderStatus = {
     new: {
         label: "New",
