@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import PageLayout from "@/Layouts/PageLayout.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
@@ -11,18 +11,10 @@ import DeviceCard from "./Partials/DeviceCard.vue";
 import DeviceTickets from "./Partials/DeviceTickets.vue";
 import DeviceHistory from "./Partials/DeviceHistory.vue";
 
-const props = defineProps({
-  device: Object,
-  canDelete: Boolean,
-  // canDeleteTicket: Boolean,
-});
-
-const save = () => {
-  form.put(route("devices.update", props.device.id), {
-    preserveScroll: true,
-  });
-  return true; // return true to close the edit
-};
+const props = defineProps<{
+  device: any; // TODO: define Device type
+  canDelete: boolean;
+}>();
 
 const statusActions = [
   {

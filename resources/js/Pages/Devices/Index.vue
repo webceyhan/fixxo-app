@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { createOptionLinks } from "@/Shared/form";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
@@ -8,10 +8,10 @@ import HashTagNav from "@/Components/Nav/HashTagNav.vue";
 import PaginationWrapper from "@/Components/PaginationWrapper.vue";
 import DeviceTable from "./Partials/DeviceTable.vue";
 
-const props = defineProps({
-  devices: Object,
-  filters: Object,
-});
+const props = defineProps<{
+  devices: any; // TODO: define Device type
+  filters: any; // TODO: define Filter type
+}>();
 
 const { brand, type, ...restFilters } = props.filters;
 

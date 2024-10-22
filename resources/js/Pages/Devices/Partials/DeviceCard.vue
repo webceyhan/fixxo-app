@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { isPastDate } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
@@ -9,9 +9,9 @@ import DateField from "@/Components/Field/DateField.vue";
 import DeviceBadge from "./DeviceBadge.vue";
 import WarrantyBadge from "./WarrantyBadge.vue";
 
-const props = defineProps({
-  device: Object,
-});
+const props = defineProps<{
+  device: any; // TODO: define Device type
+}>();
 
 const warrantyStatus = computed(() => {
   const { warranty_expire_date } = props.device;

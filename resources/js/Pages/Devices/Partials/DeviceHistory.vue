@@ -1,12 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { formatDate } from "@/Shared/utils";
 import Timeline from "@/Components/Timeline/Timeline.vue";
 import TimelineItem from "@/Components/Timeline/TimelineItem.vue";
 import DeviceBadge from "./DeviceBadge.vue";
 
-const props = defineProps({
-  logs: Array,
-});
+const props = defineProps<{
+  logs: any[]; // TODO: define Log type
+}>();
 </script>
 
 <template>
