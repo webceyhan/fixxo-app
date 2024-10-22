@@ -8,8 +8,8 @@ import Textarea from "@/Components/Form/Textarea.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
-import DropdownItem from "@/Components/Menu/DropdownItem.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
+import MenuLink from "@/Components/Menu/MenuLink.vue";
 import DeviceList from "@/Pages/Devices/Partials/DeviceList.vue";
 import TicketList from "@/Pages/Tickets/Partials/TicketList.vue";
 import CustomerCard from "./Partials/CustomerCard.vue";
@@ -71,26 +71,22 @@ const save = () => {
 
     <!-- mobile menu -->
     <template #mobile-menu>
-      <Dropdown>
-        <DropdownItem
-          label="Edit"
-          icon="edit"
-          :href="route('customers.edit', customer.id)"
-        />
-        <DropdownItem
+      <Dropdown align-end>
+        <MenuLink label="Edit" icon="edit" :href="route('customers.edit', customer.id)" />
+        <MenuLink
           v-if="canDelete"
           label="Delete"
           method="delete"
           icon="delete"
           :href="route('customers.destroy', customer.id)"
         />
-        <DropdownItem
+        <MenuLink
           label="New Device"
           icon="create"
           :href="route('devices.create')"
           :data="{ customer_id: customer.id }"
         />
-        <DropdownItem
+        <MenuLink
           v-if="devices[0]"
           label="New Ticket"
           icon="create"
@@ -103,12 +99,8 @@ const save = () => {
     <template #aside>
       <CustomerCard :customer="customer" />
 
-      <Card label="Note">
-        <div
-          v-if="!toggleNoteEdit"
-          class="relative group"
-          @click="toggleNoteEdit = true"
-        >
+      <Card title="Note">
+        <div v-if="!toggleNoteEdit" class="relative group" @click="toggleNoteEdit = true">
           <pre
             class="whitespace-pre-wrap text-sm"
             v-html="customer.note ?? 'Add note...'"
@@ -135,11 +127,11 @@ const save = () => {
     </template>
 
     <template #content>
-      <Card label="Devices" flush>
+      <Card title="Devices" flush>
         <DeviceList :devices="devices" />
       </Card>
 
-      <Card label="Tickets" flush>
+      <Card title="Tickets" flush>
         <TicketList :tickets="tickets" />
       </Card>
     </template>

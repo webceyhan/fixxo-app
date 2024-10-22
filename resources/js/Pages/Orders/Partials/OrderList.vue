@@ -1,7 +1,8 @@
 <script setup>
 import { formatDate, formatMoney } from "@/Shared/utils";
-import StackedList from "@/Components/List/StackedList.vue";
-import StackedListItem from "@/Components/List/StackedListItem.vue";
+import Avatar from "@/Components/Avatar.vue";
+import List from "@/Components/List/List.vue";
+import ListItem from "@/Components/List/ListItem.vue";
 import OrderBadge from "./OrderBadge.vue";
 
 defineEmits(["select"]);
@@ -12,29 +13,29 @@ defineProps({
 </script>
 
 <template>
-  <StackedList>
-    <StackedListItem
-      v-for="order in orders"
-      :key="order.id"
-      icon="order"
-      @click="$emit('select', order)"
-      clickable
-    >
-      <div class="w-full truncate">
-        {{ order.name }}
+  <List>
+    <ListItem v-for="order in orders" @click="$emit('select', order)">
+      <div class="max-xl:hidden">
+        <Avatar icon="order" />
+      </div>
 
-        <div class="hidden md:block text-gray-400 text-sm mt-1">
-          <em>{{ formatDate(order.created_at, true) }}</em>
+      <div class="xl:hidden -me-2">
+        <OrderBadge :status="order.status" compact />
+      </div>
+
+      <div class="w-full space-y-1">
+        <!-- header -->
+        <div class="flex items-center gap-4">
+          <p class="text-lead line-clamp-1">{{ order.name }}</p>
+          <OrderBadge class="max-xl:hidden -me-2" :status="order.status" />
+        </div>
+
+        <!-- footer -->
+        <div class="max-xl:hidden flex items-center gap-4 text-alt">
+          <p>Created on {{ formatDate(order.created_at, true) }}</p>
+          <span>{{ formatMoney(order.cost) }}</span>
         </div>
       </div>
-
-      <div class="w-36 order-1 text-gray-400 text-right text-sm">
-        {{ formatMoney(order.cost) }}
-      </div>
-
-      <template #badge>
-        <OrderBadge :status="order.status" compact-max="xl" />
-      </template>
-    </StackedListItem>
-  </StackedList>
+    </ListItem>
+  </List>
 </template>

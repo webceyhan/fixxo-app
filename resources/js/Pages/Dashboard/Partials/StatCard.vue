@@ -3,6 +3,10 @@ import { computed } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import Icon from "@/Components/Icon.vue";
+import Stat from "@/Components/Stat/Stat.vue";
+import StatGroup from "@/Components/Stat/StatGroup.vue";
+import StatTitle from "@/Components/Stat/StatTitle.vue";
+import StatValue from "@/Components/Stat/StatValue.vue";
 
 const props = defineProps({
   label: String,
@@ -13,36 +17,26 @@ const props = defineProps({
 
 const normalizedItems = computed(() => {
   return Array.from({ length: 2 }, (_, i) => ({
-    label: props.items[i]?.label ?? "N/A",
-    value: props.items[i]?.value ?? 0,
+    label: props.items?.[i]?.label ?? "N/A",
+    value: props.items?.[i]?.value ?? 0,
   }));
 });
 </script>
 
 <template>
-  <Card class="border-slate-500 border-l-4">
-    <header
-      class="flex justify-between items-center font-semibold uppercase text-lg text-gray-400 leading-tight mb-4"
-    >
-      <span>{{ label }}</span>
-      <Icon v-if="icon" :name="icon" class="text-4xl opacity-25" />
-    </header>
+  <Card class="border-l-4">
+    <h1 class="card-title uppercase">
+      {{ label }}
+      <Icon v-if="icon" :name="icon" class="ml-auto text-4xl opacity-25" />
+    </h1>
 
     <slot>
-      <dl class="grid grid-cols-1 xl:grid-cols-2 gap-y-2 xl:divide-x divide-slate-500">
-        <div
-          v-for="(item, i) in normalizedItems"
-          :key="i"
-          class="flex justify-between items-center xl:items-start xl:flex-col-reverse first:p-0 xl:pl-8"
-        >
-          <dt class="text-base leading-7 dark:text-gray-400">
-            {{ item.label }}
-          </dt>
-          <dd class="text-2xl font-bold leading-9 tracking-tight dark:text-white">
-            {{ formatAsMoney ? formatMoney(item.value) : item.value }}
-          </dd>
-        </div>
-      </dl>
+      <StatGroup class="-ml-6 bg-transparent">
+        <Stat v-for="item in normalizedItems">
+          <StatValue :text="formatAsMoney ? formatMoney(item.value) : item.value" />
+          <StatTitle :text="item.label.replace('_', ' ')" />
+        </Stat>
+      </StatGroup>
     </slot>
   </Card>
 </template>

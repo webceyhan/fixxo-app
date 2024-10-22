@@ -5,7 +5,6 @@ import TableData from "@/Components/Table/TableData.vue";
 
 const props = defineProps({
   href: String,
-  badgeClass: String,
 });
 
 function onClick(e) {
@@ -14,26 +13,11 @@ function onClick(e) {
 </script>
 
 <template>
-  <tr
-    :class="{ 'hover:bg-gray-200 dark:hover:bg-gray-700/30 cursor-pointer': href }"
-    @click="onClick"
-  >
-    <TableData v-if="$slots.avatar" class="!pr-0 w-0">
-      <div class="relative">
-        <slot name="avatar" />
-
-        <div class="lg:hidden absolute bottom-0 left-0" :class="badgeClass">
-          <slot name="badge" />
-        </div>
-      </div>
-    </TableData>
-
+  <tr class="hover border-b-0" @click="onClick">
     <slot />
 
-    <TableData v-if="$slots.action || href" class="!pl-0 w-0">
-      <slot name="action">
-        <Icon name="chevron-right" class="text-sm opacity-50" />
-      </slot>
+    <TableData v-if="href" class="w-8 pl-0 text-end">
+      <Icon name="chevron-right" class="text-sm opacity-50" />
     </TableData>
   </tr>
 </template>

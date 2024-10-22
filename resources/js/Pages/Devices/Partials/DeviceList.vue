@@ -1,64 +1,39 @@
 <script setup>
 import { formatDate } from "@/Shared/utils";
-import StackedList from "@/Components/List/StackedList.vue";
-import StackedListItem from "@/Components/List/StackedListItem.vue";
+import Avatar from "@/Components/Avatar.vue";
+import List from "@/Components/List/List.vue";
+import ListItem from "@/Components/List/ListItem.vue";
 import DeviceBadge from "./DeviceBadge.vue";
 
 const props = defineProps({
   devices: Array,
-  compact: Boolean,
 });
 </script>
 
 <template>
-  <StackedList>
-    <StackedListItem
-      v-for="device in devices"
-      :key="device.id"
-      :icon="device.type"
-      :href="route('devices.show', device.id)"
-    >
-      <div class="w-full">
-        <div>{{ device.brand }} {{ device.model }}</div>
-
-        <div
-          v-if="device.customer"
-          class="text-sm text-gray-400 line-clamp-2"
-          :class="{ 'max-md:line-clamp-1': compact }"
-          v-html="device.customer.name"
-        />
+  <List>
+    <ListItem v-for="device in devices" :href="route('devices.show', device.id)">
+      <div class="max-xl:hidden">
+        <Avatar :icon="device.type" />
       </div>
 
-      <!-- <div
-        v-if="device.tasks_count != undefined"
-        class="hidden md:block w-2/12 text-gray-400"
-      >
-        tasks {{ device?.tasks_count ?? 0 }}
+      <div class="xl:hidden -me-2">
+        <DeviceBadge :status="device.status" compact />
       </div>
 
-      <div
-        v-if="device.total_cost != undefined"
-        class="hidden md:block w-2/12 text-gray-400"
-      >
-        cost {{ formatMoney(device.total_cost) }}
+      <div class="w-full space-y-1">
+        <!-- header -->
+        <p class="text-lead">{{ device.brand }} {{ device.model }}</p>
+
+        <!-- footer -->
+        <p class="max-xl:hidden text-alt">
+          Created on {{ formatDate(device.created_at, true) }}
+        </p>
       </div>
 
-      <div
-        v-if="device.balance != undefined"
-        class="hidden md:block w-2/12 text-gray-400 whitespace-nowrap text-end"
-      >
-        {{ formatMoney(device.balance) }}
-      </div> -->
-
-      <template #badge>
-        <DeviceBadge :status="device.status" compact-max="xl" />
-      </template>
-
-      <template #timestamp>
-        <div v-if="!compact" class="max-md:hidden whitespace-nowrap text-gray-400">
-          {{ formatDate(device.created_at) }}
-        </div>
-      </template>
-    </StackedListItem>
-  </StackedList>
+      <div class="max-xl:hidden">
+        <DeviceBadge :status="device.status" />
+      </div>
+    </ListItem>
+  </List>
 </template>

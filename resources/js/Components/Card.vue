@@ -1,50 +1,33 @@
 <script setup>
-import Icon from "./Icon.vue";
-
 defineProps({
-  label: String,
-  icon: String,
+  title: String,
   flush: Boolean,
 });
 </script>
 
 <template>
   <div
-    :class="{
-      // base
-      'bg-white dark:bg-gray-800 overflow-hidden shadow-lg rounded-lg': true,
-
-      // divider
-      'divide-y divide-gray-200 dark:divide-gray-900': true,
-
-      // flush
-      '-mx-4 sm:m-0': flush,
-    }"
+    class="card bg-base-300 divide-y-2 divide-base-100 ring-1 ring-primary/10 overflow-hidden shadow-xl"
   >
     <!-- header -->
-    <header
-      v-if="$slots.header || label"
-      :class="{
-        'flex justify-between bg-gray-100/50 dark:bg-gray-700/25 gap-2 p-4 sm:px-6': true,
-        'font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight': true,
-        'max-sm:bg-gray-200 max-sm:dark:bg-gray-900': flush,
-      }"
-    >
-      <slot name="header">
-        <Icon v-if="icon" :name="icon" class="mr-2" />
-        <h5 class="mr-auto">{{ label }}</h5>
-      </slot>
-
-      <slot name="header-action" />
-    </header>
+    <div v-if="$slots.header || title" class="card-body grow-0">
+      <header class="card-title justify-between gap-2">
+        <slot name="header">
+          {{ title }}
+        </slot>
+      </header>
+    </div>
 
     <!-- body -->
-    <div class="text-gray-900 dark:text-gray-100" :class="{ 'p-4 sm:p-6': !flush }">
+    <div :class="['card-body', { 'p-0': flush }]">
       <slot />
     </div>
 
-    <footer v-if="$slots.footer" class="flex justify-end p-4 sm:px-6 text-gray-400">
-      <slot name="footer" />
-    </footer>
+    <!-- footer -->
+    <div v-if="$slots.footer" class="card-body grow-0">
+      <footer class="card-actions justify-end">
+        <slot name="footer" />
+      </footer>
+    </div>
   </div>
 </template>

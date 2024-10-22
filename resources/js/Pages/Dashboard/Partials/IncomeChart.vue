@@ -11,10 +11,18 @@ import {
 
 Chart.register(LineElement, PointElement, LinearScale, CategoryScale, LineController);
 
+/**
+ * Colors:
+ *
+ * text-info
+ * text-success
+ * text-warning
+ * text-error
+ */
 const props = defineProps({
   labels: Array,
   values: Array,
-  colorClass: String,
+  color: String,
 });
 
 const canvasRef = ref(null);
@@ -26,8 +34,8 @@ const drawChart = () => {
     chartInstance.value.destroy();
   }
 
-  const borderColor = window.getComputedStyle(colorClassRef.value).backgroundColor;
-  const backgroundColor = borderColor.replace(/[^,]+\)$/, "0.05)");
+  const borderColor = window.getComputedStyle(colorClassRef.value).color;
+  const backgroundColor = borderColor.replace(/[^/]+\)$/, "0.05)");
 
   chartInstance.value = new Chart(canvasRef.value, {
     type: "line",
@@ -74,6 +82,6 @@ watch(
 
 <template>
   <canvas ref="canvasRef" class="w-full max-h-48">
-    <span ref="colorClassRef" :class="colorClass" />
+    <span ref="colorClassRef" :class="`text-${color} text-opacity-50`" />
   </canvas>
 </template>

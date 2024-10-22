@@ -8,23 +8,28 @@ defineProps({
 const states = {
   new: {
     label: "New",
-    theme: "secondary",
+    icon: "clock-fill",
+    color: "neutral",
   },
   in_progress: {
     label: "In Progress",
-    theme: "primary",
+    icon: "play-circle-fill",
+    color: "info",
   },
   on_hold: {
     label: "On Hold",
-    theme: "warning",
+    icon: "pause-circle-fill",
+    color: "warning",
   },
   resolved: {
     label: "Resolved",
-    theme: "success",
+    icon: "check-circle-fill",
+    color: "success",
   },
   closed: {
     label: "Closed",
-    theme: "secondary",
+    icon: "dash-circle-fill",
+    color: "neutral",
   },
 };
 </script>

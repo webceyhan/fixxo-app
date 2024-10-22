@@ -7,8 +7,9 @@ import Icon from "@/Components/Icon.vue";
 import Select from "@/Components/Form/Select.vue";
 import TextInput from "@/Components/Form/TextInput.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
-import DrowdownItem from "@/Components/Menu/DropdownItem.vue";
-import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
+import DropdownTrigger from "./Menu/DropdownTrigger.vue";
+import MenuSection from "./Menu/MenuSection.vue";
+import MenuLink from "@/Components/Menu/MenuLink.vue";
 import RadioGroup from "./Form/RadioGroup.vue";
 
 const props = defineProps({
@@ -112,7 +113,7 @@ const onReset = () => {
     </div>
 
     <!-- mobile -->
-    <div class="flex lg:hidden w-full">
+    <div class="flex lg:hidden w-full gap-2">
       <!-- search input -->
       <div class="relative inline-flex w-full h-10">
         <span class="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -122,19 +123,21 @@ const onReset = () => {
         <TextInput
           type="search"
           placeholder="Search"
-          class="text-sm font-semibold pl-10 h-full w-full rounded-r-none"
+          class="text-sm font-semibold pl-10 h-full w-full"
           :value="searchParams.search"
           @input="onSearch"
         />
       </div>
 
       <!-- sorts -->
-      <Dropdown trigger-class="border border-gray-300 dark:border-gray-700 dark:bg-gray-900 px-2">
+      <Dropdown align-end>
         <template #trigger>
-          <Icon name="sort" class="text-xl dark:text-gray-300" />
+          <DropdownTrigger class="border-base-content/20 min-h-10 h-auto">
+            <Icon name="sort" class="text-xl" />
+          </DropdownTrigger>
         </template>
 
-        <DrowdownItem
+        <MenuLink
           v-for="option in sortOptions"
           :key="option.value"
           :value="option.value"
@@ -144,28 +147,28 @@ const onReset = () => {
       </Dropdown>
 
       <!-- filters -->
-      <Dropdown trigger-class="border border-gray-300 dark:border-gray-700 dark:bg-gray-900 px-2 rounded-r-md">
+      <Dropdown align-end>
         <template #trigger>
-          <Icon name="filter" class="text-xl dark:text-gray-300" />
+          <DropdownTrigger class="border-base-content/20 min-h-10 h-auto">
+            <Icon name="filter" class="text-xl" />
+          </DropdownTrigger>
         </template>
 
-        <div class="flex flex-col p-4 space-y-2">
-          <Select
-            v-for="(filter, key) in filters"
-            :key="key"
-            :name="key"
-            :value="searchParams[key] ?? filter.default"
-            :options="filter.options"
-            @change="onFilter"
-            class="w-full"
+        <MenuSection v-for="(filter, name) in filters" :title="name">
+          <MenuLink
+            v-for="value in filter.options"
+            @click.prevent="onFilter({ target: { name, value } })"
           >
-            <template #header>
-              <option value="" disabled>{{ key }}</option>
-            </template>
-          </Select>
+            {{ value }}
 
-          <SecondaryButton v-if="isDirty" @click="onReset" label="Clear" />
-        </div>
+            <Icon
+              v-if="searchParams[name] === value"
+              class="ml-auto"
+              name="dismiss"
+              @click.stop="onReset"
+            />
+          </MenuLink>
+        </MenuSection>
       </Dropdown>
     </div>
   </div>

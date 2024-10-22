@@ -8,15 +8,18 @@ defineProps({
 const states = {
   na: {
     label: "N/A",
-    theme: "secondary",
+    icon: "dash-circle-fill",
+    color: "neutral",
   },
   valid: {
     label: "Valid",
-    theme: "success",
+    icon: "check-circle-fill",
+    color: "success",
   },
   expired: {
     label: "Expired",
-    theme: "warning",
+    icon: "exclamation-circle-fill",
+    color: "error",
   },
 };
 </script>
