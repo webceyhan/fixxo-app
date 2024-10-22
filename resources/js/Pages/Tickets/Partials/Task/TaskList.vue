@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 import { formatDate, formatMoney } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
@@ -6,13 +6,16 @@ import List from "@/Components/List/List.vue";
 import ListItem from "@/Components/List/ListItem.vue";
 import TaskBadge from "./TaskBadge.vue";
 
-defineEmits(["select"]);
+defineEmits<{
+  (e: "select", task: any): void;
+}>();
 
-defineProps({
-  tasks: Array,
-});
+defineProps<{
+  tasks: any[]; // TODO: define Task type
+}>();
 
-const stateIcons = {
+// TODO: extract to shared file
+const stateIcons: Record<string, string> = {
   new: "clipboard",
   completed: "clipboard-check",
   cancelled: "clipboard-x",

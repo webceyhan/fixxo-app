@@ -1,5 +1,5 @@
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { ComponentPublicInstance, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Icon from "@/Components/Icon.vue";
@@ -20,16 +20,16 @@ import SignatureModal from "./Partials/SignatureModal.vue";
 import TicketUploads from "./Partials/TicketUploads.vue";
 import Receipt from "./Partials/Receipt.vue";
 
-const props = defineProps({
-  ticket: Object,
-  tasks: Array,
-  orders: Array,
-  transactions: Array,
-  canDelete: Boolean,
-  canDeleteTask: Boolean,
-  canDeleteOrder: Boolean,
-  canDeleteTransaction: Boolean,
-});
+const props = defineProps<{
+  ticket: any; // TODO: define Ticket type
+  tasks: any[]; // TODO: define type
+  orders: any[]; // TODO: define type
+  transactions: any[]; // TODO: define type
+  canDelete: boolean;
+  canDeleteTask: boolean;
+  canDeleteOrder: boolean;
+  canDeleteTransaction: boolean;
+}>();
 
 const toggleDescriptionEdit = ref(false);
 
@@ -45,13 +45,13 @@ const save = () => {
 };
 
 // Partial refs
-const ticketTasks = ref(null);
-const ticketTransactions = ref(null);
-const signatureModal = ref(null);
+const ticketTasks = ref<ComponentPublicInstance<typeof TicketTasks> | null>(null);
+const ticketTransactions = ref<ComponentPublicInstance<typeof TicketTransactions> | null>();
+const signatureModal = ref<ComponentPublicInstance<typeof SignatureModal> | null>();
 
-const printing = ref();
+const printing = ref<string | null>(null);
 
-const print = (type) => {
+const print = (type: string) => {
   printing.value = type;
   setTimeout(() => {
     window.print();
@@ -59,6 +59,7 @@ const print = (type) => {
   }, 100);
 };
 
+// TODO: extract to a shared file
 const statusActions = [
   {
     label: "Open",
@@ -119,7 +120,7 @@ const statusActions = [
         />
       </Dropdown>
 
-      <SecondaryButton label="Sign" icon="sign" @click="signatureModal.open()" />
+      <SecondaryButton label="Sign" icon="sign" @click="signatureModal?.open()" />
 
       <Dropdown label="Print" icon="print">
         <MenuLink label="Intake Receipt" icon="file-pdf" @click="print('intake')" />
@@ -127,11 +128,11 @@ const statusActions = [
       </Dropdown>
 
       <Dropdown icon="create" label="New" primary align-end>
-        <MenuLink label="New Task" icon="create" @click="ticketTasks.create()" />
+        <MenuLink label="New Task" icon="create" @click="ticketTasks?.create()" />
         <MenuLink
           label="New Transaction"
           icon="create"
-          @click="ticketTransactions.create()"
+          @click="ticketTransactions?.create()"
         />
       </Dropdown>
     </template>
@@ -147,13 +148,13 @@ const statusActions = [
           icon="delete"
           :href="route('tickets.destroy', ticket.id)"
         />
-        <MenuLink label="New Task" icon="create" @click="ticketTasks.create()" />
+        <MenuLink label="New Task" icon="create" @click="ticketTasks?.create()" />
         <MenuLink
           label="New Transaction"
           icon="create"
-          @click="ticketTransactions.create()"
+          @click="ticketTransactions?.create()"
         />
-        <MenuLink label="Sign" icon="sign" @click="signatureModal.open()" />
+        <MenuLink label="Sign" icon="sign" @click="signatureModal?.open()" />
 
         <Divider />
 
@@ -233,11 +234,7 @@ const statusActions = [
 
   <!-- print only content here -->
   <section class="hidden print:block">
-    <Receipt v-if="printing === 'intake'" :ticket="ticket" />
-    <Receipt
-      v-else-if="printing === 'delivery'"
-      v-bind="{ ticket, tasks, transactions }"
-      delivery
-    />
+    <Receipt v-if="printing === 'intake'" :ticket />
+    <Receipt v-if="printing === 'delivery'" :ticket :tasks delivery />
   </section>
 </template>

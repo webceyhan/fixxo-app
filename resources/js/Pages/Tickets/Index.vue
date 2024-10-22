@@ -1,13 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import PaginationWrapper from "@/Components/PaginationWrapper.vue";
 import TicketTable from "./Partials/TicketTable.vue";
 
-const props = defineProps({
-  tickets: Object,
-  filters: Object,
-});
+defineProps<{
+  tickets: any; // TODO: define Ticket type
+  filters: any; // TODO: define Filter type
+}>();
 </script>
 
 <template>

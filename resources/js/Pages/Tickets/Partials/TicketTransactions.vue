@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
@@ -6,11 +6,11 @@ import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import TransactionList from "./Transaction/TransactionList.vue";
 import TransactionModal from "./Transaction/TransactionModal.vue";
 
-const props = defineProps({
-  invoice: Object,
-  transactions: Array,
-  canDelete: Boolean,
-});
+const props = defineProps<{
+  invoice: any; // TODO: define Invoice type
+  transactions: any; // TODO: define Transaction type
+  canDelete: boolean;
+}>();
 
 // Transaction Modal
 const editing = ref(null);
@@ -20,7 +20,7 @@ const create = () => {
   edit({ invoice_id: props.invoice.id });
 };
 
-const edit = (transaction) => {
+const edit = (transaction: any) => {
   editing.value = transaction;
   modalOpen.value = true;
 };

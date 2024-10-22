@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
@@ -6,11 +6,11 @@ import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import OrderModal from "@/Pages/Orders/Partials/OrderModal.vue";
 import OrderList from "@/Pages/Orders/Partials/OrderList.vue";
 
-const props = defineProps({
-  ticket: Object,
-  orders: Array,
-  canDelete: Boolean,
-});
+const props = defineProps<{
+  ticket: any; // TODO: define Ticket type
+  orders: any; // TODO: define Order type
+  canDelete: boolean;
+}>();
 
 // Order Modal
 const editing = ref(null);
@@ -20,7 +20,7 @@ const create = () => {
   edit({ ticket_id: props.ticket.id });
 };
 
-const edit = (order) => {
+const edit = (order: any) => {
   editing.value = order;
   modalOpen.value = true;
 };

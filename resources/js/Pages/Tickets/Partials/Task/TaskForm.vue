@@ -1,14 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from "@inertiajs/vue3";
 import { mysqlToDatetimeLocal } from "@/Shared/utils";
 import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 
-const props = defineProps({
-  task: Object,
-});
+const props = defineProps<{
+  task: any; // TODO: define Task type
+}>();
 
-// TODO: this must be fetched from the server
+// TODO: extract to shared file
 const typeOptions = [
   "repair",
   "maintenance",
@@ -18,6 +18,7 @@ const typeOptions = [
   "other",
 ];
 
+// TODO: extract to shared file
 const statusOptions = ["new", "completed", "cancelled"];
 
 const form = useForm({

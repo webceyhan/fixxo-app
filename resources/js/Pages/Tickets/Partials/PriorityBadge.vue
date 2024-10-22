@@ -1,13 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import Icon from "@/Components/Icon.vue";
 import Badge from "@/Components/Badge.vue";
 
-const props = defineProps({
-  value: String,
-});
+const props = defineProps<{
+  value: keyof typeof states; // TODO: define type
+}>();
 
 const states = {
+  // TODO: extract to shared file
   high: {
     label: "High",
     color: "error",

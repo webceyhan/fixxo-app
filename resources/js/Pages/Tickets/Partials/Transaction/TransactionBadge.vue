@@ -1,11 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import StatusBadge from "@/Components/StatusBadge.vue";
 
-defineProps({
-  type: String,
-});
+defineProps<{
+  type: keyof typeof states; // TODO: define type
+}>();
 
 const states = {
+  // TODO: extract to shared file
   payment: {
     label: "Payment",
     color: "success",

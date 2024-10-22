@@ -1,14 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from "@inertiajs/vue3";
 import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
-import RadioGroup from "@/Components/Form/RadioGroup.vue";
 
-const props = defineProps({
-  transaction: Object,
-});
+const props = defineProps<{
+  transaction: any; // TODO: define Transaction type
+}>();
 
-// TODO: this must be fetched from the server
+// TODO: extract to shared file
 const typeOptions = ["payment", "discount", "claim", "refund"];
 const methodOptions = ["cash", "card", "online"];
 

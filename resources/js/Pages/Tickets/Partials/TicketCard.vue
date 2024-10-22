@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Card from "@/Components/Card.vue";
 import Field from "@/Components/Field/Field.vue";
 import FieldGroup from "@/Components/Field/FieldGroup.vue";
@@ -7,9 +7,9 @@ import DateField from "@/Components/Field/DateField.vue";
 import TicketBadge from "./TicketBadge.vue";
 import PriorityBadge from "./PriorityBadge.vue";
 
-const props = defineProps({
-  ticket: Object,
-});
+defineProps<{
+  ticket: any; // TODO: define Ticket type
+}>();
 </script>
 
 <template>

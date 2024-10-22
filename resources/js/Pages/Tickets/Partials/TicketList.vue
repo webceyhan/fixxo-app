@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { formatDate, formatMoney } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
 import Progress from "@/Components/Progress.vue";
@@ -6,12 +6,12 @@ import List from "@/Components/List/List.vue";
 import ListItem from "@/Components/List/ListItem.vue";
 import TicketBadge from "./TicketBadge.vue";
 
-const props = defineProps({
-  tickets: Array,
-  compact: Boolean,
-  withBalance: Boolean,
-  withTaskCount: Boolean,
-});
+defineProps<{
+  tickets: any[]; // TODO: define Ticket type
+  compact?: boolean;
+  withTaskCount?: boolean;
+  withBalance?: boolean;
+}>();
 </script>
 
 <template>
