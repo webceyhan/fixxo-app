@@ -1,13 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import Badge from "@/Components/Badge.vue";
 import Icon from "@/Components/Icon.vue";
 
-defineProps({
-  label: String,
-  icon: String,
-  color: String,
-  compact: Boolean, // no label on mobile
-});
+defineProps<{
+  color: string;
+  label: string;
+  icon: string;
+  compact?: boolean;
+}>();
 </script>
 
 <template>
