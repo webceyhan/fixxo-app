@@ -1,12 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 import Icon from "@/Components/Icon.vue";
 
-defineProps({
-  label: String,
-  icon: String,
-  active: Boolean,
-});
+defineProps<{
+  label?: string;
+  icon?: string;
+  active?: boolean;
+}>();
 </script>
 
 <template>
@@ -23,7 +23,8 @@ defineProps({
   >
     <slot>
       <Icon v-if="icon" :name="icon" class="text-lg" />
-      <span class="whitespace-nowrap">{{ label }}</span>
+
+      <span class="whitespace-nowrap" v-html="label" />
     </slot>
   </Link>
 </template>

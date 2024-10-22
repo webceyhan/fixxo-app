@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 
-defineProps({
-  label: String,
-  active: Boolean,
-});
+defineProps<{
+  label?: string;
+  active?: boolean;
+}>();
 </script>
 
 <template>
@@ -13,6 +13,6 @@ defineProps({
     :href="$page.url"
     preserve-state
   >
-    <slot>#{{ label }}</slot>
+    <slot> #{{ label }} </slot>
   </Link>
 </template>
