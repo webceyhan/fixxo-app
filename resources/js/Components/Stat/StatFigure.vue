@@ -1,9 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import Icon from "@/Components/Icon.vue";
 
-defineProps({
-  icon: String,
-});
+defineProps<{
+  icon?: string;
+}>();
 </script>
 
 <template>
