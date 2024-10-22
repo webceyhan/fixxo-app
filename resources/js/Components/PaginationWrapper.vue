@@ -1,10 +1,10 @@
-<script setup>
-import Card from "./Card.vue";
-import Pagination from "./Pagination.vue";
+<script setup lang="ts">
+import Card from "@/Components/Card.vue";
+import Pagination from "@/Components/Pagination.vue";
 
-const props = defineProps({
-  meta: Object,
-});
+defineProps<{
+  meta: any; // TODO define type (same as pagination props)
+}>();
 </script>
 
 <template>

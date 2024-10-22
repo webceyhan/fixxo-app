@@ -1,8 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import Icon from "@/Components/Icon.vue";
 import BaseButton from "@/Components/Button/BaseButton.vue";
 
-defineProps(["from", "to", "total", "prev_page_url", "next_page_url"]);
+defineProps<{
+  from: number;
+  to: number;
+  total: number;
+  prev_page_url?: string;
+  next_page_url?: string;
+}>();
 </script>
 
 <template>
@@ -18,7 +24,7 @@ defineProps(["from", "to", "total", "prev_page_url", "next_page_url"]);
         :disabled="!prev_page_url"
       >
         <Icon name="chevron-left" />
-        <span class="max-lg:hidden">Previous</span>
+        <span class="max-lg:hidden"> Previous </span>
       </BaseButton>
 
       <BaseButton
@@ -26,7 +32,7 @@ defineProps(["from", "to", "total", "prev_page_url", "next_page_url"]);
         :href="next_page_url ?? '#'"
         :disabled="!next_page_url"
       >
-        <span class="max-lg:hidden">Next Page</span>
+        <span class="max-lg:hidden"> Next Page </span>
         <Icon name="chevron-right" />
       </BaseButton>
     </div>
