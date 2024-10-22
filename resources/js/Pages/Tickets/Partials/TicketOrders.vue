@@ -13,8 +13,8 @@ const props = defineProps({
 });
 
 // Order Modal
-const modal = ref(null);
 const editing = ref(null);
+const modalOpen = ref(false);
 
 const create = () => {
   edit({ ticket_id: props.ticket.id });
@@ -22,7 +22,7 @@ const create = () => {
 
 const edit = (order) => {
   editing.value = order;
-  modal.value.open();
+  modalOpen.value = true;
 };
 
 defineExpose({
@@ -34,24 +34,21 @@ defineExpose({
 <template>
   <Card flush>
     <template #header>
-      <h5>
-        Orders
-        <span class="ml-1 opacity-50">
-          {{ ticket.completed_orders_count }}/{{ ticket.total_orders_count }}
-        </span>
-      </h5>
-    </template>
+      Orders
 
-    <template #header-action>
+      <span class="mr-auto opacity-50">
+        {{ ticket.completed_orders_count }}/{{ ticket.total_orders_count }}
+      </span>
+
       <SecondaryButton label="New Order" icon="create" @click="create" small />
     </template>
 
     <OrderList :orders="orders" @select="edit" />
-    <OrderModal ref="modal" :order="editing" :can-delete="canDelete" />
+    <OrderModal v-model:open="modalOpen" :order="editing" :can-delete="canDelete" />
 
     <template #footer>
-      <span class="w-full text-right">Total Cost</span>
-      <span class="w-2/3 mr-7 sm:mr-9 text-right">
+      <span class="w-1/4"> Total Cost </span>
+      <span class="mr-8">
         {{ formatMoney(ticket.invoice.orders_cost) }}
       </span>
     </template>

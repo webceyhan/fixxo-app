@@ -1,8 +1,9 @@
 <script setup>
-import { formatDate } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
-import DescriptionList from "@/Components/List/DescriptionList.vue";
-import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
+import Field from "@/Components/Field/Field.vue";
+import FieldGroup from "@/Components/Field/FieldGroup.vue";
+import LinkField from "@/Components/Field/LinkField.vue";
+import DateField from "@/Components/Field/DateField.vue";
 import TicketBadge from "./TicketBadge.vue";
 import PriorityBadge from "./PriorityBadge.vue";
 
@@ -27,64 +28,67 @@ const props = defineProps({
       </div>
     </template>
 
-    <DescriptionList>
+    <FieldGroup>
       <!-- TODO: Add the following fields as link -->
       <!-- customer_id: Owner -->
       <!-- user_id: Receiver -->
 
-      <DescriptionListItem
-        label="Customer"
+      <LinkField
         v-if="ticket.customer"
-        :value="ticket.customer.name"
+        label="Customer"
         :href="route('customers.show', ticket.customer.id)"
+        :value="ticket.customer.name"
       />
 
-      <DescriptionListItem
+      <LinkField
         label="Device"
-        :value="ticket.device.brand + ' ' + ticket.device.model"
         :href="route('devices.show', ticket.device.id)"
+        :value="ticket.device.brand + ' ' + ticket.device.model"
       />
 
-      <DescriptionListItem
+      <LinkField
         label="Type"
-        :value="ticket.device.type"
         :href="route('tickets.index', { type: ticket.type })"
+        :value="ticket.device.type"
       />
 
-      <DescriptionListItem label="Priority">
+      <Field label="Priority">
         <PriorityBadge :value="ticket.priority" />
-      </DescriptionListItem>
+      </Field>
 
-      <DescriptionListItem
+      <Field
         v-if="ticket.serial_number"
         label="Serial Number"
         :value="ticket.serial_number"
       />
 
-      <DescriptionListItem v-if="ticket.purchase_date" label="Purchase Date">
-        {{ formatDate(ticket.purchase_date) }}
-      </DescriptionListItem>
+      <DateField
+        v-if="ticket.purchase_date"
+        label="Purchase Date"
+        :value="ticket.purchase_date"
+        short
+      />
 
-      <DescriptionListItem v-if="ticket.warranty_date" label="Warranty Expire Date">
-        {{ formatDate(ticket.warranty_date) }}
-      </DescriptionListItem>
+      <DateField
+        v-if="ticket.warranty_date"
+        label="Warranty Expire Date"
+        :value="ticket.warranty_date"
+        short
+      />
 
-      <DescriptionListItem label="Due Date" type="date" :value="ticket.due_date" />
+      <DateField label="Due Date" :value="ticket.due_date" />
 
-      <DescriptionListItem label="Created At" type="date" :value="ticket.created_at" />
+      <DateField label="Created At" :value="ticket.created_at" />
 
-      <DescriptionListItem
+      <DateField
         v-if="ticket.returned_at"
         label="Returned At"
-        type="date"
         :value="ticket.returned_at"
       />
 
-      <DescriptionListItem label="Last Update" type="date" :value="ticket.updated_at" />
+      <DateField label="Last Update" :value="ticket.updated_at" />
 
-      <DescriptionListItem v-if="ticket.assignee" label="Assignee">
-        {{ ticket.assignee?.name }}
-      </DescriptionListItem>
-    </DescriptionList>
+      <Field v-if="ticket.assignee" label="Assignee" :value="ticket.assignee?.name" />
+    </FieldGroup>
   </Card>
 </template>

@@ -3,18 +3,24 @@ import TabNavItem from "./TabNavItem.vue";
 
 const props = defineProps({
   links: Array,
+  boxed: Boolean,
 });
 </script>
 
 <template>
   <nav
     role="tablist"
-    class="text-center text-gray-500 border-b border-slate-100 dark:text-gray-400 dark:border-slate-700"
+    :class="[
+      'tabs',
+      {
+        'tabs-bordered': !boxed,
+        'tabs-boxed': boxed,
+      },
+    ]"
   >
-    <ul class="flex flex-wrap -mb-px">
-      <slot>
-        <TabNavItem v-for="(link, i) in links" :key="i" v-bind="link" />
-      </slot>
-    </ul>
+    <slot>
+      <TabNavItem v-for="(link, i) in links" v-bind="link" />
+    </slot>
+    <div v-if="!boxed" class="w-full border-b-2 border-base-content/20" />
   </nav>
 </template>

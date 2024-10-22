@@ -1,5 +1,6 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import Card from "@/Components/Card.vue";
 import DeleteUserForm from "./Partials/DeleteUserForm.vue";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm.vue";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm.vue";
@@ -12,20 +13,20 @@ defineProps({
 
 <template>
   <AuthenticatedLayout title="Profile">
-    <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+    <Card>
       <UpdateProfileInformationForm
+        class="max-w-xl"
         :must-verify-email="mustVerifyEmail"
         :status="status"
-        class="max-w-xl"
       />
-    </div>
+    </Card>
 
-    <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+    <Card>
       <UpdatePasswordForm class="max-w-xl" />
-    </div>
+    </Card>
 
-    <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
+    <Card>
       <DeleteUserForm class="max-w-xl" />
-    </div>
+    </Card>
   </AuthenticatedLayout>
 </template>

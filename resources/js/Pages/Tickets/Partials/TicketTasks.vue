@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
@@ -13,8 +13,8 @@ const props = defineProps({
 });
 
 // Task Modal
-const modal = ref(null);
 const editing = ref(null);
+const modalOpen = ref(false);
 
 const create = () => {
   edit({ ticket_id: props.ticket.id });
@@ -22,7 +22,7 @@ const create = () => {
 
 const edit = (task) => {
   editing.value = task;
-  modal.value.open();
+  modalOpen.value = true;
 };
 
 defineExpose({
@@ -34,24 +34,21 @@ defineExpose({
 <template>
   <Card flush>
     <template #header>
-      <h5>
-        Tasks
-        <span class="ml-1 opacity-50">
-          {{ ticket.completed_tasks_count }}/{{ ticket.total_tasks_count }}
-        </span>
-      </h5>
-    </template>
+      Tasks
 
-    <template #header-action>
+      <span class="mr-auto opacity-50">
+        {{ ticket.completed_tasks_count }}/{{ ticket.total_tasks_count }}
+      </span>
+
       <SecondaryButton label="New Task" icon="create" @click="create" small />
     </template>
 
     <TaskList :tasks="tasks" @select="edit" />
-    <TaskModal ref="modal" :task="editing" :can-delete="canDelete" />
+    <TaskModal v-model:open="modalOpen" :task="editing" :can-delete="canDelete" />
 
     <template #footer>
-      <span class="w-full text-right">Total Cost</span>
-      <span class="w-2/3 mr-7 sm:mr-9 text-right">
+      <span class="w-1/4">Total Cost</span>
+      <span class="mr-8">
         {{ formatMoney(ticket.invoice.tasks_cost) }}
       </span>
     </template>

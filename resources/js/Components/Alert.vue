@@ -1,7 +1,14 @@
+<script setup>
+import Icon from "@/Components/Icon.vue";
+
+defineProps({
+  message: String,
+});
+</script>
+
 <template>
-    <div
-        class="font-medium text-sm text-green-600 dark:text-green-400 rounded-md bg-green-500 bg-opacity-20 p-5"
-    >
-        <slot />
-    </div>
+  <div role="alert" class="alert">
+    <icon name="info-circle" class="text-2xl text-primary" />
+    <slot> {{ message }}</slot>
+  </div>
 </template>

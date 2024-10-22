@@ -13,30 +13,20 @@ defineProps({
 
 <template>
   <Table>
-    <TableRow
-      v-for="device in devices"
-      :key="device.id"
-      :href="route('devices.show', device.id)"
-      badge-class="lg:!block xl:!hidden"
-    >
-      <template #avatar>
-        <Avatar :icon="device.type" class="opacity-75" />
-      </template>
+    <TableRow v-for="device in devices" :href="route('devices.show', device.id)">
+      <TableData class="w-8 pe-0 align-top">
+        <Avatar class="max-sm:hidden opacity-75" :icon="device.type" />
+        <DeviceBadge class="sm:hidden" :status="device.status" compact />
+      </TableData>
 
-      <template #badge>
-        <DeviceBadge :status="device.status" compact />
-      </template>
-
-      <TableData
-        :label="device.customer.name"
-        :value="device.brand + ' ' + device.model"
-      />
+      <TableData>
+        <p class="text-lead">{{ device.brand }} {{ device.model }}</p>
+        <p class="text-alt">{{ device.customer.name }}</p>
+      </TableData>
 
       <TableData class="max-md:hidden" label="Tickets">
-        <template #value>
-          {{ device.completed_tickets_count }}/
-          {{ device.tickets_count }}
-        </template>
+        <p>{{ device.completed_tickets_count }}/{{ device.tickets_count }}</p>
+        <p class="text-alt">Tickets</p>
       </TableData>
 
       <TableData class="max-xl:hidden text-end">
@@ -44,10 +34,7 @@ defineProps({
       </TableData>
 
       <TableData class="max-sm:hidden text-end">
-        <template #label>
-          <span class="2xl:hidden">{{ formatDate(device.created_at) }}</span>
-          <span class="max-2xl:hidden">{{ formatDate(device.created_at, true) }}</span>
-        </template>
+        <p class="text-alt">{{ formatDate(device.created_at) }}</p>
       </TableData>
     </TableRow>
   </Table>

@@ -1,38 +1,34 @@
 <script setup>
-import { computed } from "vue";
 import Icon from "@/Components/Icon.vue";
-import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
+import BaseButton from "@/Components/Button/BaseButton.vue";
 
-const props = defineProps(["from", "to", "total", "prev_page_url", "next_page_url"]);
-
-const hasPrev = computed(() => props.prev_page_url !== null);
-const hasNext = computed(() => props.next_page_url !== null);
+defineProps(["from", "to", "total", "prev_page_url", "next_page_url"]);
 </script>
 
 <template>
-  <div class="flex items-center justify-end gap-4 text-sm font-semibold">
-    <span class="text-gray-600 dark:text-gray-500">
+  <div class="flex items-center justify-end gap-6">
+    <span class="text-base-content/60">
       {{ from }} - {{ to }} of {{ total }} entries
     </span>
 
-    <div class="inline-flex">
-      <SecondaryButton
-        :disabled="!hasPrev"
+    <div class="join">
+      <BaseButton
+        class="join-item"
         :href="prev_page_url ?? '#'"
-        class="border-r rounded-r-none"
+        :disabled="!prev_page_url"
       >
-        <Icon name="chevron-double-left" />
-        <span class="hidden lg:inline">Prev</span>
-      </SecondaryButton>
+        <Icon name="chevron-left" />
+        <span class="max-lg:hidden">Previous</span>
+      </BaseButton>
 
-      <SecondaryButton
-        :disabled="!hasNext"
+      <BaseButton
+        class="join-item"
         :href="next_page_url ?? '#'"
-        class="border-l-0 rounded-l-none"
+        :disabled="!next_page_url"
       >
-        <span class="hidden lg:inline">Next</span>
-        <Icon name="chevron-double-right" />
-      </SecondaryButton>
+        <span class="max-lg:hidden">Next Page</span>
+        <Icon name="chevron-right" />
+      </BaseButton>
     </div>
   </div>
 </template>
