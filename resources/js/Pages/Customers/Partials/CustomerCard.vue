@@ -1,13 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import Card from "@/Components/Card.vue";
 import Field from "@/Components/Field/Field.vue";
 import FieldGroup from "@/Components/Field/FieldGroup.vue";
 import LinkField from "@/Components/Field/LinkField.vue";
 import DateField from "@/Components/Field/DateField.vue";
 
-const props = defineProps({
-  customer: Object,
-});
+defineProps<{
+  customer: any; // TODO: define Customer type
+}>();
 </script>
 
 <template>

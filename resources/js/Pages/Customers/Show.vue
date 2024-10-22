@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
@@ -14,12 +14,12 @@ import DeviceList from "@/Pages/Devices/Partials/DeviceList.vue";
 import TicketList from "@/Pages/Tickets/Partials/TicketList.vue";
 import CustomerCard from "./Partials/CustomerCard.vue";
 
-const props = defineProps({
-  customer: Object,
-  devices: Array,
-  tickets: Array,
-  canDelete: Boolean,
-});
+const props = defineProps<{
+  customer: any; // TODO: define Customer type
+  devices: any[]; // TODO: define Device type
+  tickets: any[]; // TODO: define Ticket type
+  canDelete: boolean;
+}>();
 
 const toggleNoteEdit = ref(false);
 
