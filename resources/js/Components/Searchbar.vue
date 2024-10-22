@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { router } from "@inertiajs/vue3";
 import { debounce } from "@/Shared/utils";
@@ -12,44 +12,56 @@ import MenuSection from "./Menu/MenuSection.vue";
 import MenuLink from "@/Components/Menu/MenuLink.vue";
 import RadioGroup from "./Form/RadioGroup.vue";
 
-const props = defineProps({
-  filters: Object,
-});
+type FilterParams = {
+  // TODO: extract to shared types
+  [key: string]: string;
+  search: string;
+};
+
+type FilterEvent = {
+  // TODO: extract to shared types
+  target: {
+    name?: string;
+    value: any;
+  };
+};
+
+const props = defineProps<{
+  // TODO: extract to shared types
+  filters: Record<string, { default: string; options: string[] }>;
+}>();
 
 const sortOptions = [
   { label: "Newest", value: "-created_at" },
   { label: "Oldest", value: "created_at" },
 ];
 
-const onSort = ({ target }) => {
+const onSort = ({ target }: FilterEvent) => {
   router.reload({
     data: {
       sort: target.value,
       page: 1, // reset pagination
     },
-    preserveState: true,
   });
 };
 
-const onSearch = ({ target }) => {
+const onSearch = ({ target }: FilterEvent) => {
   debounce(() => {
     router.reload({
       data: {
         filter: { search: target.value },
         page: 1, // reset pagination
       },
-      preserveState: true,
     });
   }, 500)();
 };
 
-const onFilter = ({ target }) => {
+const onFilter = ({ target }: FilterEvent) => {
   router.reload({
     data: {
-      filter: { [target.name]: target.value },
+      filter: { [target.name!]: target.value },
       page: 1, // reset pagination
     },
-    preserveState: true,
   });
 };
 
@@ -58,19 +70,15 @@ const sortParam = computed(() => {
   return params.sort ?? sortOptions[0].value;
 });
 
-const searchParams = computed(() => {
+const searchParams = computed<FilterParams>(() => {
   const params = useSearchParams();
   const keys = [...Object.keys(props.filters), "search"];
 
   // fetch value from wrapped filter object
-  const valueOf = (key) => params[`filter[${key}]`];
+  const valueOf = (key: string) => params[`filter[${key}]`];
 
   // convert { filter[key]: value } to { key: value }
-  return keys.reduce((acc, key) => ({ ...acc, [key]: valueOf(key) }), {});
-});
-
-const isDirty = computed(() => {
-  return Object.keys(useSearchParams()).length > 0;
+  return keys.reduce((acc, key) => ({ ...acc, [key]: valueOf(key) }), {} as any);
 });
 
 const onReset = () => {
@@ -102,12 +110,11 @@ const onReset = () => {
 
       <!-- filters -->
       <RadioGroup
-        v-for="(filter, key) in filters"
-        :key="key"
-        :name="key"
+        v-for="(filter, name) in filters"
+        :name
         :options="filter.options"
-        :model-value="searchParams[key] ?? filter.default"
-        @update:model-value="(value) => onFilter({ target: { name: key, value } })"
+        :model-value="searchParams[name] ?? filter.default"
+        @update:model-value="(value) => onFilter({ target: { name, value } })"
         fancy
       />
     </div>
