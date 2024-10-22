@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 import Icon from "@/Components/Icon.vue";
 
@@ -6,11 +6,11 @@ defineOptions({
   inheritAttrs: false,
 });
 
-defineProps({
-  label: String,
-  icon: String,
-  active: Boolean,
-});
+defineProps<{
+  label?: string;
+  icon?: string;
+  active?: boolean;
+}>();
 </script>
 
 <template>
