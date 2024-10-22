@@ -4,9 +4,9 @@ import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
-import MenuSection from "@/Components/Menu/MenuSection.vue";
-import MenuLink from "@/Components/Menu/MenuLink.vue";
-import Divider from "@/Components/Divider.vue";
+import DropdownItem from "@/Components/Menu/DropdownItem.vue";
+import DropdownDivider from "@/Components/Menu/DropdownDivider.vue";
+import DropdownHeader from "@/Components/Menu/DropdownHeader.vue";
 import DeviceCard from "./Partials/DeviceCard.vue";
 import DeviceTickets from "./Partials/DeviceTickets.vue";
 import DeviceHistory from "./Partials/DeviceHistory.vue";
@@ -72,7 +72,7 @@ const statusActions = [
       />
 
       <Dropdown label="Change Status" icon="arrow-repeat">
-        <MenuLink
+        <DropdownItem
           v-for="action in statusActions"
           v-show="action.value != device.status"
           :key="action.value"
@@ -94,27 +94,27 @@ const statusActions = [
 
     <!-- mobile menu -->
     <template #mobile-menu>
-      <Dropdown align-end>
-        <MenuLink label="Edit" icon="edit" :href="route('devices.edit', device.id)" />
-        <MenuLink
+      <Dropdown>
+        <DropdownItem label="Edit" icon="edit" :href="route('devices.edit', device.id)" />
+        <DropdownItem
           v-if="canDelete"
           label="Delete"
           method="delete"
           icon="delete"
           :href="route('devices.destroy', device.id)"
         />
-        <MenuLink
+        <DropdownItem
           label="New Ticket"
           icon="create"
           :href="route('tickets.create')"
           :data="{ device_id: device.id }"
         />
 
-        <Divider />
+        <DropdownDivider />
 
-        <MenuSection title="Change Status" />
+        <DropdownHeader label="Change Status" />
 
-        <MenuLink
+        <DropdownItem
           v-for="action in statusActions"
           v-show="action.value != device.status"
           :key="action.value"

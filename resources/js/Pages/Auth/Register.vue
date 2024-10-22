@@ -2,76 +2,107 @@
 import { Head, useForm } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import Link from "@/Components/Link.vue";
-import Form from "@/Components/Form/Form.vue";
-import FormControl from "@/Components/Form/FormControl.vue";
+import TextInput from "@/Components/Form/TextInput.vue";
+import InputLabel from "@/Components/Form/InputLabel.vue";
+import InputError from "@/Components/Form/InputError.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
 const form = useForm({
-  name: "",
-  email: "",
-  password: "",
-  password_confirmation: "",
-  terms: false,
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+    terms: false,
 });
 
 const submit = () => {
-  form.post(route("register"), {
-    onFinish: () => form.reset("password", "password_confirmation"),
-  });
+    form.post(route("register"), {
+        onFinish: () => form.reset("password", "password_confirmation"),
+    });
 };
 </script>
 
 <template>
-  <GuestLayout>
-    <Head title="Register" />
+    <GuestLayout>
+        <Head title="Register" />
 
-    <Form @submit="submit">
-      <FormControl
-        id="name"
-        type="text"
-        label="Name"
-        v-model="form.name"
-        :error="form.errors.name"
-        autocomplete="name"
-        required
-        autofocus
-      />
+        <form @submit.prevent="submit">
+            <div>
+                <InputLabel for="name" value="Name" />
 
-      <FormControl
-        id="email"
-        type="email"
-        label="Email"
-        v-model="form.email"
-        :error="form.errors.email"
-        autocomplete="username"
-        required
-      />
+                <TextInput
+                    id="name"
+                    type="text"
+                    class="mt-1 block w-full"
+                    v-model="form.name"
+                    required
+                    autofocus
+                    autocomplete="name"
+                />
 
-      <FormControl
-        id="password"
-        type="password"
-        label="Password"
-        v-model="form.password"
-        :error="form.errors.password"
-        autocomplete="new-password"
-        required
-      />
+                <InputError class="mt-2" :message="form.errors.name" />
+            </div>
 
-      <FormControl
-        id="password_confirmation"
-        type="password"
-        label="Confirm Password"
-        v-model="form.password_confirmation"
-        :error="form.errors.password_confirmation"
-        autocomplete="new-password"
-        required
-      />
+            <div class="mt-4">
+                <InputLabel for="email" value="Email" />
 
-      <template #actions>
-        <Link class="ml-auto" label="Already registered?" :href="route('login')" small />
+                <TextInput
+                    id="email"
+                    type="email"
+                    class="mt-1 block w-full"
+                    v-model="form.email"
+                    required
+                    autocomplete="username"
+                />
 
-        <PrimaryButton type="submit" label="Register" :disabled="form.processing" />
-      </template>
-    </Form>
-  </GuestLayout>
+                <InputError class="mt-2" :message="form.errors.email" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel for="password" value="Password" />
+
+                <TextInput
+                    id="password"
+                    type="password"
+                    class="mt-1 block w-full"
+                    v-model="form.password"
+                    required
+                    autocomplete="new-password"
+                />
+
+                <InputError class="mt-2" :message="form.errors.password" />
+            </div>
+
+            <div class="mt-4">
+                <InputLabel
+                    for="password_confirmation"
+                    value="Confirm Password"
+                />
+
+                <TextInput
+                    id="password_confirmation"
+                    type="password"
+                    class="mt-1 block w-full"
+                    v-model="form.password_confirmation"
+                    required
+                    autocomplete="new-password"
+                />
+
+                <InputError
+                    class="mt-2"
+                    :message="form.errors.password_confirmation"
+                />
+            </div>
+
+            <div class="flex items-center justify-end mt-4 space-x-4">
+                <Link
+                    label="Already registered?"
+                    :href="route('login')"
+                    small
+                />
+
+                <PrimaryButton label="Register" :disabled="form.processing" />
+            </div>
+        </form>
+    </GuestLayout>
 </template>

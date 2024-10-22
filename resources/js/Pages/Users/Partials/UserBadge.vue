@@ -8,23 +8,19 @@ defineProps({
 const states = {
   active: {
     label: "Active",
-    icon: "play-circle-fill",
-    color: "info",
+    theme: "primary",
   },
   on_leave: {
     label: "On Leave",
-    icon: "pause-circle-fill",
-    color: "warning",
+    theme: "warning",
   },
   suspended: {
     label: "Suspended",
-    icon: "stop-circle-fill",
-    color: "error",
+    theme: "danger",
   },
   terminated: {
     label: "Terminated",
-    icon: "dash-circle-fill",
-    color: "neutral",
+    theme: "secondary",
   },
 };
 </script>

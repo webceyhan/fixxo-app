@@ -10,17 +10,17 @@ const props = defineProps({
 const states = {
   high: {
     label: "High",
-    color: "error",
+    theme: "danger",
     icon: "chevron-compact-up",
   },
   normal: {
     label: "Normal",
-    color: "warning",
+    theme: "warning",
     icon: "pause rotate-90",
   },
   low: {
     label: "Low",
-    color: "primary",
+    theme: "primary",
     icon: "chevron-compact-down",
   },
 };
@@ -29,7 +29,7 @@ const priority = computed(() => states[props.value]);
 </script>
 
 <template>
-  <Badge :color="priority.color" class="whitespace-nowrap">
+  <Badge :theme="priority.theme" class="whitespace-nowrap">
     <Icon :name="priority.icon" />
     <span v-html="priority.label" class="text-gray-400" />
   </Badge>

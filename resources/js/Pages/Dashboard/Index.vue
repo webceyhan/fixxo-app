@@ -66,61 +66,66 @@ const onIntervalChange = (interval) => {
       />
     </div>
 
-    <StatCard class="border-error/25" :label="`${labelMap[intervalFilter.value]} Income`">
-      <IncomeChart v-bind="incomeChartData" color="error" />
+    <StatCard :label="`${labelMap[intervalFilter.value]} Income`">
+      <IncomeChart v-bind="incomeChartData" color-class="bg-blue-500/75" />
     </StatCard>
 
     <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
       <SingleStatCard
         label="New Customers"
         icon="people"
-        color="info"
+        icon-bg-color="bg-indigo-600/50"
         v-bind="customerChartData"
       />
 
       <SingleStatCard
         label="New Tickets"
         icon="ticket"
-        color="success"
+        icon-bg-color="bg-pink-600/50"
         v-bind="ticketChartData"
       />
 
       <SingleStatCard
         label="New Tasks"
         icon="task"
-        color="warning"
+        icon-bg-color="bg-green-600/50"
         v-bind="taskChartData"
       />
 
       <SingleStatCard
         label="New Transactions"
         icon="transaction"
-        color="error"
+        icon-bg-color="bg-orange-600/50"
         v-bind="transactionChartData"
       />
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
       <StatCard
-        class="border-success/25"
         label="Tickets"
         icon="ticket"
         :items="ticketStats"
+        class="!border-blue-500/25"
       />
 
-      <StatCard class="border-warning/25" label="Tasks" icon="task" :items="taskStats" />
+      <StatCard
+        label="Tasks"
+        icon="task"
+        :items="taskStats"
+        class="!border-green-500/25"
+      />
 
       <StatCard
-        class="border-error/25"
         label="Earnings"
         icon="money"
         :items="earningStats"
+        class="!border-yellow-500/25"
         format-as-money
       />
     </div>
 
     <div class="flex flex-col md:flex-row md:flex-wrap gap-6 lg:gap-8">
-      <Card class="lg:flex-1" title="Latest pending tickets" flush>
+      <Card class="lg:flex-1" label="Latest pending tickets" flush>
         <TicketList :tickets="ticketsPending" compact with-task-count />
 
         <!-- placeholder -->
@@ -136,7 +141,7 @@ const onIntervalChange = (interval) => {
         </template>
       </Card>
 
-      <Card class="lg:flex-1" title="Latest completed tickets" flush>
+      <Card class="lg:flex-1" label="Latest completed tickets" flush>
         <TicketList :tickets="ticketsCompleted" compact with-task-count />
 
         <!-- placeholder -->
@@ -150,7 +155,7 @@ const onIntervalChange = (interval) => {
       </Card>
     </div>
     <div class="flex flex-col md:flex-row md:flex-wrap gap-6 lg:gap-8">
-      <Card class="lg:flex-1" title="Outstanding tickets" flush>
+      <Card class="lg:flex-1" label="Outstanding tickets" flush>
         <TicketList :tickets="ticketsOutstanding" compact with-balance />
 
         <!-- placeholder -->
@@ -166,7 +171,7 @@ const onIntervalChange = (interval) => {
         </template>
       </Card>
 
-      <Card class="lg:flex-1" title="Overdue tickets" flush>
+      <Card class="lg:flex-1" label="Overdue tickets" flush>
         <TicketList :tickets="ticketsOverdue" compact with-balance />
 
         <!-- placeholder -->

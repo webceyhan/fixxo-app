@@ -1,8 +1,7 @@
 <script setup>
 import { formatDate, formatMoney } from "@/Shared/utils";
-import Avatar from "@/Components/Avatar.vue";
-import List from "@/Components/List/List.vue";
-import ListItem from "@/Components/List/ListItem.vue";
+import StackedList from "@/Components/List/StackedList.vue";
+import StackedListItem from "@/Components/List/StackedListItem.vue";
 import TransactionBadge from "./TransactionBadge.vue";
 
 defineEmits(["select"]);
@@ -13,31 +12,31 @@ defineProps({
 </script>
 
 <template>
-  <List>
-    <ListItem v-for="transaction in transactions" @click="$emit('select', transaction)">
-      <div class="max-xl:hidden">
-        <Avatar icon="transaction" />
-      </div>
+  <StackedList>
+    <StackedListItem
+      v-for="transaction in transactions"
+      :key="transaction.id"
+      icon="transaction"
+      @click="$emit('select', transaction)"
+      clickable
+    >
+      <div class="w-full truncate">
+        <span>
+          {{ transaction.note ?? transaction.type }}
+        </span>
 
-      <div class="xl:hidden -me-2">
-        <TransactionBadge :type="transaction.type" compact />
-      </div>
-
-      <div class="w-full space-y-1">
-        <!-- header -->
-        <div class="flex items-center gap-4">
-          <span class="text-lead">{{ transaction.method }}</span>
-          <span class="xl:hidden text-lead">{{ transaction.type }}</span>
-          <TransactionBadge class="max-xl:hidden -me-2" :type="transaction.type" />
-        </div>
-
-        <!-- footer -->
-        <div class="max-xl:hidden text-alt">
-          <p>Created on {{ formatDate(transaction.created_at, true) }}</p>
+        <div class="hidden md:block text-gray-400 text-sm mt-1">
+          <em>{{ formatDate(transaction.created_at, true) }}</em>
         </div>
       </div>
 
-      <p class="text-alt">{{ formatMoney(transaction.amount) }}</p>
-    </ListItem>
-  </List>
+      <div class="w-36 order-1 text-gray-400 text-right text-sm">
+        {{ formatMoney(transaction.amount) }}
+      </div>
+
+      <template #badge>
+        <TransactionBadge :type="transaction.type" compact-max="xl" />
+      </template>
+    </StackedListItem>
+  </StackedList>
 </template>

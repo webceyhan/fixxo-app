@@ -13,33 +13,33 @@ defineProps({
 
 <template>
   <Table>
-    <TableRow v-for="user in users" :href="route('users.show', user.id)">
-      <TableData class="w-8 pe-0 align-top">
-        <Avatar class="max-sm:hidden opacity-75" icon="user" />
-        <UserBadge class="sm:hidden" :status="user.status" compact />
-      </TableData>
+    <TableRow v-for="user in users" :key="user.id" :href="route('users.show', user.id)">
+      <template #avatar>
+        <Avatar icon="user" class="opacity-75" />
+      </template>
 
-      <TableData>
-        <p class="text-lead">{{ user.name }}</p>
-        <p class="text-alt titlecase">{{ user.role }}</p>
-      </TableData>
+      <template #badge>
+        <UserBadge :status="user.status" compact />
+      </template>
 
-      <TableData class="max-2xl:hidden">
-        <p>{{ user.email }}</p>
-        <p class="text-alt">{{ user.phone }}</p>
-      </TableData>
+      <TableData :value="user.name" :label="user.role" />
 
-      <TableData class="max-xl:hidden">
-        <p>{{ user.assigned_tickets_count }}</p>
-        <p class="text-alt">Tickets</p>
-      </TableData>
+      <TableData class="max-2xl:hidden" :label="user.email" :value="user.phone" />
 
-      <TableData class="max-lg:hidden">
+      <TableData
+        class="max-xl:hidden text-end"
+        :value="user.assigned_tickets_count"
+        label="Tickets"
+      />
+
+      <TableData class="max-lg:hidden text-end">
         <UserBadge :status="user.status" />
       </TableData>
 
       <TableData class="max-lg:hidden text-end">
-        <p class="text-alt">{{ formatDate(user.created_at) }}</p>
+        <template #label>
+          {{ formatDate(user.created_at) }}
+        </template>
       </TableData>
     </TableRow>
   </Table>

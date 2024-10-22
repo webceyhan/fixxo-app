@@ -3,8 +3,10 @@ import PageLayout from "@/Layouts/PageLayout.vue";
 import Card from "@/Components/Card.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
+import ToggleButton from "@/Components/Button/ToggleButton.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
-import MenuLink from "@/Components/Menu/MenuLink.vue";
+import DropdownItem from "@/Components/Menu/DropdownItem.vue";
+import DropdownToggleItem from "@/Components/Menu/DropdownToggleItem.vue";
 import TicketList from "@/Pages/Tickets/Partials/TicketList.vue";
 import UserCard from "./Partials/UserCard.vue";
 
@@ -12,19 +14,6 @@ const props = defineProps({
   user: Object,
   recentTickets: Array,
 });
-
-const NEXT_STATUS = {
-  active: {
-    label: "Terminate",
-    icon: "lock",
-    data: { status: "terminated" },
-  },
-  terminated: {
-    label: "Activate",
-    icon: "unlock",
-    data: { status: "active" },
-  },
-};
 </script>
 
 <template>
@@ -39,27 +28,45 @@ const NEXT_STATUS = {
         :href="route('users.destroy', user.id)"
         class="mr-4"
       />
-      <SecondaryButton
-        method="put"
+      <ToggleButton
+        name="status"
+        :value="user.status"
         :href="route('users.update', user.id)"
-        v-bind="NEXT_STATUS[user.status]"
+        :options="{
+          active: 'Activate',
+          terminated: 'Terminate',
+        }"
+        :icons="{
+          active: 'unlock',
+          terminated: 'lock',
+        }"
+        method="put"
       />
     </template>
 
     <!-- mobile menu -->
     <template #mobile-menu>
-      <Dropdown align-end>
-        <MenuLink label="Edit" icon="edit" :href="route('users.edit', user.id)" />
-        <MenuLink
+      <Dropdown>
+        <DropdownItem label="Edit" icon="edit" :href="route('users.edit', user.id)" />
+        <DropdownItem
           label="Delete"
           icon="delete"
           method="delete"
           :href="route('users.destroy', user.id)"
         />
-        <MenuLink
-          method="put"
+        <DropdownToggleItem
+          name="status"
+          :value="user.status"
           :href="route('users.update', user.id)"
-          v-bind="NEXT_STATUS[user.status]"
+          :options="{
+            active: 'Activate',
+            terminated: 'Terminate',
+          }"
+          :icons="{
+            active: 'unlock',
+            terminated: 'lock',
+          }"
+          method="put"
         />
       </Dropdown>
     </template>
@@ -69,7 +76,7 @@ const NEXT_STATUS = {
     </template>
 
     <template #content>
-      <Card title="Recent tickets.." flush>
+      <Card label="Recent tickets.." flush>
         <TicketList :tickets="recentTickets" />
       </Card>
     </template>

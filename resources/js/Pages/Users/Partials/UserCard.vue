@@ -1,9 +1,7 @@
 <script setup>
 import Card from "@/Components/Card.vue";
-import Field from "@/Components/Field/Field.vue";
-import FieldGroup from "@/Components/Field/FieldGroup.vue";
-import LinkField from "@/Components/Field/LinkField.vue";
-import DateField from "@/Components/Field/DateField.vue";
+import DescriptionList from "@/Components/List/DescriptionList.vue";
+import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
 import UserBadge from "./UserBadge.vue";
 
 defineProps({
@@ -14,29 +12,34 @@ defineProps({
 <template>
   <Card>
     <template #header>
-      User
-
+      <h5>User</h5>
       <UserBadge :status="user.status" />
     </template>
 
-    <FieldGroup>
-      <Field label="Name" :value="user.name" />
+    <DescriptionList>
+      <DescriptionListItem label="Name" :value="user.name" />
 
-      <LinkField v-if="user.phone" label="Phone" :value="user.phone" phone />
+      <DescriptionListItem
+        v-if="user.phone"
+        label="Phone"
+        type="phone"
+        :value="user.phone"
+      />
 
-      <LinkField label="Email" :value="user.email" email />
+      <DescriptionListItem label="Email" type="email" :value="user.email" />
 
-      <Field label="Role" :value="user.role" class="capitalize" />
+      <DescriptionListItem label="Role" :value="user.role" />
 
-      <DateField
+      <DescriptionListItem
         v-if="user.email_verified_at"
         label="Email Verified At"
+        type="date"
         :value="user.email_verified_at"
       />
 
-      <DateField label="Created At" :value="user.created_at" />
+      <DescriptionListItem label="Created At" type="date" :value="user.created_at" />
 
-      <DateField label="Last Update" :value="user.updated_at" />
-    </FieldGroup>
+      <DescriptionListItem label="Last Update" type="date" :value="user.updated_at" />
+    </DescriptionList>
   </Card>
 </template>

@@ -22,7 +22,7 @@ Chart.register(
 const props = defineProps({
   labels: { type: Array, default: () => [0, 1, 2, 3, 4, 5, 6] },
   values: { type: Array, default: () => [15, 4, 10, 2, 12, 4, 12] },
-  color: String,
+  colorClass: String,
 });
 
 const chart = ref(null);
@@ -30,8 +30,8 @@ const canvasRef = ref(null);
 const colorClassRef = ref(null);
 
 function initChart() {
-  const borderColor = window.getComputedStyle(colorClassRef.value).color;
-  const backgroundColor = borderColor.replace(/[^/]+\)$/, "0.1)");
+  const borderColor = window.getComputedStyle(colorClassRef.value).backgroundColor;
+  const backgroundColor = borderColor.replace(/[^,]+\)$/, "0.1)");
 
   chart.value = new Chart(canvasRef.value, {
     type: "line",
@@ -92,7 +92,7 @@ watch(
 <template>
   <div class="absolute bottom-0 inset-x-0 rounded-b-2xl">
     <canvas ref="canvasRef" class="h-6">
-      <span ref="colorClassRef" :class="[color, 'text-opacity-50']" />
+      <span ref="colorClassRef" :class="colorClass" />
     </canvas>
   </div>
 </template>

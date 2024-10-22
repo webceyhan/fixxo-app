@@ -1,71 +1,99 @@
 <script setup>
-import { onMounted, onUnmounted } from "vue";
-import Icon from "@/Components/Icon.vue";
+import { ref } from "vue";
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  TransitionRoot,
+  TransitionChild,
+} from "@headlessui/vue";
+import SecondaryButton from "./Button/SecondaryButton.vue";
 
-const open = defineModel("open", { default: false });
+const emit = defineEmits(["open", "close"]);
 
 const props = defineProps({
   size: String,
+  show: Boolean,
+  cancellable: Boolean,
 });
 
-const close = () => {
-  open.value = false;
-};
+const isShown = ref(props.show);
 
-const closeOnEscape = (e) => {
-  e.key === "Escape" && close();
-};
+function close() {
+  isShown.value = false;
+  emit("close");
+}
 
-onMounted(() => {
-  document.addEventListener("keydown", closeOnEscape);
-});
+function open() {
+  isShown.value = true;
+  emit("open");
+}
 
-onUnmounted(() => {
-  document.removeEventListener("keydown", closeOnEscape);
+defineExpose({
+  open,
+  close,
 });
 </script>
 
 <template>
-  <Teleport to="body">
-    <dialog class="modal max-sm:modal-bottom" :open>
-      <div
-        :class="[
-          'modal-box shadow-lg shadow-base-content/50',
-          {
-            'w-2/3 max-w-4xl': size === 'xl',
-          },
-        ]"
+  <TransitionRoot appear :show="isShown" as="template">
+    <Dialog as="div" @close="close" class="relative z-10">
+      <TransitionChild
+        as="template"
+        enter="duration-300 ease-out"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="duration-200 ease-in"
+        leave-from="opacity-100"
+        leave-to="opacity-0"
       >
-        <!-- close button -->
-        <form method="dialog">
-          <button
-            class="btn btn-ghost btn-sm btn-circle absolute right-2 top-2"
-            @click="close"
+        <div class="fixed inset-0 bg-black bg-opacity-25" />
+      </TransitionChild>
+
+      <div class="fixed inset-0 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4 text-center">
+          <TransitionChild
+            as="template"
+            enter="duration-300 ease-out"
+            enter-from="opacity-0 scale-95"
+            enter-to="opacity-100 scale-100"
+            leave="duration-200 ease-in"
+            leave-from="opacity-100 scale-100"
+            leave-to="opacity-0 scale-95"
           >
-            <Icon name="x-lg" />
-          </button>
-        </form>
+            <DialogPanel
+              class="w-full transform overflow-hidden rounded-2xl bg-white dark:bg-gray-800 text-left align-middle shadow-xl dark:shadow-gray-700 transition-all p-6 space-y-6"
+              :class="{
+                'max-w-xl': size === 'xl',
+                'max-w-lg': size === 'lg',
+                'max-w-md': !size,
+              }"
+            >
+              <!-- title -->
+              <DialogTitle
+                as="h3"
+                class="text-lg font-medium leading-6 text-gray-900 dark:text-gray-100"
+              >
+                <slot name="title" />
+              </DialogTitle>
 
-        <section class="w-full space-y-4">
-          <!-- title -->
-          <h2 v-if="$slots.title" class="text-lg font-medium">
-            <slot name="title" />
-          </h2>
+              <!-- content -->
+              <slot :close="close" />
 
-          <!-- content -->
-          <slot :close />
-
-          <!-- actions -->
-          <div v-if="$slots.actions" class="modal-action gap-2 pt-4">
-            <slot name="actions" />
-          </div>
-        </section>
+              <!-- modal actions -->
+              <div v-if="$slots.actions" class="flex justify-start items-center gap-4">
+                <SecondaryButton
+                  v-if="cancellable"
+                  label="Cancel"
+                  icon="dismiss"
+                  @click="close"
+                />
+                <slot name="actions" />
+              </div>
+            </DialogPanel>
+          </TransitionChild>
+        </div>
       </div>
-
-      <!-- backdrop -->
-      <form method="dialog" class="modal-backdrop">
-        <button class="cursor-default" @click="close" />
-      </form>
-    </dialog>
-  </Teleport>
+    </Dialog>
+  </TransitionRoot>
 </template>

@@ -3,6 +3,7 @@ let index = 0;
 
 export default {
   inheritAttrs: false,
+  components: { Checkbox, InputGroup, InputGroupText, RadioGroup },
 };
 </script>
 
@@ -11,7 +12,11 @@ import { ref, useAttrs, computed } from "vue";
 import Select from "./Select.vue";
 import Textarea from "./Textarea.vue";
 import TextInput from "./TextInput.vue";
+import InputLabel from "./InputLabel.vue";
+import InputError from "./InputError.vue";
 import Checkbox from "./Checkbox.vue";
+import InputGroup from "./InputGroup.vue";
+import InputGroupText from "./InputGroupText.vue";
 import RadioGroup from "./RadioGroup.vue";
 
 const id = `form-control-${index++}`;
@@ -38,48 +43,47 @@ defineExpose({
 </script>
 
 <template>
-  <div class="form-control w-full">
-    <label v-if="$attrs.type == 'checkbox'" class="label cursor-pointer gap-2">
+  <div class="w-full">
+    <div v-if="$attrs.type == 'checkbox'" class="flex items-center gap-2">
       <Checkbox ref="input" v-bind="attrs" />
-      <span class="label-text mr-auto">{{ label }}</span>
+      <InputLabel :for="id" :value="label" />
       <slot />
-    </label>
+    </div>
 
     <template v-else>
-      <label class="form-control">
-        <!-- label -->
-        <div class="label">
-          <span class="label-text">{{ label }}</span>
-        </div>
+      <InputLabel :for="id" :value="label" />
 
-        <!-- input -->
-        <RadioGroup
-          v-if="$attrs.options && fancy"
-          v-bind="attrs"
-          fancy
-          ref="input"
-          class="w-full"
-        />
+      <RadioGroup
+        v-if="$attrs.options && fancy"
+        v-bind="attrs"
+        fancy
+        ref="input"
+        class="mt-1 block w-full"
+      />
 
-        <Select v-else-if="$attrs.options" v-bind="attrs" ref="input" />
+      <Select
+        v-else-if="$attrs.options"
+        v-bind="attrs"
+        ref="input"
+        class="mt-1 block w-full"
+      />
 
-        <Textarea v-else-if="$attrs.rows" v-bind="attrs" ref="input" />
+      <Textarea
+        v-else-if="$attrs.rows"
+        v-bind="attrs"
+        ref="input"
+        class="mt-1 block w-full"
+      />
 
-        <div v-else class="input input-bordered flex items-center gap-2 w-full">
-          <span v-if="prefix"> {{ prefix }} </span>
+      <InputGroup v-else-if="prefix || suffix" class="mt-1 block w-full">
+        <InputGroupText v-if="prefix" :value="prefix" />
+        <TextInput v-bind="attrs" ref="input" class="w-full"/>
+        <InputGroupText v-if="suffix" :value="suffix" />
+      </InputGroup>
 
-          <TextInput ref="input" v-bind="attrs" embedded />
+      <TextInput v-else v-bind="attrs" ref="input" class="mt-1 block w-full" />
 
-          <span v-if="suffix"> {{ suffix }} </span>
-        </div>
-
-        <!-- error -->
-        <div class="label" v-if="$slots.error || error">
-          <div class="label-text-alt text-error">
-            <slot name="error"> {{ error }} </slot>
-          </div>
-        </div>
-      </label>
+      <InputError :message="error" class="mt-2" />
     </template>
   </div>
 </template>

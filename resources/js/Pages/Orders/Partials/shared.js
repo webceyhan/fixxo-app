@@ -1,23 +1,19 @@
 export const orderStatus = {
     new: {
         label: "New",
-        icon: "clock-fill",
-        color: "neutral",
+        theme: "secondary",
     },
     shipped: {
         label: "Shipped",
-        icon: "play-circle-fill",
-        color: "info",
+        theme: "primary",
     },
     received: {
         label: "Received",
-        icon: "check-circle-fill",
-        color: "success",
+        theme: "success",
     },
     cancelled: {
         label: "Cancelled",
-        icon: "x-circle-fill",
-        color: "error",
+        theme: "danger",
     },
 };
 
