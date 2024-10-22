@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { formatDate, formatMoney } from "@/Shared/utils";
 import { makeStatus } from "./shared";
 import Avatar from "@/Components/Avatar.vue";
@@ -7,9 +7,9 @@ import TableRow from "@/Components/Table/TableRow.vue";
 import TableData from "@/Components/Table/TableData.vue";
 import InvoiceBadge from "./InvoiceBadge.vue";
 
-defineProps({
-  invoices: Array,
-});
+defineProps<{
+  invoices: any[]; // TODO: define Invoice type
+}>();
 </script>
 
 <template>

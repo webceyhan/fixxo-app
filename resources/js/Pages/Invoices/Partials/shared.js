@@ -1,3 +1,5 @@
+// TODO: convert this file to typescript
+
 import { isPastDate } from "@/Shared/utils";
 
 export const invoiceStatus = {
