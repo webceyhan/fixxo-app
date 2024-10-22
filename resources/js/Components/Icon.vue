@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import iconMap from "@/Shared/icons";
 
-defineProps({
-  name: String,
-});
+defineProps<{
+  name: string;
+}>();
 </script>
 
 <template>
-  <i :class="`icon bi-${iconMap[name] ?? name}`" />
+  <i :class="`icon bi-${(iconMap as any)[name] ?? name}`" />
 </template>
