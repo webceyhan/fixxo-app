@@ -3,7 +3,7 @@ import { useSearchParams } from "./routing";
 /**
  * Normalize array-like keys to object
  */
-const normalizeParam = (key, value) => {
+const normalizeParam = (key: string, value: any) => {
     // try to unwrap array-like keys
     const [, group, name] = key.match(/(^.*)\[(.*)\]/) ?? [];
 
@@ -27,7 +27,15 @@ const normalizeParam = (key, value) => {
  *      {value: 'in_progress', label: 'In progress'}
  *    ]
  */
-export function normalizeOptions(options, fn = () => ({})) {
+
+type Option = {
+    label: string;
+    value: string;
+};
+
+type Options = Option[] | Record<string, string> | string[];
+
+export function normalizeOptions(options: Options, fn = (v: any) => ({})) {
     // check if object literal was passed
     if (!Array.isArray(options)) {
         // convert {key: 'value'} to [{value: 'key', label: 'value'}]
@@ -54,11 +62,21 @@ export function normalizeOptions(options, fn = () => ({})) {
     });
 }
 
+type OptionLink = Option & {
+    data: Record<string, any>;
+    icon?: string;
+    active: boolean;
+};
+
 /**
  * Generates links for given key and options
  * which can be used in dropdowns or navigation to filter data
  */
-export function createOptionLinks(key, options, withIcons = false) {
+export function createOptionLinks(
+    key: string,
+    options: Options,
+    withIcons = false
+) {
     // from ['option1', 'option2']
     // to [
     //      { label: 'option1', data:{[key]: 'option1'}, active: true },
@@ -70,6 +88,6 @@ export function createOptionLinks(key, options, withIcons = false) {
     return normalizeOptions(options, (value) => ({
         data: normalizeParam(key, value),
         active: value === selectedOption,
-        icon: withIcons ? value : null,
-    }));
+        icon: withIcons ? value : undefined,
+    })) as OptionLink[];
 }
