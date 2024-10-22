@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { Head, useForm } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
@@ -6,9 +6,9 @@ import Link from "@/Components/Link.vue";
 import Form from "@/Components/Form/Form.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
-const props = defineProps({
-  status: String,
-});
+const props = defineProps<{
+  status?: string;
+}>();
 
 const form = useForm({});
 

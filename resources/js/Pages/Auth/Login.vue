@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { Head, useForm } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import Link from "@/Components/Link.vue";
@@ -6,10 +6,10 @@ import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
-defineProps({
-  canResetPassword: Boolean,
-  status: String,
-});
+defineProps<{
+  canResetPassword: boolean;
+  status?: string;
+}>();
 
 const form = useForm({
   email: "",
@@ -29,9 +29,7 @@ const submit = () => {
     <Head title="Log in" />
 
     <Form @submit="submit">
-      <div v-if="status" class="mb-4 font-medium text-sm text-success">
-        {{ status }}
-      </div>
+      <div v-if="status" class="mb-4 font-medium text-sm text-success" v-html="status" />
 
       <FormControl
         id="email"
