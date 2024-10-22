@@ -1,18 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, onUnmounted } from "vue";
 import Icon from "@/Components/Icon.vue";
 
 const open = defineModel("open", { default: false });
 
-const props = defineProps({
-  size: String,
-});
+defineProps<{
+  size?: string; // TODO: define Size type
+}>();
 
 const close = () => {
   open.value = false;
 };
 
-const closeOnEscape = (e) => {
+const closeOnEscape = (e: KeyboardEvent) => {
   e.key === "Escape" && close();
 };
 

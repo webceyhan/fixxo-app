@@ -1,13 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 
-const props = defineProps({
-    label: String,
-    native: Boolean,
-    secondary: Boolean,
-    outline: Boolean,
-    small : Boolean,
-});
+defineProps<{
+  label?: string;
+  native?: boolean;
+  secondary?: boolean;
+  outline?: boolean;
+  small?: boolean;
+}>();
 </script>
 
 <template>

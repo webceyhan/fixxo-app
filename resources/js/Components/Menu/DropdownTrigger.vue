@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import Icon from "@/Components/Icon.vue";
 
-defineProps({
-  label: String,
-  icon: String,
-  primary: Boolean,
-});
+defineProps<{
+  label?: string;
+  icon?: string;
+  primary?: boolean;
+}>();
 </script>
 
 <template>

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { isAdmin } from "@/Shared/auth";
 import Menu from "@/Components/Menu/Menu.vue";
@@ -7,14 +7,15 @@ import MenuSection from "@/Components/Menu/MenuSection.vue";
 import SidebarLink from "./SidebarLink.vue";
 import Logo from "./Logo.vue";
 
-const emit = defineEmits(["update:toggled"]);
+type SideLink = {
+  // TODO: extract to shared types
+  label?: string;
+  icon?: string;
+  to?: string;
+  admin?: boolean;
+};
 
-const props = defineProps({
-  toggled: Boolean,
-  notificationOpen: Boolean,
-});
-
-const links = [
+const links: SideLink[] = [
   {
     label: "New",
     icon: "create",

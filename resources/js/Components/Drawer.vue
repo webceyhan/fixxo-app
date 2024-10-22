@@ -1,9 +1,9 @@
-<script setup>
-defineProps({
-  id: String,
-  alignEnd: Boolean,
-  responsive: Boolean,
-});
+<script setup lang="ts">
+defineProps<{
+  id: string;
+  alignEnd?: boolean;
+  responsive?: boolean;
+}>();
 </script>
 
 <template>

@@ -1,13 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { formatDate } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
 import List from "@/Components/List/List.vue";
 import ListItem from "@/Components/List/ListItem.vue";
 import DeviceBadge from "./DeviceBadge.vue";
 
-const props = defineProps({
-  devices: Array,
-});
+defineProps<{
+  devices: any[]; // TODO: define Device type
+}>();
 </script>
 
 <template>

@@ -1,12 +1,14 @@
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { ComponentPublicInstance, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
-const passwordInput = ref(null);
-const currentPasswordInput = ref(null);
+const passwordInput = ref<ComponentPublicInstance<typeof FormControl> | null>(null);
+const currentPasswordInput = ref<ComponentPublicInstance<typeof FormControl> | null>(
+  null
+);
 
 const form = useForm({
   current_password: "",
@@ -21,11 +23,11 @@ const updatePassword = () => {
     onError: () => {
       if (form.errors.password) {
         form.reset("password", "password_confirmation");
-        passwordInput.value.focus();
+        passwordInput.value?.focus();
       }
       if (form.errors.current_password) {
         form.reset("current_password");
-        currentPasswordInput.value.focus();
+        currentPasswordInput.value?.focus();
       }
     },
   });
@@ -41,7 +43,6 @@ const updatePassword = () => {
     </template>
 
     <FormControl
-      id="current_password"
       ref="currentPasswordInput"
       label="Current Password"
       type="password"
@@ -51,7 +52,6 @@ const updatePassword = () => {
     />
 
     <FormControl
-      id="password"
       ref="passwordInput"
       label="New Password"
       type="password"
@@ -61,7 +61,6 @@ const updatePassword = () => {
     />
 
     <FormControl
-      id="password_confirmation"
       type="password"
       label="Confirm Password"
       autocomplete="new-password"

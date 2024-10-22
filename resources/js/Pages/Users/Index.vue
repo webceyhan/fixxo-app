@@ -1,14 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import PaginationWrapper from "@/Components/PaginationWrapper.vue";
 import UserTable from "./Partials/UserTable.vue";
 
-defineProps({
-  users: Object,
-  filters: Object,
-});
+defineProps<{
+  users: any; // TODO: define User type
+  filters: any; // TODO: define Filter type
+}>();
 </script>
 
 <template>

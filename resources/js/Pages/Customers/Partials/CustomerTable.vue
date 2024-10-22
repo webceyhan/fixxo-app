@@ -1,13 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { formatDate } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
 import Table from "@/Components/Table/Table.vue";
 import TableRow from "@/Components/Table/TableRow.vue";
 import TableData from "@/Components/Table/TableData.vue";
 
-defineProps({
-  customers: Array,
-});
+defineProps<{
+  customers: any[]; // TODO: define Customer type
+}>();
 </script>
 
 <template>

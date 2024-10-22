@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import StatusBadge from "@/Components/StatusBadge.vue";
 import { invoiceStatus } from "./shared";
 
-defineProps({
-  status: String,
-});
+defineProps<{
+  status: keyof typeof invoiceStatus; // TODO: define type
+}>();
 </script>
 
 <template>

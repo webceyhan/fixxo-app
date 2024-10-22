@@ -1,13 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { Head, useForm } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
-defineProps({
-  status: String,
-});
+defineProps<{
+  status?: string;
+}>();
 
 const form = useForm({
   email: "",
@@ -28,9 +28,7 @@ const submit = () => {
         email you a password reset link that will allow you to choose a new one.
       </template>
 
-      <div v-if="status" class="mb-4 font-medium text-sm text-success">
-        {{ status }}
-      </div>
+      <div v-if="status" class="mb-4 font-medium text-sm text-success" v-html="status" />
 
       <FormControl
         id="email"

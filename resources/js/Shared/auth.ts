@@ -7,4 +7,4 @@ export const user = computed(() => auth.value.user);
 
 export const isAdmin = computed(() => auth.value.user.role === "admin");
 
-export const isMe = (otherUser) => user.value.id === otherUser?.id;
+export const isMe = (otherUser: any) => user.value.id === otherUser?.id;

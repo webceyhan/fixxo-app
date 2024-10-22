@@ -1,11 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import Icon from "@/Components/Icon.vue";
 import Avatar from "@/Components/Avatar.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import MenuLink from "@/Components/Menu/MenuLink.vue";
 import Field from "@/Components/Field/Field.vue";
 
-const notifications = [
+type Notification = { // TODO: extract to shared types
+  user: string;
+  avatarUrl: string;
+  message: string;
+  time: string;
+};
+
+const notifications: Notification[] = [
   {
     user: "Sara Salah",
     avatarUrl:

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Form from "@/Components/Form/Form.vue";
@@ -6,11 +6,11 @@ import Card from "@/Components/Card.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import CustomerCard from "@/Pages/Customers/Partials/CustomerCard.vue";
 
-const props = defineProps({
-  device: Object,
-  typeOptions: Array,
-  statusOptions: Array,
-});
+const props = defineProps<{
+  device: any; // TODO: define Device type
+  typeOptions: any[]; // TODO: define Type options (enum)
+  statusOptions: any[]; // TODO: define Status options (enum)
+}>();
 
 const form = useForm({
   ...props.device,

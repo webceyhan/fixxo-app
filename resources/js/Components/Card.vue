@@ -1,8 +1,8 @@
-<script setup>
-defineProps({
-  title: String,
-  flush: Boolean,
-});
+<script setup lang="ts">
+defineProps<{
+  title?: string;
+  flush?: boolean;
+}>();
 </script>
 
 <template>

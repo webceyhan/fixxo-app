@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { formatDate, formatMoney } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
 import Table from "@/Components/Table/Table.vue";
@@ -7,9 +7,9 @@ import TableData from "@/Components/Table/TableData.vue";
 import TicketBadge from "./TicketBadge.vue";
 import PriorityBadge from "./PriorityBadge.vue";
 
-defineProps({
-  tickets: Array,
-});
+defineProps<{
+  tickets: any[]; // TODO: define Ticket type
+}>();
 </script>
 
 <template>

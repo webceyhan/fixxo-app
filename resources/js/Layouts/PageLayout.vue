@@ -1,16 +1,16 @@
-<script setup>
+<script setup lang="ts">
 import Toolbar from "@/Components/Toolbar.vue";
 import BackButton from "@/Components/Button/BackButton.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
-defineProps({
-  title: String,
-  contentOnlyMobile: Boolean,
-});
+defineProps<{
+  title: string;
+  contentOnlyMobile?: boolean;
+}>();
 </script>
 
 <template>
-  <AuthenticatedLayout :title="title">
+  <AuthenticatedLayout :title>
     <Toolbar>
       <BackButton class="mr-auto" />
 
@@ -31,11 +31,10 @@ defineProps({
       <div class="flex flex-col lg:flex-row items-start gap-6 lg:gap-8">
         <!-- // aside -->
         <aside
-          :class="{
-            flex: !contentOnlyMobile,
-            'hidden sm:flex': contentOnlyMobile,
-          }"
-          class="flex-col w-full lg:w-2/5 xl:w-1/3 gap-6 lg:gap-8"
+          :class="[
+            'flex-col w-full lg:w-2/5 xl:w-1/3 gap-6 lg:gap-8',
+            contentOnlyMobile ? 'hidden sm:flex' : 'flex',
+          ]"
         >
           <slot name="aside" />
         </aside>

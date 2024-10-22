@@ -1,5 +1,5 @@
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { ComponentPublicInstance, ref } from "vue";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
@@ -8,20 +8,20 @@ import MenuLink from "@/Components/Menu/MenuLink.vue";
 import TicketCard from "@/Pages/Tickets/Partials/TicketCard.vue";
 import OrderForm from "./Partials/OrderForm.vue";
 
-const props = defineProps({
-  ticket: Object,
-  order: Object,
-  canDelete: Boolean,
-});
+const props = defineProps<{
+  order: any; // TODO: define Order type
+  ticket: any; // TODO: define Ticket type
+  canDelete: boolean;
+}>();
 
-const orderForm = ref(null);
+const orderForm = ref<ComponentPublicInstance<typeof OrderForm> | null>(null);
 </script>
 
 <template>
   <PageLayout :title="`Order #${order.id}`">
     <!-- desktop menu -->
     <template #desktop-menu>
-      <PrimaryButton label="Save" icon="save" @click="orderForm.save()" />
+      <PrimaryButton label="Save" icon="save" @click="orderForm?.save()" />
 
       <DangerButton
         v-if="canDelete"
@@ -36,7 +36,7 @@ const orderForm = ref(null);
     <!-- mobile menu -->
     <template #mobile-menu>
       <Dropdown align-end>
-        <MenuLink label="Save" icon="save" @click="orderForm.save()" />
+        <MenuLink label="Save" icon="save" @click="orderForm?.save()" />
         <MenuLink
           v-if="canDelete"
           label="Delete"

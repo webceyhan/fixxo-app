@@ -1,15 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { formatDate, formatMoney } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
 import List from "@/Components/List/List.vue";
 import ListItem from "@/Components/List/ListItem.vue";
 import TransactionBadge from "./TransactionBadge.vue";
 
-defineEmits(["select"]);
+defineEmits<{
+  (e: "select", transaction: any): void;
+}>();
 
-defineProps({
-  transactions: Array,
-});
+defineProps<{
+  transactions: any[]; // TODO: define Transaction type
+}>();
 </script>
 
 <template>

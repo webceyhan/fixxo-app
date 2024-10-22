@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Card from "@/Components/Card.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
@@ -8,12 +8,13 @@ import MenuLink from "@/Components/Menu/MenuLink.vue";
 import TicketList from "@/Pages/Tickets/Partials/TicketList.vue";
 import UserCard from "./Partials/UserCard.vue";
 
-const props = defineProps({
-  user: Object,
-  recentTickets: Array,
-});
+defineProps<{
+  user: any; // TODO: define User type
+  recentTickets: any[]; // TODO: define Ticket type
+}>();
 
-const NEXT_STATUS = {
+// TODO: extract to a shared file
+const NEXT_STATUS: Record<string, any> = {
   active: {
     label: "Terminate",
     icon: "lock",

@@ -1,76 +1,67 @@
-<script>
-let index = 0;
-
-export default {
-  inheritAttrs: false,
-};
-</script>
-
-<script setup>
-import { ref, useAttrs, computed } from "vue";
+<script setup lang="ts">
+import { ref } from "vue";
 import Select from "./Select.vue";
 import Textarea from "./Textarea.vue";
 import TextInput from "./TextInput.vue";
 import Checkbox from "./Checkbox.vue";
 import RadioGroup from "./RadioGroup.vue";
 
-const id = `form-control-${index++}`;
-
-const input = ref(null);
-
-const props = defineProps({
-  label: String,
-  prefix: String,
-  suffix: String,
-  error: String,
-  fancy: Boolean,
+defineOptions({
+  inheritAttrs: false,
 });
 
-const attrs = computed(() => ({
-  id,
-  name: id,
-  ...useAttrs(),
-}));
+defineProps<{
+  label?: string;
+  type?: string;
+  prefix?: string;
+  suffix?: string;
+  error?: string;
+  fancy?: boolean;
+}>();
+
+const input = ref<HTMLElement | null>(null);
 
 defineExpose({
-  focus: () => input.value.focus(),
+  focus: () => input.value?.focus(),
 });
 </script>
 
 <template>
   <div class="form-control w-full">
-    <label v-if="$attrs.type == 'checkbox'" class="label cursor-pointer gap-2">
-      <Checkbox ref="input" v-bind="attrs" />
-      <span class="label-text mr-auto">{{ label }}</span>
-      <slot />
-    </label>
+    <template v-if="type == 'checkbox'">
+      <label class="label cursor-pointer gap-2">
+        <Checkbox ref="input" v-bind="$attrs" />
+        <span class="label-text mr-auto" v-html="label" />
+        <slot />
+      </label>
+    </template>
 
     <template v-else>
       <label class="form-control">
         <!-- label -->
         <div class="label">
-          <span class="label-text">{{ label }}</span>
+          <span class="label-text" v-html="label" />
         </div>
 
         <!-- input -->
         <RadioGroup
           v-if="$attrs.options && fancy"
-          v-bind="attrs"
-          fancy
           ref="input"
           class="w-full"
+          v-bind="$attrs"
+          fancy
         />
 
-        <Select v-else-if="$attrs.options" v-bind="attrs" ref="input" />
+        <Select v-else-if="$attrs.options" ref="input" v-bind="$attrs" />
 
-        <Textarea v-else-if="$attrs.rows" v-bind="attrs" ref="input" />
+        <Textarea v-else-if="$attrs.rows" ref="input" v-bind="$attrs" />
 
         <div v-else class="input input-bordered flex items-center gap-2 w-full">
-          <span v-if="prefix"> {{ prefix }} </span>
+          <span v-if="prefix" v-html="prefix" />
 
-          <TextInput ref="input" v-bind="attrs" embedded />
+          <TextInput ref="input" v-bind="{ ...$attrs, type }" embedded />
 
-          <span v-if="suffix"> {{ suffix }} </span>
+          <span v-if="suffix" v-html="suffix" />
         </div>
 
         <!-- error -->

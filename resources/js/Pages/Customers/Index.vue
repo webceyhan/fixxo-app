@@ -1,14 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Searchbar from "@/Components/Searchbar.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import PaginationWrapper from "@/Components/PaginationWrapper.vue";
 import CustomerTable from "./Partials/CustomerTable.vue";
 
-defineProps({
-  customers: Object,
-  filters: Object,
-});
+defineProps<{
+  customers: any; // TODO: define Customer type
+  filters: any; // TODO: define Filter types (with generics)
+}>();
 </script>
 
 <template>

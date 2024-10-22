@@ -20,7 +20,8 @@ export const invoiceStatus = {
 
 export const statusOptions = Object.keys(invoiceStatus);
 
-export const makeStatus = (invoice) => {
+// TODO: define Invoice type
+export const makeStatus = (invoice: any) => {
     if (invoice.balance >= 0) {
         return "paid";
     }

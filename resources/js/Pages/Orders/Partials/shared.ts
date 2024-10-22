@@ -1,3 +1,5 @@
+
+// TODO: move to a shared location
 export const orderStatus = {
     new: {
         label: "New",

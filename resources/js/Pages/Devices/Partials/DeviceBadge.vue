@@ -1,11 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import StatusBadge from "@/Components/StatusBadge.vue";
 
-defineProps({
-  status: String,
-});
+defineProps<{
+  status: keyof typeof states; // TODO: define type
+}>();
 
 const states = {
+  // TODO: extract to a shared file
   checked_in: {
     label: "Checked In",
     icon: "clock-fill",

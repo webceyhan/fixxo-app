@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { formatNumber } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
 import Stat from "@/Components/Stat/Stat.vue";
@@ -15,14 +15,14 @@ import StatCardChart from "./StatCardChart.vue";
  * text-warning
  * text-error
  */
-const props = defineProps({
-  label: String,
-  icon: String,
-  value: [String, Number],
-  labels: Array,
-  values: Array,
-  color: String,
-});
+const props = defineProps<{
+  label: string;
+  value: number;
+  color: string;
+  icon?: string;
+  labels: string[];
+  values: number[];
+}>();
 </script>
 
 <template>
@@ -32,6 +32,7 @@ const props = defineProps({
       <StatValue :text="formatNumber(value)" />
       <StatTitle :text="label" />
     </Stat>
+
     <StatCardChart :labels :values :color="`text-${color}`" />
   </Card>
 </template>

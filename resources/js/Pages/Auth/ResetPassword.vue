@@ -1,14 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { Head, useForm } from "@inertiajs/vue3";
 import GuestLayout from "@/Layouts/GuestLayout.vue";
 import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
-const props = defineProps({
-  email: String,
-  token: String,
-});
+const props = defineProps<{
+  email: string;
+  token: string;
+}>();
 
 const form = useForm({
   token: props.token,

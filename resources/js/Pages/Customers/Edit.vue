@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Form from "@/Components/Form/Form.vue";
@@ -6,10 +6,9 @@ import Card from "@/Components/Card.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import CustomerCard from "./Partials/CustomerCard.vue";
 
-const props = defineProps({
-  customer: Object,
-  statusOptions: Array,
-});
+const props = defineProps<{
+  customer: any; // TODO: define Customer type
+}>();
 
 const form = useForm({
   ...props.customer,

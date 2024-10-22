@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { formatDate } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
 import Table from "@/Components/Table/Table.vue";
@@ -6,9 +6,9 @@ import TableRow from "@/Components/Table/TableRow.vue";
 import TableData from "@/Components/Table/TableData.vue";
 import DeviceBadge from "./DeviceBadge.vue";
 
-defineProps({
-  devices: Array,
-});
+defineProps<{
+  devices: any[]; // TODO: define Device type
+}>();
 </script>
 
 <template>

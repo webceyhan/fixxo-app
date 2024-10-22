@@ -1,9 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import MenuLink from "@/Components/Menu/MenuLink.vue";
 
-defineProps({
-  active: Boolean,
-});
+defineProps<{
+  active?: boolean;
+}>();
 </script>
 
 <template>

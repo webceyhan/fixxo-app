@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { formatMoney } from "@/Shared/utils";
 import Card from "@/Components/Card.vue";
@@ -8,12 +8,12 @@ import StatGroup from "@/Components/Stat/StatGroup.vue";
 import StatTitle from "@/Components/Stat/StatTitle.vue";
 import StatValue from "@/Components/Stat/StatValue.vue";
 
-const props = defineProps({
-  label: String,
-  icon: String,
-  items: Array,
-  formatAsMoney: Boolean,
-});
+const props = defineProps<{
+  label: string;
+  icon?: string;
+  items?: { label: string; value: number }[]; // TODO: extract to shared types
+  formatAsMoney?: boolean;
+}>();
 
 const normalizedItems = computed(() => {
   return Array.from({ length: 2 }, (_, i) => ({

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from "vue";
 import { useForm, router } from "@inertiajs/vue3";
 import imageCompression from "browser-image-compression";
@@ -6,25 +6,26 @@ import Spinner from "@/Components/Spinner.vue";
 import Icon from "@/Components/Icon.vue";
 import Card from "@/Components/Card.vue";
 
-const props = defineProps({
-  ticket: Object,
-});
+const props = defineProps<{
+  ticket: any; // TODO: define Ticket type
+}>();
 
 const processing = ref(false);
 
 const form = useForm({
   folder: `tickets/${props.ticket.id}`,
-  images: [],
+  images: [] as any[],
 });
 
-async function upload(event) {
+async function upload(event: Event) {
   // show processing
   processing.value = true;
 
+  const target = event.target as HTMLInputElement;
+  const files = Array.from(target.files ?? []);
+
   // set form data to compress images
-  form.images = await Promise.all(
-    Array.from(event.target.files).map((imageFile) => compressImage(imageFile))
-  );
+  form.images = await Promise.all(files.map(compressImage));
 
   // send form
   form.post(route("uploads.store"), {
@@ -35,10 +36,10 @@ async function upload(event) {
 
   // bugfix: we must reset input
   // otherwise we can't choose the same file twice
-  event.target.value = "";
+  target.value = "";
 }
 
-async function compressImage(imageFile) {
+async function compressImage(imageFile: File) {
   try {
     return await imageCompression(imageFile, {
       maxSizeMB: 1,

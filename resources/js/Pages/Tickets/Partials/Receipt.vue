@@ -1,14 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { formatDate, formatMoney } from "@/Shared/utils";
 import Logo from "@/Layouts/Partials/Logo.vue";
 
-const props = defineProps({
-  ticket: Object,
-  tasks: Array,
-  transactions: Array,
-  delivery: Boolean,
-});
+const props = defineProps<{
+  ticket: any; // TODO: define Ticket type
+  tasks?: any[]; // TODO: define Task type
+  delivery?: boolean;
+}>();
 
 const signatureUrl = computed(() => {
   return props.delivery

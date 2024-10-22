@@ -1,26 +1,25 @@
-export function delay(ms, fn = () => {}) {
+type Callback = (...args: any[]) => any;
+
+export function delay(ms: number, fn = () => {}) {
     return new Promise(() => setTimeout(fn, ms));
 }
 
-export function debounce(fn, wait) {
-    let timer;
+export function debounce(fn: Callback, wait: number) {
+    let timer: number;
 
-    return function (...args) {
+    return function (this: any, ...args: any[]) {
         // clear any pre-existing timer
         timer && clearTimeout(timer);
 
-        // get the current context
-        const context = this;
-
         // call the function if time expires
-        timer = setTimeout(() => fn.apply(context, args), wait);
+        timer = setTimeout(() => fn.apply(this, args), wait);
     };
 }
 
-export function throttle(fn, wait) {
+export function throttle(fn: Callback, wait: number) {
     let throttled = false;
 
-    return function (...args) {
+    return function (this: any, ...args: any[]) {
         if (!throttled) {
             fn.apply(this, args);
 
@@ -33,13 +32,13 @@ export function throttle(fn, wait) {
 
 // FORMATTERS //////////////////////////////////////////////////////////////////////////////////////
 
-export function formatNumber(value) {
+export function formatNumber(value: number) {
     return new Intl.NumberFormat("en-BE", {
         style: "decimal",
     }).format(value);
 }
 
-export function formatMoney(value) {
+export function formatMoney(value: number) {
     return new Intl.NumberFormat("en-BE", {
         style: "currency",
         currency: "EUR",
@@ -64,20 +63,20 @@ export function formatMoney(value) {
 
 const rtf = new Intl.RelativeTimeFormat("en", { style: "short" });
 
-export function isPastDate(value) {
+export function isPastDate(value?: string) {
     // skip if empty or null
     if (!value || value == "") return false;
 
     return new Date(value) < new Date();
 }
 
-export const formatDate = (value, long = false) => {
+export const formatDate = (value?: string, long = false) => {
     // skip if empty or null
     if (!value || value == "") return "";
 
     const date = new Date(value);
 
-    const config = {
+    const config: Intl.DateTimeFormatOptions = {
         // year: "2-digit",
         // month: "2-digit",
         // day: "2-digit",
@@ -93,19 +92,19 @@ export const formatDate = (value, long = false) => {
     return Intl.DateTimeFormat("en-BE", config).format(date);
 };
 
-export const formatDatetime = (timestamp, long = false) => {
+export const formatDatetime = (timestamp?: string, long = false) => {
     // skip if empty or null
     if (!timestamp || timestamp == "") return "";
 
     const date = new Date(timestamp);
 
-    const diff = Math.floor((new Date() - date) / 1000);
+    const diff = Math.floor((Date.now() - date.getTime()) / 1000);
     if (diff < 60) return rtf.format(-diff, "second");
     if (diff < 3600) return rtf.format(-Math.floor(diff / 60), "minute");
     if (diff < 86400) return rtf.format(-Math.floor(diff / 3600), "hour");
     if (diff < 604800) return rtf.format(-Math.floor(diff / 86400), "day");
 
-    const config = {
+    const config: Intl.DateTimeFormatOptions = {
         // year: "2-digit",
         // month: "2-digit",
         // day: "2-digit",
@@ -127,7 +126,7 @@ export const formatDatetime = (timestamp, long = false) => {
     return Intl.DateTimeFormat("en-BE", config).format(date);
 };
 
-export const mysqlToDate = (timestamp) => {
+export const mysqlToDate = (timestamp?: string) => {
     // Convert the MySQL datetime to a suitable format for date input
     // Example MySQL datetime in ISO 8601 format: "2024-10-02T21:57:00.000000Z";
     if (!timestamp || timestamp == "") return "";
@@ -139,7 +138,7 @@ export const mysqlToDate = (timestamp) => {
     return date.toISOString().slice(0, 10);
 };
 
-export const mysqlToDatetimeLocal = (timestamp) => {
+export const mysqlToDatetimeLocal = (timestamp?: string) => {
     // Convert the MySQL datetime to a suitable format for datetime-local input
     // Example MySQL datetime in ISO 8601 format: "2024-10-02T21:57:00.000000Z";
     if (!timestamp || timestamp == "") return "";
@@ -151,7 +150,7 @@ export const mysqlToDatetimeLocal = (timestamp) => {
     return date.toISOString().slice(0, 16);
 };
 
-export function formatPhone(value, defaultCountryCode = "32") {
+export function formatPhone(value?: string, defaultCountryCode = "32") {
     // skip if empty or null
     if (!value || value == "") return "";
 

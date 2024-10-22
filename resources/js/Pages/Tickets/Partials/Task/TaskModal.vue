@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import Modal from "@/Components/Modal.vue";
 import TaskForm from "./TaskForm.vue";
 
-defineProps({
-  task: Object,
-  canDelete: Boolean,
-});
+defineProps<{
+  task: any; // TODO: define Task type
+  canDelete: boolean;
+}>();
 </script>
 
 <template>

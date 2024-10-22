@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import Modal from "@/Components/Modal.vue";
 import TransactionForm from "./TransactionForm.vue";
 
-defineProps({
-  transaction: Object,
-  canDelete: Boolean,
-});
+defineProps<{
+  transaction: any; // TODO: define Transaction type
+  canDelete: boolean;
+}>();
 </script>
 
 <template>

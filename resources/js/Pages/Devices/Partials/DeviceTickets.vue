@@ -1,11 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import Card from "@/Components/Card.vue";
 import TicketList from "@/Pages/Tickets/Partials/TicketList.vue";
 
-const props = defineProps({
-  device: Object,
-  tickets: Array,
-});
+defineProps<{
+  device: any; // TODO: define Device type
+}>();
 </script>
 
 <template>

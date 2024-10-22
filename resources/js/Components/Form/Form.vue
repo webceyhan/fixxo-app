@@ -1,17 +1,21 @@
-<script setup>
+<script setup lang="ts">
+import { InertiaForm } from "@inertiajs/vue3";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 
-const emit = defineEmits(["submit", "dismiss"]);
+const emit = defineEmits<{
+  (e: "submit"): void;
+  (e: "dismiss"): void;
+}>();
 
-const props = defineProps({
-  form: Object,
-  resource: String,
-  deletable: Boolean,
-  dismissable: Boolean,
-  noActions: Boolean,
-});
+const props = defineProps<{
+  form?: InertiaForm<any>;
+  resource?: string;
+  deletable?: boolean;
+  dismissable?: boolean;
+  noActions?: boolean;
+}>();
 
 const submit = () => {
   props.resource ? save() : emit("submit");
