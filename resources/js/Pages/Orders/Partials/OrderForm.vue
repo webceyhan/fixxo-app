@@ -1,14 +1,14 @@
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { ComponentPublicInstance, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import { statusOptions } from "./shared";
 import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import { mysqlToDatetimeLocal } from "@/Shared/utils";
 
-const props = defineProps({
-  order: Object,
-});
+const props = defineProps<{
+  order: any; // TODO: define Order type
+}>();
 
 const form = useForm({
   ...props.order,
@@ -22,10 +22,10 @@ const form = useForm({
   approved_at: mysqlToDatetimeLocal(props.order.approved_at),
 });
 
-const formEl = ref(null);
+const formEl = ref<ComponentPublicInstance<typeof Form> | null>(null);
 
 defineExpose({
-  save: () => formEl.value.save(),
+  save: () => formEl.value?.save(),
 });
 </script>
 

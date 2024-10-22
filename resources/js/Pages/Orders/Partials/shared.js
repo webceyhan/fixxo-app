@@ -1,3 +1,5 @@
+// TODO: convert this file to typescript
+
 export const orderStatus = {
     new: {
         label: "New",

@@ -1,11 +1,11 @@
-<script setup>
+<script setup lang="ts">
 import Modal from "@/Components/Modal.vue";
 import OrderForm from "./OrderForm.vue";
 
-defineProps({
-  order: Object,
-  canDelete: Boolean,
-});
+defineProps<{
+  order: any; // TODO: define Order type
+  canDelete: boolean;
+}>();
 </script>
 
 <template>

@@ -1,15 +1,17 @@
-<script setup>
+<script setup lang="ts">
 import { formatDate, formatMoney } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
 import List from "@/Components/List/List.vue";
 import ListItem from "@/Components/List/ListItem.vue";
 import OrderBadge from "./OrderBadge.vue";
 
-defineEmits(["select"]);
+defineEmits<{
+  (e: "select", order: any): void;
+}>();
 
-defineProps({
-  orders: Array,
-});
+defineProps<{
+  orders: any[]; // TODO: define Order type
+}>();
 </script>
 
 <template>
