@@ -1,10 +1,10 @@
-<script setup>
-import Icon from "../Icon.vue";
+<script setup lang="ts">
+import Icon from "@/Components/Icon.vue";
 
-const props = defineProps({
-  time: String,
-  icon: String,
-});
+defineProps<{
+  time?: string;
+  icon?: string;
+}>();
 </script>
 
 <template>
@@ -14,7 +14,7 @@ const props = defineProps({
     <!-- figure -->
     <div class="timeline-middle">
       <slot name="figure">
-        <Icon :name="icon??'check-circle'" class="text-xl" />
+        <Icon :name="icon ?? 'check-circle'" class="text-xl" />
       </slot>
     </div>
 

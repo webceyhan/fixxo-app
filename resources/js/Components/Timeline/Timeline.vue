@@ -1,7 +1,7 @@
-<script setup>
-const props = defineProps({
-  vertical: Boolean,
-});
+<script setup lang="ts">
+defineProps<{
+  vertical?: boolean;
+}>();
 </script>
 
 <template>
