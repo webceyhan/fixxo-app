@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import {
   Chart,
@@ -19,21 +19,21 @@ Chart.register(
   Filler
 );
 
-const props = defineProps({
-  labels: { type: Array, default: () => [0, 1, 2, 3, 4, 5, 6] },
-  values: { type: Array, default: () => [15, 4, 10, 2, 12, 4, 12] },
-  color: String,
-});
+const props = defineProps<{
+  labels: string[]; // TODO: define type
+  values: number[]; // TODO: define type
+  color: string; // TODO: define Color type
+}>();
 
-const chart = ref(null);
-const canvasRef = ref(null);
-const colorClassRef = ref(null);
+const canvasRef = ref<HTMLCanvasElement | null>(null);
+const colorClassRef = ref<HTMLSpanElement | null>(null);
+const chart = ref<Chart | null>(null);
 
 function initChart() {
-  const borderColor = window.getComputedStyle(colorClassRef.value).color;
+  const borderColor = window.getComputedStyle(colorClassRef.value!).color;
   const backgroundColor = borderColor.replace(/[^/]+\)$/, "0.1)");
 
-  chart.value = new Chart(canvasRef.value, {
+  chart.value = new Chart(canvasRef.value!, {
     type: "line",
     data: {
       labels: props.labels,
@@ -60,7 +60,6 @@ function initChart() {
         x: { display: false },
         y: { display: false },
       },
-      tooltips: { enabled: false },
     },
   });
 }

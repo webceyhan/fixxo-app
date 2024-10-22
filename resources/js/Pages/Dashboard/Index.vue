@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { router } from "@inertiajs/vue3";
 import Link from "@/Components/Link.vue";
@@ -12,26 +12,26 @@ import StatCard from "./Partials/StatCard.vue";
 import SingleStatCard from "./Partials/SingleStatCard.vue";
 import IncomeChart from "./Partials/IncomeChart.vue";
 
-const props = defineProps({
-  filters: Object,
+const props = defineProps<{
+  filters: any; // TODO: define type
   //
-  incomeChartData: Object,
-  customerChartData: Object,
-  ticketChartData: Object,
-  taskChartData: Object,
-  transactionChartData: Object,
+  incomeChartData: any; // TODO: define type
+  customerChartData: any; // TODO: define type
+  ticketChartData: any; // TODO: define type
+  taskChartData: any; // TODO: define type
+  transactionChartData: any; // TODO: define type
   //
-  ticketStats: Array,
-  taskStats: Array,
-  earningStats: Array,
+  ticketStats: any[]; // TODO: define type
+  taskStats: any[]; // TODO: define type
+  earningStats: any[]; // TODO: define type
   //
-  ticketsPending: Array,
-  ticketsCompleted: Array,
-  ticketsOutstanding: Array,
-  ticketsOverdue: Array,
-});
+  ticketsPending: any[]; // TODO: define type
+  ticketsCompleted: any[]; // TODO: define type
+  ticketsOutstanding: any[]; // TODO: define type
+  ticketsOverdue: any[]; // TODO: define type
+}>();
 
-const labelMap = {
+const labelMap: Record<string, string> = {
   day: "Hourly",
   week: "Daily",
   month: "Weekly",
@@ -40,7 +40,7 @@ const labelMap = {
 
 const intervalFilter = computed(() => props.filters.interval);
 
-const onIntervalChange = (interval) => {
+const onIntervalChange = (interval: any) => {
   router.reload({ data: { interval } });
 };
 </script>
@@ -51,8 +51,7 @@ const onIntervalChange = (interval) => {
       <TabNav class="hidden lg:flex w-full">
         <TabNavItem
           v-for="(label, key) in intervalFilter.options"
-          :key="key"
-          :label="label"
+          :label
           :active="key === intervalFilter.value"
           :data="{ interval: key }"
         />

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, watch } from "vue";
 import {
   Chart,
@@ -19,25 +19,25 @@ Chart.register(LineElement, PointElement, LinearScale, CategoryScale, LineContro
  * text-warning
  * text-error
  */
-const props = defineProps({
-  labels: Array,
-  values: Array,
-  color: String,
-});
+const props = defineProps<{
+  labels: string[];
+  values: number[];
+  color: string;
+}>();
 
-const canvasRef = ref(null);
-const chartInstance = ref(null);
-const colorClassRef = ref(null);
+const canvasRef = ref<HTMLCanvasElement | null>(null);
+const colorClassRef = ref<HTMLSpanElement | null>(null);
+const chartInstance = ref<Chart | null>(null);
 
 const drawChart = () => {
   if (chartInstance.value) {
     chartInstance.value.destroy();
   }
 
-  const borderColor = window.getComputedStyle(colorClassRef.value).color;
+  const borderColor = window.getComputedStyle(colorClassRef.value!).color;
   const backgroundColor = borderColor.replace(/[^/]+\)$/, "0.05)");
 
-  chartInstance.value = new Chart(canvasRef.value, {
+  chartInstance.value = new Chart(canvasRef.value!, {
     type: "line",
     data: {
       labels: props.labels,
