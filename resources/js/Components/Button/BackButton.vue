@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import SecondaryButton from "./SecondaryButton.vue";
 
 const back = () => window.history.back();

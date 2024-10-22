@@ -1,13 +1,14 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { Link } from "@inertiajs/vue3";
 import Icon from "@/Components/Icon.vue";
 
-const props = defineProps({
-  label: String,
-  icon: String,
-  small: Boolean,
-});
+const props = defineProps<{
+  href?: string;
+  label?: string;
+  icon?: string;
+  small?: boolean;
+}>();
 
 const classes = computed(() => [
   "btn uppercase",
@@ -18,7 +19,7 @@ const classes = computed(() => [
 </script>
 
 <template>
-  <Link v-if="$attrs.href" :class="classes" as="button">
+  <Link v-if="href" :href :class="classes" as="button">
     <Icon v-if="icon" :name="icon" />
     <slot>
       {{ label }}
