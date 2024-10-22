@@ -1,12 +1,12 @@
-<script setup>
-import { nextTick, ref } from "vue";
+<script setup lang="ts">
+import { ComponentPublicInstance, nextTick, ref } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import Modal from "@/Components/Modal.vue";
 import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 
-const passwordInput = ref(null);
+const passwordInput = ref<ComponentPublicInstance<typeof FormControl> | null>(null);
 const modalOpen = ref(false);
 
 const form = useForm({
@@ -16,14 +16,14 @@ const form = useForm({
 const confirmUserDeletion = () => {
   modalOpen.value = true;
 
-  nextTick(() => passwordInput.value.focus());
+  nextTick(() => passwordInput.value?.focus());
 };
 
 const deleteUser = () => {
   form.delete(route("profile.destroy"), {
     preserveScroll: true,
     onSuccess: () => closeModal(),
-    onError: () => passwordInput.value.focus(),
+    onError: () => passwordInput.value?.focus(),
     onFinish: () => form.reset(),
   });
 };
@@ -56,7 +56,6 @@ const closeModal = () => {
       </p>
 
       <FormControl
-        id="password"
         type="password"
         ref="passwordInput"
         label="Password"

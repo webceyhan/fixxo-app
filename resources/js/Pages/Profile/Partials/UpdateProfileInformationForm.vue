@@ -1,13 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { Link, useForm, usePage } from "@inertiajs/vue3";
 import Form from "@/Components/Form/Form.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 
-const props = defineProps({
-  mustVerifyEmail: Boolean,
-  status: String,
-});
+defineProps<{
+  mustVerifyEmail?: boolean;
+  status?: string;
+}>();
 
 const user = usePage().props.auth.user;
 
