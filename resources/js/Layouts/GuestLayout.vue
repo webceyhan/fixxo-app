@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { Link } from "@inertiajs/vue3";
 import Card from "@/Components/Card.vue";
 import Logo from "./Partials/Logo.vue";

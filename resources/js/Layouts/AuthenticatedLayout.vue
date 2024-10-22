@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from "vue";
 import { Head, usePage } from "@inertiajs/vue3";
 import Drawer from "@/Components/Drawer.vue";
@@ -12,12 +12,13 @@ import NotificationBar from "./Partials/NotificationBar.vue";
 import Breadcrumbs from "./Partials/Breadcrumbs.vue";
 import Sidebar from "./Partials/Sidebar.vue";
 
-const props = defineProps({
-  title: String,
-});
+const props = defineProps<{
+  title?: string;
+}>();
 
 const currentTitle = computed(
-  () => props.title ?? usePage().props.breadcrumbs.at(-1)?.title
+  // TODO: define type
+  () => props.title ?? (usePage().props as any).breadcrumbs.at(-1)?.title
 );
 </script>
 
@@ -48,7 +49,8 @@ const currentTitle = computed(
     <div class="container mx-auto p-4 sm:p-6 lg:p-8 space-y-6 lg:space-y-8">
       <!-- Page Heading -->
       <header>
-        <Breadcrumbs :links="$page.props.breadcrumbs" class="hidden md:flex" />
+        <!-- // TODO: define type -->
+        <Breadcrumbs :links="$page.props.breadcrumbs as any" class="hidden md:flex" />
         <h2 class="text-2xl md:hidden">
           <slot name="title">{{ currentTitle }}</slot>
         </h2>
@@ -58,7 +60,7 @@ const currentTitle = computed(
       <main class="space-y-6 lg:space-y-8"><slot /></main>
     </div>
 
-    <!-- Notifications -->
-    <NotificationBar :message="$page.props.flash.status" />
+    <!-- Notifications // TODO: define type -->
+    <NotificationBar :message="($page.props.flash as any).status" />
   </Drawer>
 </template>

@@ -1,18 +1,18 @@
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import { delay } from "@/Shared/utils";
 import Alert from "@/Components/Alert.vue";
 
-const props = defineProps({
-  message: String,
-});
+defineProps<{
+  message?: string;
+}>();
 
 const show = ref(false);
 
 const flashMessage = () => {
   // check if flash message is present
-  if (!!usePage().props.flash.status) {
+  if (!!(usePage().props as any).flash.status) {
     // show alert first
     show.value = true;
     // then set the timeout to auto-dismiss alert

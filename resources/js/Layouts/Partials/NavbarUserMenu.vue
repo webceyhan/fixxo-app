@@ -1,12 +1,13 @@
-<script setup>
+<script setup lang="ts">
+import { User } from "@/types";
 import Avatar from "@/Components/Avatar.vue";
 import Field from "@/Components/Field/Field.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
 import MenuLink from "@/Components/Menu/MenuLink.vue";
 
-defineProps({
-  user: Object,
-});
+defineProps<{
+  user: User;
+}>();
 </script>
 
 <template>
