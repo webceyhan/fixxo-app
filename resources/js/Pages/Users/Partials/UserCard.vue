@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import Card from "@/Components/Card.vue";
 import Field from "@/Components/Field/Field.vue";
 import FieldGroup from "@/Components/Field/FieldGroup.vue";
@@ -6,9 +6,9 @@ import LinkField from "@/Components/Field/LinkField.vue";
 import DateField from "@/Components/Field/DateField.vue";
 import UserBadge from "./UserBadge.vue";
 
-defineProps({
-  user: Object,
-});
+defineProps<{
+  user: any; // TODO: define User type
+}>();
 </script>
 
 <template>

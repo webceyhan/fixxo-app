@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useForm } from "@inertiajs/vue3";
 import PageLayout from "@/Layouts/PageLayout.vue";
 import Form from "@/Components/Form/Form.vue";
@@ -6,11 +6,11 @@ import Card from "@/Components/Card.vue";
 import FormControl from "@/Components/Form/FormControl.vue";
 import UserCard from "./Partials/UserCard.vue";
 
-const props = defineProps({
-  user: Object,
-  roleOptions: Array,
-  statusOptions: Array,
-});
+const props = defineProps<{
+  user: any; // TODO: define User type
+  roleOptions: any[]; // TODO: define Role type
+  statusOptions: any[]; // TODO: define Status type
+}>();
 
 const form = useForm({
   ...props.user,
