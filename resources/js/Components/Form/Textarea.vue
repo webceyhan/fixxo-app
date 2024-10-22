@@ -1,26 +1,21 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from "vue";
 
-defineProps(["modelValue"]);
+const model = defineModel<string>();
 
-defineEmits(["update:modelValue"]);
+const input = ref<HTMLTextAreaElement | null>(null);
 
-const input = ref(null);
-
-onMounted(() => {
-  if (input.value.hasAttribute("autofocus")) {
-    input.value.focus();
-  }
+defineExpose({
+  focus: () => input.value?.focus(),
 });
 
-defineExpose({ focus: () => input.value.focus() });
+onMounted(() => {
+  if (input.value?.hasAttribute("autofocus")) {
+    input.value?.focus();
+  }
+});
 </script>
 
 <template>
-  <textarea
-    ref="input"
-    class="textarea textarea-bordered w-full"
-    @input="$emit('update:modelValue', $event.target.value)"
-    :value="modelValue"
-  />
+  <textarea ref="input" class="textarea textarea-bordered w-full" v-model="model" />
 </template>

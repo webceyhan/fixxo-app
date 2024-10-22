@@ -1,22 +1,23 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from "vue";
 
-defineProps({
-  modelValue: [String, Number],
-  embedded: Boolean,
+defineProps<{
+  embedded?: boolean;
+}>();
+
+const model = defineModel<string | number>();
+
+const input = ref<HTMLInputElement | null>(null);
+
+defineExpose({
+  focus: () => input.value?.focus(),
 });
-
-defineEmits(["update:modelValue"]);
-
-const input = ref(null);
 
 onMounted(() => {
-  if (input.value.hasAttribute("autofocus")) {
-    input.value.focus();
+  if (input.value?.hasAttribute("autofocus")) {
+    input.value?.focus();
   }
 });
-
-defineExpose({ focus: () => input.value.focus() });
 </script>
 
 <template>
@@ -24,7 +25,6 @@ defineExpose({ focus: () => input.value.focus() });
     ref="input"
     type="text"
     :class="[embedded ? 'grow' : 'input input-bordered w-full']"
-    @input="$emit('update:modelValue', $event.target.value)"
-    :value="modelValue"
+    v-model="model"
   />
 </template>

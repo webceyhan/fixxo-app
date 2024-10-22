@@ -1,41 +1,36 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { normalizeOptions } from "@/Shared/form";
 
-const input = ref(null);
+defineProps<{
+  options?: any[] | object; // TODO: define type
+}>();
 
-defineEmits(["update:modelValue"]);
+const model = defineModel<string | number>();
 
-defineProps(["modelValue", "options", "type"]);
+const input = ref<HTMLSelectElement | null>(null);
 
 defineExpose({
-  focus: () => input.value.focus(),
+  focus: () => input.value?.focus(),
 });
 
 onMounted(() => {
-  if (input.value.hasAttribute("autofocus")) {
-    input.value.focus();
+  if (input.value?.hasAttribute("autofocus")) {
+    input.value?.focus();
   }
 });
 </script>
 
 <template>
-  <select
-    ref="input"
-    class="select select-bordered w-full"
-    @change="$emit('update:modelValue', $event.target.value)"
-    :value="modelValue"
-  >
+  <select ref="input" class="select select-bordered w-full" v-model="model">
     <slot>
       <slot name="header" />
 
       <option
-        v-for="(option, i) in normalizeOptions(options)"
-        :key="i"
+        v-for="option in normalizeOptions(options)"
         :value="option.value"
-      >
-        {{ option.label }}
-      </option>
+        v-html="option.label"
+      />
     </slot>
   </select>
 </template>
