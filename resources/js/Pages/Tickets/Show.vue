@@ -9,9 +9,9 @@ import PrimaryButton from "@/Components/Button/PrimaryButton.vue";
 import SecondaryButton from "@/Components/Button/SecondaryButton.vue";
 import DangerButton from "@/Components/Button/DangerButton.vue";
 import Dropdown from "@/Components/Menu/Dropdown.vue";
-import MenuSection from "@/Components/Menu/MenuSection.vue";
-import MenuLink from "@/Components/Menu/MenuLink.vue";
-import Divider from "@/Components/Divider.vue";
+import DropdownItem from "@/Components/Menu/DropdownItem.vue";
+import DropdownDivider from "@/Components/Menu/DropdownDivider.vue";
+import DropdownHeader from "@/Components/Menu/DropdownHeader.vue";
 import TicketCard from "./Partials/TicketCard.vue";
 import TicketTasks from "./Partials/TicketTasks.vue";
 import TicketOrders from "./Partials/TicketOrders.vue";
@@ -107,7 +107,7 @@ const statusActions = [
       />
 
       <Dropdown label="Change Status" icon="arrow-repeat">
-        <MenuLink
+        <DropdownItem
           v-for="action in statusActions"
           v-show="action.value != ticket.status"
           :key="action.value"
@@ -122,44 +122,49 @@ const statusActions = [
       <SecondaryButton label="Sign" icon="sign" @click="signatureModal.open()" />
 
       <Dropdown label="Print" icon="print">
-        <MenuLink label="Intake Receipt" icon="file-pdf" @click="print('intake')" />
-        <MenuLink label="Delivery Receipt" icon="file-pdf" @click="print('delivery')" />
+        <DropdownItem label="Intake Receipt" icon="file-pdf" @click="print('intake')" />
+        <DropdownItem
+          label="Delivery Receipt"
+          icon="file-pdf"
+          @click="print('delivery')"
+        />
       </Dropdown>
 
-      <Dropdown icon="create" label="New" primary align-end>
-        <MenuLink label="New Task" icon="create" @click="ticketTasks.create()" />
-        <MenuLink
+      <Dropdown icon="create" label="New" primary>
+        <DropdownItem label="New Task" icon="create" @click="ticketTasks.create()" />
+        <DropdownItem
           label="New Transaction"
           icon="create"
           @click="ticketTransactions.create()"
         />
+        <!-- <hr class="bg-gray-200 dark:bg-gray-600 border-0 h-px" /> -->
       </Dropdown>
     </template>
 
     <!-- mobile menu -->
     <template #mobile-menu>
-      <Dropdown align-end>
-        <MenuLink label="Edit" icon="edit" :href="route('tickets.edit', ticket.id)" />
-        <MenuLink
+      <Dropdown>
+        <DropdownItem label="Edit" icon="edit" :href="route('tickets.edit', ticket.id)" />
+        <DropdownItem
           v-if="canDelete"
           label="Delete"
           method="delete"
           icon="delete"
           :href="route('tickets.destroy', ticket.id)"
         />
-        <MenuLink label="New Task" icon="create" @click="ticketTasks.create()" />
-        <MenuLink
+        <DropdownItem label="New Task" icon="create" @click="ticketTasks.create()" />
+        <DropdownItem
           label="New Transaction"
           icon="create"
           @click="ticketTransactions.create()"
         />
-        <MenuLink label="Sign" icon="sign" @click="signatureModal.open()" />
+        <DropdownItem label="Sign" icon="sign" @click="signatureModal.open()" />
 
-        <Divider />
+        <DropdownDivider />
 
-        <MenuSection title="Change Status" />
+        <DropdownHeader label="Change Status" />
 
-        <MenuLink
+        <DropdownItem
           v-for="action in statusActions"
           v-show="action.value != ticket.status"
           :key="action.value"
@@ -179,7 +184,7 @@ const statusActions = [
     </template>
 
     <template #content>
-      <Card title="Description">
+      <Card label="Description">
         <div
           v-if="!toggleDescriptionEdit"
           class="relative group"
@@ -223,7 +228,7 @@ const statusActions = [
 
       <TicketTransactions
         ref="ticketTransactions"
-        v-bind="{ invoice: ticket.invoice, transactions }"
+        v-bind="{ invoice:ticket.invoice, transactions }"
         :can-delete="canDeleteTransaction"
       />
 

@@ -22,17 +22,3 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #718096;
 }
-
-@layer helpers {
-    .titlecase::first-letter {
-        text-transform: uppercase;
-    }
-
-    .text-lead {
-        @apply text-base font-bold titlecase;
-    }
-
-    .text-alt {
-        @apply text-sm font-normal opacity-60;
-    }
-}

@@ -21,7 +21,9 @@ const transformedLinks = computed(() => [
 </script>
 
 <template>
-  <nav class="flex items-center text-md font-semibold gap-2">
+  <nav
+    class="flex items-center text-md font-semibold text-gray-400 dark:text-white gap-2"
+  >
     <Link href="/">
       <Icon name="house" class="text-2xl" />
     </Link>

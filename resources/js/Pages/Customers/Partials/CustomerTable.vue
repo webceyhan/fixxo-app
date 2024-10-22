@@ -12,33 +12,35 @@ defineProps({
 
 <template>
   <Table>
-    <TableRow v-for="customer in customers" :href="route('customers.show', customer.id)">
-      <TableData class="max-sm:hidden w-8 pe-0 align-top">
-        <Avatar class="opacity-75" icon="person" />
-      </TableData>
+    <TableRow
+      v-for="customer in customers"
+      :key="customer.id"
+      :href="route('customers.show', customer.id)"
+    >
+      <template #avatar>
+        <Avatar icon="person" class="opacity-75" />
+      </template>
 
-      <TableData>
-        <p class="text-lead">{{ customer.name }}</p>
-        <p class="text-alt">{{ customer.company }}</p>
-      </TableData>
+      <TableData :value="customer.name" :label="customer.company" />
 
-      <TableData class="max-2xl:hidden">
-        <p>{{ customer.email }}</p>
-        <p class="text-alt">{{ customer.phone }}</p>
-      </TableData>
+      <TableData class="max-2xl:hidden" :label="customer.email" :value="customer.phone" />
 
-      <TableData class="max-lg:hidden">
-        <p>{{ customer.devices_count }}</p>
-        <p class="text-alt">Devices</p>
-      </TableData>
+      <TableData
+        class="max-lg:hidden text-end"
+        label="Devices"
+        :value="customer.devices_count"
+      />
 
-      <TableData class="max-xl:hidden">
-        <p>{{ customer.tickets_count }}</p>
-        <p class="text-alt">Tickets</p>
-      </TableData>
+      <TableData
+        class="max-xl:hidden text-end"
+        label="Tickets"
+        :value="customer.tickets_count"
+      />
 
       <TableData class="max-lg:hidden text-end">
-        <p class="text-alt">{{ formatDate(customer.created_at) }}</p>
+        <template #label>
+          {{ formatDate(customer.created_at) }}
+        </template>
       </TableData>
     </TableRow>
   </Table>

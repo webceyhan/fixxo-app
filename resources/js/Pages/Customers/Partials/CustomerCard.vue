@@ -1,9 +1,7 @@
 <script setup>
 import Card from "@/Components/Card.vue";
-import Field from "@/Components/Field/Field.vue";
-import FieldGroup from "@/Components/Field/FieldGroup.vue";
-import LinkField from "@/Components/Field/LinkField.vue";
-import DateField from "@/Components/Field/DateField.vue";
+import DescriptionList from "@/Components/List/DescriptionList.vue";
+import DescriptionListItem from "@/Components/List/DescriptionListItem.vue";
 
 const props = defineProps({
   customer: Object,
@@ -12,29 +10,49 @@ const props = defineProps({
 
 <template>
   <Card>
-    <template #header> Customer </template>
+    <template #header>
+      <h5>Customer</h5>
+    </template>
 
-    <FieldGroup>
-      <Field label="Name" :value="customer.name" />
+    <DescriptionList>
+      <DescriptionListItem label="Name" :value="customer.name" />
 
-      <Field v-if="customer.company" label="Company" :value="customer.company" />
-
-      <Field v-if="customer.vat_number" label="VAT Number" :value="customer.vat_number" />
-
-      <LinkField v-if="customer.phone" label="Phone" :value="customer.phone" phone />
-
-      <LinkField v-if="customer.email" label="Email" :value="customer.email" email />
-
-      <LinkField
-        v-if="customer.address"
-        label="Address"
-        :value="customer.address"
-        location
+      <DescriptionListItem
+        v-if="customer.company"
+        label="Company"
+        :value="customer.company"
       />
 
-      <DateField label="Created At" :value="customer.created_at" />
+      <DescriptionListItem
+        v-if="customer.vat_number"
+        label="VAT Number"
+        :value="customer.vat_number"
+      />
 
-      <DateField label="Last Update" :value="customer.updated_at" />
-    </FieldGroup>
+      <DescriptionListItem
+        v-if="customer.phone"
+        label="Phone"
+        type="phone"
+        :value="customer.phone"
+      />
+
+      <DescriptionListItem
+        v-if="customer.email"
+        label="Email"
+        type="email"
+        :value="customer.email"
+      />
+
+      <DescriptionListItem
+        v-if="customer.address"
+        label="Address"
+        type="location"
+        :value="customer.address"
+      />
+
+      <DescriptionListItem label="Created At" type="date" :value="customer.created_at" />
+
+      <DescriptionListItem label="Last Update" type="date" :value="customer.updated_at" />
+    </DescriptionList>
   </Card>
 </template>

@@ -8,28 +8,23 @@ defineProps({
 const states = {
   checked_in: {
     label: "Checked In",
-    icon: "clock-fill",
-    color: "neutral",
+    theme: "secondary",
   },
   in_repair: {
     label: "In Repair",
-    icon: "play-circle-fill",
-    color: "info",
+    theme: "primary",
   },
   on_hold: {
     label: "On Hold",
-    icon: "pause-circle-fill",
-    color: "warning",
+    theme: "warning",
   },
   finished: {
     label: "Finished",
-    icon: "check-circle-fill",
-    color: "success",
+    theme: "success",
   },
   checked_out: {
     label: "Checked Out",
-    icon: "dash-circle-fill",
-    color: "neutral",
+    theme: "secondary",
   },
 };
 </script>

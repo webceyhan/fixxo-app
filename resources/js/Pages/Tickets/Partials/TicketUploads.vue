@@ -83,7 +83,7 @@ function updateIndex() {
 </script>
 
 <template>
-  <Card title="Uploads" flush>
+  <Card label="Uploads" flush>
     <!-- carousel -->
     <div class="relative backdrop-blur-md" :class="{ '!fixed inset-0 z-50': fullScreen }">
       <!-- Carousel wrapper -->
@@ -102,20 +102,51 @@ function updateIndex() {
         <!-- placeholder if empty -->
         <figure
           v-if="isEmpty"
-          class="flex justify-center items-center size-full bg-base-content/10"
+          class="flex justify-center items-center w-full h-full bg-gray-500/20"
         >
-          <Icon name="image" class="text-5xl opacity-50" />
+          <Icon name="image" class="text-5xl text-gray-400/20" />
         </figure>
       </div>
 
       <!-- Slider controls -->
 
+      <!-- previous -->
+      <button
+        v-if="!isEmpty"
+        type="button"
+        class="flex absolute top-0 left-0 z-30 justify-center items-center px-2 h-full cursor-pointer group focus:outline-none"
+        @click="prev()"
+      >
+        <span
+          class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 group-hover:bg-white/50 dark:group-hover:bg-gray-800/50"
+          :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
+        >
+          <Icon name="chevron-left" />
+        </span>
+      </button>
+
+      <!-- next -->
+      <button
+        v-if="!isEmpty"
+        type="button"
+        class="flex absolute top-0 right-0 z-30 justify-center items-center px-2 h-full cursor-pointer group focus:outline-none"
+        @click="next()"
+      >
+        <span
+          class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 group-hover:bg-white/50 dark:group-hover:bg-gray-800/50"
+          :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
+        >
+          <Icon name="chevron-right" />
+        </span>
+      </button>
+
       <!-- upload button -->
       <div class="absolute top-0 left-0 z-30 p-2">
         <div class="relative overflow-hidden group">
           <button
-            class="btn btn-circle btn-neutral"
-            :class="{ 'btn-sm bg-opacity-50 border-0': !fullScreen }"
+            type="button"
+            class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 group-hover:bg-white/50 dark:group-hover:bg-gray-800/50 focus:outline-none"
+            :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
             @click="remove()"
           >
             <Icon name="cloud-arrow-up-fill" />
@@ -131,47 +162,30 @@ function updateIndex() {
         </div>
       </div>
 
-      <template v-if="!isEmpty">
-        <!-- previous button -->
-        <div class="absolute top-[40%] left-0 z-30 p-2">
-          <button
-            class="btn btn-circle btn-neutral"
-            :class="{ 'btn-sm bg-opacity-50 border-0': !fullScreen }"
-            @click="prev()"
-          >
-            <Icon name="chevron-left" />
-          </button>
-        </div>
+      <!-- full screen toggle -->
+      <button
+        v-if="!isEmpty"
+        type="button"
+        class="absolute top-0 right-0 z-30 p-2"
+        @click="fullScreen = !fullScreen"
+      >
+        <span
+          class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 hover:bg-white/50 dark:hover:bg-gray-800/50"
+          :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
+        >
+          <Icon :name="fullScreen ? 'x-lg' : 'fullscreen'" />
+        </span>
+      </button>
 
-        <!-- next button -->
-        <div class="absolute top-[40%] right-0 z-30 p-2">
-          <button
-            class="btn btn-circle btn-neutral"
-            :class="{ 'btn-sm bg-opacity-50 border-0': !fullScreen }"
-            @click="next()"
-          >
-            <Icon name="chevron-right" />
-          </button>
-        </div>
-
-        <!-- full screen toggle -->
-        <div class="absolute top-0 right-0 z-30 p-2">
-          <button
-            class="btn btn-circle btn-neutral"
-            :class="{ 'btn-sm bg-opacity-50 border-0': !fullScreen }"
-            @click="fullScreen = !fullScreen"
-          >
-            <Icon :name="fullScreen ? 'x-lg' : 'fullscreen'" />
-          </button>
-        </div>
-      </template>
-
-      <footer class="flex justify-center items-center absolute inset-x-0 bottom-1 z-30">
+      <footer
+        class="flex justify-center items-center absolute left-0 right-0 bottom-1 z-30"
+      >
         <!-- remove button -->
         <button
           v-if="!isEmpty && !processing"
-          class="btn btn-circle btn-neutral"
-          :class="{ 'btn-sm bg-opacity-50 border-0': !fullScreen }"
+          type="button"
+          class="inline-flex justify-center items-center w-8 h-8 rounded-full bg-white/30 dark:bg-gray-800/25 hover:bg-white/50 dark:hover:bg-gray-800/50 focus:outline-none"
+          :class="{ '!w-16 !h-16 text-3xl': fullScreen }"
           @click="remove()"
         >
           <Icon name="delete" />

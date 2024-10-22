@@ -8,23 +8,23 @@ defineProps({
 const states = {
   payment: {
     label: "Payment",
-    color: "success",
-    icon: "arrow-right-circle-fill",
+    theme: "success",
+    icon: "plus-lg",
   },
   discount: {
     label: "Discount",
-    color: "warning",
-    icon: "arrow-down-circle-fill",
+    theme: "warning",
+    icon: "percent",
   },
   claim: {
     label: "Claim",
-    color: "info",
-    icon: "dash-circle-fill",
+    theme: "primary",
+    icon: "shield-check",
   },
   refund: {
     label: "Refund",
-    color: "error",
-    icon: "arrow-left-circle-fill",
+    theme: "danger",
+    icon: "dash-lg",
   },
 };
 </script>

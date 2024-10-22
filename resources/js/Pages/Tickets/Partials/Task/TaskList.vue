@@ -2,8 +2,8 @@
 import { Link } from "@inertiajs/vue3";
 import { formatDate, formatMoney } from "@/Shared/utils";
 import Avatar from "@/Components/Avatar.vue";
-import List from "@/Components/List/List.vue";
-import ListItem from "@/Components/List/ListItem.vue";
+import StackedList from "@/Components/List/StackedList.vue";
+import StackedListItem from "@/Components/List/StackedListItem.vue";
 import TaskBadge from "./TaskBadge.vue";
 
 defineEmits(["select"]);
@@ -15,43 +15,56 @@ defineProps({
 const stateIcons = {
   new: "clipboard",
   completed: "clipboard-check",
-  cancelled: "clipboard-x",
+  cancelled: "x-lg",
 };
 </script>
 
 <template>
-  <List>
-    <ListItem v-for="task in tasks" @click="$emit('select', task)">
-      <div class="max-xl:hidden">
-        <Link
-          as="button"
-          method="put"
-          :href="route('tasks.update', task.id)"
-          :data="{ status: task.status === 'completed' ? 'new' : 'completed' }"
-          preserve-scroll
-          @click.stop
+  <StackedList>
+    <StackedListItem
+      v-for="task in tasks"
+      :key="task.id"
+      @click="$emit('select', task)"
+      clickable
+    >
+      <template #avatar>
+        <div class="relative">
+          <Link
+            as="button"
+            method="put"
+            :href="route('tasks.update', task.id)"
+            :data="{ status: task.status === 'completed' ? 'new' : 'completed' }"
+            preserve-scroll
+            @click.stop
+          >
+            <Avatar
+              :icon="stateIcons[task.status]"
+              class="opacity-50 hover:opacity-100"
+            />
+          </Link>
+        </div>
+      </template>
+
+      <div class="w-full truncate">
+        <span
+          class="group-hover:no-underline"
+          :class="{ 'line-through': task.status === 'completed' }"
         >
-          <Avatar :icon="stateIcons[task.status]" />
-        </Link>
-      </div>
+          {{ task.description }}
+        </span>
 
-      <div class="xl:hidden -me-2">
-        <TaskBadge :status="task.status" compact />
-      </div>
-
-      <div class="w-full space-y-1">
-        <!-- header -->
-        <div class="flex items-center gap-4">
-          <p class="text-lead line-clamp-1">{{ task.description }}</p>
-          <TaskBadge class="max-xl:hidden -me-2" :status="task.status" />
-        </div>
-
-        <!-- footer -->
-        <div class="max-xl:hidden flex items-center gap-4 text-alt">
-          <p>Created on {{ formatDate(task.created_at, true) }}</p>
-          <span>{{ formatMoney(task.cost) }}</span>
+        <div class="hidden md:block text-gray-400 text-sm mt-1">
+          <em>{{ formatDate(task.created_at, true) }}</em>
         </div>
       </div>
-    </ListItem>
-  </List>
+
+      <div class="w-36 order-1 text-gray-400 text-right text-sm">
+        {{ formatMoney(task.cost) }}
+      </div>
+
+      <template #badge>
+        <TaskBadge :status="task.status" compact-max="xl" />
+      </template>
+    </StackedListItem>
+  </StackedList>
 </template>

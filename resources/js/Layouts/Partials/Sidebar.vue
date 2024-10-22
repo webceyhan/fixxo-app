@@ -1,9 +1,6 @@
 <script setup>
 import { computed } from "vue";
 import { isAdmin } from "@/Shared/auth";
-import Menu from "@/Components/Menu/Menu.vue";
-import Divider from "@/Components/Divider.vue";
-import MenuSection from "@/Components/Menu/MenuSection.vue";
 import SidebarLink from "./SidebarLink.vue";
 import Logo from "./Logo.vue";
 
@@ -20,7 +17,6 @@ const links = [
     icon: "create",
     to: "customers.create",
   },
-  {},
   {
     label: "Dashboard",
     icon: "dashboard",
@@ -38,7 +34,9 @@ const links = [
     to: "tickets.index",
   },
   {
-    label: "Inventory",
+    label: "Invoices",
+    icon: "invoice",
+    to: "invoices.index",
   },
   {
     label: "Devices",
@@ -51,49 +49,62 @@ const links = [
     to: "orders.index",
   },
   {
-    label: "Backoffice",
-  },
-  {
     label: "Users",
     icon: "user",
     to: "users.index",
+    // class: "hidden md:inline-flex",
     admin: true,
-  },
-  {
-    label: "Invoices",
-    icon: "invoice",
-    to: "invoices.index",
   },
 ];
 
 const allowedLinks = computed(() =>
   links.filter(({ admin }) => !(admin && !isAdmin.value))
 );
+
+const proxyToggled = computed({
+  get: () => props.toggled,
+  set: (val) => emit("update:toggled", val),
+});
 </script>
 
 <template>
-  <div class="inset w-60 bg-base-300 min-h-full">
-    <!-- Logo -->
-    <header class="flex items-center px-6 py-4 gap-4">
-      <Logo class="block h-9 w-auto fill-current" />
-      <span class="text-2xl font-semibold">Fixxo</span>
-    </header>
+  <div
+    :class="proxyToggled ? 'block' : 'hidden'"
+    @click="proxyToggled = false"
+    class="fixed inset-0 z-20 transition-opacity bg-black opacity-50 lg:hidden"
+  ></div>
 
-    <!-- Navigation Links -->
-    <Menu class="!bg-transparent mt-7 p-0">
-      <template v-for="{ to, label, icon } in allowedLinks">
+  <Transition>
+    <div
+      :class="{
+        // base
+        'fixed inset-y-0 left-0 lg:static lg:inset-0 z-30 w-60 overflow-y-auto': true,
+        // background
+        'bg-gray-900 dark:bg-black border-r border-gray-800': true,
+        // toggle state
+        'transition duration-300 transform lg:translate-x-0': true,
+        'translate-x-0 ease-out': proxyToggled,
+        '-translate-x-full ease-in': !proxyToggled,
+      }"
+    >
+      <!-- Logo -->
+      <header class="flex items-center mt-3 px-6 py-2">
+        <Logo class="block h-9 w-auto fill-current text-white mr-4" />
+        <span class="text-2xl font-semibold text-white">Fixxo</span>
+      </header>
+
+      <!-- Navigation Links -->
+      <nav class="mt-8">
         <SidebarLink
-          v-if="to"
-          :href="route(to)"
-          :active="route().current(to)"
-          :label
-          :icon
+          v-for="(link, index) in allowedLinks"
+          :key="index"
+          :href="route(link.to)"
+          :active="route().current(link.to)"
+          :class="link.class"
+          :label="link.label"
+          :icon="link.icon"
         />
-
-        <MenuSection v-else-if="label" :title="label" class="px-2 mt-6" />
-
-        <Divider v-else class="opacity-20" />
-      </template>
-    </Menu>
-  </div>
+      </nav>
+    </div>
+  </Transition>
 </template>
