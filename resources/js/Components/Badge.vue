@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 /**
  * Color:
  * - badge-neutral
@@ -10,10 +10,10 @@
  * - badge-warning
  * - badge-error
  */
-defineProps({
-  color: String,
-  compact: Boolean,
-});
+defineProps<{
+  color?: string;
+  compact?: boolean;
+}>();
 </script>
 
 <template>
